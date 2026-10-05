@@ -115,7 +115,7 @@
 .matchup-icons,.race-team{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
 .versus{color:var(--muted);font-size:9px;font-weight:600;letter-spacing:.5px}
 .row-meta{align-items:center;gap:6px}
-.row-meta .race-icon{width:25px;height:25px}
+.row-meta .race-icon{width:20px;height:20px}
 .row-meta .matchup-icons{justify-content:flex-end}
 .row-player{font-weight:500}
 #matchup .race-icon{width:22px;height:22px}
