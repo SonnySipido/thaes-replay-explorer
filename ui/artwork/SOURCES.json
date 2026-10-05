@@ -20,6 +20,12 @@
     {
       "file": "rexxar.png",
       "url": "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/raceAvatars/classic/RANDOM_12.jpg"
+    },
+    {
+      "file": "reveal.png",
+      "source": "Installed Warcraft III game data",
+      "texture": "ReplaceableTextures/CommandButtons/BTNReveal.blp",
+      "sha256": "2479e5211be741d9dd8be0d17b5e87dc100d966131c86fb73d3ee99bcefb3ce7"
     }
   ]
 }
