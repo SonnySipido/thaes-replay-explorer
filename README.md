@@ -2,7 +2,7 @@
 
 A Windows Warcraft III replay library and match analyzer by **Thaedalius**.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.1.2/Thae-Replay-Explorer-0.1.2-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.1.3/Thae-Replay-Explorer-0.1.3-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -27,6 +27,8 @@ The Reforged HD icons switch selects HD artwork when enabled and Classic artwork
 The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Replays without a full BattleTag cannot identify a unique profile.
 
 Browse maps, player races, matchups and team sizes. Select a replay to compare teams, heroes and learned abilities, units, buildings, research, items, APM, control groups and chat. Double-click a replay or use Watch replay to open it in Warcraft III. Watch replay is enabled only when the map can be found locally. Click the replay filename or map title to locate the corresponding file in Explorer.
+
+Your last selected replay is restored after restarting. Press Escape to deselect it and return to the empty analysis screen.
 
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 

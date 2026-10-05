@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3
+
+- Restore the selected replay after restarting; Escape clears the analysis and saved selection.
+- Align opposing teammates in shared rows across analysis tabs.
+- Hide repeated headings in two-player matches; place race icons beside names in larger matches.
+- Group replay-card names by team with VS only between teams.
+- Refine replay-card race icon sizes, team-card spacing and date/time labels.
+- Add the Reveal spyglass to Watch replay, reduce duration text, and add copyright branding.
+- Remove the unit training timeline and rename the unit summary to Units Produced.
+
+
 ## 0.1.2
 
 - Click match-header player names to open W3Champions profiles.
