@@ -1,0 +1,12 @@
+node_modules/
+tools/
+dist/
+release/
+publish/
+test-artifacts/
+*.w3g
+*.w3x
+*.w3m
+*.log
+.env
+.env.*

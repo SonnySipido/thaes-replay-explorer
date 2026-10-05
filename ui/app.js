@@ -1,0 +1,290 @@
+﻿'use strict';
+const $=id=>document.getElementById(id);
+const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const time=ms=>{const s=Math.floor((ms||0)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+const clean=value=>String(value||'').replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(/\.w3[xm]$/i,'').replace(/_/g,' ');
+const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
+let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
+let chartObservers=[];
+let listPage=0,listQuery='';const listPageSize=100;
+const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
+const name=id=>entry?.data?.names[id] || id || 'Unknown';
+
+function mapBaseName(file){return String(file||'').split(/[\\/]/).pop();}
+function cleanMapTitle(value){
+ return clean(value).replace(/^\(\d+\)\s*/,'').replace(/^(?:(?:\d+|wal)[ _-]+)?(?:w3c|w3champions|w3arena)[ _-]+/i,'').replace(/^(?:(?:s\d+(?:\.\d+)?|\d{4,8}|ptr\d+)[ _-]+)+/i,'').replace(/^a[ _-]starter[ _-]map[ _-]*/i,'').replace(/[ _-]+(?:S\d+(?:\.\d+)?|LV|v\d+(?:\.\d+)*[a-z]?)(?=[ _-]|$)/gi,'').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\s+/g,' ').trim();
+}
+const mapTitles=new Map(Object.entries(window.warcraftMapNames||{}).map(([file,title])=>[file.toLowerCase(),title]));
+const mapImages=new Map(Object.entries(window.warcraftMaps||{}).map(([file,src])=>[file.toLowerCase(),src]));
+function mapDisplayName(file){
+ const base=mapBaseName(file),stored=mapTitles.get(base.toLowerCase());
+ return cleanMapTitle(stored||base).replace(/\b[a-z]/g,c=>c.toUpperCase());
+}
+function mapImage(file){return mapImages.get(mapBaseName(file).toLowerCase());}
+
+function selectedRace(p){return p.race||p.raceDetected||'R';}
+function raceColorClass(p){return 'race-color-'+selectedRace(p);}
+let showWinner=localStorage.getItem('show-winner')==='true';
+function playerColorClass(index){return index>=0?'player-color-'+(index%24):'';}
+function raceIcon(code){
+ const key=window.warcraftIcons.races[code]?code:'R';
+ return '<img class="race-icon" src="'+esc(window.warcraftIcons.races[key])+'" alt="'+esc(races[key])+'" title="'+esc(races[key])+'" width="24" height="24">';
+}
+function playerRaceIcon(p,analysis=false){
+ if(analysis&&p.race==='R'&&p.raceDetected){
+  const label='Random: '+(races[p.raceDetected]||p.raceDetected);
+  return '<span class="random-race-icon" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+raceIcon(p.raceDetected)+'<span aria-hidden="true" class="random-mark">?</span></span>';
+ }
+ return raceIcon(selectedRace(p));
+}
+function matchupIcons(players,fallback='',analysis=false){
+ const teams=new Map();
+ for(const p of players||[]){const team=teamNumber(p);if(!teams.has(team))teams.set(team,[]);teams.get(team).push(p);}
+ const groups=teams.size?[...teams.entries()].sort((a,b)=>a[0]-b[0]).map(([,players])=>players):fallback.split('v').filter(Boolean).map(team=>[...team].map(race=>({race})));
+ return '<span class="matchup-icons">'+groups.map(group=>'<span class="race-team">'+group.map(p=>playerRaceIcon(p,analysis)).join('')+'</span>').join('<span class="versus">VS</span>')+'</span>';
+}
+function replayDate(row){return replayFilters.timestamp(row);}
+
+function teamNumber(p){return Number(p.teamid??p.team??0);}
+function teamColumns(container,players){
+ const teams=new Map();
+ for(const id of [...new Set(players.map(teamNumber))].sort((a,b)=>a-b)){
+  const column=document.createElement('div');column.className='team-column';column.dataset.team=id;
+  column.setAttribute('aria-label','Team '+(id+1));container.append(column);teams.set(id,column);
+ }
+ return teams;
+}
+function mapPreview(file,className=''){
+ const label=mapDisplayName(file)||'Map';const src=mapImage(file);
+ return '<img class="map-preview '+className+'" src="'+esc(src||'maps/unavailable.svg')+'" alt="'+esc(src?label+' minimap':'Map preview unavailable')+'" title="'+esc(src?label:'Map preview unavailable for '+label)+'" width="56" height="56">';
+}
+
+function folderLabel(value){$('folder').textContent=value||'Choose a replay folder';$('folder').title=value||'Choose a replay folder';}
+function status(p){
+  if(p.error){$('status').textContent=p.error;return;}
+  $('status').textContent=p.busy
+    ? 'Indexing '+(p.done||0)+' / '+(p.total||0)+' · '+(p.cached||0)+' cached'
+    : (p.total||0)+' replays';
+}
+function scheduleList(){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;renderList();},250);}
+function renderList(){
+ const term=$('search').value.toLowerCase(),filter=$('filter').value;
+ const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value]);if(query!==listQuery){listQuery=query;listPage=0;}
+ let list=[...rows.values()].filter(r=>(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
+ [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
+ list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
+ $('count').textContent=list.length;
+ const pages=Math.max(1,Math.ceil(list.length/listPageSize));listPage=Math.min(listPage,pages-1);
+ $('library-paging').hidden=pages===1;$('library-page').textContent=(listPage+1)+' / '+pages+' · Replays '+(list.length?listPage*listPageSize+1:0)+'–'+Math.min((listPage+1)*listPageSize,list.length);
+ $('library-prev').disabled=listPage===0;$('library-next').disabled=listPage===pages-1;
+ const fragment=document.createDocumentFragment();
+ for(const r of list.slice(listPage*listPageSize,(listPage+1)*listPageSize)){
+   const button=document.createElement('button');button.className='replay-row'+(r.key===selected?' active':'');button.dataset.key=r.key;
+   button.setAttribute('aria-pressed',String(r.key===selected));
+   const stamp=replayFilters.dateLabel(r);
+   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong><span class="length">'+(r.error?'!':time(r.duration))+'</span></span>'+
+   '<span class="row-players">'+(r.players.length?r.players.map((p,i)=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join('<span class="versus"> VS </span>'):esc(r.name))+'</span>'+
+   '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
+   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';fragment.append(button);
+ }
+ if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
+ $('replay-list').replaceChildren(fragment);
+}
+async function selectReplay(key){
+ const token=++request,start=performance.now();selected=key;
+ document.querySelectorAll('.replay-row.active').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
+ const selectedButton=[...document.querySelectorAll('.replay-row')].find(b=>b.dataset.key===key);
+ if(selectedButton){selectedButton.classList.add('active');selectedButton.setAttribute('aria-pressed','true');}
+ try{
+  const next=await window.replays.get(key);if(token!==request)return;
+  entry=next;playerId=next.data?.players[0]?.id;
+  if(next.error){$('detail').innerHTML='<div class="empty"><h2 class="error-title">This replay could not be read.</h2><p>'+esc(next.file)+'</p><div class="warning">'+esc(next.error)+'</div><p>Other matches remain available. Refresh to retry this file.</p></div>';return;}
+  showMatch(performance.now()-start);
+ }catch(e){$('detail').innerHTML='<div class="warning">'+esc(e.message)+'</div>';}
+}
+function showMatch(elapsed){
+ $('detail').replaceChildren($('match-template').content.cloneNode(true));
+ const watch=$('watch-replay'),watchKey=selected;
+ async function checkMap(){
+  let available=false;try{available=await window.replays.mapAvailable(watchKey);}catch{}
+  if(!watch.isConnected||selected!==watchKey)return;
+  watch.disabled=!available;watch.title=available?'Watch this replay in Warcraft III':'The map file was not found on your computer.';
+ }
+ watch.onclick=async()=>{watch.disabled=true;try{await window.replays.play(watchKey,true);}catch(e){showError(e);}finally{await checkMap();}};
+ checkMap();
+ const r=entry.data;
+ $('map').onclick=()=>window.replays.revealMap(selected).catch(showError);
+ $('map').textContent=mapDisplayName(r.map.file)||r.gamename||'Untitled match';
+ $('map-preview').innerHTML=mapPreview(r.map.file);
+ $('version').textContent='PATCH '+r.version+' · BUILD '+r.buildNumber;
+ $('filename').textContent=entry.file.split(/[\\/]/).pop();
+ $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
+ $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
+
+ $('show-winner').checked=showWinner;
+ $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers();};
+ renderPlayers();renderTabs();renderPanel();
+}
+function renderPlayers(){
+ const reveal=$('show-winner')?.checked;
+ const winner=entry.data.winningTeamId;
+ const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
+ $('winner-status').textContent=reveal&&!known?'Winner unavailable':'';
+ $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><span class="player-name" title="'+esc(p.name)+'">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</span><span class="team">Team '+(p.teamid+1)+'</span></div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
+ const cards=[...$('players').children];$('players').replaceChildren();
+ const teams=teamColumns($('players'),entry.data.players);
+ cards.forEach((card,i)=>teams.get(teamNumber(entry.data.players[i])).append(card));
+}
+function renderTabs(){
+ $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');
+ [...$('tabs').children].forEach((b,i)=>b.onclick=()=>{tab=tabs[i];renderTabs();renderPanel();});
+}
+function title(text,note){return '<h2 class="section-title">'+esc(text)+'</h2>'+(note?'<p class="section-note">'+esc(note)+'</p>':'');}
+function table(headers,body){return '<table class="data-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table>';}
+function pagedTable(target,headers,items,render,pageSize=100){
+ let page=0;
+ function draw(){
+   const pages=Math.max(1,Math.ceil(items.length/pageSize));
+   target.innerHTML=table(headers,items.slice(page*pageSize,(page+1)*pageSize).map(render).join(''))+
+    (items.length?'':'<p class="empty-note">No recorded events.</p>')+
+    (pages>1?'<div class="pagination"><button data-prev>Previous</button><span>'+items.length+' events · page '+(page+1)+' / '+pages+'</span><button data-next>Next</button></div>':'');
+   if(pages>1){target.querySelector('[data-prev]').onclick=()=>{page=Math.max(0,page-1);draw();};target.querySelector('[data-next]').onclick=()=>{page=Math.min(pages-1,page+1);draw();};}
+ }
+ draw();
+}
+function renderPanel(){
+ chartObservers.forEach(observer=>observer.disconnect());chartObservers=[];
+ const panel=$('panel');
+ if(tab==='Chat'){chat();return;}
+ if(!entry.data.players.length){panel.innerHTML='<p class="empty-note">No active players recorded.</p>';return;}
+ panel.replaceChildren();
+ const comparison=document.createElement('div');comparison.className='player-comparison';
+ panel.append(comparison);
+ const teams=teamColumns(comparison,entry.data.players);
+ for(const p of entry.data.players){
+  const column=document.createElement('section');column.className='comparison-player';column.dataset.playerId=p.id;
+  const heading=document.createElement('header');heading.className='comparison-heading';
+  heading.innerHTML='<h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2><span class="player-race-team">'+playerRaceIcon(p,true)+'<span>Team '+(p.teamid+1)+'</span></span>';
+  column.append(heading);
+  const content=document.createElement('div');content.className='comparison-content';column.append(content);teams.get(teamNumber(p)).append(column);
+  if(tab==='Heroes')heroes(p,content);
+  else if(tab==='Buildings')buildingsAndUpgrades(p,content);
+  else if(tab==='Items')items(p,content);
+  else if(tab==='APM')apm(p,content);
+  else if(tab==='Control groups')groups(p,content);
+
+ }
+}
+function gameIcon(id,kind,className){
+ const label=name(id),src=window.warcraftIcons?.[kind]?.[id];
+ return src
+  ? '<img class="game-icon '+className+'" src="'+esc(src)+'" alt="'+esc(label)+'" title="'+esc(label)+'" width="64" height="64">'
+  : '<span class="game-icon missing-icon '+className+'" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">?</span>';
+}
+function objectIcon(id,preferred){
+ const icons=window.warcraftIcons||{};
+ const kind=[preferred,'heroes','units','buildings','upgrades','items','abilities'].find(k=>icons[k]?.[id]);
+ return gameIcon(id,kind,'object-portrait');
+}
+
+function heroes(p,root){
+ const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const units=Object.entries(p.units.summary).sort((a,b)=>b[1]-a[1]);
+ $('panel').innerHTML=
+ '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
+ p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
+ '<span class="level" title="Inferred minimum level" aria-label="Inferred minimum level '+h.minimumLevel+'">'+h.minimumLevel+'</span></div><div class="ability-icons">'+
+ (Object.entries(h.abilities).map(([id,level])=>'<div class="ability" aria-label="'+esc(name(id))+' '+level+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-level">'+level+'</span></div>').join('')||
+ '')+
+ '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
+ '</div><div class="army-units"><h3 class="mini-heading">UNITS</h3><div class="unit-roster">'+
+ (units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')||
+ '<p class="empty-note">No training orders recorded.</p>')+
+ '</div></div></div><details class="army-timeline"><summary>Unit training timeline</summary><div data-view="unit-orders"></div></details>'+
+ (p.cancellations.length?'<details><summary>Queue cancellations</summary><div data-view="unit-cancellations"></div></details>':'');
+ pagedTable($('unit-orders'),['Time','Unit'],p.units.order,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id,'units')+'</td></tr>');
+ if($('unit-cancellations'))pagedTable($('unit-cancellations'),['Time','Cancelled order','Queue slot'],p.cancellations,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id)+'</td><td>'+o.slot+'</td></tr>');
+}
+function buildingsAndUpgrades(p,root){
+ const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const buildings=Object.entries(p.buildings.summary).sort((a,b)=>b[1]-a[1]);
+ const starts=new Map();for(const order of p.buildings.order){if(!starts.has(order.id))starts.set(order.id,[]);starts.get(order.id).push(order.ms);}
+ $('panel').innerHTML=
+ '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
+ table(['Building','Amount','Started'],buildings.map(([id,count])=>'<tr><td>'+objectIcon(id,'buildings')+'</td><td class="number">'+count+'</td><td><div class="build-start-times">'+(starts.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+
+ (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
+ '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>'+
+ (p.cancellations.length?'<details><summary>Queue cancellations</summary><div data-view="cancellations"></div></details>':'');
+ pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
+ if($('cancellations'))pagedTable($('cancellations'),['Time','Cancelled order','Queue slot'],p.cancellations,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id)+'</td><td>'+o.slot+'</td></tr>');
+}
+function items(p,root){
+ const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const times=new Map();for(const order of p.items.order){if(!times.has(order.id))times.set(order.id,[]);times.get(order.id).push(order.ms);}
+ $('panel').innerHTML=
+ '<div class="box purchased-items"><h3 class="mini-heading">Purchased</h3>'+table(['Item','Orders','Purchased at'],Object.entries(p.items.summary).map(([id,count])=>'<tr><td>'+objectIcon(id)+'</td><td class="number">'+count+'</td><td><div class="purchase-times">'+(times.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+'</div>';
+}
+function apm(p,root){
+ const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const duration=entry.data.duration,peak=Math.max(0,...p.apmBuckets);
+ $('panel').innerHTML=
+ '<div class="box"><h3 class="mini-heading">APM</h3><canvas data-view="apm-chart" width="1100" height="235" aria-label="Actions per minute chart"></canvas><div class="chart-caption"><span>0:00</span><span>'+time(duration)+'</span></div></div>'+
+ '<div class="box" data-view="action-breakdown"></div>';
+ const canvas=$('apm-chart');canvas.style.width='100%';canvas.style.height='235px';
+ function drawChart(){
+ const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=235,dpr=window.devicePixelRatio||1;
+ canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+ const max=Math.max(1,...entry.data.players.flatMap(player=>player.apmBuckets));
+ ctx.font='12px Segoe UI';const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
+ ctx.font='12px Segoe UI';
+ for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle='#2b3b4e';ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle='#93a5b9';ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
+ const count=Math.max(1,...entry.data.players.map(player=>player.apmBuckets.length));
+ const plotWidth=w-pad-12,step=plotWidth/Math.max(1,count-1);
+ ctx.strokeStyle=entry.data.players.indexOf(p)%2?'#e3bc70':'#79cfc0';ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
+ p.apmBuckets.forEach((v,i)=>{const x=pad+i*step,y=h-25-v/max*(h-50);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);});ctx.stroke();
+ ctx.fillStyle=ctx.strokeStyle;p.apmBuckets.forEach((v,i)=>{ctx.beginPath();ctx.arc(pad+i*step,h-25-v/max*(h-50),3,0,Math.PI*2);ctx.fill();});
+ canvas.onmousemove=e=>{const index=Math.round((e.offsetX/canvas.clientWidth*w-pad)/step);canvas.title=index>=0&&index<p.apmBuckets.length?'Minute '+(index+1)+': '+p.apmBuckets[index]+' actions':'';};
+ }
+ drawChart();const observer=new ResizeObserver(drawChart);observer.observe(canvas);chartObservers.push(observer);
+ const labels={assigngroup:'Assign control group',rightclick:'Right click',basic:'Basic orders',buildtrain:'Build / train / learn',ability:'Abilities and other orders',item:'Item transfer',select:'Selection',removeunit:'Remove from queue',subgroup:'Subgroup',selecthotkey:'Select control group',esc:'Escape'};
+ $('action-breakdown').innerHTML='<h3 class="mini-heading">PARSER ACTION CATEGORIES</h3>'+table(['Category','Count'],Object.entries(p.actions).filter(([k,v])=>typeof v==='number').map(([k,v])=>'<tr><td>'+esc(labels[k]||k)+'</td><td class="number">'+v.toLocaleString()+'</td></tr>').join(''));
+}
+function members(list){
+ const ids=[...new Set(list.filter(m=>m.id&&['units','heroes','buildings'].some(kind=>window.warcraftIcons[kind]?.[m.id])).map(m=>m.id))];
+ return '<div class="member-icons">'+ids.map(id=>'<span class="member-icon">'+objectIcon(id)+'</span>').join('')+'</div>';
+}
+function groups(p,root){
+ const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ $('panel').innerHTML=
+ '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members(g.members)+'</td></tr>').join(''))+'</div>';
+}
+function chat(){
+ $('panel').innerHTML=
+ '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
+ function draw(){
+  const q=$('chat-search').value.toLowerCase(),who=$('chat-player').value;
+  const messages=entry.data.chat.filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
+  $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS)+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||'<p class="empty-note">No chat messages match this view.</p>';
+ }
+ $('chat-search').oninput=draw;$('chat-player').onchange=draw;draw();
+}
+function showError(e){$('status').textContent=e.message||String(e);}
+$('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
+$('folder').onclick=()=>window.replays.openFolder().catch(showError);
+$('include-subfolders').onchange=async()=>{const control=$('include-subfolders'),enabled=control.checked;control.disabled=true;try{await window.replays.setSubfolders(enabled);}catch(e){control.checked=!enabled;showError(e);}finally{control.disabled=false;}};
+$('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
+
+$('library-prev').onclick=()=>{listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
+$('library-next').onclick=()=>{listPage++;renderList();$('replay-list').scrollTop=0;};
+const savedTeamSize=localStorage.getItem('team-size')||'any';$('team-size').value=['any','1v1','2v2','3v3','4v4','other'].includes(savedTeamSize)?savedTeamSize:'any';
+$('team-size').onchange=()=>{localStorage.setItem('team-size',$('team-size').value);renderList();};
+$('matchup-left').onchange=renderList;$('matchup-right').onchange=renderList;
+$('search').oninput=scheduleList;$('filter').onchange=renderList;$('sort').onchange=renderList;
+window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();});
+window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();});
+window.replays.on('progress',status);
+window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();status(data.progress);}).catch(showError);
+
+
+

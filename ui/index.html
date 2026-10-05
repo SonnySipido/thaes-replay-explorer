@@ -1,0 +1,24 @@
+﻿<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'">
+<title>Thae's Replay Explorer</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="topbar"><img class="brandmark" src="artwork/frozen-throne-icon.png" alt="Warcraft III: The Frozen Throne" title="Warcraft III: The Frozen Throne"><div class="banner-brand"><div class="banner-title"><h1>THAE'S REPLAY EXPLORER</h1><a id="w3c-profile" href="https://w3champions.com/player/Thaedalius%231362" title="Thaedalius on W3Champions" aria-label="Open Thaedalius W3Champions profile"><img src="artwork/w3champions.png" alt="W3Champions"><span>Thaedalius#1362</span></a><span class="discord-identity"><img src="artwork/discord.png" alt="Discord"><span>Thaedalius</span></span></div><p>WARCRAFT III</p></div><div class="top-right"><span class="local-badge">● LOCAL &amp; PRIVATE</span><button id="folder" title="" aria-label="Open replay folder in Explorer"></button><button id="choose">Choose folder</button><label class="subfolder-toggle"><input id="include-subfolders" type="checkbox" checked><span>Include subfolders</span></label></div></header>
+<div class="workspace">
+<aside class="library"><div class="library-heading"><h2>Replays <span id="count">0</span></h2></div>
+<label class="sr-only" for="search">Search replay library</label><input id="search" placeholder="Search players, maps, filenames…">
+<div class="library-filters"><select id="filter" aria-label="Replay filter"><option value="all">All replays</option><option value="matches" selected>Matches over 2 minutes</option><option value="errors">Parse errors</option></select><select id="sort" aria-label="Sort replays"><option value="newest">Newest first</option><option value="oldest">Oldest first</option><option value="map">Map name A-Z</option></select></div>
+<div class="matchup-filter"><label>Race 1<select id="matchup-left"><option value="any">Any race</option><option value="H">Human</option><option value="O">Orc</option><option value="N">Night Elf</option><option value="U">Undead</option><option value="R">Random</option></select></label><span>vs</span><label>Race 2<select id="matchup-right"><option value="any">Any race</option><option value="H">Human</option><option value="O">Orc</option><option value="N">Night Elf</option><option value="U">Undead</option><option value="R">Random</option></select></label></div><label class="team-size-filter">Team size<select id="team-size"><option value="any">Any</option><option value="1v1">1v1</option><option value="2v2">2v2</option><option value="3v3">3v3</option><option value="4v4">4v4</option><option value="other">Other</option></select></label>
+<div id="replay-list" class="replay-list" aria-label="Replay library"></div>
+<div id="library-paging" class="library-paging" hidden><button id="library-prev">Previous</button><span id="library-page"></span><button id="library-next">Next</button></div>
+<div class="library-footer"><div id="status" role="status">Preparing library…</div></div></aside>
+<main id="detail"><div class="empty"><div class="empty-symbol">◈</div><p>Choose a replay folder, then select a replay from the library.<br>Double click a replay to open it ingame</p></div></main>
+</div>
+<template id="match-template">
+<section class="match-head"><div><div class="eyebrow">MATCH ANALYSIS <span id="version"></span></div><div class="map-title-row"><span id="map-preview"></span><div class="map-title-copy"><h2 class="map-heading"><button id="map" title="Show map in Explorer"></button></h2><button id="filename" title="Show replay in Explorer"></button></div></div></div><div class="match-right"><div class="duration-controls"><button id="watch-replay" disabled title="Checking map availability...">Watch replay</button><div id="duration"></div><label class="winner-toggle"><input type="checkbox" id="show-winner"><span>Show winner</span></label></div><span id="winner-status" role="status"></span><span id="matchup"></span></div></section>
+<div id="players" class="players"></div>
+<nav id="tabs" class="tabs" aria-label="Analysis sections"></nav>
+<section id="panel" class="panel"></section>
+</template>
+<script src="icons.js"></script><script src="maps.js"></script><script src="replay-filters.js"></script><script src="app.js"></script></body></html>
+
