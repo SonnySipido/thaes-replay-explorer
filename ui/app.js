@@ -84,6 +84,11 @@ function status(p){
     : (p.total||0)+' replays';
 }
 function scheduleList(){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;renderList();},250);}
+function replayPlayerNames(players){
+ const teams=new Map();
+ for(const player of players){const team=teamNumber(player);if(!teams.has(team))teams.set(team,[]);teams.get(team).push(player);}
+ return [...teams.entries()].sort((a,b)=>a[0]-b[0]).map(([,team])=>'<span class="row-player-team">'+team.map(p=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join(' ')+'</span>').join('<span class="versus"> VS </span>');
+}
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
@@ -102,7 +107,7 @@ function renderList(){
    button.setAttribute('aria-pressed',String(r.key===selected));
    const stamp=replayFilters.dateLabel(r,r.players.length>4);
    button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong><span class="length">'+(r.error?'!':time(r.duration))+'</span></span>'+
-   '<span class="row-players">'+(r.players.length?r.players.map((p,i)=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join('<span class="versus"> VS </span>'):esc(r.name))+'</span>'+
+   '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';fragment.append(button);
  }
