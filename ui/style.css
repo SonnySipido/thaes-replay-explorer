@@ -279,3 +279,7 @@
 
 #watch-replay{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:5px 10px}
 .watch-replay-icon{display:block;width:18px;height:18px;flex:0 0 18px;object-fit:contain;border-radius:2px}
+
+.row-meta>.matchup-icons{margin-left:auto;max-width:100%;justify-content:flex-end}
+.row-meta .race-team{justify-content:flex-end}
+#duration{font-size:20px}

@@ -5,6 +5,12 @@ const time=ms=>{const s=Math.floor((ms||0)/1000);return Math.floor(s/60)+':'+Str
 const clean=value=>String(value||'').replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(/\.w3[xm]$/i,'').replace(/_/g,' ');
 const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
+let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
+function restoreSelectedReplay(){
+ if(!pendingReplayRestore||selected||!rows.has(pendingReplayRestore))return;
+ const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
+ selectReplay(key,true);renderList();
+}
 let chartObservers=[];
 let listPage=0,listQuery='';const listPageSize=100;
 const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
@@ -71,11 +77,12 @@ function status(p){
 function scheduleList(){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;renderList();},250);}
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
- const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value]);if(query!==listQuery){listQuery=query;listPage=0;}
+ const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
  let list=[...rows.values()].filter(r=>(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
+ if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
  $('count').textContent=list.length;
  const pages=Math.max(1,Math.ceil(list.length/listPageSize));listPage=Math.min(listPage,pages-1);
  $('library-paging').hidden=pages===1;$('library-page').textContent=(listPage+1)+' / '+pages+' · Replays '+(list.length?listPage*listPageSize+1:0)+'–'+Math.min((listPage+1)*listPageSize,list.length);
@@ -92,9 +99,12 @@ function renderList(){
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
  $('replay-list').replaceChildren(fragment);
+ if(restoredReplayReveal===selected)$('replay-list').querySelector('.replay-row.active')?.scrollIntoView({block:'nearest'});
 }
-async function selectReplay(key){
+async function selectReplay(key,restoring=false){
+ pendingReplayRestore=null;if(!restoring)restoredReplayReveal=null;
  const token=++request,start=performance.now();selected=key;
+ localStorage.setItem('selected-replay',key);
  document.querySelectorAll('.replay-row.active').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
  const selectedButton=[...document.querySelectorAll('.replay-row')].find(b=>b.dataset.key===key);
  if(selectedButton){selectedButton.classList.add('active');selectedButton.setAttribute('aria-pressed','true');}
@@ -103,7 +113,7 @@ async function selectReplay(key){
   entry=next;playerId=next.data?.players[0]?.id;
   if(next.error){$('detail').innerHTML='<div class="empty"><h2 class="error-title">This replay could not be read.</h2><p>'+esc(next.file)+'</p><div class="warning">'+esc(next.error)+'</div><p>Other matches remain available. Refresh to retry this file.</p></div>';return;}
   showMatch(performance.now()-start);
- }catch(e){$('detail').innerHTML='<div class="warning">'+esc(e.message)+'</div>';}
+ }catch(e){if(token!==request)return;$('detail').innerHTML='<div class="warning">'+esc(e.message)+'</div>';}
 }
 function showMatch(elapsed){
  $('detail').replaceChildren($('match-template').content.cloneNode(true));
@@ -284,16 +294,16 @@ $('reforged-icons').onchange=()=>{
 $('include-subfolders').onchange=async()=>{const control=$('include-subfolders'),enabled=control.checked;control.disabled=true;try{await window.replays.setSubfolders(enabled);}catch(e){control.checked=!enabled;showError(e);}finally{control.disabled=false;}};
 $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 
-$('library-prev').onclick=()=>{listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
-$('library-next').onclick=()=>{listPage++;renderList();$('replay-list').scrollTop=0;};
+$('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
+$('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;renderList();$('replay-list').scrollTop=0;};
 const savedTeamSize=localStorage.getItem('team-size')||'any';$('team-size').value=['any','1v1','2v2','3v3','4v4','other'].includes(savedTeamSize)?savedTeamSize:'any';
 $('team-size').onchange=()=>{localStorage.setItem('team-size',$('team-size').value);renderList();};
 $('matchup-left').onchange=renderList;$('matchup-right').onchange=renderList;
 $('search').oninput=scheduleList;$('filter').onchange=renderList;$('sort').onchange=renderList;
-window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();});
-window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();});
-window.replays.on('progress',status);
-window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();status(data.progress);}).catch(showError);
+window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();});
+window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
+window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
+window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
 
 
 
