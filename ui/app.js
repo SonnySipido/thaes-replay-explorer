@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 const $=id=>document.getElementById(id);
 const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const time=ms=>{const s=Math.floor((ms||0)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
@@ -226,7 +226,7 @@ function heroes(p,root){
  (Object.entries(h.abilities).map(([id,level])=>'<div class="ability" aria-label="'+esc(name(id))+' '+level+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-level">'+level+'</span></div>').join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
- '</div><div class="army-units"><h3 class="mini-heading">UNITS</h3><div class="unit-roster">'+
+ '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
  (units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')||
  '<p class="empty-note">No training orders recorded.</p>')+
  '</div></div></div>'+
