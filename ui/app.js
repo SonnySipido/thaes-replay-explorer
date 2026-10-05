@@ -128,12 +128,13 @@ function showMatch(elapsed){
  $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers();};
  renderPlayers();renderTabs();renderPanel();
 }
+function teamLabel(player){return entry.data.players.length>2?'<span class="team">Team '+(teamNumber(player)+1)+'</span>':'';}
 function renderPlayers(){
  const reveal=$('show-winner')?.checked;
  const winner=entry.data.winningTeamId;
  const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
  $('winner-status').textContent=reveal&&!known?'Winner unavailable':'';
- $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</button><span class="team">Team '+(p.teamid+1)+'</span></div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
+ $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</button>'+teamLabel(p)+'</div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
  const cards=[...$('players').children];$('players').replaceChildren();
  const teams=teamColumns($('players'),entry.data.players);
  const replayKey=selected;
@@ -168,7 +169,7 @@ function renderPanel(){
  for(const p of entry.data.players){
   const column=document.createElement('section');column.className='comparison-player';column.dataset.playerId=p.id;
   const heading=document.createElement('header');heading.className='comparison-heading';
-  heading.innerHTML='<h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2><span class="player-race-team">'+playerRaceIcon(p,true)+'<span>Team '+(p.teamid+1)+'</span></span>';
+  heading.innerHTML='<h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2><span class="player-race-team">'+playerRaceIcon(p,true)+teamLabel(p)+'</span>';
   column.append(heading);
   const content=document.createElement('div');content.className='comparison-content';column.append(content);teams.get(teamNumber(p)).append(column);
   if(tab==='Heroes')heroes(p,content);
@@ -204,9 +205,8 @@ function heroes(p,root){
  '</div><div class="army-units"><h3 class="mini-heading">UNITS</h3><div class="unit-roster">'+
  (units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')||
  '<p class="empty-note">No training orders recorded.</p>')+
- '</div></div></div><details class="army-timeline"><summary>Unit training timeline</summary><div data-view="unit-orders"></div></details>'+
+ '</div></div></div>'+
  (p.cancellations.length?'<details><summary>Queue cancellations</summary><div data-view="unit-cancellations"></div></details>':'');
- pagedTable($('unit-orders'),['Time','Unit'],p.units.order,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id,'units')+'</td></tr>');
  if($('unit-cancellations'))pagedTable($('unit-cancellations'),['Time','Cancelled order','Queue slot'],p.cancellations,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id)+'</td><td>'+o.slot+'</td></tr>');
 }
 function buildingsAndUpgrades(p,root){
