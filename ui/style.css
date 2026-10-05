@@ -269,3 +269,7 @@
 .switch-toggle input:disabled+.switch-track{opacity:.45;cursor:wait}
 .graphics-toggle{display:flex;font-size:12px;color:var(--text);margin:0 0 8px}
 @media(prefers-reduced-motion:reduce){.switch-track,.switch-track::after{transition:none}}
+
+.library-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.library-heading h2{flex:0 0 auto;margin:0}
+.library-heading .graphics-toggle{margin:0 0 0 auto;flex:0 0 auto;white-space:nowrap;font-size:11px;gap:6px}
