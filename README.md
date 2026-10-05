@@ -2,7 +2,15 @@
 
 A Windows Warcraft III replay library and match analyzer by **Thaedalius**.
 
-## Download and install
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.1.0/Thae-Replay-Explorer-0.1.0-Setup-x64.exe)
+
+1. Click **Download for Windows** above.
+2. Open the downloaded installer and follow the setup steps.
+3. Open **Thae's Replay Explorer** from the Windows Start menu (search for **Replay**).
+
+No GitHub account, source-code download, or development tools are needed. The installer includes everything needed to run the app and offers a desktop shortcut. For Windows 10/11, 64-bit.
+
+## Other download options
 
 Download the Windows x64 Setup executable from this repository's Releases page and run it. The installer adds **Thae's Replay Explorer** to the Windows Start menu (search for **Replay**) and offers a desktop shortcut. No administrator rights are required. A portable ZIP is also available: extract the entire folder and run **Thae's Replay Explorer.exe**. Keep the accompanying files with the executable.
 
