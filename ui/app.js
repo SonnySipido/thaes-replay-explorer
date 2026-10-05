@@ -11,7 +11,16 @@ function restoreSelectedReplay(){
  const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
  selectReplay(key,true);renderList();
 }
+const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
+function deselectReplay(){
+ ++request;selected=null;entry=null;playerId=null;pendingReplayRestore=null;restoredReplayReveal=null;
+ localStorage.removeItem('selected-replay');
+ chartObservers.forEach(observer=>observer.disconnect());chartObservers=[];
+ $('detail').innerHTML=emptyAnalysisMarkup;
+ document.querySelectorAll('.replay-row.active').forEach(button=>{button.classList.remove('active');button.setAttribute('aria-pressed','false');});
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();deselectReplay();}});
 let listPage=0,listQuery='';const listPageSize=100;
 const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
 const name=id=>entry?.data?.names[id] || id || 'Unknown';
@@ -178,9 +187,11 @@ function renderPanel(){
  const teams=teamColumns(comparison,entry.data.players);
  for(const p of entry.data.players){
   const column=document.createElement('section');column.className='comparison-player';column.dataset.playerId=p.id;
-  const heading=document.createElement('header');heading.className='comparison-heading';
-  heading.innerHTML='<h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2><span class="player-race-team">'+playerRaceIcon(p,true)+teamLabel(p)+'</span>';
-  column.append(heading);
+  if(entry.data.players.length>2){
+   const heading=document.createElement('header');heading.className='comparison-heading';
+   heading.innerHTML='<span class="player-race-team">'+playerRaceIcon(p,true)+'</span><h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2>'+teamLabel(p);
+   column.append(heading);
+  }
   const content=document.createElement('div');content.className='comparison-content';column.append(content);teams.get(teamNumber(p)).append(column);
   if(tab==='Heroes')heroes(p,content);
   else if(tab==='Buildings')buildingsAndUpgrades(p,content);
