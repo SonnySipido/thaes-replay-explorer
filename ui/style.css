@@ -158,7 +158,7 @@
 .replay-row .row-players{margin:3px 0;line-height:15px}
 .replay-row .row-top{line-height:18px}
 .replay-row .row-meta{line-height:14px;gap:2px}
-.row-meta .race-icon{width:14px;height:14px}
+
 .row-meta .race-team,.row-meta .matchup-icons{gap:2px}
 .row-map{width:42px;height:42px}
 #filename{display:block;max-width:100%;padding:0;border:0;background:none;border-radius:0;color:var(--muted);font-size:11px;text-align:left;line-height:14px;cursor:pointer}
