@@ -30,8 +30,8 @@
     {
       "file": "replay.png",
       "source": "Installed Warcraft III game data",
-      "texture": "UI/Console/Reforged/ControlPanel/observer-control-menu-icon-replay-resting_4k.dds",
-      "sha256": "0f40a6b6c78e0d6a2ea434f644578db8aa496dbc14b62e755743bbe14930b3f7"
+      "texture": "ReplaceableTextures/CommandButtons/BTNScroll.dds",
+      "sha256": "cdda2188c4ecceaa2108f52879725581dd48b28ff2ec7083d2cd3762c65e999f"
     }
   ]
 }
