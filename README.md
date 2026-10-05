@@ -22,6 +22,8 @@ The initial release is unsigned; Windows may display an unknown-publisher or rep
 
 On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Enable or disable subfolders beside Choose folder. The app remembers your choice and checks for changes automatically.
 
+The Reforged HD icons switch selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
+
 Browse maps, player races, matchups and team sizes. Select a replay to compare teams, heroes and learned abilities, units, buildings, research, items, APM, control groups and chat. Double-click a replay or use Watch replay to open it in Warcraft III. Watch replay is enabled only when the map can be found locally. Click the replay filename or map title to locate the corresponding file in Explorer.
 
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.

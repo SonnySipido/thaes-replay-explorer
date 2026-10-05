@@ -17,4 +17,4 @@ Warcraft III, The Frozen Throne, Rexxar, race icons, hero/unit/building/item/abi
 
 W3Champions and Discord names and logos belong to their respective owners. They identify the author's profile and contact handle; no endorsement is implied.
 
-Asset provenance is recorded in ui/icons/SOURCES.json, ui/artwork/SOURCES.json and ui/maps/SOURCES.md. Attribution and public availability are not a grant of redistribution rights. No blanket third-party asset redistribution license has been verified for this project. Before publishing a distribution containing these assets, confirm the applicable rights or replace/remove assets that cannot be redistributed.
+Asset provenance is recorded in ui/icons/SOURCES.json, ui/icons-reforged/SOURCES.json, ui/artwork/SOURCES.json and ui/maps/SOURCES.md. Attribution and public availability are not a grant of redistribution rights. No blanket third-party asset redistribution license has been verified for this project. Before publishing a distribution containing these assets, confirm the applicable rights or replace/remove assets that cannot be redistributed.

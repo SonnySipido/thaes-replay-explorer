@@ -1,0 +1,4097 @@
+{
+  "attribution": "Warcraft III Reforged HD artwork belongs to Blizzard Entertainment. Extracted from installed game data; excluded from the application code license.",
+  "files": [
+    {
+      "kind": "heroes",
+      "id": "Edem",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIllidan.dds",
+      "sha256": "5f1928a5fc33ff795d95c2c870f695d1b48e0465bba55158317ce09cd51f0c81"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ekee",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKeeperOfTheGrove.dds",
+      "sha256": "0a3eb46b0dcf63b60d24b043e1960ceadd133805b517fe4973e6b003c9fffadb"
+    },
+    {
+      "kind": "heroes",
+      "id": "Hamg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroArchMage.dds",
+      "sha256": "5248e5f869edbb648924c6029b8c375fdb3bab23f572bea1962ab2b5dd8efdba"
+    },
+    {
+      "kind": "heroes",
+      "id": "Emoo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPriestessOfTheMoon.dds",
+      "sha256": "9abaa2584d33a9d28f2a24a43d500fea992c26461eb14b168924b05dfc63961a"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ewar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroWarden.dds",
+      "sha256": "2b3e11519a26581c07dc5fdd4b2e4ee35b40bb7dbf6f1e14570785f009affed6"
+    },
+    {
+      "kind": "heroes",
+      "id": "Hblm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroBloodElfPrince.dds",
+      "sha256": "8d1093892781367683235d625a1c53feb50a6e4b9b4c95282a49eacf57d16f16"
+    },
+    {
+      "kind": "heroes",
+      "id": "Hmkg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroMountainKing.dds",
+      "sha256": "a5b342c7e7edba79b54d69a32144741bf98a44c90e00c20e61d3effcf6b4d4f7"
+    },
+    {
+      "kind": "heroes",
+      "id": "Hpal",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroPaladin.dds",
+      "sha256": "46a20b98257a374a55cb8f8bfec77e8811c29f92346d535e642ad7e5bf24ff2d"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nalc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroAlchemist.dds",
+      "sha256": "fbed0a750c90e658463f23a893b91319def73bc2943cd9ba6850e43955c1678c"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nbrn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBansheeRanger.dds",
+      "sha256": "630a21cce864dc7a4810597a7e463bb800a71258b297830ea30ff26d3393b2d0"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nbst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBeastMaster.dds",
+      "sha256": "95f4e675083f1e89bdad3fbdb659a8e2dcbaa816a9c81d074f48bb1baf9a202c"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nfir",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroAvatarOfFlame.dds",
+      "sha256": "28272b3aafca0c4c1d8dbe18cab62a1d9c981db18c5259d532c9ee6867f19fe4"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nngs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNagaSeaWitch.dds",
+      "sha256": "5d081734eb9b1aadf6322725d67dc886dc9a7b22aa11f5e5239eea2bd05947d0"
+    },
+    {
+      "kind": "heroes",
+      "id": "Npbm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPandarenBrewmaster.dds",
+      "sha256": "1ed39f1da61ea514fb30bec4a0cecc6a45c44954f7439be2e2e9852bd2972e3e"
+    },
+    {
+      "kind": "heroes",
+      "id": "Nplh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPitLord.dds",
+      "sha256": "fb8740da3d46a90d26b433fda08ab918b120a6ed1dcd5db04a77425ead5c6dc3"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ntin",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroTinker.dds",
+      "sha256": "6c6fe72d93af09728f9c7dbda3f5ea062ccf553b2415f9443d601706f15ff130"
+    },
+    {
+      "kind": "heroes",
+      "id": "Obla",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroBlademaster.dds",
+      "sha256": "e62c53875c888495e99dbf288170b5e419bff5aae5a6c612e00c8113a9aa6edd"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ofar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroFarseer.dds",
+      "sha256": "0498f4addce955bdb7f92e0a9b8509f6a9842acab526d7de9a9e57f431bc87d9"
+    },
+    {
+      "kind": "heroes",
+      "id": "Oshd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShadowHunter.dds",
+      "sha256": "7b03a046b2efc5fdba2b9940006db194b9ecb3a1cd848703ee9bfdd0d83ff32c"
+    },
+    {
+      "kind": "heroes",
+      "id": "Otch",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroTaurenChieftain.dds",
+      "sha256": "03d6c5c455fb34d7c535c9d7a8de70af9231185d2c4823b637d3e55c4543fecd"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ucrl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroCryptLord.dds",
+      "sha256": "ac92a70e235b07d58a23690629fb1fc6ef8659efb2675737a73944b60cfc3bb0"
+    },
+    {
+      "kind": "heroes",
+      "id": "Udea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArthasEvil.dds",
+      "sha256": "e7ad4506bf7e84177bd3b1c442cafaa84d189ddb393de0b964ac3db9bcf1c3dc"
+    },
+    {
+      "kind": "heroes",
+      "id": "Ulic",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroLich.dds",
+      "sha256": "fffcbe5fc6bbd7b811d50f0a9f1038ec5292b576af889e1d77cf6b7c0bd22eb7"
+    },
+    {
+      "kind": "heroes",
+      "id": "Udre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeroDreadLord.dds",
+      "sha256": "4ca72c8f40b53df3fed80677d1acc65176aca73e469ab1f544b8d409680150af"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEer",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEntanglingRoots.dds",
+      "sha256": "19380f5c9b07a7e5fde0878a3bc7cc197229db3c0430deff3cd3958d98ffb337"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEbl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlink.dds",
+      "sha256": "51ad61381c1742ff626278b7f332919d26b7a4d70130996c0f0f7266eaedb0b0"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEev",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNEvasion.dds",
+      "sha256": "cc623d0f05194899f892ce8c18bb38e29557116b0e2000712b5e36e98392f3fe"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNTrueShot.dds",
+      "sha256": "ea647e5c75303a3fdbff5817e106f37d8646d96dd2bc4795d3d494341063276b"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEah",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNThorns.dds",
+      "sha256": "8b0ecad04758fb5747ef39aa5b13a6ee9dcedacccafe88d247c0724e113e0e15"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEfk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFanOfKnives.dds",
+      "sha256": "187f0bdae889400f366bf96c5933e3cbf47a79b7af166c38236f026a13ecbc48"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEmb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManaBurn.dds",
+      "sha256": "2571dd68894bb1ae3b5effb4e0fcf001682e49c2c57cf31b972c354c9dfa2f7a"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEim",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNImmolationOn.dds",
+      "sha256": "75d92a6025311fef170b7a511e100b6b19ef6da41265509492b03afbcec2b830"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEfn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnt.dds",
+      "sha256": "5db7ff514b91b4ab7c26f07b4a5e2d87f6e0288ba568121fd237958621079cc9"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEme",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMetamorphosis.dds",
+      "sha256": "004b6dc915d2b78811a3c5bafce4d1857b6e39f6d5f0b40bf4f409471763a65c"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEsf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStarfall.dds",
+      "sha256": "f2a4073beb9038f70513ed9d5d17aaf963f0ef04fde76046dcc134ec324cf840"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEsh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShadowStrike.dds",
+      "sha256": "4a763f4dd9f51bf75189cdea45c59bd4c7ca369757d228c78ebdb1cbcef2ee41"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScout.dds",
+      "sha256": "c84b77b7fa40fb9ad9c4c32f05db49c8e51766800464c69a8a7496c4646c4725"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHab",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNBrilliance.dds",
+      "sha256": "26f2386b352401b5e02dfabb0a8fcf536049b09aa5a09a424c7605fdb18ace85"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEtq",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTranquility.dds",
+      "sha256": "c00e6ff0f96feb39dec24b505ad35fdda843ffb5b2255aec149c2882627036a3"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHad",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNDevotion.dds",
+      "sha256": "3b779abd543b5a626ba7c8e0b7efc81e35fcd42963ce65237662d120a729ea6b"
+    },
+    {
+      "kind": "abilities",
+      "id": "AEsv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritOfVengeance.dds",
+      "sha256": "78fa511882cbea6488b281e9b0eb0cd14427bde0b6e512bc5584664b9e84f0f9"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHav",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAvatarOn.dds",
+      "sha256": "7bf100d87e62c405f4cd959e23cb39a8bd4a5df0038c13e4c5406611a42a30c3"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHbh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNBash.dds",
+      "sha256": "153af03e1b6bf3f206cff8edbaf2c304184352e3a73637dda0ae6b8759501e13"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHbn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBanish.dds",
+      "sha256": "141d018d9a29ac65fdaa8c384449fb8bbd7468e91632998ca050486cfbaa5f1c"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHbz",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlizzard.dds",
+      "sha256": "5941f8d14d1706a357088bfe3a448f08498b1c2eacfb3f149e5adc2c5e4cfd4b"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManaDrain.dds",
+      "sha256": "a7214626e1d74f2895db5eb2fb9ca4385e4c892873c4a545cceda024da78f749"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHfa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSearingArrowsOn.dds",
+      "sha256": "0c21354c2b3f99d01c5922453a975b2a9b6e58cad00c35683f32099494e820fb"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHds",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDivineIntervention.dds",
+      "sha256": "10af3078a743df09bc14095ed2e5dd72c6aefddcc459b2dd7fce53d6582a3610"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHfs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWallOfFire.dds",
+      "sha256": "d3ee8b06b0718b01fddae6894e35d4f673e54d4ef45449c61a347fef36651308"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHhb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHolyBolt.dds",
+      "sha256": "d6ba76c9497d8bd00c6d59d13d748650e1b564770ed8d0e4f7dd6c91ebf9e9c5"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHmt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMassTeleport.dds",
+      "sha256": "beec77aeaeca31a172e84281bf8cf0c5d97a4849b84a8da839a0ff20cabc6254"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHpx",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMarkOfFire.dds",
+      "sha256": "890800786afc828367cb8945fb55f70cc84b14bf7266f09992dcfb454e0bcaaa"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNResurrection.dds",
+      "sha256": "865f91c78be9fc8c1f3693cbceae1d24b7312a375a6d8f81f63aa76f60f7952b"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHtb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStormBolt.dds",
+      "sha256": "8362eacd56a993dd4728742c471faeda051c4f8388253131f9d914d35bc9abd8"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHtc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThunderclap.dds",
+      "sha256": "e0227cab6435ce4a069f0e7d0fd5b0507d62a003e983d2364f67cbc796bc04f9"
+    },
+    {
+      "kind": "abilities",
+      "id": "AHwe",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSummonWaterElemental.dds",
+      "sha256": "0d14d35bc2cd4e2dd8bd961698c3c070f9a0b446b7f331ec72ff079a07affa02"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANba",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTheBlackArrowOnOff.dds",
+      "sha256": "7da1175ddb76d3b40958c2544db5a6935aff861e6c33e54cb852558c6d99a75c"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANab",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAcidBomb.dds",
+      "sha256": "54fc23f60d7c4a33c61ef73127ea0ccfe2ea0fb1c542d336e8cc7c089eea72f5"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANbf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBreathOfFire.dds",
+      "sha256": "5460a41df3f6fa6d86c5c76a9e00a006b7ff2ca61d4a666d19a0e868d719e5bb"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANc1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClusterRockets.dds",
+      "sha256": "dd9471e69d95dc9f9c5ee624dc6cae4234ef51908200362940ed31dcbf6d47c7"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANc2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClusterRockets.dds",
+      "sha256": "dd9471e69d95dc9f9c5ee624dc6cae4234ef51908200362940ed31dcbf6d47c7"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANca",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNCleavingAttack.dds",
+      "sha256": "526b7136b79628733122089db6581787c9ea75432fdbdd79fcb95aba2142829e"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANc3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClusterRockets.dds",
+      "sha256": "dd9471e69d95dc9f9c5ee624dc6cae4234ef51908200362940ed31dcbf6d47c7"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANch",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCharm.dds",
+      "sha256": "1acf1c4f28fd45eefe5b87b714dcf57980ab8820c91b5370509c62e6f2278b24"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANcr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNChemicalRage.dds",
+      "sha256": "3ce4168c4d62b0444b3353310637daa345e2d5beee569667f0f585827199530f"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANcs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClusterRockets.dds",
+      "sha256": "dd9471e69d95dc9f9c5ee624dc6cae4234ef51908200362940ed31dcbf6d47c7"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANdh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStrongDrink.dds",
+      "sha256": "cce9b4884429ad28b0abbb224ea27432c7bfc708e0cb1c29574ba57e9e9b67b6"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANdb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNDrunkenDodge.dds",
+      "sha256": "fcf9e3c8a371c6aa1925d638a1577216b35d70ec5525538ee41bb68666aafe71"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANdo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDoom.dds",
+      "sha256": "b111a80151fed4fd7190cb3fd062c2f2e5c45ad48ace30ab8e65923c85666d9b"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANef",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStormEarth&Fire.dds",
+      "sha256": "8b32b48e9faad120b0ed163b7d6b13f77cdf476e553f697006feb56648275be8"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLifeDrain.dds",
+      "sha256": "f4abb115b0b1715e37f30cea2f14dcf10ebf82d9e1520a0c527d22e6a07635b9"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANeg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNEngineeringUpgrade.dds",
+      "sha256": "1f1280f4d3b2b7f5d0d384d9d13379cad01f661546b85a77a69074484ff1d199"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANfa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNColdArrowsOn.dds",
+      "sha256": "76f49376326c532327edf5159ff0fac020bf860c90000c2dd358976e380d5700"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANfl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMonsoon.dds",
+      "sha256": "feec16b87b58cc0469d11c35f494b8e64d63d01129ffc84e1a3ebcb382bbdd44"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANg1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.dds",
+      "sha256": "c3278d205060c8c6e25f13dc9ba4eceb7ba246dbd5aea58439f719158413c9aa"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANg3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.dds",
+      "sha256": "c3278d205060c8c6e25f13dc9ba4eceb7ba246dbd5aea58439f719158413c9aa"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANg2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.dds",
+      "sha256": "c3278d205060c8c6e25f13dc9ba4eceb7ba246dbd5aea58439f719158413c9aa"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANhs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHealingSpray.dds",
+      "sha256": "81d3db3432e2bee7a1ac9beb5ba7e45b3cb9004dd23a31325d3b837a727033f8"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANic",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNIncinerate.dds",
+      "sha256": "092635857a402c2e51b0c31633f04e05a396aae35d4ba83be84bafe1d78c1de0"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANht",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHowlOfTerror.dds",
+      "sha256": "619eab558e328d726830dda98523a56acaae446bbf7cd0a45733750bb1c4cd80"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANia",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIncinerateOn.dds",
+      "sha256": "1d58bd19b9157505e55357e78e9a0b219d210028b0a6cae0ab80bb1244284a97"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANlm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLavaSpawn.dds",
+      "sha256": "1b0c4faa4368c3302daa8ba9e33a29aaae40441e94d5fd6fc624e3f7bbf21c51"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANms",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNeutralManaShield.dds",
+      "sha256": "8176d7f3c7f5c985ef5fdd40ecaaf55de0ca98cd67f98f303b40ae54ebc122f1"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANs2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPocketFactory.dds",
+      "sha256": "577a43ff3fdfa0e3df5c9edaf05a7e5b3cb90ea381ab6836a6be246876968045"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANrf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFire.dds",
+      "sha256": "2ff8e678f13bd6fa5dc9c78716bdf79ca49fdfae450cc9edadc7fec67759e2ae"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANrg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.dds",
+      "sha256": "c3278d205060c8c6e25f13dc9ba4eceb7ba246dbd5aea58439f719158413c9aa"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANsg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGrizzlyBear.dds",
+      "sha256": "256a271e60aece1016a60b4d579618d529371fec667e036f3cdb43dd3e7c02a0"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANs3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPocketFactory.dds",
+      "sha256": "577a43ff3fdfa0e3df5c9edaf05a7e5b3cb90ea381ab6836a6be246876968045"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANs1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPocketFactory.dds",
+      "sha256": "577a43ff3fdfa0e3df5c9edaf05a7e5b3cb90ea381ab6836a6be246876968045"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANsi",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSilence.dds",
+      "sha256": "37ee141c58f311783ea73e9e49d4d3d17c6cfd8606c87c2b6ed11ff020b171a5"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANso",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSoulBurn.dds",
+      "sha256": "d8f4a7199068d627ee42f00caf6be9ecb294714a22a5ad7cb6d10991e4ccd459"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANsw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWarEagle.dds",
+      "sha256": "1ddc515d624fadb8528e81a067c9e28342d92927b86df07692fba30d4f2c1ded"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANsq",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNQuillBeast.dds",
+      "sha256": "4aa354ca618a256c91d188932dec4b3e6e016c3655cec280baf6c7e0b12d3841"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStampede.dds",
+      "sha256": "033673cef883eac411b483bf17002f1ffd9f63823a73aa357df9c2a16cf48ac1"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANsy",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPocketFactory.dds",
+      "sha256": "577a43ff3fdfa0e3df5c9edaf05a7e5b3cb90ea381ab6836a6be246876968045"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANto",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTornado.dds",
+      "sha256": "339771c4158e6492941480423f2124c1d7be36d063ce79379e342f914f22146f"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOcl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNChainLightning.dds",
+      "sha256": "0dd6e5924a945e30a44dc966bf98ca0007593a7aca194d69a857f5e5bab5e9ca"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANvc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNVolcano.dds",
+      "sha256": "c3b9a6983dea6444cde4baa8bf68bee0b0e2b64fe98c16f9deac144ba91d013b"
+    },
+    {
+      "kind": "abilities",
+      "id": "ANtm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTransmute.dds",
+      "sha256": "563d95d29c717b7a1208f1558af676aca6dc12ad96b267673f55dd17bb22a600"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOcr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNCriticalStrike.dds",
+      "sha256": "3284dcbfd04ac6f29addc10d0486ed52257ab65f3d3f630b750194847b924bd7"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOae",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNCommand.dds",
+      "sha256": "30697e68a2460661e076df3786a93dc0db946a7ccbd4f0491ec45135d0983dcd"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOeq",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEarthquake.dds",
+      "sha256": "ba8a8776d1f90b601506caf2b3a278ebfb5285470f557be3a78c3ee358ac491a"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOhw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHealingWave.dds",
+      "sha256": "91405ec16e39551533f23bb799cc16b7c2e84bfdc56931442952338ab1e0698e"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOhx",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHex.dds",
+      "sha256": "e421efabb991b8ab7367466152ecc8626f65c63eb017a2a806454455df1a6fc3"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNReincarnation.dds",
+      "sha256": "7a1e2f0188180cbbed3091294cc898a6834cb92af6543701cded94b9d380d0ef"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOmi",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMirrorImage.dds",
+      "sha256": "6d9cf935d8bd4cba28266e4e54f740e717bcb03c33e13c982239ad76a8be25e5"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOfs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFarSight.dds",
+      "sha256": "f25ab8b1f3fd8ce954e630de8189278d8482e75905f8194bc21664f530f37964"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOsf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWolf.dds",
+      "sha256": "3e7d8b8c582ae97798aa004aebda1355a8f4993f0b291e91891ab149e0e78abb"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOsh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShockWave.dds",
+      "sha256": "154daa41e5f89cbd1a9a28689f179dce3c3f8c6f60e7d2099e20838ad5024e13"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOvd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBigBadVoodooSpell.dds",
+      "sha256": "18d5a9651db6145ce8455aae5c27db3c1452bf178a214b0ea6724b6b08459084"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOsw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSerpentWard.dds",
+      "sha256": "a1c5257fc500cc73e876b71d0c0d29fafcd56623a881b6b2b513490e618448a8"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOwk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWindWalkOn.dds",
+      "sha256": "66e5dcbe7fb25f8b4015bde65dcc07ec2929ebfe65ca2d2c12910d8cc1c219cc"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOws",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWarStomp.dds",
+      "sha256": "77d60084b0fe160dc16721fde7746e098b0819ae742b9dbb5be5cea61c0c9071"
+    },
+    {
+      "kind": "abilities",
+      "id": "AOww",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWhirlwind.dds",
+      "sha256": "88e10f5a91306a43470ce0a82f5f9be558c056b08f8aff5a04f0651efcfa9e42"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUcb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCarrionScarabsOn.dds",
+      "sha256": "c39e750ef939db4ffab53f0951af7d7c4644195fa42c80c44e86d03527f35925"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUav",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNVampiricAura.dds",
+      "sha256": "af56c078f14d505ec9aff4d774b23f03db23736cc3e07e37e4497a909d7b3882"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUan",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAnimateDead.dds",
+      "sha256": "570f0a1e36f1405e2d534c5de48bd1ca9db87923482c844e4fd156af0e4948ff"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUau",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNUnholyAura.dds",
+      "sha256": "565b6704ed8ee0e03e3df4db564bad9805386847c4a0c68eb02742e66891f59f"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUcs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCarrionSwarm.dds",
+      "sha256": "e2561aaf37756a9e59e5e96842a1507d99d25cba7c4c4c935fc1798e42b60b3c"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUdc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDeathCoil.dds",
+      "sha256": "0bf527b5e2f1174e30b59916c9942674a16a475fc65ef9a7a32a5243d4707f0f"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUdd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDeathAndDecay.dds",
+      "sha256": "67e507a93e6e232c35debadd2c8224b98e958ed8c5d3ac59b445980f8ffd726f"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkRitual.dds",
+      "sha256": "e7c3c17bdb05ba02da24500f26e0979714c8b2b2c36e7634506e0f6eb59ad9d8"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUdp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDeathPact.dds",
+      "sha256": "5a15978549ae7e038bec913daeccff1281209dbc169508223033956901f61134"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUfa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFrostArmor.dds",
+      "sha256": "e02f04ad8f4c569cade3957005b90d3a325c29cb9b7d8409bd068df3bcafef9e"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUfn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlacier.dds",
+      "sha256": "030562cf683b7102c5f37fccc6ad2ca96aa4b8fc72a6c9e0b4c20829f9710e20"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUfu",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFrostArmorOn.dds",
+      "sha256": "6bac2922bd599ca4aa906896b15578426bd76968ed6354bb67b6090036bd9658"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUim",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNImpale.dds",
+      "sha256": "e16e22a68bb89ac24350d87d69face96c0abe60a44f6340822838c7525fe3fb0"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUin",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNInfernal.dds",
+      "sha256": "ec33d86bcdca2b9f80a79bfd57f960587e1200576104b791e9edb2f4b48e576a"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUsl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSleep.dds",
+      "sha256": "ca1f4574b45d6be1bf6286d071babc8783cb588e8d99ed3672f0e9e500bfd0fd"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUls",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLocustSwarm.dds",
+      "sha256": "9d8faeee1f7661e5e0603d69cc2f9ca22ae1e7eb8b5ad0338c7b02662ef58c28"
+    },
+    {
+      "kind": "abilities",
+      "id": "AUts",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\PassiveButtons\\PASBTNThornShield.dds",
+      "sha256": "dc76c0b07cfa6d646a3838b832b448fbc734c31b319f845c22b0980b2c2c7f5b"
+    },
+    {
+      "kind": "units",
+      "id": "hfoo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFootman.dds",
+      "sha256": "4b51e52f3e1bd7415e237380c4371b3cda0746eda1ed0c24cb672d2587b7b5ed"
+    },
+    {
+      "kind": "units",
+      "id": "hkni",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKnight.dds",
+      "sha256": "8208fb3e3578d48f2ca81c9397464dd5775d12582c0e7fcce13cc0d448394698"
+    },
+    {
+      "kind": "units",
+      "id": "hmpr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPriestV1.dds",
+      "sha256": "52d738c7230ae0b2ff99747883cbedfbc11cd2bb80f3ccebff9ecdce073ec081"
+    },
+    {
+      "kind": "units",
+      "id": "hmtm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMortarTeam.dds",
+      "sha256": "b180bbe11d77213a2bc039d31d4647f6284466fb5b60ab2a34fef248803583aa"
+    },
+    {
+      "kind": "units",
+      "id": "hpea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPeasant.dds",
+      "sha256": "5189a7ef8a86cb83c2997493e42ef4d081f5cdf382bf57d5ee468e03ae822b11"
+    },
+    {
+      "kind": "units",
+      "id": "hrif",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRifleman.dds",
+      "sha256": "3e11288f12c2acbbe8cd7a3791d0e84c642ff560ae1a5f0b1bc4d6aad56e184f"
+    },
+    {
+      "kind": "units",
+      "id": "hsor",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSorceressV1.dds",
+      "sha256": "c4433af92c0e627a0f0422759cc7d768417772be45d5be4ebd7716b00b97522d"
+    },
+    {
+      "kind": "units",
+      "id": "hmtt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSeigeEngine.dds",
+      "sha256": "b9969cb6bc4125da3dd12ac9b3b0d534cb6bf2a653c13c257537e8032e03ccae"
+    },
+    {
+      "kind": "units",
+      "id": "hrtt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSeigeEngineWithMissles.dds",
+      "sha256": "a84b6b187c6267e18377d14c79dc978c6f894ec1acbf7d167a212a185e5885b0"
+    },
+    {
+      "kind": "units",
+      "id": "hgry",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGryphonRider.dds",
+      "sha256": "0986f87152b5e2895ecd35605530a22fe80b0fbdca41044d88ecb4772423dd14"
+    },
+    {
+      "kind": "units",
+      "id": "hgyr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFlyingMachine.dds",
+      "sha256": "9e7a5fef9971ba57221c91d078c89d428471e44c5d8725cafac36b38227fd570"
+    },
+    {
+      "kind": "units",
+      "id": "hspt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpellBreaker.dds",
+      "sha256": "7898e9f97ed0e8ed82aa220cb4023fc728a31363b450612597c026362ca99397"
+    },
+    {
+      "kind": "units",
+      "id": "hdhw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDragonHawkRiderV1.dds",
+      "sha256": "362f282bab276ab1a389d36c4ec7bfcee6ea450a5addb1949386d9ffd02a9ee5"
+    },
+    {
+      "kind": "units",
+      "id": "ebal",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlaiveThrower.dds",
+      "sha256": "40f0ed89f9754fa9e49fb12c100f7b100cf9ac3281267e03da6fbe7830699616"
+    },
+    {
+      "kind": "units",
+      "id": "echm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNChimaera.dds",
+      "sha256": "4e0865351885f058607fbf9b251e23b2a2d6e79f5232d1a9b69bc490eba61178"
+    },
+    {
+      "kind": "units",
+      "id": "edoc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDruidOfTheClaw.dds",
+      "sha256": "9d0c60ee2437119d2e7f47ee390325b741771424ca50008225dcac3269de0857"
+    },
+    {
+      "kind": "units",
+      "id": "edot",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDruidOfTheTalon.dds",
+      "sha256": "022a82beac70519ce8266c5f3ef32f6f01781b49540c745ed4dd161bcc2106d7"
+    },
+    {
+      "kind": "units",
+      "id": "ewsp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWisp.dds",
+      "sha256": "f7200d7af862c4d83f7687981c569123167bcc109ad1e6527e4a6d454f37b7f4"
+    },
+    {
+      "kind": "units",
+      "id": "esen",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHuntress.dds",
+      "sha256": "6790ebf118604c5ecc011963e46ef8d2ff680782cb5b5f8879c5dfc3a8e8b149"
+    },
+    {
+      "kind": "units",
+      "id": "earc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArcher.dds",
+      "sha256": "8264ae997d9072f6ddd05664280a3c2109d9eedcab6f675bff20639ac02187a2"
+    },
+    {
+      "kind": "units",
+      "id": "edry",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDryad.dds",
+      "sha256": "685c36de5c2a494ec52199a662c62582c9d6190fee8a267bbacee17b99a092a6"
+    },
+    {
+      "kind": "units",
+      "id": "ehip",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHippogriff.dds",
+      "sha256": "d6fcd7785b3c80fbb3c1fcc0f30afc06880e1dc618fdef90bb9ff0b91a65dfb3"
+    },
+    {
+      "kind": "units",
+      "id": "emtg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMountainGiant.dds",
+      "sha256": "98f86dea687bc22a19e634543b8ecf9a163194e5ab4d95350d3e5722bf71f8db"
+    },
+    {
+      "kind": "units",
+      "id": "efdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFaerieDragon.dds",
+      "sha256": "75a6d534c5813dee39008f8eae7071bca86d53cc70186f194e138ba5c63592b1"
+    },
+    {
+      "kind": "units",
+      "id": "ocat",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDemolisher.dds",
+      "sha256": "a2dfb2dd907d4846b80afe518268e9a252efd8a346a007a1ffe5c98bf6bd957f"
+    },
+    {
+      "kind": "units",
+      "id": "odoc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWitchDoctor.dds",
+      "sha256": "3ac1198483d7beb16641eafc2cc4d45abb6205471e03cb4c69737de3fa680e1c"
+    },
+    {
+      "kind": "units",
+      "id": "ogru",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGrunt.dds",
+      "sha256": "2e76d56abe971dcd746d8fd09a2aa28361514077c9aeea448ca3edd3eb722cd0"
+    },
+    {
+      "kind": "units",
+      "id": "ohun",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeadhunter.dds",
+      "sha256": "62902ceb78c6b3e60b7326a1de0141b4c5c721ed3724df6e7817332e5353bfb7"
+    },
+    {
+      "kind": "units",
+      "id": "otbk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeadHunterBerserker.dds",
+      "sha256": "74dd924e635e58a63360b42601842f70c442463ba7d095430cb78666cd8bc724"
+    },
+    {
+      "kind": "units",
+      "id": "okod",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKotoBeast.dds",
+      "sha256": "5be3405bd32a6689108aba4f239c42c80705397b0cc4af367301ea91327e9488"
+    },
+    {
+      "kind": "units",
+      "id": "opeo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPeon.dds",
+      "sha256": "6e58020a193ededdd68486874f071105a669b9a09e489d203df92e8999a2b996"
+    },
+    {
+      "kind": "units",
+      "id": "orai",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRaider.dds",
+      "sha256": "742d30ae926e19114d5aad5801a793b56e64892677bddb8d16aba34ce1152cec"
+    },
+    {
+      "kind": "units",
+      "id": "oshm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShaman.dds",
+      "sha256": "7a4e0cbc1d7cbf300d52182c1e33485a90d1536ad4087656e370f3ca00063498"
+    },
+    {
+      "kind": "units",
+      "id": "otau",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTauren.dds",
+      "sha256": "f80ea9c152d59e997df943880a789940b73fdfbc07b134d4ac84e728d1e30fb6"
+    },
+    {
+      "kind": "units",
+      "id": "owyv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWyvernRider.dds",
+      "sha256": "37010bf0a7a7270d1d31bc18f2a23681a37cab0b0c40c90ee9d598acc702f135"
+    },
+    {
+      "kind": "units",
+      "id": "ospw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWalker.dds",
+      "sha256": "9900b8eb2a7651bcb59c9b8da29d89a7f0e7348baa7d20496fc4e9d7a686f0c2"
+    },
+    {
+      "kind": "units",
+      "id": "ospm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWalkerEthereal.dds",
+      "sha256": "b94bc7dfad769e5168e619ec41b3a3b44842b3b546c6d1546083cfb1766145b4"
+    },
+    {
+      "kind": "units",
+      "id": "otbr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTrollBatRider.dds",
+      "sha256": "466dfe6529874f09c7fb2a6f20fbfd0a1273755a33753848ceb20bcfcfcb673e"
+    },
+    {
+      "kind": "units",
+      "id": "uaco",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAcolyte.dds",
+      "sha256": "0c5d525e266c7ddb97262f4841d8916ed944f0b1db982227134f747f782e38c6"
+    },
+    {
+      "kind": "units",
+      "id": "uabo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAbomination.dds",
+      "sha256": "19013b71b8bedfff02a776f499563878b0fa967865150ccf4ac4e9b281a2e29b"
+    },
+    {
+      "kind": "units",
+      "id": "uban",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBanshee.dds",
+      "sha256": "48fb296ba9d5a7628bc45804df83c7c8839056086f684fe122a07fb1ce25ba00"
+    },
+    {
+      "kind": "units",
+      "id": "ucry",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCryptFiend.dds",
+      "sha256": "1d9d34337af56ccf146e824e4a78c865dbf06f56e525e4d92029f38e35110bf2"
+    },
+    {
+      "kind": "units",
+      "id": "ufro",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFrostWyrm.dds",
+      "sha256": "60df5c949059c5dd2b7b3516f11c10b3f2185c4851d8e55129ca1063d3a7c2ae"
+    },
+    {
+      "kind": "units",
+      "id": "ugar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGargoyle.dds",
+      "sha256": "83e2df5e4b64696d3d4780fbd71f1224f7bf6cc93f261ebff51873bf3bdc7f2b"
+    },
+    {
+      "kind": "units",
+      "id": "ugho",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGhoul.dds",
+      "sha256": "880d0e44a11d93f3249e494a567e885c58d09769800f1f8d1a4899cf063c1205"
+    },
+    {
+      "kind": "units",
+      "id": "unec",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecromancer.dds",
+      "sha256": "77c13e9207db41f0518d60ac392e8d3d6d3f3629a6d85f1b926f5a3605db0e6d"
+    },
+    {
+      "kind": "units",
+      "id": "umtw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMeatWagon.dds",
+      "sha256": "4003240792f9f7af7b710cb674e18b5ab3f3b00c0874d35cef01f5fb94ae0c13"
+    },
+    {
+      "kind": "units",
+      "id": "ushd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShade.dds",
+      "sha256": "965518a55dd492917a796f3cfe32b0ad13bf8903ec29f067fb7c2c4c405a31ff"
+    },
+    {
+      "kind": "units",
+      "id": "uobs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNObsidianStatue.dds",
+      "sha256": "72d0f1c47de86de42ef80a1a8e569a8a177b56d7a94604a6a1b6c97540ad843c"
+    },
+    {
+      "kind": "units",
+      "id": "ubsp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDestroyer.dds",
+      "sha256": "ee4be2655e4025537bb4b9d16b87e7366eb126db45a5a0d4b211827eac28bd1d"
+    },
+    {
+      "kind": "units",
+      "id": "nskm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletalMarskman.dds",
+      "sha256": "2d36f653090b80047175f66e7110432c0788066eaf3bff96ae539d7656b2d859"
+    },
+    {
+      "kind": "units",
+      "id": "nskf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBurningArcher.dds",
+      "sha256": "da31d42e9d229de167299563c35fd5df60402c6f4248b79754da6ce373fe2bb7"
+    },
+    {
+      "kind": "units",
+      "id": "nws1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDragonHawkRider.dds",
+      "sha256": "3a4df73eb8add7e4ae596a555454bf0bac0d39f68e8506d7636c73b2f70c6c19"
+    },
+    {
+      "kind": "units",
+      "id": "nban",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBandit.dds",
+      "sha256": "f62931e2284767bb54f7089a575c34d98c8e13eae25e6e141b2445721540afed"
+    },
+    {
+      "kind": "units",
+      "id": "nrog",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRogue.dds",
+      "sha256": "09937c2b0ad0a3e294399d8a388ef1ce4566100b616bfb252e66151ce551468e"
+    },
+    {
+      "kind": "units",
+      "id": "nenf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnforcer.dds",
+      "sha256": "5b8b1ba53fad8610e7767b970603f3d9e8e07c7704717460255ee9af11504fa7"
+    },
+    {
+      "kind": "units",
+      "id": "nass",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBanditSpearThrower.dds",
+      "sha256": "6d3da76912aa175c6d05cdb93f709160a8d08f6af68450989f9784d3440102d3"
+    },
+    {
+      "kind": "units",
+      "id": "nbdk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlackDrake.dds",
+      "sha256": "e1ec33659663dffc38f0552d4200396c2ccd3d8b93333bf69c7853d08431696a"
+    },
+    {
+      "kind": "units",
+      "id": "nrdk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRedDragonWhelp.dds",
+      "sha256": "bd7acbe8b552d2f12b504370b2d9abca9a281a87042fba6c8df62722ffa614e1"
+    },
+    {
+      "kind": "units",
+      "id": "nbdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlackDragonWhelp.dds",
+      "sha256": "282ad8d9ac13db6f1509242354fd25520a3cd567d75ed5c16a34da8bb6ecb02e"
+    },
+    {
+      "kind": "units",
+      "id": "nrdr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRedDrake.dds",
+      "sha256": "436aa500697a4ee180d045751033b47fa3afc3a608657cc89df4abfebbdc0c1c"
+    },
+    {
+      "kind": "units",
+      "id": "nbwm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlackDragon.dds",
+      "sha256": "4aab2604f6e5ff476ccb46771a458893618e55e65cdf4bbfa41e82f2861d1f4e"
+    },
+    {
+      "kind": "units",
+      "id": "nrwm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRedDragon.dds",
+      "sha256": "6290f70d23c76b5517f7dad8b9d5c2864db0ff29bcedcbddc1a6cacd8c36f301"
+    },
+    {
+      "kind": "units",
+      "id": "nadr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAzureDragon.dds",
+      "sha256": "b0d9c62b3e3b87fea3efa8c837dc145897e0fc10a4e909c71d99da5a01772e8c"
+    },
+    {
+      "kind": "units",
+      "id": "nadw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAzureDragonWhelp.dds",
+      "sha256": "730964ee909aed735ee3020c83a44cc9be17be74f3b5b3726f183aeb593e9373"
+    },
+    {
+      "kind": "units",
+      "id": "nadk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAzureDrake.dds",
+      "sha256": "74631b0b6cb8daf9c71d46329c60bb8d14f5352c6243c98fcb8e806479749311"
+    },
+    {
+      "kind": "units",
+      "id": "nbzd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBronzeDragon.dds",
+      "sha256": "7c7da570cabdf03a430636ede4be38ea97d34af7d724f4032c2633bb6f1bb6ce"
+    },
+    {
+      "kind": "units",
+      "id": "nbzk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBronzeDrake.dds",
+      "sha256": "38424fb63f237091374019999a469f2b9c069957a7d8aa5764a0f7dcd6a96d58"
+    },
+    {
+      "kind": "units",
+      "id": "nbzw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBronzeDragonWhelp.dds",
+      "sha256": "312479df6cc2452298f677c640b77378b822ab7e6fb09bb725446c074c3f8eab"
+    },
+    {
+      "kind": "units",
+      "id": "ngrd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreenDragon.dds",
+      "sha256": "3c50fad8dfc049f2f7268ad62290fc5b90306dc45e9c868f9ebfd0dbd323a76a"
+    },
+    {
+      "kind": "units",
+      "id": "ngdk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreenDrake.dds",
+      "sha256": "deb0ffe62f5ffdcfa7a59e3674c3b5bdd9a17b63766ba1240aa265182d315918"
+    },
+    {
+      "kind": "units",
+      "id": "ngrw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreenDragonWhelp.dds",
+      "sha256": "e517d915525acf995bef21a6f512906c85e538dfadeb7cb91aef56ded4d02985"
+    },
+    {
+      "kind": "units",
+      "id": "ncea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCentaurArcher.dds",
+      "sha256": "7db2cfbfdfcdb2aee564b43e79e05795ba1f3cbddbfc732aa69cba8671ab8c30"
+    },
+    {
+      "kind": "units",
+      "id": "ncen",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCentaurOutrunner.dds",
+      "sha256": "f8afb8ba809f94638ae8df597c744d4e3792d71e1f40c49b06f8a9f5e853f465"
+    },
+    {
+      "kind": "units",
+      "id": "ncer",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCentaur.dds",
+      "sha256": "70186c2741959386d8de71f356e0316ad84e6bb395d17b9b74334154b6328181"
+    },
+    {
+      "kind": "units",
+      "id": "ndth",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTrollHighPriest.dds",
+      "sha256": "c18d98470a30663ed4d23bcc169b65153aef7a4e5f8a06244a4fae29a180d860"
+    },
+    {
+      "kind": "units",
+      "id": "ndtp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTrollShadowPriest.dds",
+      "sha256": "ca857bca98619cabf7bce57a3ea4e0870c22b143101228426f53ecf004af7743"
+    },
+    {
+      "kind": "units",
+      "id": "ndtb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTrollBerserker.dds",
+      "sha256": "cc80e7bdf155c8d697b9cc223ee4da04427e831d5244a8c40561ac60c7812d31"
+    },
+    {
+      "kind": "units",
+      "id": "ndtw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTrollWarlord.dds",
+      "sha256": "fe137a3689bbac0e7a605ac70dc5f2d04664170c63a3427a5c06a34707c23ba8"
+    },
+    {
+      "kind": "units",
+      "id": "ndtr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTroll.dds",
+      "sha256": "dd9d64d129acc4628fe7463466fd5ae69fe8e7cd3f442ae98b502f30adc674b7"
+    },
+    {
+      "kind": "units",
+      "id": "ndtt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkTrollTrapper.dds",
+      "sha256": "610509789321b0b4abba3d88eb4a6e4c8b2cbe358ad9f57ee0100fa573d37120"
+    },
+    {
+      "kind": "units",
+      "id": "nfsh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTrollHighPriest.dds",
+      "sha256": "9588e5d1ede9a402377392d7803c83b0201ef65b658dd85546f288ba2eb2dd38"
+    },
+    {
+      "kind": "units",
+      "id": "nfsp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTrollShadowPriest.dds",
+      "sha256": "345ccd4ab408a890ac1075e87bd3dfc8ae431a2ee098748b7d54370a099af7d8"
+    },
+    {
+      "kind": "units",
+      "id": "nftr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTroll.dds",
+      "sha256": "b7091fdae1b95f52d2b269a2e79577f0ccacf7d2e5b920e6b45aad8be74fa1eb"
+    },
+    {
+      "kind": "units",
+      "id": "nftb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTrollBerserker.dds",
+      "sha256": "234c5f6346b20b9800abb55788c25c08ca49196cf7b27cb6016f43e9a9244327"
+    },
+    {
+      "kind": "units",
+      "id": "nftt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTrollTrapper.dds",
+      "sha256": "268548e715033691c535f32fcb4da56a7cf490ded84ce65aa7fbce7fe623132b"
+    },
+    {
+      "kind": "units",
+      "id": "nftk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForestTrollWarlord.dds",
+      "sha256": "4634a7e38cca34e4a82c99353599a9da5ef19c51bc77c4f8cc42fbdd926953fc"
+    },
+    {
+      "kind": "units",
+      "id": "ngrk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMudGolem.dds",
+      "sha256": "e34cb03bb9b371c348c48c46c25258c51a2457ce26d340022186db3b6fb72758"
+    },
+    {
+      "kind": "units",
+      "id": "ngir",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGoblinShredder.dds",
+      "sha256": "0d8a69158111eb7327dedde682cefe76ea60621d5f6f98fd348063de7e6fe0b3"
+    },
+    {
+      "kind": "units",
+      "id": "nfrs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFurbolgShaman.dds",
+      "sha256": "1a1e2e30c920803e0bcc2f6c8170b9ad16fcd4a4dba26c1f8cce39198ca247fa"
+    },
+    {
+      "kind": "units",
+      "id": "ngna",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnollArcher.dds",
+      "sha256": "94fdcd3d7156e63dc856c71acc4f54829eddc0c52aaf5be96422ff82ce86754e"
+    },
+    {
+      "kind": "units",
+      "id": "ngns",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnollAssassin.dds",
+      "sha256": "179f24ce6440fe6a7a855e5572aff188318f93324088b535a339c2dfc9e7c41a"
+    },
+    {
+      "kind": "units",
+      "id": "ngno",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnoll.dds",
+      "sha256": "e9cc45b1c842449842db004b1e01de6f8b2df94f9a45e9830280693b3f738f2c"
+    },
+    {
+      "kind": "units",
+      "id": "ngnb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnollBrute.dds",
+      "sha256": "b177aaf523e5a65d43b74a66efdd21869f440ea744388695bfc5a1c183b9059b"
+    },
+    {
+      "kind": "units",
+      "id": "ngnw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnollWarden.dds",
+      "sha256": "85f27921217f61e8c9636bb5e8386c2064f015eeb8193301b14b4245afbc3d99"
+    },
+    {
+      "kind": "units",
+      "id": "ngnv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGnollKing.dds",
+      "sha256": "a8639378859c1d3820d0cb754a6e03c69813ff52048a028aae9671b2d5f0bd7f"
+    },
+    {
+      "kind": "units",
+      "id": "ngsp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGoblinSapper.dds",
+      "sha256": "45945dbd82d290e34d3f926ec9db753213b88b3eb5781a4b213939c31c7ceca2"
+    },
+    {
+      "kind": "units",
+      "id": "nhrr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHarpyRogue.dds",
+      "sha256": "b8e7770460c5aae3ba2cd6900e140f6c9dd9dfe66b4beee8e502d3316683cb35"
+    },
+    {
+      "kind": "units",
+      "id": "nhrw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHarpyWitch.dds",
+      "sha256": "b52fcd66f896112baa64f0679677a3fc796f8d8ddf4c498b92a4875b88ed8d5f"
+    },
+    {
+      "kind": "units",
+      "id": "nits",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIceTrollBeserker.dds",
+      "sha256": "03d3c94f0cb3aec04d84626fd164126836004f259bd188fc2fbaae889c0e02ef"
+    },
+    {
+      "kind": "units",
+      "id": "nitt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIceTrollTrapper.dds",
+      "sha256": "5158c6d930c957dca1d7dfae7d802f4eb2600fca96ceaddfbce63cc7cfaf9a8d"
+    },
+    {
+      "kind": "units",
+      "id": "nkob",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKobold.dds",
+      "sha256": "be0aae3555ab4bcd03d06e269fa079b788a9b5e4f2d4be693afda92b599edfd5"
+    },
+    {
+      "kind": "units",
+      "id": "nkog",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKoboldGeomancer.dds",
+      "sha256": "4891772de06df8f021fc5b31ad4413aa779442463ecee9ddc5c632866a7a1149"
+    },
+    {
+      "kind": "units",
+      "id": "nthl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThunderLizard.dds",
+      "sha256": "f47ad62e54b83b1942cdb8b46ed82d8f80323fcf312c1d5c55d1ffe079fc67e5"
+    },
+    {
+      "kind": "units",
+      "id": "nmfs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMurlocFlesheater.dds",
+      "sha256": "76ba5c1674bce625be488bd280e825be1e9c2ccf988cfe49c854bc8eec8279b6"
+    },
+    {
+      "kind": "units",
+      "id": "nmrr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMurlocHuntsman.dds",
+      "sha256": "92f4e0834c94c35ac51bb77df6861149ca65c75680c372dfee29c052c8196ac2"
+    },
+    {
+      "kind": "units",
+      "id": "nowb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOwlBear.dds",
+      "sha256": "df9559ebab1beb9a7d57d1aceb9f3731dca55e4ceedf99ffd2d95cec8737e8aa"
+    },
+    {
+      "kind": "units",
+      "id": "nrzm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRazormaneMedicineMan.dds",
+      "sha256": "3715f0c1042c27f5b40392db15fb70a31e86b578cfef22daa2c69672c2085cd5"
+    },
+    {
+      "kind": "units",
+      "id": "nnwa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNerubianWarrior.dds",
+      "sha256": "18ef5550b2be009fccd4d18f1f757008ab6e56da353c7fec09251fdc88eb5897"
+    },
+    {
+      "kind": "units",
+      "id": "nnwl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNerubianWebspinner.dds",
+      "sha256": "f2d653ea8b474520e932036aebf8cd03ed394df8fc646f5bffc08c0e3cb23ea2"
+    },
+    {
+      "kind": "units",
+      "id": "nogr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOgre.dds",
+      "sha256": "7cfd5b3ae408756bd0a04d84aed99f922b41840b538d38d4505bd466cabf6e6e"
+    },
+    {
+      "kind": "units",
+      "id": "nogm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOgreMauler.dds",
+      "sha256": "dfaa1926c420f6bbebf54d3871c0680d266e8a4ccb92d1a3253fba3a0fbbe844"
+    },
+    {
+      "kind": "units",
+      "id": "nogl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOgreLord.dds",
+      "sha256": "be8079a0da813da1ee89bb3268161a3c7d20bfdd39b11e931f38e2c2ef09179d"
+    },
+    {
+      "kind": "units",
+      "id": "nomg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOgreMagi.dds",
+      "sha256": "a588d10650c8a2eb67e624679d4b3c128b586a32a9c5fba573c008fbc734e67b"
+    },
+    {
+      "kind": "units",
+      "id": "nrvs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFrostRevenant.dds",
+      "sha256": "f677eda5567830eff9b05699902d4afb1e084d2c9fb0529d51140c2933db2b3f"
+    },
+    {
+      "kind": "units",
+      "id": "nslf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSludgeFlinger.dds",
+      "sha256": "6feec7735b901b53c59d3e1df86c426e6dba207655ec73cb4c56853096908f82"
+    },
+    {
+      "kind": "units",
+      "id": "nsts",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSatyrShadowdancer.dds",
+      "sha256": "e55bcdf11bd9d768289cfe69943ae2abee7fa87a29be6c953df4c0543f98f2b7"
+    },
+    {
+      "kind": "units",
+      "id": "nstl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSatyrSoulstealer.dds",
+      "sha256": "9d384295feb029866b3a68f5b36ce413bb721cac68691b5a30365158a5e96fc6"
+    },
+    {
+      "kind": "units",
+      "id": "nzep",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGoblinZeppelin.dds",
+      "sha256": "cd15ee7cc9d596f0bb32b79ceefab2995c59416159c6ae76323fd8e50f336c7b"
+    },
+    {
+      "kind": "units",
+      "id": "ntrt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSeaTurtleGreenGiant.dds",
+      "sha256": "9e70c413c6221e8bf6e280f2801e59eaa64623adb51c0991be4480cb663f324d"
+    },
+    {
+      "kind": "units",
+      "id": "nlds",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLobstrokkDeepseer.dds",
+      "sha256": "1aafc2f2657ec061ae5dd68a965c7c5d35dff402bfb065cf682c64e60867294e"
+    },
+    {
+      "kind": "units",
+      "id": "nlsn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLobstrokkRedSnapper.dds",
+      "sha256": "c9701501aaadf447369a61cc56c38e8ee0d49e8e8939c76977059712f68e7881"
+    },
+    {
+      "kind": "units",
+      "id": "nmsn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMurgulSnareCaster.dds",
+      "sha256": "05e21a8e619795e2cf4d8917e93ac2397af625712365aa94ab27650c3dbb7bad"
+    },
+    {
+      "kind": "units",
+      "id": "nscb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiderCrab.dds",
+      "sha256": "c99e9e84058c51829ae864639801c1aedee05416f87cf7b71f0cccb9f544e0f8"
+    },
+    {
+      "kind": "units",
+      "id": "nbot",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTransport.dds",
+      "sha256": "7fcc3ffcb1b871360694e0b50b763cc07484a00df9e73de63ae1f5e9f75e1360"
+    },
+    {
+      "kind": "units",
+      "id": "nsc2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiderCrabLimbripper.dds",
+      "sha256": "813f707a699ded220d0bb0abddada0c321b40a2eb02d76f4d03cb04339b42662"
+    },
+    {
+      "kind": "units",
+      "id": "nsc3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiderCrabBehemoth.dds",
+      "sha256": "64a8c10e63ed47d91184a1dd970a45c971c4c605b8cdfbc7acfc1118d7babe57"
+    },
+    {
+      "kind": "units",
+      "id": "nbdm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlueDragonSpawn.dds",
+      "sha256": "4e6ce8b4563c59809c2be7c89798aa3195adc927ea1c39e91686dad2540df706"
+    },
+    {
+      "kind": "units",
+      "id": "nmgw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMagnataur.dds",
+      "sha256": "922e4b5cd05a322afb06f999d05979241c6a492afbdec315a7c14166b6c55ee9"
+    },
+    {
+      "kind": "units",
+      "id": "nanb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArachnathid.dds",
+      "sha256": "3ccd35d801f39b0c9365fd7c11d1ce5fc0d5bd724a0b81e22d16bc6f800540c3"
+    },
+    {
+      "kind": "units",
+      "id": "nanm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArachnathid.dds",
+      "sha256": "3ccd35d801f39b0c9365fd7c11d1ce5fc0d5bd724a0b81e22d16bc6f800540c3"
+    },
+    {
+      "kind": "units",
+      "id": "nfps",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPolarFurbolgShaman.dds",
+      "sha256": "924842f420cfcef7bdac1b7c29c863ef5c43d64ffaf54a0f041ad6f4e22d5f96"
+    },
+    {
+      "kind": "units",
+      "id": "nmgv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMagicVault.dds",
+      "sha256": "f7e583014cbb8668ff7f739f6cabac19bf60c2d70c7eca48b2df0d1ba31d02f7"
+    },
+    {
+      "kind": "units",
+      "id": "nitb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIcyTreasureBox.dds",
+      "sha256": "307bcb07dbb40a0ecec5adba3de38605c2b9ea868642a4f401a483e9b4898da4"
+    },
+    {
+      "kind": "units",
+      "id": "npfl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPurpleFelhound.dds",
+      "sha256": "343cc66e1f6655b133ff958e81e5800cbfc252534ae932a3f8942d248adbdee0"
+    },
+    {
+      "kind": "units",
+      "id": "ndrd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDranaiDarkSlayer.dds",
+      "sha256": "7ec33a34b8bd1ae01ae9092cb96a0999f19851ec3363c961534415578e7e5663"
+    },
+    {
+      "kind": "units",
+      "id": "ndrm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDranaiMage.dds",
+      "sha256": "a6f27b18b15fb57f9902d65a24bb2c8d19575bbeb0bcac52be7e0e8bd8119109"
+    },
+    {
+      "kind": "units",
+      "id": "nvdw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNVoidWalker.dds",
+      "sha256": "9e48191c8d5805a539b271ffb68dd7433ef6ca596c191afd338b71154a9e9b35"
+    },
+    {
+      "kind": "units",
+      "id": "nvdg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreaterVoidWalker.dds",
+      "sha256": "820d2b41734755af963390d9dcb6aa051994e27af0cf5cf48550559409ba5b8d"
+    },
+    {
+      "kind": "units",
+      "id": "nnht",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNetherDragonWhelp.dds",
+      "sha256": "2af3a97ed9da8fff00e62941d38d53701d3fa0fe15615fbd936c36b07eb82ae5"
+    },
+    {
+      "kind": "units",
+      "id": "nndk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNetherDrake.dds",
+      "sha256": "d69e3dedebb9602570d93667ff300da85a75cfb5b29e96b2122e3fb0abbdd6ef"
+    },
+    {
+      "kind": "units",
+      "id": "nndr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNetherDragon.dds",
+      "sha256": "7edabbafacad5f1fa074f33855d0d8175d7243f8bafd199086df190449072502"
+    },
+    {
+      "kind": "units",
+      "id": "hmil",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMilitia.dds",
+      "sha256": "d1aae60ffe7f91ffb391725cb96906d5d95943bc1b7be6a51938b3d45f168f99"
+    },
+    {
+      "kind": "units",
+      "id": "hwt2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWaterElementalLV2.dds",
+      "sha256": "c9934ce20676ac8f68ca319642f1d26abca6a2a6005cc16efff317fd84f9b29e"
+    },
+    {
+      "kind": "units",
+      "id": "hwat",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWaterElemental.dds",
+      "sha256": "f33742104e41b6879e3dd6e7dac09f58f7018ef1448a7e8351fddafaaaad3e61"
+    },
+    {
+      "kind": "units",
+      "id": "nlv1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLavaSpawn.dds",
+      "sha256": "1b0c4faa4368c3302daa8ba9e33a29aaae40441e94d5fd6fc624e3f7bbf21c51"
+    },
+    {
+      "kind": "units",
+      "id": "osw1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWolf.dds",
+      "sha256": "3e7d8b8c582ae97798aa004aebda1355a8f4993f0b291e91891ab149e0e78abb"
+    },
+    {
+      "kind": "units",
+      "id": "efon",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnt.dds",
+      "sha256": "5db7ff514b91b4ab7c26f07b4a5e2d87f6e0288ba568121fd237958621079cc9"
+    },
+    {
+      "kind": "units",
+      "id": "edcm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBearForm.dds",
+      "sha256": "83b101afcc8ad9c169c8b225863469961270d45caa2fb1e9b36307394ee92f34"
+    },
+    {
+      "kind": "units",
+      "id": "uske",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletonWarrior.dds",
+      "sha256": "0003c395de06c64815e80bc326f4d950c2faf8bf9e533a4d0111b764a90811da"
+    },
+    {
+      "kind": "units",
+      "id": "osw2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDireWolfLV2.dds",
+      "sha256": "b1ca1c3f4363a1154b3d7c054e5199eaffa4e823f4a366eec54aee3400ed3d55"
+    },
+    {
+      "kind": "units",
+      "id": "nfrb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFurbolgTracker.dds",
+      "sha256": "75ec5857c34dd8f1deabe59e8127f967151a604ff056010f25a574a43893e7ff"
+    },
+    {
+      "kind": "units",
+      "id": "uskm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletonMage.dds",
+      "sha256": "1e7db0b10cb36ede449d6ca8a25c1d08e42a033552cf7004fa8cd4a97c151b89"
+    },
+    {
+      "kind": "units",
+      "id": "nlv2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLavaSpawnLV2.dds",
+      "sha256": "b6de6c24a904e0f4883a5b37b324cc23b24714f96e8af2fe016c26528b8a29d8"
+    },
+    {
+      "kind": "units",
+      "id": "ucs1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCarrionScarabsLV1.dds",
+      "sha256": "2056a51a84caa7faad81c9ead95935a54b26e2488bdc3661dd779075ddc28ec1"
+    },
+    {
+      "kind": "units",
+      "id": "ucs2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCarrionScarabsLV2.dds",
+      "sha256": "b0d3acd36c43fd10f117fa2936ea0f7f06eaa4d389c37d1744952bf1da199422"
+    },
+    {
+      "kind": "units",
+      "id": "ehpr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHippogriffRider.dds",
+      "sha256": "6b7e8f893c476c237bd2585c8ad80b95e1ec40e552ccf4b9a00e0977dc29d3bf"
+    },
+    {
+      "kind": "units",
+      "id": "egol",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEntangleMine.dds",
+      "sha256": "bd8ce9c8d6438884a785f7d71ca1d1cc22af205a69f0ce40abf56e3a94330a12"
+    },
+    {
+      "kind": "units",
+      "id": "ndr1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserDarkMinion.dds",
+      "sha256": "4f0149b54c2cffca4f40878b6600d05ae11812e6d92364d80297b849f6f953ad"
+    },
+    {
+      "kind": "units",
+      "id": "nqbh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNQuillboarHunter.dds",
+      "sha256": "11bb7f774380bf4a9290ac72d04967840955378eb6d4b22793c41c065c114031"
+    },
+    {
+      "kind": "units",
+      "id": "ndr2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkMinion.dds",
+      "sha256": "b433a3dbef70254feca2c3299a47edd028e9cc24f3e005dd818178e995fb699e"
+    },
+    {
+      "kind": "units",
+      "id": "ucrm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCryptFiend.dds",
+      "sha256": "1d9d34337af56ccf146e824e4a78c865dbf06f56e525e4d92029f38e35110bf2"
+    },
+    {
+      "kind": "units",
+      "id": "ngz1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGrizzlyBear.dds",
+      "sha256": "256a271e60aece1016a60b4d579618d529371fec667e036f3cdb43dd3e7c02a0"
+    },
+    {
+      "kind": "units",
+      "id": "now2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOwlScoutLV2.dds",
+      "sha256": "205084642e0c7fef3c7ecf51d4bf86657b259b4d1df4e75bb1c7132d6c4b3d06"
+    },
+    {
+      "kind": "units",
+      "id": "nfel",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFelHound.dds",
+      "sha256": "6536810ceb0a489cc7e3b4373bc3c862a9392612d44ee98336378d57c409a860"
+    },
+    {
+      "kind": "units",
+      "id": "ngz2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRagingBear.dds",
+      "sha256": "d2f508840d37b5353846fb574f266d1b4bbd60dcadae70e4c16d7107507c1425"
+    },
+    {
+      "kind": "units",
+      "id": "ngz3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritBear.dds",
+      "sha256": "4f84c2929a7deff1cc65b297a00725b319f932d90fcdb85cb29161b3aa7ccae5"
+    },
+    {
+      "kind": "units",
+      "id": "nowl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOwlScoutLV1.dds",
+      "sha256": "0d8c21a4a208ea900bfaf70d485aadf71e0218f8c9c5012480f0d0a5a6312686"
+    },
+    {
+      "kind": "units",
+      "id": "nsce",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletonWarrior.dds",
+      "sha256": "0003c395de06c64815e80bc326f4d950c2faf8bf9e533a4d0111b764a90811da"
+    },
+    {
+      "kind": "units",
+      "id": "ngst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRockGolem.dds",
+      "sha256": "072a604f59cddcabcf5c6eeca4cb60e0dad084e476cad4fdade852638618dbca"
+    },
+    {
+      "kind": "units",
+      "id": "nsca",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletonArcher.dds",
+      "sha256": "d0a6836dfdcb364ac79ab0a256cd30edbf2c86f5d882c28c9b1d4a5244b7c405"
+    },
+    {
+      "kind": "units",
+      "id": "nech",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCritterChicken.dds",
+      "sha256": "0d0c88cd8196742d0625b1664090b051aabf98e5219e6b10b8f79c9003d42bff"
+    },
+    {
+      "kind": "units",
+      "id": "osp1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSerpentWard.dds",
+      "sha256": "a1c5257fc500cc73e876b71d0c0d29fafcd56623a881b6b2b513490e618448a8"
+    },
+    {
+      "kind": "units",
+      "id": "Nrob",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNROBOGOBLIN.dds",
+      "sha256": "c3278d205060c8c6e25f13dc9ba4eceb7ba246dbd5aea58439f719158413c9aa"
+    },
+    {
+      "kind": "units",
+      "id": "nqb1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNQuillBeast.dds",
+      "sha256": "4aa354ca618a256c91d188932dec4b3e6e016c3655cec280baf6c7e0b12d3841"
+    },
+    {
+      "kind": "units",
+      "id": "hwt3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWaterElementalLV3.dds",
+      "sha256": "77d0897262e64cc252675dc2afa69f5e29c037a8421af085da8aa739d640d81e"
+    },
+    {
+      "kind": "buildings",
+      "id": "hhou",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFarm.dds",
+      "sha256": "97778021160437e001f7e8ff856022a795ecc2a6fafe6c38da4ad19a6ab9280d"
+    },
+    {
+      "kind": "buildings",
+      "id": "halt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAltarOfKings.dds",
+      "sha256": "41a05fb3ab1ede522140aa338a3606cddc7d56d2798731f825dc9cf7eb90f9b2"
+    },
+    {
+      "kind": "buildings",
+      "id": "harm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWorkshop.dds",
+      "sha256": "fc965b1bd4121652bce37891eecc4370ccfb3294b29e32e33224ac82b0831a3f"
+    },
+    {
+      "kind": "buildings",
+      "id": "hars",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArcaneSanctum.dds",
+      "sha256": "2aef6c9d736ae2eece3b72a715d8ffa41a844d1ac6e1376af68b50bf7ff73b5b"
+    },
+    {
+      "kind": "buildings",
+      "id": "hbar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanBarracks.dds",
+      "sha256": "74bcfa01788126d1c48f25172eb3b658a5a7d9d20a79b068c0d02bbacbcba74a"
+    },
+    {
+      "kind": "buildings",
+      "id": "hbla",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlacksmith.dds",
+      "sha256": "f39ce3f0250f6c55efe2076276da603269ece8cbb8c757f9cf442017e4e324f2"
+    },
+    {
+      "kind": "buildings",
+      "id": "hgra",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGryphonAviary.dds",
+      "sha256": "e5f02aea55f467545e8f6e288fd9ad8b7cbe34d658f7a34b6b60b444e0080749"
+    },
+    {
+      "kind": "buildings",
+      "id": "hwtw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanWatchTower.dds",
+      "sha256": "79bc638a582d4b0ee92e326f7f6b1ff3979220e4215976ec6f0aa24b677d3d00"
+    },
+    {
+      "kind": "buildings",
+      "id": "hvlt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArcaneVault.dds",
+      "sha256": "1a2fe058d3dab265ae3c6acca371e7aa0561dd40b8d78eb72799b97724ac3f57"
+    },
+    {
+      "kind": "buildings",
+      "id": "hlum",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanLumberMill.dds",
+      "sha256": "a9d35b8323d46a09fa8e319e8762643593daf31e5c561938ead6d90edf0ae210"
+    },
+    {
+      "kind": "buildings",
+      "id": "htow",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTownHall.dds",
+      "sha256": "e1d8c9c65e969fe67427a359ee1196c8b873602a8db489cba88ed12bc023be1b"
+    },
+    {
+      "kind": "buildings",
+      "id": "hkee",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNKeep.dds",
+      "sha256": "1d800ce861bdd1d53950472ebb48a3cc86834aa2166bf1aec48fe864f5dc2072"
+    },
+    {
+      "kind": "buildings",
+      "id": "hcas",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCastle.dds",
+      "sha256": "3243892752358f1de557c34144e5ac8e5455966016bd0cc06d54b924a47ca9ea"
+    },
+    {
+      "kind": "buildings",
+      "id": "hctw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCannonTower.dds",
+      "sha256": "3d51444356bdfee6d902ff2ea70ab673e1b64127c37bc2d66e449b7505d489f9"
+    },
+    {
+      "kind": "buildings",
+      "id": "hgtw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGuardTower.dds",
+      "sha256": "e5ce91dad79085c7e8a52f699c8a47e9317779c9d38e61fc56fe1ed1a878ebb4"
+    },
+    {
+      "kind": "buildings",
+      "id": "hatw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanArcaneTower.dds",
+      "sha256": "5d86f22c865645dc96f882b57809210227794046f13a5e4e8cd54a5005a0e250"
+    },
+    {
+      "kind": "buildings",
+      "id": "etrp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTreant.dds",
+      "sha256": "2f43facf251627a2174e0a9994bf5f1b2e9c190f8283c56b12ee66e48e600184"
+    },
+    {
+      "kind": "buildings",
+      "id": "etol",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTreeOfLife.dds",
+      "sha256": "19931942b2628860162a27f5ad423d19b07c1c435afe11e5231af8d69218d982"
+    },
+    {
+      "kind": "buildings",
+      "id": "edob",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHuntersHall.dds",
+      "sha256": "e32409c9fc827671438bb5e6516e807ff4fbd16b869642b5120fc8edc824971d"
+    },
+    {
+      "kind": "buildings",
+      "id": "eate",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAltarOfElders.dds",
+      "sha256": "5cf4fd03fb70738d772897d179f51c6c72c42ee99f427f6400f049ece7ffef7b"
+    },
+    {
+      "kind": "buildings",
+      "id": "eden",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAncientOfWonders.dds",
+      "sha256": "b4af2a5f6055e5b07870b1fdbfbc2006bc66c9e6c99fdeb66c1b64a8903df7ef"
+    },
+    {
+      "kind": "buildings",
+      "id": "eaoe",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAncientOfLore.dds",
+      "sha256": "a9dec4bd686f5614a7bcf6599c737308295b091f05f885b640dcadd0c147450d"
+    },
+    {
+      "kind": "buildings",
+      "id": "eaom",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAncientOfTheEarth.dds",
+      "sha256": "8cf1481089f01bd007023d67a0ce2c9d672d07aed35c0e726d6d5b8bf188e193"
+    },
+    {
+      "kind": "buildings",
+      "id": "eaow",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAncientOfTheMoon.dds",
+      "sha256": "580e8794a7e2cea59f9d6e140779002193bb33d7600bab6fbcdd3d3d4c7a4f59"
+    },
+    {
+      "kind": "buildings",
+      "id": "edos",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNChimaeraRoost.dds",
+      "sha256": "558b69dd15313a7ead318aa7d73de6be203e5bab542a8615f1f7801ebd1e2667"
+    },
+    {
+      "kind": "buildings",
+      "id": "emow",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMoonWell.dds",
+      "sha256": "c83318bf32f14d72c76176e5cb42424328e6451f717c4605230caf0c60075c62"
+    },
+    {
+      "kind": "buildings",
+      "id": "etoa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTreeOfAges.dds",
+      "sha256": "0e15be00874674f0ee0b48549de5b85ef8f0919cf55b21fa83f4c6abceed83c9"
+    },
+    {
+      "kind": "buildings",
+      "id": "etoe",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTreeOfEternity.dds",
+      "sha256": "d93b346bcc463a2435a3573b665420c03d306b2a0263da4a9fcebe84cf6a3202"
+    },
+    {
+      "kind": "buildings",
+      "id": "oalt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAltarOfStorms.dds",
+      "sha256": "66eae67d865d50b8cc21e1be1b445458433203d8a51c4e153f46ae6b28b61271"
+    },
+    {
+      "kind": "buildings",
+      "id": "obar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBarracks.dds",
+      "sha256": "c3b71eadead79c30a3dfdaaff1564c58d7295d3ba11bda73d3e9a9c5c6c028e2"
+    },
+    {
+      "kind": "buildings",
+      "id": "obea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBeastiary.dds",
+      "sha256": "7c26d9db56980c0dc39f9bf94ec47f2715154744f21f12346d53a5a5d8da7d9a"
+    },
+    {
+      "kind": "buildings",
+      "id": "ofor",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNForge.dds",
+      "sha256": "49920f1dd37bf9386944ccca150f5a6dcf402158fe76934f5a0dc44feb7c94d4"
+    },
+    {
+      "kind": "buildings",
+      "id": "ogre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreathall.dds",
+      "sha256": "e3f336af4b13fc769dea2dc56927b2d33e3bd5bdbc0aa51cd89782fe53cbfc1a"
+    },
+    {
+      "kind": "buildings",
+      "id": "osld",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritLodge.dds",
+      "sha256": "94806393c88fdf2ae5f3140c438a222159fafa015a85442bcfb2239079869896"
+    },
+    {
+      "kind": "buildings",
+      "id": "otrb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTrollBurrow.dds",
+      "sha256": "9f2ae3e9e0b277bf6b1e1f6b8f9e18be634ba14e899644130c625c1a23df7178"
+    },
+    {
+      "kind": "buildings",
+      "id": "otto",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTaurenTotem.dds",
+      "sha256": "8b795d85d80d589f2eea7827dfaf8246648478cdc89347b417f43e97f0d6e1ef"
+    },
+    {
+      "kind": "buildings",
+      "id": "ovln",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNVoodooLounge.dds",
+      "sha256": "59fea1880dd68db497eac3dcc59017fb997aaa734f4d27e5588d6df18e08e321"
+    },
+    {
+      "kind": "buildings",
+      "id": "owtw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcTower.dds",
+      "sha256": "f53109bae4a50d829a772508fedeec9457740435c0c97d22f8ca29fe0daea413"
+    },
+    {
+      "kind": "buildings",
+      "id": "ofrt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFortress.dds",
+      "sha256": "0db6aafe7d604c73b84717f16cc32d6cc423f20d36be1f37eb9e3fa60bfebf11"
+    },
+    {
+      "kind": "buildings",
+      "id": "ostr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStronghold.dds",
+      "sha256": "1d142874fa08a129e245b8c6cf19d5062dbe5a4fcf252689316429244735dc84"
+    },
+    {
+      "kind": "buildings",
+      "id": "uaod",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAltarOfDarkness.dds",
+      "sha256": "55a686f8c98f9c6717b8f24d3a5a0d1ccd0e7823aad6809123f544bd0f78dc42"
+    },
+    {
+      "kind": "buildings",
+      "id": "unpl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecropolis.dds",
+      "sha256": "242154202b6b31caac3cb582cf5b7822304309694f21b0b0d9c5d26489faed1b"
+    },
+    {
+      "kind": "buildings",
+      "id": "usep",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCrypt.dds",
+      "sha256": "dfc5370207e08f6911f5fad5bcba58725e17d170090921b6ae6ee2ab37c20a96"
+    },
+    {
+      "kind": "buildings",
+      "id": "utod",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTempleOfTheDamned.dds",
+      "sha256": "bf5d5018556530e4391262c5c5b493c07cedcb0c12c4abb729d93ad3cf30ed55"
+    },
+    {
+      "kind": "buildings",
+      "id": "utom",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTombOfRelics.dds",
+      "sha256": "1ed1f91c4171f444b45f36ead073fca06fa60066bbfc4b38122ddabbf3073a8b"
+    },
+    {
+      "kind": "buildings",
+      "id": "ugol",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHauntedMine.dds",
+      "sha256": "e1a46b31c52410d7090286cf6d79c2e6e47219df64d64316bde869e86d58a935"
+    },
+    {
+      "kind": "buildings",
+      "id": "uzig",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNZiggurat.dds",
+      "sha256": "d66271b8a1aac7a4a32cfe758136099e8163dd1219e4c2aa0d7286413f3d012e"
+    },
+    {
+      "kind": "buildings",
+      "id": "ubon",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBoneyard.dds",
+      "sha256": "9ef442149a869d8f707ae686bda1afdbe79b6f707554b589d175abc462e10a85"
+    },
+    {
+      "kind": "buildings",
+      "id": "usap",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSacrificialPit.dds",
+      "sha256": "e6a3db80761815d7ce2489e686043dde80cb87eb1e82d159e082d8a381000da7"
+    },
+    {
+      "kind": "buildings",
+      "id": "uslh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSlaughterhouse.dds",
+      "sha256": "7c73aaae150d934144a41fedc840f1afb75ea39123a1db0dbec14c788e847983"
+    },
+    {
+      "kind": "buildings",
+      "id": "ugrv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGraveyard.dds",
+      "sha256": "32ff668ace7ac2bee40ed99fa5a2fdbe53b8aaab98d0c6b49aed6a226eb7db8b"
+    },
+    {
+      "kind": "buildings",
+      "id": "unp1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHallOfTheDead.dds",
+      "sha256": "a8a701e76c98faacc20d66477c0cd29bb34ccb1627cdbbcfc39d29fb40cdadcf"
+    },
+    {
+      "kind": "buildings",
+      "id": "unp2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlackCitadel.dds",
+      "sha256": "4f5db78206ff2e2d85cd410b77fd92429b68f0a8aa5a93e4f1b0d89a7f041e53"
+    },
+    {
+      "kind": "buildings",
+      "id": "uzg1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNZigguratUpgrade.dds",
+      "sha256": "76891c04a413c368327eed4b5d28f18ef99000ec8a2f06c7ead57a59df6e2e6d"
+    },
+    {
+      "kind": "buildings",
+      "id": "uzg2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFrostTower.dds",
+      "sha256": "a8b7e2ad8f007107360241ce983618aa65b0269e912d9b1dece4f03e59f7c6f3"
+    },
+    {
+      "kind": "items",
+      "id": "amrc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAmulet.dds",
+      "sha256": "a3ffd248e72850837c99901ef4b4117eca78fdc2cf32ea52c4cf3fa7141bb944"
+    },
+    {
+      "kind": "items",
+      "id": "ankh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAnkh.dds",
+      "sha256": "b755d2585c6a286bfaccb02d24c1726ef2e86dc9dfa0117435c2adf7460124a7"
+    },
+    {
+      "kind": "items",
+      "id": "belv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBoots.dds",
+      "sha256": "be654a697204abf2829244aabfd0ec22b8833ba2ed376620969f257a1ddb0a0d"
+    },
+    {
+      "kind": "items",
+      "id": "bgst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBelt.dds",
+      "sha256": "8ff15dee7e3ba967a3f0d5de0b9b321d24b8d2bf5aef3fcee3ef520403c70a64"
+    },
+    {
+      "kind": "items",
+      "id": "bspd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBootsOfSpeed.dds",
+      "sha256": "0c6b205d4d3aa8db3040e93d89ee153dc61993dd4c455d802e9a1c37cf187418"
+    },
+    {
+      "kind": "items",
+      "id": "ccmd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScepterOfMastery.dds",
+      "sha256": "514cafeadd530c0a2cf3c1ae995e22ef9e39ab7107d367c0d6ff03440734d923"
+    },
+    {
+      "kind": "items",
+      "id": "ciri",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRobeOfTheMagi.dds",
+      "sha256": "62518647855ff8ba561725ce5aa692d01d400da012325df3965a04e2c899d9dd"
+    },
+    {
+      "kind": "items",
+      "id": "ckng",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHelmutPurple.dds",
+      "sha256": "0cd9f1d3c8a15def4a2c8306e292675dee393debdabf09abb77b32bb8aa5345b"
+    },
+    {
+      "kind": "items",
+      "id": "clsd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCloak.dds",
+      "sha256": "7d2de83d02594fa042e761d2076a6dbb066b31cd0a02b618c3d794cb2c458d91"
+    },
+    {
+      "kind": "items",
+      "id": "crys",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCrystalBall.dds",
+      "sha256": "e4f573a25b16f543839bd9aeade04eba3c17fbc64d03f90248e54547c573f162"
+    },
+    {
+      "kind": "items",
+      "id": "desc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDaggerOfEscape.dds",
+      "sha256": "06e782d65fb92004c4e409056d3838014b3292426a2fadd49a558eadfb037036"
+    },
+    {
+      "kind": "items",
+      "id": "gemt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGem.dds",
+      "sha256": "0ccccfdf08c51450325feb3fb6420c2a21bd8e003cc530f17d070b6895ab2713"
+    },
+    {
+      "kind": "items",
+      "id": "gobm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGoblinLandMine.dds",
+      "sha256": "fdabeb26282a31d0a53f45645e4f2b033e350f45ee14e32b43b5a0ccfc972cc2"
+    },
+    {
+      "kind": "items",
+      "id": "gsou",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSoulGem.dds",
+      "sha256": "ee09b10cc011a217de9b3a09473ac5fd90f4f2212ddeca0ecf2afba891897630"
+    },
+    {
+      "kind": "items",
+      "id": "guvi",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlyph.dds",
+      "sha256": "98bb74d6c2cd8657d759d9a4959c23e29fe915dc8a62ea94131a93ccb173226a"
+    },
+    {
+      "kind": "items",
+      "id": "gfor",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlyph.dds",
+      "sha256": "98bb74d6c2cd8657d759d9a4959c23e29fe915dc8a62ea94131a93ccb173226a"
+    },
+    {
+      "kind": "items",
+      "id": "soul",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUsedSoulGem.dds",
+      "sha256": "fcb0dd09accd47421f0e0918d7339d40d369f26a1480a1fe0fc2d3325f53464c"
+    },
+    {
+      "kind": "items",
+      "id": "mdpb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPebble.dds",
+      "sha256": "0ab0eb64a0fcb341f41443938362ae6bf8d20a8a795297800dcfa5bac73f948f"
+    },
+    {
+      "kind": "items",
+      "id": "rag1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSlippersOfAgility.dds",
+      "sha256": "a79c7257af56da3e324eab5d330139b94a4d1b697d26809da5fb4972288563f5"
+    },
+    {
+      "kind": "items",
+      "id": "rat3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClawsOfAttack.dds",
+      "sha256": "263ad03e7f064c96e9f6dd1cf2101a0f07902cc5bb0a9dd527a19a5a27bf157b"
+    },
+    {
+      "kind": "items",
+      "id": "rin1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMantleOfIntelligence.dds",
+      "sha256": "ecca66da3f7ea054a281a4bd154936f9ab1defa1f969e6037eabd73b81158e00"
+    },
+    {
+      "kind": "items",
+      "id": "rde1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingGreen.dds",
+      "sha256": "cb604d57e2cb38cadf82a153bc7f5db5d7955149673c6a36a2810e50dfbddb1d"
+    },
+    {
+      "kind": "items",
+      "id": "rde2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingGreen.dds",
+      "sha256": "cb604d57e2cb38cadf82a153bc7f5db5d7955149673c6a36a2810e50dfbddb1d"
+    },
+    {
+      "kind": "items",
+      "id": "rde3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingGreen.dds",
+      "sha256": "cb604d57e2cb38cadf82a153bc7f5db5d7955149673c6a36a2810e50dfbddb1d"
+    },
+    {
+      "kind": "items",
+      "id": "rhth",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPeriapt1.dds",
+      "sha256": "ba87cc4d8e2721b2cc377a247ff299bd3c0500ba714644a81ee6a2901ec0c6fa"
+    },
+    {
+      "kind": "items",
+      "id": "rst1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGauntletsOfOgrePower.dds",
+      "sha256": "dc4bc00730d87e5e6ae9953591f10dcf1a8a9e2704cb61c7dd62471bfcd522d9"
+    },
+    {
+      "kind": "items",
+      "id": "ofir",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfFire.dds",
+      "sha256": "c792a25799933173ae51640cbdbf2cc8a4f00c89ffd8ed1b8138df156f78d1f7"
+    },
+    {
+      "kind": "items",
+      "id": "ofro",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfFrost.dds",
+      "sha256": "3d85246c5e9b8586e273e10044612c789ee24fe927cc16ea73ec452c0609c6b5"
+    },
+    {
+      "kind": "items",
+      "id": "olig",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfLightning.dds",
+      "sha256": "0b99bdfb22039b525d8f10f3bf1f8cdcfcb1e945ce85071d3f23f133e2eab99b"
+    },
+    {
+      "kind": "items",
+      "id": "oli2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfLightning.dds",
+      "sha256": "0b99bdfb22039b525d8f10f3bf1f8cdcfcb1e945ce85071d3f23f133e2eab99b"
+    },
+    {
+      "kind": "items",
+      "id": "oven",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfVenom.dds",
+      "sha256": "ac5007d5ded7e5222e18cdcc1ac9966a87ac0f0562137c354f8681dfc9476704"
+    },
+    {
+      "kind": "items",
+      "id": "odef",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "ocor",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfCorruption.dds",
+      "sha256": "6bd5367638f182ed29dfa92170f3d7e8ee75983be90e37e91784207a7d0cbc17"
+    },
+    {
+      "kind": "items",
+      "id": "pdiv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionOfDivinity.dds",
+      "sha256": "98d6ef28bba3239f5ce87670c44ba58b5c3e7931c583f53d74f2907d829e8f58"
+    },
+    {
+      "kind": "items",
+      "id": "phea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionGreenSmall.dds",
+      "sha256": "798c896dae764225c6b9d70847dc6570211623e4d3f0b8d154c445c9f9dac21e"
+    },
+    {
+      "kind": "items",
+      "id": "pghe",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionGreen.dds",
+      "sha256": "2a2982ce3f2b54a79807ca7060368424a5046e434bf88725e5738f5871750ac9"
+    },
+    {
+      "kind": "items",
+      "id": "pinv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserInvisibility.dds",
+      "sha256": "1585ef202944cb56d901d8d083516bd2920f9034cd18468206debf197e190095"
+    },
+    {
+      "kind": "items",
+      "id": "pgin",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreaterInvisibility.dds",
+      "sha256": "6f1d8d5a5499e596e0b5cb4b323fa1cc8a73c2ee3be5a44ffe7abfb8010b1fcd"
+    },
+    {
+      "kind": "items",
+      "id": "pman",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionBlueSmall.dds",
+      "sha256": "a3f0761edff979d63230af3367c410afbddb94c075464d41f13ee605bbf62d45"
+    },
+    {
+      "kind": "items",
+      "id": "pgma",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionBlueBig.dds",
+      "sha256": "9c58402d7422efddc3dd0da503a124460e65a5b820548734fb999cff45b8e589"
+    },
+    {
+      "kind": "items",
+      "id": "pnvu",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreaterInvulneralbility.dds",
+      "sha256": "cfb75f4195d697e575bcd62cf88716c5fc464c7cbc741ff7addf85914a5e1266"
+    },
+    {
+      "kind": "items",
+      "id": "pnvl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserInvulneralbility.dds",
+      "sha256": "e2faf8c40b848ad1e1c46cf05040d9fd0d103e481b66e76eb7f73adc28f319bc"
+    },
+    {
+      "kind": "items",
+      "id": "pres",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionOfRestoration.dds",
+      "sha256": "2d333d1b31e840b506cfb6b9380d92e3efed1e80772ccc93997a0c5833ecb5c1"
+    },
+    {
+      "kind": "items",
+      "id": "pspd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionRed.dds",
+      "sha256": "54076c9872af862420cc98a95664a9e365a51efaf6c49a913b157e89a5d50299"
+    },
+    {
+      "kind": "items",
+      "id": "rlif",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingSkull.dds",
+      "sha256": "9dd53cd7b9c29f09f27d1f78bdc5555d881a34ac8b450c13daa0333d2b7c077b"
+    },
+    {
+      "kind": "items",
+      "id": "rwiz",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSobiMask.dds",
+      "sha256": "e673d2679ca6f7d0376d2b303740066d203ce7e543c49e55e8594036d2614933"
+    },
+    {
+      "kind": "items",
+      "id": "sfog",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHornOfFog.dds",
+      "sha256": "2454c0d389f24e135fce2c1c7584bc9a0f03097b1a74a9e3d850016e69b1a367"
+    },
+    {
+      "kind": "items",
+      "id": "shea",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollOfTownPortal.dds",
+      "sha256": "2975c1b3d47470788013c6e49a011d32a784e5ceb37bdeb3a73e78f0f4126a3b"
+    },
+    {
+      "kind": "items",
+      "id": "sman",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollOfProtection.dds",
+      "sha256": "98d550dd40f8b06b6b94b59393d933daba005ae7df7d82eecc41422c5f245f2d"
+    },
+    {
+      "kind": "items",
+      "id": "spro",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScroll.dds",
+      "sha256": "570ccf427dcea698da1800559e489fbbeee6f8cbbfba78bdf7a7d3afd2e90241"
+    },
+    {
+      "kind": "items",
+      "id": "sres",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollOfHealing.dds",
+      "sha256": "0e66e6c64e1cf221a17d8a97f102b86aa551017aadea6af6d778237915be49da"
+    },
+    {
+      "kind": "items",
+      "id": "ssil",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStaffOfSilence.dds",
+      "sha256": "1641a62f0bcbd5cb143f8cdf0195de89eefe1abedcfad192ca2000e60e360b64"
+    },
+    {
+      "kind": "items",
+      "id": "stwp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollUber.dds",
+      "sha256": "0d64dfd5a06cc7e9240440e17589490220c2c4fd4c6f582851f3ef4771dfdce2"
+    },
+    {
+      "kind": "items",
+      "id": "tels",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTelescope.dds",
+      "sha256": "05bb04e2681a9ed71a92cc8cc69f1ae7000a230abb6fe8493cb03fc643ea9866"
+    },
+    {
+      "kind": "items",
+      "id": "tdex",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "texp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTomeBrown.dds",
+      "sha256": "5f652c3712b3c5697e1d327f82ce7df28e5d28daf890123959850412f7369e51"
+    },
+    {
+      "kind": "items",
+      "id": "tint",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "tkno",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTomeRed.dds",
+      "sha256": "6320f62fe1dd710b34658bd265d5126432d3ac4fda89036e17df455771be9800"
+    },
+    {
+      "kind": "items",
+      "id": "tstr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "ward",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDrum.dds",
+      "sha256": "2a408e7e6ceb03d1124decd341db35025a79aa0384809cd162a3302ae3140f7d"
+    },
+    {
+      "kind": "items",
+      "id": "will",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWand.dds",
+      "sha256": "c44273d5da08ed6c7ec640e101cdc4dfe057a37cbac156a665000b8f8b5566f5"
+    },
+    {
+      "kind": "items",
+      "id": "wneg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandOfNeutralization.dds",
+      "sha256": "6a8fe3b0b6f7850cd084ceb91aad56d0ba12d8d65de97609862b02512de4d6da"
+    },
+    {
+      "kind": "items",
+      "id": "rdis",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRune.dds",
+      "sha256": "68e48cdeefa473cd2baafb90b21527e0cbf5f85b422750a1ec73aaa513b9406e"
+    },
+    {
+      "kind": "items",
+      "id": "rwat",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRune.dds",
+      "sha256": "68e48cdeefa473cd2baafb90b21527e0cbf5f85b422750a1ec73aaa513b9406e"
+    },
+    {
+      "kind": "items",
+      "id": "fgrd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRedDragon.dds",
+      "sha256": "6290f70d23c76b5517f7dad8b9d5c2864db0ff29bcedcbddc1a6cacd8c36f301"
+    },
+    {
+      "kind": "items",
+      "id": "fgrg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRockGolem.dds",
+      "sha256": "072a604f59cddcabcf5c6eeca4cb60e0dad084e476cad4fdade852638618dbca"
+    },
+    {
+      "kind": "items",
+      "id": "fgdg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDoomGuard.dds",
+      "sha256": "bd2e9f87881468ab9aa7f60b03e6680a05718405f5e59b1f7b4d85ed8d50c367"
+    },
+    {
+      "kind": "items",
+      "id": "fgfh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFelHound.dds",
+      "sha256": "6536810ceb0a489cc7e3b4373bc3c862a9392612d44ee98336378d57c409a860"
+    },
+    {
+      "kind": "items",
+      "id": "fgsk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBookOfTheDead.dds",
+      "sha256": "9a5926b5338a214d0c948c0dcbceba3da5edfbb3f706c0150c20f8c2bd0c694d"
+    },
+    {
+      "kind": "items",
+      "id": "engs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnchantedGemstone.dds",
+      "sha256": "a947430026e5e9d743aa9c903af9c83c2e83ea89465fc4b4b91e127c4b709109"
+    },
+    {
+      "kind": "items",
+      "id": "k3m1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTN3M1.dds",
+      "sha256": "d8eadec4d4f1ea697d73beceec6bb40ff5cfb990c4d3779c528cb1705e142d8d"
+    },
+    {
+      "kind": "items",
+      "id": "modt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMaskOfDeath.dds",
+      "sha256": "1e4284e3ede3c3f3bda9137a578d3f5891ed432cc7d58cdc424f00bd5b48ec79"
+    },
+    {
+      "kind": "items",
+      "id": "sand",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSnazzyScrollPurple.dds",
+      "sha256": "a8096fd22d554d50e66c918cdccb9274dcd11d8441d0a488b8320cfe354afd7b"
+    },
+    {
+      "kind": "items",
+      "id": "srrc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSnazzyScroll.dds",
+      "sha256": "675db974a6e3de0a67a7edc5214fdaaac1b647302f3e4ad7e6bc9c6cc95f41b6"
+    },
+    {
+      "kind": "items",
+      "id": "sror",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSnazzyScrollGreen.dds",
+      "sha256": "ed3a1d3484d357b5ff04e61f4742db1d4e42d7cfaebd6fae6ffe43b712b2f6df"
+    },
+    {
+      "kind": "items",
+      "id": "infs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNInfernalStone.dds",
+      "sha256": "481a163069d57b72de65dcc3fa488a94c3772cd786542e47a3178a79f896b5d4"
+    },
+    {
+      "kind": "items",
+      "id": "shar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNIceShard.dds",
+      "sha256": "f9fb5da344c828a420ada2a9660706dc8ca213d7c4e01635bfbe283223d2703e"
+    },
+    {
+      "kind": "items",
+      "id": "wild",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAmuletOftheWild.dds",
+      "sha256": "b4c296325e76622f5781cdeb96b862166c17714e927d5fe88e29f5e39a97624c"
+    },
+    {
+      "kind": "items",
+      "id": "wswd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSentryWard.dds",
+      "sha256": "e578bb16be9b83da9ab05908caa9c9b2c6676c8dfd7ff639d02f1d2b9a7728e4"
+    },
+    {
+      "kind": "items",
+      "id": "whwd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHealingWard.dds",
+      "sha256": "47f7a1b62f911c78a9a9cac908756cc8996698e5b2cc559a116b6bda43490c87"
+    },
+    {
+      "kind": "items",
+      "id": "wlsd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStarWand.dds",
+      "sha256": "fadb8b8419e915fd231856e5ca2cf4613331b27293bb823ac647a76cb2f60bef"
+    },
+    {
+      "kind": "items",
+      "id": "wcyc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandOfCyclone.dds",
+      "sha256": "36851dfc81c40cd3b0b96922cc3a64ce077ffa484c59791e9040bd1e37fd5498"
+    },
+    {
+      "kind": "items",
+      "id": "rnec",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRodOfNecromancy.dds",
+      "sha256": "73ac68ad3b3618a7a58a0cf072e03bf6b72237d81118f6a9afa345cdc7eb11e8"
+    },
+    {
+      "kind": "items",
+      "id": "pams",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSnazzyPotion.dds",
+      "sha256": "7cf123eb960e0202d5d9c113894015c933cc356c0abd86c4ed1ff4c0b1d5e567"
+    },
+    {
+      "kind": "items",
+      "id": "clfm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCloakOfFlames.dds",
+      "sha256": "8f17e61b31c58c224a7513df948fb5d3a20f26640d774d8b2a186ef3bc4642d1"
+    },
+    {
+      "kind": "items",
+      "id": "evtl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTalisman.dds",
+      "sha256": "9190915aeaf1f8318bb986d00996106dd297afc3ed0befaa331ec3abee6457d3"
+    },
+    {
+      "kind": "items",
+      "id": "nspi",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecklace.dds",
+      "sha256": "ed201750668d70b479bd48bd0fa4a3597f21fcc4826a103dd9f380d4115d6191"
+    },
+    {
+      "kind": "items",
+      "id": "lhst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLionHorn.dds",
+      "sha256": "9cdbd19e7a8cc52532a5f73de592d15beeb4249a8135937fdb91494fcd8fdfc3"
+    },
+    {
+      "kind": "items",
+      "id": "kpin",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPipeOfInsight.dds",
+      "sha256": "e1bd073af134ca8e894ba5cabd25f751d64f9107b697c0622bb3d789be4bc117"
+    },
+    {
+      "kind": "items",
+      "id": "sbch",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBoneChimes.dds",
+      "sha256": "195ecc94d5df719da7ba40d6ec9fa7b36f9f6eac20867b62fe6c6d64255cb250"
+    },
+    {
+      "kind": "items",
+      "id": "afac",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAlleriaFlute.dds",
+      "sha256": "fa4a6b114c2ab2bae4119c80133ede2e5cf0b9dfa17b2c197fb368131c83e5ca"
+    },
+    {
+      "kind": "items",
+      "id": "ajen",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNJanggo.dds",
+      "sha256": "f9f1e426d3d194f9c3f1a045e6c5e0774f2c572951cefc97feffccd5867906d2"
+    },
+    {
+      "kind": "items",
+      "id": "lgdh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHornOfDoom.dds",
+      "sha256": "be3bbd8d0bb320f9342e9aa4a330bcc640b1b8ea76920fcf6d2b66d2e946fb47"
+    },
+    {
+      "kind": "items",
+      "id": "hcun",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHoodOfCunning.dds",
+      "sha256": "77acabc349197cdd2208df3afaa4670f425636f2668076786353a61d68b1a05d"
+    },
+    {
+      "kind": "items",
+      "id": "mcou",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMedalionOfCourage.dds",
+      "sha256": "e6dbfdd75fc714711bdafb6bf908b881168f42ebdfeb171f975183f6b07c9f75"
+    },
+    {
+      "kind": "items",
+      "id": "hval",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHelmOfValor.dds",
+      "sha256": "d7d63e651fb6c5d4e0b1f506feb1bc787271fd437404f6d2781be3112c750188"
+    },
+    {
+      "kind": "items",
+      "id": "cnob",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCirclet.dds",
+      "sha256": "d77475c872e45aea88e0239cc091d2ebe0c25e3cdfe38d374fb4e718e6b77b2e"
+    },
+    {
+      "kind": "items",
+      "id": "prvt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPeriapt.dds",
+      "sha256": "225acd77086c8ef2cc62579094a6148f660c0f9125004291614d3eb835b4289f"
+    },
+    {
+      "kind": "items",
+      "id": "tgxp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManual3.dds",
+      "sha256": "2662bd77460d99e2d3003f4037b89fa31eadd50aec6f3ded05a5b0ac75f31919"
+    },
+    {
+      "kind": "items",
+      "id": "mnst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManaStone.dds",
+      "sha256": "f657f02299228668a41a6817f2ddee873dad1558c0c6f3aa23f79255aa4f2f25"
+    },
+    {
+      "kind": "items",
+      "id": "hlst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHealthStone.dds",
+      "sha256": "f76b8ad5df774e22208c6bd37b5ea2152e9cda900f0a88d115daf1e594ce44b0"
+    },
+    {
+      "kind": "items",
+      "id": "tpow",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTomeRed.dds",
+      "sha256": "6320f62fe1dd710b34658bd265d5126432d3ac4fda89036e17df455771be9800"
+    },
+    {
+      "kind": "items",
+      "id": "tst2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "tin2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "tdx2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTome.dds",
+      "sha256": "dca8cf6820964f8d7a119e9e09baaf4592b2f22e945e0466dcccc259ebe3f7ca"
+    },
+    {
+      "kind": "items",
+      "id": "rde0",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingGreen.dds",
+      "sha256": "cb604d57e2cb38cadf82a153bc7f5db5d7955149673c6a36a2810e50dfbddb1d"
+    },
+    {
+      "kind": "items",
+      "id": "rde4",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingGreen.dds",
+      "sha256": "cb604d57e2cb38cadf82a153bc7f5db5d7955149673c6a36a2810e50dfbddb1d"
+    },
+    {
+      "kind": "items",
+      "id": "rat6",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClawsOfAttack.dds",
+      "sha256": "263ad03e7f064c96e9f6dd1cf2101a0f07902cc5bb0a9dd527a19a5a27bf157b"
+    },
+    {
+      "kind": "items",
+      "id": "rat9",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClawsOfAttack.dds",
+      "sha256": "263ad03e7f064c96e9f6dd1cf2101a0f07902cc5bb0a9dd527a19a5a27bf157b"
+    },
+    {
+      "kind": "items",
+      "id": "ratc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClawsOfAttack.dds",
+      "sha256": "263ad03e7f064c96e9f6dd1cf2101a0f07902cc5bb0a9dd527a19a5a27bf157b"
+    },
+    {
+      "kind": "items",
+      "id": "ratf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClawsOfAttack.dds",
+      "sha256": "263ad03e7f064c96e9f6dd1cf2101a0f07902cc5bb0a9dd527a19a5a27bf157b"
+    },
+    {
+      "kind": "items",
+      "id": "manh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManual.dds",
+      "sha256": "25f1649320dd1ad038e7282c1f06e1215a605afe2da59177ed780ec83468c773"
+    },
+    {
+      "kind": "items",
+      "id": "pmna",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPendantOfMana.dds",
+      "sha256": "925a9987da95baec9044a5f52ce5c1b4dab610629abf395bce2b9edae19c50cb"
+    },
+    {
+      "kind": "items",
+      "id": "penr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPendantOfEnergy.dds",
+      "sha256": "0b05a3774148312a50e2d49942ffd1d6f6beb4299728d952aed67bcc540ba1b1"
+    },
+    {
+      "kind": "items",
+      "id": "gcel",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlove.dds",
+      "sha256": "88e7b5e6c448c31ec3760f225b256b697d3a5a29a556cc38c6b242c6d5d3b66a"
+    },
+    {
+      "kind": "items",
+      "id": "totw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStone.dds",
+      "sha256": "368678d9a7097710ae19d7c501b95ed4429a2744be26f52ff4e2c6a82b0d2c8d"
+    },
+    {
+      "kind": "items",
+      "id": "phlt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUndeadShrine.dds",
+      "sha256": "046490bf3485069a039844a790600b7d2114cb448b1cba1f43ce95504b0e294e"
+    },
+    {
+      "kind": "items",
+      "id": "gopr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlyph.dds",
+      "sha256": "98bb74d6c2cd8657d759d9a4959c23e29fe915dc8a62ea94131a93ccb173226a"
+    },
+    {
+      "kind": "items",
+      "id": "ches",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCheese.dds",
+      "sha256": "f461c8c1e23b9130a717db569e425514dd1fac8ee7a6e237050894a75ec6d9d4"
+    },
+    {
+      "kind": "items",
+      "id": "mlst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHammer.dds",
+      "sha256": "24c3c08c65d833c1836f8f891870994fee5b2afa335242452050eedfaac6239d"
+    },
+    {
+      "kind": "items",
+      "id": "rnsp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGoldRing.dds",
+      "sha256": "5aca7fdf4cd40134513eabc4a7b7662a148471b6869cb0960d000d9f74e5295f"
+    },
+    {
+      "kind": "items",
+      "id": "brag",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingPurple.dds",
+      "sha256": "4eb6a3c250e0ef37a74c469df3a03e9cf9ea8b6eb59f250362f6f31c2856b913"
+    },
+    {
+      "kind": "items",
+      "id": "sksh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGrimWard.dds",
+      "sha256": "a953933fd993e0d88e1f3c9417b12eb2bb393c5673ceef9265d45d753961559a"
+    },
+    {
+      "kind": "items",
+      "id": "vddl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShadowPact.dds",
+      "sha256": "14d597714fe0e0d319b8aca238534c08b1c02a546de2c7d236b838e7184cbe34"
+    },
+    {
+      "kind": "items",
+      "id": "sprn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingVioletSpider.dds",
+      "sha256": "6c7ac71356226110bc1eab54c1f822a17657db78bf3a9c447edc49a953deca70"
+    },
+    {
+      "kind": "items",
+      "id": "tmmt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEntrapmentWard.dds",
+      "sha256": "e7cb3d504e4b39a61acdf1ee08e050ae193a984040d7dbed331b6d2da02bb4cf"
+    },
+    {
+      "kind": "items",
+      "id": "anfg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNClayFigurine.dds",
+      "sha256": "060778da63de04bcf40f463057fa7aef4e695ad9879a42458a6f8258cc74da56"
+    },
+    {
+      "kind": "items",
+      "id": "lnrn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingLionHead.dds",
+      "sha256": "8e05b1af987b792bee3590485154a03d068993843f637ef01200568f502aa282"
+    },
+    {
+      "kind": "items",
+      "id": "iwbr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNatureTouchGrow.dds",
+      "sha256": "79f588b6a51a5ea37485eb1de6b11543f0a82d0609de4bb1a584d8d3b7c4b65f"
+    },
+    {
+      "kind": "items",
+      "id": "jdrn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingJadeFalcon.dds",
+      "sha256": "258ffa9a5ca025e4cd8d5847ebb526ae7102f39597012714fe3fa53c91bb1ed2"
+    },
+    {
+      "kind": "items",
+      "id": "drph",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDust.dds",
+      "sha256": "e8ecfacb233e23613d89923efad7ff1aeba96e7f44724178f50d00cb33da188f"
+    },
+    {
+      "kind": "items",
+      "id": "hslv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHealingSalve.dds",
+      "sha256": "36b434d33c2d99e9b8eef9a3c8878c3c70dfbf77e27285809dfb547c1792b817"
+    },
+    {
+      "kind": "items",
+      "id": "pclr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionOfClarity.dds",
+      "sha256": "29b9605b6deab019a8f12672b60a68b1816b9e7fc310f0165efec6985ab6a716"
+    },
+    {
+      "kind": "items",
+      "id": "plcl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserClarityPotion.dds",
+      "sha256": "0ff9068fb11f7dea1fad62df90a974897344af8907e25f839e15be0b3fd09917"
+    },
+    {
+      "kind": "items",
+      "id": "rej1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMinorRejuvPotion.dds",
+      "sha256": "32697893e9058bfe7d13e241b8661b014177fb19cf15becf03e69ea4110dd3da"
+    },
+    {
+      "kind": "items",
+      "id": "rej2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserRejuvPotion.dds",
+      "sha256": "22cbab531f01b484f9956825931a3bc693ea96a8af65dc278b52cc5ebe0e39c6"
+    },
+    {
+      "kind": "items",
+      "id": "rej3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRejuvPotion.dds",
+      "sha256": "4bec8a397633c5a6e8f00ec50b89f58c6209a27ba684bd5f44e8f594238c36c7"
+    },
+    {
+      "kind": "items",
+      "id": "rej4",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreaterRejuvPotion.dds",
+      "sha256": "d9b5fcb9c2cd615227adef6c69fe5d8fa424ab21b8c325f10780857c8562dc01"
+    },
+    {
+      "kind": "items",
+      "id": "rej5",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLesserRejuvScroll.dds",
+      "sha256": "e1fbf31d145c1dc56260109eb3379d118dbd0905ea75a125750b91d4077bf486"
+    },
+    {
+      "kind": "items",
+      "id": "rej6",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreaterRejuvScroll.dds",
+      "sha256": "bb27c0cc240648a12ba7c079b7036b6231a1582ea635e014f172039cc9dc24ab"
+    },
+    {
+      "kind": "items",
+      "id": "sreg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollOfRegenerationGreen.dds",
+      "sha256": "36ba614b7d64bc454db946b6ee865d87c18e9ce0790fa674433418feabc6527d"
+    },
+    {
+      "kind": "items",
+      "id": "gold",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNChestOfGold.dds",
+      "sha256": "d5755619a82f415ae98b6ac97d0ec25766972fcda2d49a04e82c8d17099c7226"
+    },
+    {
+      "kind": "items",
+      "id": "lmbr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBundleOfLumber.dds",
+      "sha256": "b0031c8b4dab753853ab06a8d32f842ec0c3a63e1ec31e3e9da3f4e1dbd9bfc2"
+    },
+    {
+      "kind": "items",
+      "id": "fgun",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFlare.dds",
+      "sha256": "cb375efc7ca3e47994c599870b4cff070f1655e84e0f808d1109e1650b1400a5"
+    },
+    {
+      "kind": "items",
+      "id": "pomn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionOfOmniscience.dds",
+      "sha256": "ac9be904de528e16755bcf42a94fd3d26f9653c6d854158a5d4ce6d7b2643aa5"
+    },
+    {
+      "kind": "items",
+      "id": "gomn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlyph.dds",
+      "sha256": "98bb74d6c2cd8657d759d9a4959c23e29fe915dc8a62ea94131a93ccb173226a"
+    },
+    {
+      "kind": "items",
+      "id": "wneu",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandOfNeutralization.dds",
+      "sha256": "6a8fe3b0b6f7850cd084ceb91aad56d0ba12d8d65de97609862b02512de4d6da"
+    },
+    {
+      "kind": "items",
+      "id": "silk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiderSilkBroach.dds",
+      "sha256": "0df827d0d0902979919dcd06238bd8143135271d51a1e6acd88c9457e318b534"
+    },
+    {
+      "kind": "items",
+      "id": "lure",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMonsterLure.dds",
+      "sha256": "462a32c33e8c245f3fab4e34bf6135a1ac75cfc30773d30911798aefeb9203ae"
+    },
+    {
+      "kind": "items",
+      "id": "skul",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSacrificialSkull.dds",
+      "sha256": "1be005f05f8d24c7f10876a3c9db2b5bfb9ab59add2c96f14e42677e09d31604"
+    },
+    {
+      "kind": "items",
+      "id": "moon",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMoonStone.dds",
+      "sha256": "89cc99cb47ebcc3f6aefdf08a714b87678998a13585479deb9052675304d63bd"
+    },
+    {
+      "kind": "items",
+      "id": "brac",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRunedBracers.dds",
+      "sha256": "1ef80d37708e608fb4cce55082f94bb9f239cc70a59c08f685a73c9e788bf482"
+    },
+    {
+      "kind": "items",
+      "id": "vamp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPotionOfVampirism.dds",
+      "sha256": "ec0379b9289323ed5296ae52a4dad79782c392a48e4e476bbd1dd4492bde6ddf"
+    },
+    {
+      "kind": "items",
+      "id": "woms",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandOfManaSteal.dds",
+      "sha256": "f154c64f4974738e20797dae86055e9ed6c8a9ce492103041b7ad1e1e5197b65"
+    },
+    {
+      "kind": "items",
+      "id": "tcas",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTinyCastle.dds",
+      "sha256": "c493593f6f11a9f0ff3d6e6c600e1bc7ab8bc3d60f6c26a030f0c8eb17f9e9ad"
+    },
+    {
+      "kind": "items",
+      "id": "tgrh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGreathall.dds",
+      "sha256": "e3f336af4b13fc769dea2dc56927b2d33e3bd5bdbc0aa51cd89782fe53cbfc1a"
+    },
+    {
+      "kind": "items",
+      "id": "tsct",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanWatchTower.dds",
+      "sha256": "79bc638a582d4b0ee92e326f7f6b1ff3979220e4215976ec6f0aa24b677d3d00"
+    },
+    {
+      "kind": "items",
+      "id": "wshs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandOfShadowSight.dds",
+      "sha256": "bccf1bf43c731f55abda34e7ad700cd860f8b4fb78f8df027e67c92ca3632adf"
+    },
+    {
+      "kind": "items",
+      "id": "tret",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTomeOfRetraining.dds",
+      "sha256": "588429eb871a915ea5641bb57cd6c965eda18d26da58c175f0865edac2c45ca4"
+    },
+    {
+      "kind": "items",
+      "id": "sneg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStaffOfNegation.dds",
+      "sha256": "be1859c0d6d5f84e6da8daba0b5e34a3cfffcf835e524acec0e21dcfb9150f97"
+    },
+    {
+      "kind": "items",
+      "id": "stel",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStaffOfTeleportation.dds",
+      "sha256": "c0c78b9a31121f5d9902a1fe04237bb2badeb82a1531f8a2c2be43e0cb10bd51"
+    },
+    {
+      "kind": "items",
+      "id": "spre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStaffOfPreservation.dds",
+      "sha256": "052456523f8653a1b9a22cd9e480adf0e93579c1f2e6f81f66ade4ddead3e833"
+    },
+    {
+      "kind": "items",
+      "id": "mcri",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMechanicalCritter.dds",
+      "sha256": "6fa6e40a3aa3fb48c4240cfb3e1ebcd0c37d9147010e70ae13a256b7b85a4ea4"
+    },
+    {
+      "kind": "items",
+      "id": "spsh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpellShieldAmulet.dds",
+      "sha256": "5c1ddfa0267e1351a64c6ad64576d2c1121fafeae2740ef5b45ad8a512a568bb"
+    },
+    {
+      "kind": "items",
+      "id": "sbok",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpellBookBLS.dds",
+      "sha256": "c268612e15a888b8c565833ed951ebe4eb0e1ae7ab7973d4ba784d08791a5e4f"
+    },
+    {
+      "kind": "items",
+      "id": "ssan",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStaffOfSanctuary.dds",
+      "sha256": "af6fd64f9cf88bded1a4e6b8daae183666e9936d7bf84c14a25a9e860ba73051"
+    },
+    {
+      "kind": "items",
+      "id": "shas",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScrollOfHaste.dds",
+      "sha256": "4acf6bef2c3642447eb9485e97bf5d83053476118995d01ecf90cc4b4272ae14"
+    },
+    {
+      "kind": "items",
+      "id": "dust",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDustOfAppearance.dds",
+      "sha256": "bbfa2d14f8922134ec5a1e9b2033a196c72f14cae57220cea7618cb78ec33546"
+    },
+    {
+      "kind": "items",
+      "id": "oslo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbofSlowness.dds",
+      "sha256": "5b2033769ac72a62405486df62f87752da6752623af5bc75992c51874234a481"
+    },
+    {
+      "kind": "items",
+      "id": "dsum",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDarkSummoning.dds",
+      "sha256": "f950807cc449e2e5c631f2be1f2f644420b56a6cfba93f3a1f5f1592f7ed3c86"
+    },
+    {
+      "kind": "items",
+      "id": "sor1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor4",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor5",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor6",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor7",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor8",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sor9",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sora",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "sorf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfDarkness.dds",
+      "sha256": "5806b9c8c26f01a7574c405a32dd127461dbbf254b00bd68d7c9099647f75eaf"
+    },
+    {
+      "kind": "items",
+      "id": "fwss",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGrimWard.dds",
+      "sha256": "a953933fd993e0d88e1f3c9417b12eb2bb393c5673ceef9265d45d753961559a"
+    },
+    {
+      "kind": "items",
+      "id": "ram1",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingJadeFalcon.dds",
+      "sha256": "258ffa9a5ca025e4cd8d5847ebb526ae7102f39597012714fe3fa53c91bb1ed2"
+    },
+    {
+      "kind": "items",
+      "id": "ram2",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingJadeFalcon.dds",
+      "sha256": "258ffa9a5ca025e4cd8d5847ebb526ae7102f39597012714fe3fa53c91bb1ed2"
+    },
+    {
+      "kind": "items",
+      "id": "ram3",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingJadeFalcon.dds",
+      "sha256": "258ffa9a5ca025e4cd8d5847ebb526ae7102f39597012714fe3fa53c91bb1ed2"
+    },
+    {
+      "kind": "items",
+      "id": "ram4",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRingJadeFalcon.dds",
+      "sha256": "258ffa9a5ca025e4cd8d5847ebb526ae7102f39597012714fe3fa53c91bb1ed2"
+    },
+    {
+      "kind": "items",
+      "id": "shtm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEntrapmentWard.dds",
+      "sha256": "e7cb3d504e4b39a61acdf1ee08e050ae193a984040d7dbed331b6d2da02bb4cf"
+    },
+    {
+      "kind": "items",
+      "id": "shwd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShimmerWeed.dds",
+      "sha256": "76dd7e9346dd5f44d304bce4687618dcfcf4adf423d1dd24a0d4f480e0c32480"
+    },
+    {
+      "kind": "items",
+      "id": "btst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcBattleStandard.dds",
+      "sha256": "1f98572b73238f9ca379214f3ac1b6d48545f6bb0ce1b69785cdd6717a709a4b"
+    },
+    {
+      "kind": "items",
+      "id": "skrt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrbOfCorruption.dds",
+      "sha256": "6bd5367638f182ed29dfa92170f3d7e8ee75983be90e37e91784207a7d0cbc17"
+    },
+    {
+      "kind": "items",
+      "id": "thle",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThunderLizardEgg.dds",
+      "sha256": "b8d176d7b67870030842c5d4cabebe87856204853c3f6206b47570688f99bc26"
+    },
+    {
+      "kind": "items",
+      "id": "sclp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.dds",
+      "sha256": "511448194e831a62fee929ef4217bb213abc9b5c1c90352dd6a403a7957868d9"
+    },
+    {
+      "kind": "items",
+      "id": "gldo",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUsedSoulGem.dds",
+      "sha256": "fcb0dd09accd47421f0e0918d7339d40d369f26a1480a1fe0fc2d3325f53464c"
+    },
+    {
+      "kind": "items",
+      "id": "tbsm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlacksmith.dds",
+      "sha256": "f39ce3f0250f6c55efe2076276da603269ece8cbb8c757f9cf442017e4e324f2"
+    },
+    {
+      "kind": "items",
+      "id": "tfar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFarm.dds",
+      "sha256": "97778021160437e001f7e8ff856022a795ecc2a6fafe6c38da4ad19a6ab9280d"
+    },
+    {
+      "kind": "items",
+      "id": "tlum",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanLumberMill.dds",
+      "sha256": "a9d35b8323d46a09fa8e319e8762643593daf31e5c561938ead6d90edf0ae210"
+    },
+    {
+      "kind": "items",
+      "id": "tbar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanBarracks.dds",
+      "sha256": "74bcfa01788126d1c48f25172eb3b658a5a7d9d20a79b068c0d02bbacbcba74a"
+    },
+    {
+      "kind": "items",
+      "id": "tbak",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAltarOfKings.dds",
+      "sha256": "41a05fb3ab1ede522140aa338a3606cddc7d56d2798731f825dc9cf7eb90f9b2"
+    },
+    {
+      "kind": "items",
+      "id": "mgtk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBlood&GhostKey.dds",
+      "sha256": "3699e45576b0f693e87dc4f91c1643ab44a5f13621db217e4be04780ec8921d6"
+    },
+    {
+      "kind": "items",
+      "id": "stre",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWandSkull.dds",
+      "sha256": "f61f85580ea3d3103acbf0278b0dfc4682cb78a71a07bb5e311041309d113364"
+    },
+    {
+      "kind": "items",
+      "id": "horl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGlyph.dds",
+      "sha256": "98bb74d6c2cd8657d759d9a4959c23e29fe915dc8a62ea94131a93ccb173226a"
+    },
+    {
+      "kind": "items",
+      "id": "hbth",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUnholyAura.dds",
+      "sha256": "d6ab5479586ca071eb1f8b85f8a9d28688c0a2295888c2bd4e311edf3b2ce3a4"
+    },
+    {
+      "kind": "items",
+      "id": "blba",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArmorGolem.dds",
+      "sha256": "0fd114f259f444423ae401269dc4271b120b2923075a9cf4f32eb79078e943dc"
+    },
+    {
+      "kind": "items",
+      "id": "rugt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNImprovedUnholyStrength.dds",
+      "sha256": "7bfb0e7bace52c3185b4033143d617a3fb42b165164f96086275f3cb16f72dc8"
+    },
+    {
+      "kind": "items",
+      "id": "frhg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAdvancedUnholyStrength.dds",
+      "sha256": "0540d157a7a2af5ab483b6a5927c3611c3d638292f54d5561538c466d8a1a3b7"
+    },
+    {
+      "kind": "items",
+      "id": "gvsm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpellSteal.dds",
+      "sha256": "c3a4dbcac773afc52bb503001c9c8e05845462f7c2f4161e8aebad09f07a2dcb"
+    },
+    {
+      "kind": "items",
+      "id": "crdt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRevenant.dds",
+      "sha256": "fc82d8a1fbf63b5743c8d63737d5b18ec51a78eaa885353b90b9557ce6db5424"
+    },
+    {
+      "kind": "items",
+      "id": "arsc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBansheeAdept.dds",
+      "sha256": "417f91edb40450f408aa884df5a033106fa4762f3bd67a60f91493822c19c5fb"
+    },
+    {
+      "kind": "items",
+      "id": "scul",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBansheeMaster.dds",
+      "sha256": "5d99fb04e026359af28f882dd71f4eb7eaf1648aada18a7bb433b954a0545135"
+    },
+    {
+      "kind": "items",
+      "id": "tmsc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecromancerAdept.dds",
+      "sha256": "f255bd958d6151778fc87fd93e1baaece1e779059c0ede1085eea7d5372b9f34"
+    },
+    {
+      "kind": "items",
+      "id": "dtsb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSorceressMaster.dds",
+      "sha256": "626d72525411aee3a70c4737e7a704f1a6fed4d98c7e2b73a482d2966e3bce7e"
+    },
+    {
+      "kind": "items",
+      "id": "grsl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecromancerMaster.dds",
+      "sha256": "ac2ca25c0e88c0762c9ad9d0c5dda76b647459e5c276f7a6c6ddb1cb71e8f40d"
+    },
+    {
+      "kind": "items",
+      "id": "arsh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArcaniteArmor.dds",
+      "sha256": "f788d7b36047f9a1221988c8052c539ba01020ad25c70665c6cf5b4e8c170728"
+    },
+    {
+      "kind": "items",
+      "id": "shdt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLightningShield.dds",
+      "sha256": "5d736ff9d7bfd063635b57a7ca433e4be2fbb7d2470257d788ecc8d989be28d7"
+    },
+    {
+      "kind": "items",
+      "id": "shhn",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanArmorUpThree.dds",
+      "sha256": "fcd1bb2dbdfaf3185468593ef2a929928df6fd64696d9e63003f964dea3a6254"
+    },
+    {
+      "kind": "items",
+      "id": "shen",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThoriumArmor.dds",
+      "sha256": "7f374218c3090d882859b5f5df2a3c1f4ec99e42d5ad076756bdc2ab6ff75915"
+    },
+    {
+      "kind": "items",
+      "id": "thdm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnchantedGemstone.dds",
+      "sha256": "a947430026e5e9d743aa9c903af9c83c2e83ea89465fc4b4b91e127c4b709109"
+    },
+    {
+      "kind": "items",
+      "id": "stpg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPenguin.dds",
+      "sha256": "0c5515c6396a8eedfd3e22b94646c01a1b7dbd0eb1ec050efb33ef06386845e5"
+    },
+    {
+      "kind": "items",
+      "id": "shrs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMonsterLure.dds",
+      "sha256": "462a32c33e8c245f3fab4e34bf6135a1ac75cfc30773d30911798aefeb9203ae"
+    },
+    {
+      "kind": "items",
+      "id": "bfhr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPhilosophersStone.dds",
+      "sha256": "fde43be0ef3eab30934f436b4943ed7f86565f314769f0a73ae4ded91d0315e1"
+    },
+    {
+      "kind": "items",
+      "id": "cosl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUsedSoulGem.dds",
+      "sha256": "fcb0dd09accd47421f0e0918d7339d40d369f26a1480a1fe0fc2d3325f53464c"
+    },
+    {
+      "kind": "items",
+      "id": "shcw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShamanMaster.dds",
+      "sha256": "115a02572e1f06d9e657899d4c6959d7297ce96d97d0a593a4b2187a1b7450a2"
+    },
+    {
+      "kind": "items",
+      "id": "srbd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNArcaniteMelee.dds",
+      "sha256": "8df524cc2fc40cee596da746cdf1cf1306dce1ad7d35dcc890ff88ba383d73d3"
+    },
+    {
+      "kind": "items",
+      "id": "frgd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThoriumMelee.dds",
+      "sha256": "55722312d301a9c806859303371fc90ac6f73667e5925104727ce74e4815a89b"
+    },
+    {
+      "kind": "items",
+      "id": "envl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNVialFull.dds",
+      "sha256": "e4ade7d9cc2e6eb83eaef1dc9e6abcb4f9282e39273e57e5995fee5a47ff1a5c"
+    },
+    {
+      "kind": "items",
+      "id": "rump",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGatherGold.dds",
+      "sha256": "72bd3f7b0c6b81037458a8c372b185fa88a9c8bf1c7c343ec1ef4b61a838cf6d"
+    },
+    {
+      "kind": "items",
+      "id": "mort",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpy.dds",
+      "sha256": "dc32fa15bfc8cd5968740bba316b9eb87e5f8246bd5e468aace83538c9cb7a36"
+    },
+    {
+      "kind": "items",
+      "id": "srtl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcMeleeUpThree.dds",
+      "sha256": "80baf33a8b1927aca0e2bb98c95a2eddda83598699bdc6db1fdf317af93d03c3"
+    },
+    {
+      "kind": "items",
+      "id": "stwa",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcMeleeUpOne.dds",
+      "sha256": "159dd86f8184c2048a793a988bc1b27a8a57c3b76b9a56e39de987fc63d57eb9"
+    },
+    {
+      "kind": "items",
+      "id": "klmm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWalkerAdeptTraining.dds",
+      "sha256": "b79fe6e49d356dc472f5a46e572627624ac46dd7c1e36c761654d5c7e0a62f6d"
+    },
+    {
+      "kind": "items",
+      "id": "rots",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWitchDoctorAdept.dds",
+      "sha256": "fbcf0cc6efe11af207f123c371ba9def408018e7f9c73016584a6b83da29a534"
+    },
+    {
+      "kind": "items",
+      "id": "axas",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWitchDoctorMaster.dds",
+      "sha256": "7b918fee8fa39e7405dcac2f891626801814d3d9d82b645e2146e3cd84ea2b8d"
+    },
+    {
+      "kind": "items",
+      "id": "mnsf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBrilliance.dds",
+      "sha256": "6c4d173b9c258bd4741dc587e4ae28d8518d13ea00bf9136dc4b7f2716e40db0"
+    },
+    {
+      "kind": "items",
+      "id": "schl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPriestAdept.dds",
+      "sha256": "a7c737ad68eead63d277823e645a9a4cbb74da01bf017fa0f8292b28f4645984"
+    },
+    {
+      "kind": "items",
+      "id": "asbl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDaggerOfEscape.dds",
+      "sha256": "06e782d65fb92004c4e409056d3838014b3292426a2fadd49a558eadfb037036"
+    },
+    {
+      "kind": "items",
+      "id": "kgal",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBarrel.dds",
+      "sha256": "a62f0fd92280c100f366e60ec0dfa0df0d93204904916524032d2de9e7dea20f"
+    },
+    {
+      "kind": "items",
+      "id": "dphe",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNThunderLizardEgg.dds",
+      "sha256": "b8d176d7b67870030842c5d4cabebe87856204853c3f6206b47570688f99bc26"
+    },
+    {
+      "kind": "items",
+      "id": "dkfw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBarrel.dds",
+      "sha256": "a62f0fd92280c100f366e60ec0dfa0df0d93204904916524032d2de9e7dea20f"
+    },
+    {
+      "kind": "items",
+      "id": "dthb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNManaFlareOff.dds",
+      "sha256": "9f2d8096053b688559d8b6f722572f883793e96e0bd03dcb94097c59e7e2ded3"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhss",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNControlMagic.dds",
+      "sha256": "c35abbfd0d28d8c50b254048a58e98a39de1dd48b76ee10efe702bb097193e01"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhme",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSteelMelee.dds",
+      "sha256": "d7aaa6e0413cf3f0000aac1a30141215d72bd86857c2934afb2bc95980e9e8b0"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhra",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanMissileUpOne.dds",
+      "sha256": "92898a3ec24b675b8f289aa063970974bf694399d647c92cdd5b107a037dd75f"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanArmorUpOne.dds",
+      "sha256": "abb3a5848c8415a5863da1e9c7ea925a2308c94dd75ce287aa148ccc66bc374d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhla",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLeatherUpgradeOne.dds",
+      "sha256": "45ec02a2578c6336d8ec86cab65243f0241aadcd9ff2058202c116cec00d18ee"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhac",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStoneArchitecture.dds",
+      "sha256": "9bb4c14c40a95becaf5a63eacdb706b8aefcb9b4d0fccce05b69fdac32af8532"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhgb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanArtilleryUpOne.dds",
+      "sha256": "6c492c04429749cbddada85caaf3abe377d976a8e857de7d3f8a47cf6a30f604"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhlh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHumanLumberUpgrade1.dds",
+      "sha256": "34a1e280459e2d989bc82bd10f8f940191e25a40438564906ec1f7c387db244b"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhde",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDefend.dds",
+      "sha256": "db935ab76c4d33c2a11f5dfd2261f0ada531b7f3a4daee5a65d02777b45ebe69"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhan",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNAnimalWarTraining.dds",
+      "sha256": "90994e51afd8058390f800b421388213ec513621dde5b47b25bf39dcea5dd59b"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhpt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPriestAdept.dds",
+      "sha256": "a7c737ad68eead63d277823e645a9a4cbb74da01bf017fa0f8292b28f4645984"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhst",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSorceressAdept.dds",
+      "sha256": "dff868d0c89aac1c79bde37e79dfa505938534e56f6f773a23a63ce54b881fb8"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhri",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDwarvenLongRifle.dds",
+      "sha256": "59414293fa4d2700f490157c3ef259450984e169e7238b28340f303726bd08c0"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhse",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMagicalSentry.dds",
+      "sha256": "5a50ea053ba9459d4b237785fbefa96c5c5f33ca35a5a8cfb1800b088d92c15f"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhfl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFlare.dds",
+      "sha256": "cb375efc7ca3e47994c599870b4cff070f1655e84e0f808d1109e1650b1400a5"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhhb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStormHammer.dds",
+      "sha256": "8b02390dcc44c302c4e0c095c848a51aaed26a3453580cb02c3d94aed8736ce9"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhrt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNScatterRockets.dds",
+      "sha256": "50c431b4e9baec71f45beb24c215805219f7506ab53c116aab8b980c1cde16ef"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhpm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPackBeast.dds",
+      "sha256": "84ec5c62bfc907b200e64b0a5e586f5ab825432aeb05e934dcb400ed0fcec6fb"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhfc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFlakCannons.dds",
+      "sha256": "016079415a19932aab85a8bf8c04dbfb247b9159a214866f60f2641ee3b67b6a"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhfs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFragmentationBombs.dds",
+      "sha256": "c7a9480deb41811a2e363afda2fef396cfb6be866471ed13e4d62fa463066399"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rhcd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCloudOfFog.dds",
+      "sha256": "81bdc6c343da903c428680a8a64433dc12f4f0b979b281a0c550cd2bd3b37a56"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Resm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStrengthOfTheMoon.dds",
+      "sha256": "b1fb8b7cd3d2eb2da6880b051a5192d8f20342aeff8bae8e0ffb97b99daeb6b1"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Resw",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStrengthOfTheWild.dds",
+      "sha256": "77ef2a9430c72f808b604db67a1d713f65b50a70a587bb301bc2876577a3a1dc"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rema",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMoonArmor.dds",
+      "sha256": "e6c4b4a00333781fee7f2a454e704dc1e2c8ad2a0acb9350ac4ed52193e437d6"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rerh",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNReinforcedHides.dds",
+      "sha256": "64b41f3bfdaa0bb8e73734ced5ef842d2e399a2b2c6650388b89f074d740151f"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Reuv",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUltravision.dds",
+      "sha256": "63ef13ca146b5b5110eb6887d535f800b802412bed6861b929ac7fbbee1a27ea"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Renb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNaturesBlessing.dds",
+      "sha256": "69d4e1f6254db8862b5a96812ecd45a3bb91efbf48e58c4c0df5065fd7a8dd3b"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Reib",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNImprovedBows.dds",
+      "sha256": "c25fcf471397acd5a3857448d5ef552939a97c81c0bc97573f6d06d2131e9e08"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Remk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNMarksmanship.dds",
+      "sha256": "c836e99c2127a8c776663ef2e732a54645a308d9509e8f3b20b3483f0cb3685b"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Resc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSentinel.dds",
+      "sha256": "cabbf403327c5ac67b619155eef2045e877413cba3b5540750ee0feb760b5696"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Remg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUpgradeMoonGlaive.dds",
+      "sha256": "af52e9794f680b3406a7f8d584dc51ac8ae77eb2d2de4d8856d83c124a192711"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Redt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDOTAdeptTraining.dds",
+      "sha256": "afdac18bc6bc27e043427cb99a0819959eab9e993ef8c8327b6e87ef8fdd09da"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Redc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDOCAdeptTraining.dds",
+      "sha256": "c4f32e2dd103a053d64cf83c752f4c7a20a1af93a6d197cb8fd6098db3045dfd"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Resi",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDryadDispelMagic.dds",
+      "sha256": "71032228757491ffa173438c14efe1a2fa8a704d8ce94054f85facf5071c55c2"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Reht",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNTameHippogriff.dds",
+      "sha256": "389dc3c7a879abb4865f5704a92e4bf5f509ad30dba4219a787b3c465610a4f7"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Recb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCorrosiveBreath.dds",
+      "sha256": "fa419f73c3fceced39599b9f354e4c9fe7cce9ab8fd700058e6cc580f4460daf"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Repb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNVorpalBlades.dds",
+      "sha256": "d3d49cae20e54b2091caf9fb5f4b9ffde37527c7d931090015dba6d6b9538b69"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rers",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNResistantSkin.dds",
+      "sha256": "b6cb544d229fc1602bd9d1cf6ba04d3a5b122229f67396a9141d99c9dbab0c75"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rehs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHardenedSkin.dds",
+      "sha256": "aa58f9c40416a59286ef8a0b48fecd2e9fe0ac7289da8583ebf7711780f0946b"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Reeb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnchantedBears.dds",
+      "sha256": "57da7bac00140a5e72ee3d6e39e29f52af40ef0d707c9fdf6eab56a1cb0e1a5d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Reec",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnchantedCrows.dds",
+      "sha256": "fe08597ac7b87f9328cd11af5a28ec561ffbf5e5c4e549eb04f38a2d2fa506c6"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rews",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWellSpring.dds",
+      "sha256": "4f4506d1eacc3a786f1aa680aa48f8ca34c6b1678e2ab00abd29121434e9a505"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Repm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPackBeast.dds",
+      "sha256": "84ec5c62bfc907b200e64b0a5e586f5ab825432aeb05e934dcb400ed0fcec6fb"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Roch",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcMeleeUpOne.dds",
+      "sha256": "159dd86f8184c2048a793a988bc1b27a8a57c3b76b9a56e39de987fc63d57eb9"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rome",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNOrcMeleeUpOne.dds",
+      "sha256": "159dd86f8184c2048a793a988bc1b27a8a57c3b76b9a56e39de987fc63d57eb9"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rora",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSteelRanged.dds",
+      "sha256": "68980d39ad495cb08ad21015c806d2474216322b06e82e5c954b2892909dbf35"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Roar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSteelArmor.dds",
+      "sha256": "4426b0c5cf4c0056205d39c8afcdb003ec30d98fe01235254f93a3e2904ae96d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rwdm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDrum.dds",
+      "sha256": "2a408e7e6ceb03d1124decd341db35025a79aa0384809cd162a3302ae3140f7d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ropg",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPillage.dds",
+      "sha256": "c2c0060dfb49480a98219a4ae859a6dd30c74cbcf5dc0beb7e2971ee488ff26f"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Robs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBerserk.dds",
+      "sha256": "3fdc2411cd62cadf16f7bdee4388bb5be2fffb755e66e0b00456b7e9f0d350e0"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rows",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSmash.dds",
+      "sha256": "e8e38bc5f1bae9c5431778635962be8995a67e88eca02ab8e7e6e66a33e68514"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Roen",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnsnare.dds",
+      "sha256": "e725198ee655ac77e7391f0e8a9418baed80964cf54d3176dead6131494a1f0d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rovs",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNEnvenomedSpear.dds",
+      "sha256": "974567f065fb84ae28f94c982209cb5350a0f7375d55c13d1139ffc6cc82f6fc"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rowd",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWitchDoctorAdept.dds",
+      "sha256": "fbcf0cc6efe11af207f123c371ba9def408018e7f9c73016584a6b83da29a534"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rost",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNShamanAdept.dds",
+      "sha256": "e1f28e640eb64e51b9378446bdf5000a09622dceca43eb1bf0db5e1a6c15c313"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rosp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpikedBarricades.dds",
+      "sha256": "fbd1b1eca4577cb923b6311a1b2bbc572fb3c7d05e3e4ded991a9c1590bb04c1"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rotr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNRegenerate.dds",
+      "sha256": "dd6916d99d44bdcbdcacf38f3e994290bced1239085f6ef3fa4b25ae8c6ea2c6"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rolf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNLiquidFire.dds",
+      "sha256": "781c349a0efbe30584cb8139641479b09d3976d167a419027f5729eed887ada2"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ropm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPackBeast.dds",
+      "sha256": "84ec5c62bfc907b200e64b0a5e586f5ab825432aeb05e934dcb400ed0fcec6fb"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rowt",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSpiritWalkerAdeptTraining.dds",
+      "sha256": "b79fe6e49d356dc472f5a46e572627624ac46dd7c1e36c761654d5c7e0a62f6d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Robk",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNHeadHunterBerserker.dds",
+      "sha256": "74dd924e635e58a63360b42601842f70c442463ba7d095430cb78666cd8bc724"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rorb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNReinforcedBurrows.dds",
+      "sha256": "f4442ef473b36022baefb4ec18b5ef16ef8b86ff6a20532c4d7bc04957ae7e52"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Robf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFireRocks.dds",
+      "sha256": "209af6a1ae44f0966a4507eca58a873378e98d30023b16a0852541daa47b908d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rusp",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNDestroyer.dds",
+      "sha256": "ee4be2655e4025537bb4b9d16b87e7366eb126db45a5a0d4b211827eac28bd1d"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rume",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUnholyStrength.dds",
+      "sha256": "74bc33271dde5317404da5d1cbaf860bea321148a5bade8db17128538438fd65"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rura",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCreatureAttack.dds",
+      "sha256": "1880f46c8adc243cead2fc14694bc63dd719d5d5b52e2021dbe39ec2a12cec09"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ruar",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNUnholyArmor.dds",
+      "sha256": "6972068837eca0270836179c93c261c9370b318b4b4bf41141f9e0c8519234dd"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rucr",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCreatureCarapace.dds",
+      "sha256": "9ad89bef47e5d4284cfb9a50be942560a3af06e04bad02a47199da83e974c69e"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ruac",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCannibalize.dds",
+      "sha256": "659192b47e9494b1e116e1a4a8a5e5da093b16fd34822d05943a0bce5effbbb0"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rugf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNGhoulFrenzy.dds",
+      "sha256": "00d8628149c4e6e8c95c61a88f99c62c3c71dfd263409cb504dc9fd14d9f5445"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ruwb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNWeb.dds",
+      "sha256": "d3345485ecf2e0403c0f0918069d380d525fcf87f93f3cae2ee1af7128086eeb"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rusf",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNStoneForm.dds",
+      "sha256": "c4f5bacff81852288d939da9cec2684f632cf0804229f344abc57239547dd332"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rune",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNNecromancerAdept.dds",
+      "sha256": "f255bd958d6151778fc87fd93e1baaece1e779059c0ede1085eea7d5372b9f34"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ruba",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNBansheeAdept.dds",
+      "sha256": "417f91edb40450f408aa884df5a033106fa4762f3bd67a60f91493822c19c5fb"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rufb",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNFreezingBreath.dds",
+      "sha256": "fbe600184cefdb43908c42e0282d8b8b158c175f4762293d0309f62741257cf1"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rusl",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletalLongevity.dds",
+      "sha256": "916df06c8b1ad834304894993bfc2faf1948cb91c10a4800c92ee42282e09cfa"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rupc",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPlagueCloud.dds",
+      "sha256": "f7863ddfdd6453e147801db86a643d13770cb1e36e9aff0db78f3117dc731683"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rusm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNSkeletonMage.dds",
+      "sha256": "1e7db0b10cb36ede449d6ca8a25c1d08e42a033552cf7004fa8cd4a97c151b89"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rubu",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNCryptFiendBurrow.dds",
+      "sha256": "ee44c6ee16b4633743671fbbe27e6a26bed2d66313c3d3833f41ddf6e8f173ec"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Ruex",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNExhumeCorpses.dds",
+      "sha256": "1047ba83f7038efa70127f4aa751a07c2652e806aa80feb262c60243e8271458"
+    },
+    {
+      "kind": "upgrades",
+      "id": "Rupm",
+      "source": "war3.w3mod:_hd.w3mod:ReplaceableTextures\\CommandButtons\\BTNPackBeast.dds",
+      "sha256": "84ec5c62bfc907b200e64b0a5e586f5ab825432aeb05e934dcb400ed0fcec6fb"
+    }
+  ]
+}

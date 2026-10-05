@@ -101,7 +101,7 @@ app.whenReady().then(async()=>{
   suggestedFolder=await require('./replay-folders.cjs').suggestedReplayFolder(app.getPath('documents'));
   registerIPC();
   const area=screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
-  const height=Math.min(area.height,Math.max(970,Math.round(area.height*.92))),width=Math.min(1500,area.width);
+  const height=Math.min(area.height,Math.max(680,Math.min(area.height,Math.max(970,Math.round(area.height*.92)))-150)),width=Math.min(1500,area.width);
   win=new BrowserWindow({width,height,x:area.x+Math.round((area.width-width)/2),y:area.y+Math.round((area.height-height)/2),minWidth:Math.min(1050,width),minHeight:Math.min(680,height),backgroundColor:'#0b111a',title:"Thae's Replay Explorer",icon:path.join(__dirname,'ui','artwork','rexxar.png'),
     webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   if(process.platform==='win32')win.setAppDetails({appId:'Thae.ReplayExplorer',appIconPath:path.join(__dirname,'ui','artwork','rexxar.ico'),appIconIndex:0,relaunchCommand:'"'+process.execPath+'"',relaunchDisplayName:"Thae's Replay Explorer"});

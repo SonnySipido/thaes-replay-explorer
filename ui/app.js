@@ -25,6 +25,8 @@ function mapImage(file){return mapImages.get(mapBaseName(file).toLowerCase());}
 function selectedRace(p){return p.race||p.raceDetected||'R';}
 function raceColorClass(p){return 'race-color-'+selectedRace(p);}
 let showWinner=localStorage.getItem('show-winner')==='true';
+let reforgedIcons=localStorage.getItem('reforged-icons')==='true';
+function iconSource(id,kind){return (reforgedIcons?window.warcraftReforgedIcons?.[kind]?.[id]:null)||window.warcraftIcons?.[kind]?.[id];}
 function playerColorClass(index){return index>=0?'player-color-'+(index%24):'';}
 function raceIcon(code){
  const key=window.warcraftIcons.races[code]?code:'R';
@@ -177,9 +179,9 @@ function renderPanel(){
  }
 }
 function gameIcon(id,kind,className){
- const label=name(id),src=window.warcraftIcons?.[kind]?.[id];
+ const label=name(id),src=iconSource(id,kind);
  return src
-  ? '<img class="game-icon '+className+'" src="'+esc(src)+'" alt="'+esc(label)+'" title="'+esc(label)+'" width="64" height="64">'
+  ? '<img data-icon-id="'+esc(id)+'" data-icon-kind="'+esc(kind)+'" class="game-icon '+className+'" src="'+esc(src)+'" alt="'+esc(label)+'" title="'+esc(label)+'" width="64" height="64">'
   : '<span class="game-icon missing-icon '+className+'" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">?</span>';
 }
 function objectIcon(id,preferred){
@@ -272,6 +274,12 @@ function chat(){
 function showError(e){$('status').textContent=e.message||String(e);}
 $('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
 $('folder').onclick=()=>window.replays.openFolder().catch(showError);
+$('reforged-icons').checked=reforgedIcons;
+$('reforged-icons').onchange=()=>{
+ reforgedIcons=$('reforged-icons').checked;
+ localStorage.setItem('reforged-icons',String(reforgedIcons));
+ document.querySelectorAll('img[data-icon-id]').forEach(img=>{img.src=iconSource(img.dataset.iconId,img.dataset.iconKind);});
+};
 $('include-subfolders').onchange=async()=>{const control=$('include-subfolders'),enabled=control.checked;control.disabled=true;try{await window.replays.setSubfolders(enabled);}catch(e){control.checked=!enabled;showError(e);}finally{control.disabled=false;}};
 $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 
