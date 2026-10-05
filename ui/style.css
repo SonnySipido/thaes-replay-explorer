@@ -303,3 +303,11 @@
 .replay-row.large-match .matchup-icons>.versus{font-size:9px;margin:0 1px}
 
 #filename{display:inline-flex;align-items:center;gap:5px;max-width:100%}.filename-icon{width:16px;height:16px;object-fit:contain;flex:0 0 16px}#filename-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+.workspace{position:relative;--library-width:365px}
+.workspace>.library{width:var(--library-width);min-width:0;flex:0 0 var(--library-width)}
+#library-resizer{position:absolute;top:0;bottom:0;left:var(--library-width);width:8px;transform:translateX(-50%);cursor:col-resize;touch-action:none;z-index:5}
+#library-resizer:after{content:"";position:absolute;top:0;bottom:0;left:3px;width:2px;background:transparent}
+#library-resizer:hover:after,#library-resizer:focus-visible:after,.resizing-library #library-resizer:after{background:var(--gold)}
+#library-resizer:focus-visible{outline:none}
+body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-select:none!important}
