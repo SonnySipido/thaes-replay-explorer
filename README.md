@@ -14,17 +14,37 @@ No GitHub account, source-code download, or development tools are needed. The in
 
 On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Enable or disable subfolders beside Choose folder. The app remembers your choice and checks for changes automatically.
 
+Clicking on a player's name opens their W3Champions profile page in the browser.
+
+Clicking on a map name opens the map location in your local file system if found - Makes it easy to find the correct map files!
+
+Clicking on a replay name opens the explorer with the replay selected - Makes it easy to share!
+
+You can filter replays to only include matches above 2 minutes so that instant leaves are not shown.
+
+In the search bar typing a map name, player name, file name or any partial of any of those and immediately filter the replay list - Makes finding matches containing certain players really easy!
+
+You can select match ups, for team games this means that the team has at least that race included in it's team.
+
+You can select team sizes such as 1v1, 2v2, 3v3, 4v4 or any size.
+
+The replay explorer is capable of showing information Heroes, abilities & units used, Buildings & upgrades, Items, APM, Control groups and ingame chat.
+
+You can toggle Show Winner to show which side won the match.
+
 The Reforged HD icons switch selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
 The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Replays without a full BattleTag cannot identify a unique profile.
-
-Browse maps, player races, matchups and team sizes. Select a replay to compare teams, heroes and learned abilities, units, buildings, research, items, APM, control groups and chat. Double-click a replay or use Watch replay to open it in Warcraft III. Watch replay is enabled only when the map can be found locally. Click the replay filename or map title to locate the corresponding file in Explorer.
 
 Your last selected replay is restored after restarting. Press Escape to deselect it and return to the empty analysis screen.
 
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
+
+## Local data and privacy
+
+Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked.
 
 ## Other download options
 
@@ -33,10 +53,6 @@ Download the Windows x64 Setup executable from this repository's Releases page a
 Windows 10 or 11, 64-bit, is required. Electron, Node.js and the replay parser are included; users do not need to install development tools, Java, Python or Node.js. Warcraft III and the matching local map are needed to watch a replay in the game, but not to browse replay analysis. Replay launching uses Windows' .w3g file association.
 
 The initial release is unsigned; Windows may display an unknown-publisher or reputation warning. Only download builds from the author's repository.
-
-## Local data and privacy
-
-Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked.
 
 ## Build from source
 
