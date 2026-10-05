@@ -10,14 +10,6 @@ A Windows Warcraft III replay library and match analyzer by **Thaedalius**.
 
 No GitHub account, source-code download, or development tools are needed. The installer includes everything needed to run the app and offers a desktop shortcut. For Windows 10/11, 64-bit.
 
-## Other download options
-
-Download the Windows x64 Setup executable from this repository's Releases page and run it. The installer adds **Thae's Replay Explorer** to the Windows Start menu (search for **Replay**) and offers a desktop shortcut. No administrator rights are required. A portable ZIP is also available: extract the entire folder and run **Thae's Replay Explorer.exe**. Keep the accompanying files with the executable.
-
-Windows 10 or 11, 64-bit, is required. Electron, Node.js and the replay parser are included; users do not need to install development tools, Java, Python or Node.js. Warcraft III and the matching local map are needed to watch a replay in the game, but not to browse replay analysis. Replay launching uses Windows' .w3g file association.
-
-The initial release is unsigned; Windows may display an unknown-publisher or reputation warning. Only download builds from the author's repository.
-
 ## Use
 
 On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Enable or disable subfolders beside Choose folder. The app remembers your choice and checks for changes automatically.
@@ -33,6 +25,14 @@ Your last selected replay is restored after restarting. Press Escape to deselect
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
+
+## Other download options
+
+Download the Windows x64 Setup executable from this repository's Releases page and run it. The installer adds **Thae's Replay Explorer** to the Windows Start menu (search for **Replay**) and offers a desktop shortcut. No administrator rights are required. A portable ZIP is also available: extract the entire folder and run **Thae's Replay Explorer.exe**. Keep the accompanying files with the executable.
+
+Windows 10 or 11, 64-bit, is required. Electron, Node.js and the replay parser are included; users do not need to install development tools, Java, Python or Node.js. Warcraft III and the matching local map are needed to watch a replay in the game, but not to browse replay analysis. Replay launching uses Windows' .w3g file association.
+
+The initial release is unsigned; Windows may display an unknown-publisher or reputation warning. Only download builds from the author's repository.
 
 ## Local data and privacy
 
