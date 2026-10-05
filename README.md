@@ -14,23 +14,15 @@ No GitHub account, source-code download, or development tools are needed. The in
 
 On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Enable or disable subfolders beside Choose folder. The app remembers your choice and checks for changes automatically.
 
-Clicking on a player's name opens their W3Champions profile page in the browser.
-
-Clicking on a map name opens the map location in your local file system if found - Makes it easy to find the correct map files!
-
-Clicking on a replay name opens the explorer with the replay selected - Makes it easy to share!
-
-You can filter replays to only include matches above 2 minutes so that instant leaves are not shown.
-
-In the search bar typing a map name, player name, file name or any partial of any of those and immediately filter the replay list - Makes finding matches containing certain players really easy!
-
-You can select match ups, for team games this means that the team has at least that race included in it's team.
-
-You can select team sizes such as 1v1, 2v2, 3v3, 4v4 or any size.
-
-The replay explorer is capable of showing information Heroes, abilities & units used, Buildings & upgrades, Items, APM, Control groups and ingame chat.
-
-You can toggle Show Winner to show which side won the match.
+  -Clicking on a player's name opens their W3Champions profile page in the browser.
+  -Clicking on a map name opens the map location in your local file system if found - Makes it easy to find the correct map files!
+  -Clicking on a replay name opens the explorer with the replay selected - Makes it easy to share!
+  -You can filter replays to only include matches above 2 minutes so that instant leaves are not shown.
+  -In the search bar typing a map name, player name, file name or any partial of any of those and immediately filter the replay list - Makes finding matches containing certain players really easy!
+  -You can select match ups, for team games this means that the team has at least that race included in it's team.
+  -You can select team sizes such as 1v1, 2v2, 3v3, 4v4 or any size.
+  -The replay explorer is capable of showing information Heroes, abilities & units used, Buildings & upgrades, Items, APM, Control groups and ingame chat.
+  -You can toggle Show Winner to show which side won the match.
 
 The Reforged HD icons switch selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
