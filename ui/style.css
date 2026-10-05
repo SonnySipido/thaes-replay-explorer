@@ -288,3 +288,6 @@
 .comparison-heading h2{margin:0;flex:1;min-width:0}
 .comparison-heading .player-race-team{flex:0 0 auto}
 .comparison-heading>.team{flex:0 0 auto;white-space:nowrap}
+
+/* Opposing player sections share grid rows, including when their contents grow. */
+.player-comparison>.team-column{display:contents}

@@ -185,8 +185,11 @@ function renderPanel(){
  const comparison=document.createElement('div');comparison.className='player-comparison';
  panel.append(comparison);
  const teams=teamColumns(comparison,entry.data.players);
+ const maxTeamSize=Math.max(...[...teams.keys()].map(id=>entry.data.players.filter(p=>teamNumber(p)===id).length));
+ const slots=new Map([...teams.keys()].map((id,index)=>[id,{column:index%2+1,row:Math.floor(index/2)*maxTeamSize+1}]));
  for(const p of entry.data.players){
   const column=document.createElement('section');column.className='comparison-player';column.dataset.playerId=p.id;
+  const slot=slots.get(teamNumber(p));column.style.gridColumn=slot.column;column.style.gridRow=slot.row++;
   if(entry.data.players.length>2){
    const heading=document.createElement('header');heading.className='comparison-heading';
    heading.innerHTML='<span class="player-race-team">'+playerRaceIcon(p,true)+'</span><h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2>'+teamLabel(p);
