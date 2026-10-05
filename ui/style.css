@@ -297,8 +297,7 @@
 .replay-row.team-match .row-meta .race-icon{width:14px;height:14px}
 .replay-row.large-match .row-meta>span:first-child{white-space:nowrap}
 
-.replay-row.large-match{display:grid;grid-template-columns:57.6px minmax(0,1fr);column-gap:8px;row-gap:2px}
-.replay-row.large-match .row-copy{display:contents}
-.replay-row.large-match .row-map{grid-column:1;grid-row:1 / span 2}
-.replay-row.large-match .row-top,.replay-row.large-match .row-players{grid-column:2;min-width:0}
-.replay-row.large-match .row-meta{grid-column:1 / -1;flex-wrap:nowrap}
+.replay-row.large-match .row-meta{flex-wrap:nowrap;gap:2px}
+.replay-row.large-match .row-meta>span:first-child{font-size:10px;flex:0 0 auto}
+.replay-row.large-match .matchup-icons,.replay-row.large-match .race-team{gap:0;flex-wrap:nowrap}
+.replay-row.large-match .matchup-icons>.versus{font-size:9px;margin:0 1px}
