@@ -144,7 +144,7 @@ function showMatch(elapsed){
  $('map').textContent=mapDisplayName(r.map.file)||r.gamename||'Untitled match';
  $('map-preview').innerHTML=mapPreview(r.map.file);
  $('version').textContent='PATCH '+r.version+' · BUILD '+r.buildNumber;
- $('filename').textContent=entry.file.split(/[\\/]/).pop();
+ $('filename-text').textContent=entry.file.split(/[\\/]/).pop();
  $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
  $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
 

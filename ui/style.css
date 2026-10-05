@@ -301,3 +301,5 @@
 .replay-row.large-match .row-meta>span:first-child{font-size:10px;flex:0 0 auto}
 .replay-row.large-match .matchup-icons,.replay-row.large-match .race-team{gap:0;flex-wrap:nowrap}
 .replay-row.large-match .matchup-icons>.versus{font-size:9px;margin:0 1px}
+
+#filename{display:inline-flex;align-items:center;gap:5px;max-width:100%}.filename-icon{width:16px;height:16px;object-fit:contain;flex:0 0 16px}#filename-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}

@@ -26,6 +26,12 @@
       "source": "Installed Warcraft III game data",
       "texture": "ReplaceableTextures/CommandButtons/BTNReveal.blp",
       "sha256": "2479e5211be741d9dd8be0d17b5e87dc100d966131c86fb73d3ee99bcefb3ce7"
+    },
+    {
+      "file": "replay.png",
+      "source": "Installed Warcraft III game data",
+      "texture": "UI/Console/Reforged/ControlPanel/observer-control-menu-icon-replay-resting_4k.dds",
+      "sha256": "0f40a6b6c78e0d6a2ea434f644578db8aa496dbc14b62e755743bbe14930b3f7"
     }
   ]
 }
