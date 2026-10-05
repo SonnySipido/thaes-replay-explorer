@@ -273,3 +273,6 @@
 .library-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .library-heading h2{flex:0 0 auto;margin:0}
 .library-heading .graphics-toggle{margin:0 0 0 auto;flex:0 0 auto;white-space:nowrap;font-size:11px;gap:6px}
+
+.player-profile{display:block;max-width:100%;border:0;border-radius:2px;padding:0;background:none;color:inherit;text-align:left;font-family:inherit;cursor:pointer}
+.player-profile:hover{background:none;color:inherit;text-decoration:underline;text-underline-offset:3px}

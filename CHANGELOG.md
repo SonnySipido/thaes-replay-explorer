@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2
+
+- Click match-header player names to open W3Champions profiles.
+- Remember window dimensions, position and maximized state, with safe placement after monitor changes.
+- Align the graphics switch to the right of the Replays heading.
+
+
 ## 0.1.1
 
 - Reduce the default window height by 150 pixels, while keeping it within the screen.

@@ -8,6 +8,23 @@ const {resolveMapFile}=require('./map-files.cjs');
 app.setName("Thae's Replay Explorer");
 app.setAppUserModelId('Thae.ReplayExplorer');
 app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explorer'));
+const {restoreWindowBounds}=require('./window-state.cjs');
+const {playerProfileUrl}=require('./player-profile.cjs');
+const fsSync=require('node:fs');
+let windowState,windowSaveTimer;
+function saveSettings(){
+ const temporary=configFile+'.tmp';
+ fsSync.writeFileSync(temporary,JSON.stringify({folder,includeSubfolders,window:windowState}));
+ fsSync.renameSync(temporary,configFile);
+}
+function rememberWindow(){
+ if(!win||win.isDestroyed())return;
+ windowState={...win.getNormalBounds(),maximized:win.isMinimized()?windowState?.maximized===true:win.isMaximized()};
+}
+function scheduleWindowSave(){
+ rememberWindow();clearTimeout(windowSaveTimer);
+ windowSaveTimer=setTimeout(()=>{try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}},250);windowSaveTimer.unref();
+}
 const DEFAULT_FOLDER='';
 let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder;
 function send(channel,data){if(win && !win.isDestroyed())win.webContents.send(channel,data);}
@@ -47,10 +64,19 @@ async function localMap(entry){
 async function chooseReplayFolder(){
  const pick=await dialog.showOpenDialog(win,{title:folder?'Choose a replay folder':'Choose a replay folder — suggested Warcraft III replay location',defaultPath:folder||suggestedFolder,properties:['openDirectory']});
  if(pick.canceled||!pick.filePaths[0])return;
- folder=pick.filePaths[0];await fs.writeFile(configFile,JSON.stringify({folder,includeSubfolders}));
+ folder=pick.filePaths[0];saveSettings();
  await index(true);
 }
 function registerIPC(){
+  ipcMain.handle('open-player-profile',async(_,key,playerId)=>{
+    const row=entries.get(key);if(!row)throw new Error('Replay is no longer in the library.');
+    const replay=await details.get(row);
+    const player=replay.data?.players.find(p=>String(p.id)===String(playerId));
+    if(!player)throw new Error('Player is not in this replay.');
+    const url=playerProfileUrl(player.name);
+    if(!url){await dialog.showMessageBox(win,{type:'info',title:'Player profile unavailable',message:'This replay does not include a full BattleTag for this player.',detail:'A player name and its numeric tag are needed to identify the correct W3Champions profile.',buttons:['OK']});return;}
+    await shell.openExternal(url);
+  });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
   ipcMain.handle('initial',()=>({folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy}}));
@@ -58,8 +84,7 @@ function registerIPC(){
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
     if(typeof enabled!=='boolean')throw new Error('Invalid subfolder preference.');
-    await fs.writeFile(configFile,JSON.stringify({folder,includeSubfolders:enabled}));
-    includeSubfolders=enabled;await index(true);return includeSubfolders;
+    includeSubfolders=enabled;saveSettings();await index(true);return includeSubfolders;
   });
   ipcMain.handle('refresh',()=>index(false));
   ipcMain.handle('open-folder',async()=>{
@@ -96,19 +121,24 @@ app.whenReady().then(async()=>{
   const user=app.getPath('userData');
   await fs.mkdir(user,{recursive:true});
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
-  try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));folder=saved.folder||folder;includeSubfolders=saved.includeSubfolders!==false;}catch{}
+  try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));folder=saved.folder||folder;includeSubfolders=saved.includeSubfolders!==false;windowState=saved.window;}catch{}
   if(folder){try{if(!(await fs.stat(folder)).isDirectory())folder='';}catch{folder='';}}
   suggestedFolder=await require('./replay-folders.cjs').suggestedReplayFolder(app.getPath('documents'));
   registerIPC();
   const area=screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
-  const height=Math.min(area.height,Math.max(680,Math.min(area.height,Math.max(970,Math.round(area.height*.92)))-150)),width=Math.min(1500,area.width);
-  win=new BrowserWindow({width,height,x:area.x+Math.round((area.width-width)/2),y:area.y+Math.round((area.height-height)/2),minWidth:Math.min(1050,width),minHeight:Math.min(680,height),backgroundColor:'#0b111a',title:"Thae's Replay Explorer",icon:path.join(__dirname,'ui','artwork','rexxar.png'),
+  const restored=restoreWindowBounds(windowState,screen.getAllDisplays(),area);
+  win=new BrowserWindow({...restored,show:false,backgroundColor:'#0b111a',title:"Thae's Replay Explorer",icon:path.join(__dirname,'ui','artwork','rexxar.png'),
     webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
   if(process.platform==='win32')win.setAppDetails({appId:'Thae.ReplayExplorer',appIconPath:path.join(__dirname,'ui','artwork','rexxar.ico'),appIconIndex:0,relaunchCommand:'"'+process.execPath+'"',relaunchDisplayName:"Thae's Replay Explorer"});
   win.removeMenu();
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',event=>event.preventDefault());
+  win.on('close',()=>{clearTimeout(windowSaveTimer);rememberWindow();try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}});
   await win.loadFile(path.join(__dirname,'ui','index.html'));
+  if(windowState?.maximized)win.maximize();
+  win.show();
+  for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);
+  rememberWindow();
   if(folder)await index(true);else await chooseReplayFolder();
   setInterval(()=>{if(!busy)index(false);},30000).unref();
 });

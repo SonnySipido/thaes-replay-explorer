@@ -133,10 +133,11 @@ function renderPlayers(){
  const winner=entry.data.winningTeamId;
  const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
  $('winner-status').textContent=reveal&&!known?'Winner unavailable':'';
- $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><span class="player-name" title="'+esc(p.name)+'">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</span><span class="team">Team '+(p.teamid+1)+'</span></div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
+ $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</button><span class="team">Team '+(p.teamid+1)+'</span></div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
  const cards=[...$('players').children];$('players').replaceChildren();
  const teams=teamColumns($('players'),entry.data.players);
- cards.forEach((card,i)=>teams.get(teamNumber(entry.data.players[i])).append(card));
+ const replayKey=selected;
+ cards.forEach((card,i)=>{const player=entry.data.players[i];card.querySelector('.player-profile').onclick=()=>window.replays.openPlayerProfile(replayKey,player.id).catch(showError);teams.get(teamNumber(player)).append(card);});
 }
 function renderTabs(){
  $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');
