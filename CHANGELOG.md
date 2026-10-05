@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- Resize the replay list by dragging its divider to see more player names in team matches. The chosen width is saved between launches.
+- Double-click the divider to reset its width; keyboard arrows also adjust it.
+- Add the World Editor Scroll icon beside the Match Analysis replay filename.
+- Includes all improvements from 0.1.3 and the updated download website.
+
+
 ## 0.1.3
 
 - Restore the selected replay after restarting; Escape clears the analysis and saved selection.
