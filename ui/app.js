@@ -98,9 +98,9 @@ function renderList(){
  $('library-prev').disabled=listPage===0;$('library-next').disabled=listPage===pages-1;
  const fragment=document.createDocumentFragment();
  for(const r of list.slice(listPage*listPageSize,(listPage+1)*listPageSize)){
-   const button=document.createElement('button');button.className='replay-row'+(r.key===selected?' active':'');button.dataset.key=r.key;
+   const button=document.createElement('button');button.className='replay-row'+(r.players.length>4?' team-match':'')+(r.players.length>4?' large-match':'')+(r.key===selected?' active':'');button.dataset.key=r.key;
    button.setAttribute('aria-pressed',String(r.key===selected));
-   const stamp=replayFilters.dateLabel(r);
+   const stamp=replayFilters.dateLabel(r,r.players.length>4);
    button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong><span class="length">'+(r.error?'!':time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?r.players.map((p,i)=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join('<span class="versus"> VS </span>'):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';

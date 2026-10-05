@@ -9,6 +9,6 @@
   if(m){const d=new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+(m[6]||0));if(d.getFullYear()===+m[1]&&d.getMonth()===+m[2]-1&&d.getDate()===+m[3]&&d.getHours()===+m[4]&&d.getMinutes()===+m[5])return d.getTime();}
   return Number(row.modified)||0;
  }
- function dateLabel(row){const ms=timestamp(row);if(!ms)return 'Date unavailable';const d=new Date(ms),pad=v=>String(v).padStart(2,'0');return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+' \u00b7 '+pad(d.getHours())+':'+pad(d.getMinutes());}
+ function dateLabel(row,dateOnly=false){const ms=timestamp(row);if(!ms)return 'Date unavailable';const d=new Date(ms),pad=v=>String(v).padStart(2,'0');return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+(dateOnly?'':' \u00b7 '+pad(d.getHours())+':'+pad(d.getMinutes()));}
  const api={teamSize,matchup,timestamp,dateLabel};if(typeof module!=='undefined')module.exports=api;else root.replayFilters=api;
 })(typeof window!=='undefined'?window:globalThis);
