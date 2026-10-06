@@ -1,5 +1,5 @@
 ﻿'use strict';
-const {app,BrowserWindow,ipcMain,dialog,shell,screen}=require('electron');
+const {app,BrowserWindow,ipcMain,dialog,shell,screen,clipboard}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path');
 const {Worker}=require('node:worker_threads');
 const {summary}=require('./library.cjs');
@@ -188,6 +188,14 @@ function registerIPC(){
     const row=entries.get(key);if(!row)return;const entry=await details.get(row);if(!entry.data)return;
     const pick=await dialog.showSaveDialog(win,{title:'Export replay analysis',defaultPath:path.basename(entry.file,'.w3g')+'.json',filters:[{name:'JSON',extensions:['json']}]});
     if(!pick.canceled)await fs.writeFile(pick.filePath,JSON.stringify(entry.data,null,2));
+  });
+  ipcMain.handle('copy-text',(_,text)=>{clipboard.writeText(String(text));});
+  // the chat as shown in the Chat tab, saved as a text file named after the replay
+  ipcMain.handle('export-chat',async(_,key,text)=>{
+    const row=entries.get(key);if(!row)throw new Error('Replay is no longer in the library.');
+    const pick=await dialog.showSaveDialog(win,{title:'Export chat',defaultPath:path.join(app.getPath('documents'),path.basename(row.file,path.extname(row.file))+' chat.txt'),filters:[{name:'Text',extensions:['txt']}]});
+    if(pick.canceled)return false;
+    await fs.writeFile(pick.filePath,String(text),'utf8');return true;
   });
 }
 app.whenReady().then(async()=>{

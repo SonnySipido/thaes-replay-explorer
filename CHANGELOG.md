@@ -3,6 +3,7 @@
 ## 0.4.1 (not yet released)
 
 - Chat: **Hide duplicates** switch (on by default). Battle.net replays since Reforged record the saving player's own messages twice, a few milliseconds apart; the copy is hidden when the same player sends the same text in the same channel within a second.
+- Chat: **Copy chat** puts the messages shown (after search, player filter and Hide duplicates) on the clipboard, and **Export chat** saves them as a text file named after the replay. Both start with the map, date and replay file name, then one line per message: time, channel, player and text.
 
 
 ## 0.4.0
