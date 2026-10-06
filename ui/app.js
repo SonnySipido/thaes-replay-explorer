@@ -234,9 +234,7 @@ function heroes(p,root){
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
  (units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')||
  '<p class="empty-note">No training orders recorded.</p>')+
- '</div></div></div>'+
- (p.cancellations.length?'<details><summary>Queue cancellations</summary><div data-view="unit-cancellations"></div></details>':'');
- if($('unit-cancellations'))pagedTable($('unit-cancellations'),['Time','Cancelled order','Queue slot'],p.cancellations,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id)+'</td><td>'+o.slot+'</td></tr>');
+ '</div></div></div>';
 }
 function buildingsAndUpgrades(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
@@ -246,10 +244,8 @@ function buildingsAndUpgrades(p,root){
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
  table(['Building','Amount','Started'],buildings.map(([id,count])=>'<tr><td>'+objectIcon(id,'buildings')+'</td><td class="number">'+count+'</td><td><div class="build-start-times">'+(starts.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
- '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>'+
- (p.cancellations.length?'<details><summary>Queue cancellations</summary><div data-view="cancellations"></div></details>':'');
+ '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
  pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
- if($('cancellations'))pagedTable($('cancellations'),['Time','Cancelled order','Queue slot'],p.cancellations,o=>'<tr><td class="time">'+time(o.ms)+'</td><td>'+objectIcon(o.id)+'</td><td>'+o.slot+'</td></tr>');
 }
 function items(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
