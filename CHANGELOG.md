@@ -1,10 +1,11 @@
 # Changelog
 
-## 0.3.1 (not yet released)
+## 0.4.0
 
 - Patch filter: tick one or more patches (listed from your own library, newest first, with their builds and replay counts) to show only games from those patches.
 - More reliable winners: checked against over 8,000 real results. In Battle.net replays the side still in the game beats the side that left (the old reading picked the wrong winner in about a quarter of Battle.net 1v1s). Replays already in the library are worked out again when opened.
 - Settings panel behind the gear at the top right (the header keeps only the gear), with the replay folder (click it to open it in File Explorer), Choose folder, the Include subfolders and Reforged HD icons switches, and Check for updates (with the version and the date it last checked). Up to date / Check failed return to the normal button after a few seconds.
+- The status line shows how many replays are indexed.
 
 
 ## 0.3.0
