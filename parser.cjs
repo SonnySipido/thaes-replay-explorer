@@ -5,6 +5,7 @@ const zlib = require('node:zlib');
 const {promisify} = require('node:util');
 const {default: Replay} = require('w3gjs');
 const {readReplayStart, gameSource} = require('./replay-start.cjs');
+const {winningTeam} = require('./winner.cjs');
 const parserRoot = path.dirname(require.resolve('w3gjs'));
 const mappings = require(path.join(parserRoot, 'mappings.js'));
 const {inferHeroAbilityLevelsFromAbilityOrder: infer} = require(path.join(parserRoot, 'inferHeroAbilityLevelsFromAbilityOrder.js'));
@@ -128,6 +129,13 @@ async function parseReplay(fileOrBuffer) {
   const result = JSON.parse(JSON.stringify(parsed));
   const {mmr} = await readReplayStart(buffer);
   result.source = gameSource(result.creator);  // 'w3c' / 'bnet' / null
+  // w3gjs decides the winner of 1v1 games only: work it out from the leave records otherwise
+  if (!(result.winningTeamId >= 0)) {
+    const hex = value => Buffer.from(value, 'hex').readUInt32LE(0);
+    const leaves = (replay.leaveEvents || []).map(e => ({playerId: e.playerId, result: hex(e.result), reason: hex(e.reason)}));
+    result.winningTeamId = winningTeam(result.players, leaves, replay.meta?.playerRecords?.[0]?.playerId);
+  }
+  result.winnerChecked = true;
   for (const p of result.players) {
     p.mmr = mmr.get(p.id) ?? null;  // Battle.net ladder MMR, when the replay has it
     const e = extra.players.get(p.id) || {groups:{},groupHistory:[],itemUses:[],unknownOrders:[],heroOrders:[],itemTransfers:[],cancellations:[],observedHeroes:new Set(),apmBuckets:[],actionCount:0};

@@ -10,7 +10,8 @@ app.setAppUserModelId('Thae.ReplayExplorer');
 app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explorer'));
 const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
-const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
+const {readReplayStartFromFile,gameSource,readLeaves}=require('./replay-start.cjs');
+const {winningTeam}=require('./winner.cjs');
 const fsSync=require('node:fs');
 const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
@@ -46,31 +47,51 @@ function scheduleWindowSave(){
 const DEFAULT_FOLDER='';
 let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder;
 function send(channel,data){if(win && !win.isDestroyed())win.webContents.send(channel,data);}
-async function index(reset=false) {
+// reset: index from scratch (start, new folder). Otherwise only new, changed and deleted replays are
+// passed to the page: sending the whole library (tens of thousands of rows) on every check froze it.
+// background: a check nobody asked for, shown only when it finds something.
+async function index(reset=false,background=false) {
   if(!folder)return;
   if(busy && !reset)return;
   if(worker){const previous=worker;worker=null;await previous.terminate();}
   if(reset){entries.clear();details?.clear();}
   busy=true;
-  send('library-reset',{folder,includeSubfolders,rows:[...entries.values()].map(summary)});
+  if(reset)send('library-reset',{folder,includeSubfolders,rows:[]});
+  let found=false;
   const known=Object.fromEntries([...entries].filter(([,e])=>!e.error).map(([k,e])=>[k,e.fingerprint]));
   const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{folder,cache,known,includeSubfolders}});
   worker=active;
   active.on('message',msg=>{
     if(worker!==active)return;
-    if(msg.type==='entry'){details?.invalidate(msg.entry.key);entries.set(msg.entry.key,msg.entry);send('library-entry',summary(msg.entry));}
-    if(msg.type==='progress'){progress={...msg.progress,busy:true};send('progress',progress);}
+    if(msg.type==='entry'){found=true;details?.invalidate(msg.entry.key);entries.set(msg.entry.key,msg.entry);send('library-entry',summary(msg.entry));}
+    if(msg.type==='progress'){progress={...msg.progress,busy:true};if(!background||found)send('progress',progress);}
     if(msg.type==='error'){busy=false;progress={...progress,busy:false,error:msg.error};send('progress',progress);}
     if(msg.type==='done'){
-      const present=new Set(msg.result.files);
-      for(const [key,entry] of entries)if(!present.has(entry.file)){entries.delete(key);details?.invalidate(key);}
+      const present=new Set(msg.result.files);let removed=false;
+      for(const [key,entry] of entries)if(!present.has(entry.file)){entries.delete(key);details?.invalidate(key);removed=true;}
       busy=false;progress={...msg.result,files:undefined,busy:false};
-      send('library-reset',{folder,includeSubfolders,rows:[...entries.values()].map(summary)});
+      if(reset||removed)send('library-reset',{folder,includeSubfolders,rows:[...entries.values()].map(summary)});
       send('progress',progress);
     }
   });
   active.on('error',e=>{if(worker===active){busy=false;send('progress',{busy:false,error:e.message});}});
   active.on('exit',code=>{if(worker===active && busy){busy=false;send('progress',{busy:false,error:'Indexer exited unexpectedly ('+code+'). Refresh to retry.'});}});
+}
+// New and changed replays: watch the folder rather than checking every file every 30 seconds. A slow
+// background check still runs in case a change is missed (network drives, sleep).
+let watcher=null,watchTimer=null;
+function watchFolder(){
+  watcher?.close();watcher=null;clearTimeout(watchTimer);
+  if(!folder)return;
+  const check=()=>{if(busy){watchTimer=setTimeout(check,3000);watchTimer.unref();return;}index(false,true);};
+  try{
+    watcher=fsSync.watch(folder,{recursive:includeSubfolders},(_,name)=>{
+      // TempReplay.w3g is the game being played: rewritten all the time, indexed once it is saved
+      if(!name||!/\.w3g$/i.test(name)||/(^|[\\/])TempReplay\.w3g$/i.test(name))return;
+      clearTimeout(watchTimer);watchTimer=setTimeout(check,3000);watchTimer.unref();
+    });
+    watcher.on('error',()=>{watcher?.close();watcher=null;});
+  }catch{watcher=null;}
 }
 async function localMap(entry){
  if(!entry?.mapInfo)throw Error('Map information is unavailable.');
@@ -83,6 +104,7 @@ async function chooseReplayFolder(){
  const pick=await dialog.showOpenDialog(win,{title:folder?'Choose a replay folder':'Choose a replay folder — suggested Warcraft III replay location',defaultPath:folder||suggestedFolder,properties:['openDirectory']});
  if(pick.canceled||!pick.filePaths[0])return;
  folder=pick.filePaths[0];saveSettings();
+ watchFolder();
  await index(true);
 }
 function registerIPC(){
@@ -107,12 +129,17 @@ function registerIPC(){
       let mmr=new Map();try{({mmr}=await readReplayStartFromFile(entry.file));}catch{}
       for(const p of entry.data.players)p.mmr=mmr.get(p.id)??null;
     }
+    // ...and the winner of games w3gjs could not decide (team games)
+    if(entry.data&&!entry.data.winnerChecked&&!(entry.data.winningTeamId>=0)){
+      try{const {recorderId,leaves}=await readLeaves(await fs.readFile(entry.file));entry.data.winningTeamId=winningTeam(entry.data.players,leaves,recorderId);}catch{}
+      entry.data.winnerChecked=true;
+    }
     return entry;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
     if(typeof enabled!=='boolean')throw new Error('Invalid subfolder preference.');
-    includeSubfolders=enabled;saveSettings();await index(true);return includeSubfolders;
+    includeSubfolders=enabled;saveSettings();watchFolder();await index(true);return includeSubfolders;
   });
   ipcMain.handle('refresh',()=>index(false));
   ipcMain.handle('open-folder',async()=>{
@@ -171,8 +198,8 @@ app.whenReady().then(async()=>{
   if(pendingSelect)requestSelect(null);  // asked for while the page was loading
   for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);
   rememberWindow();
-  if(folder)await index(true);else await chooseReplayFolder();
-  setInterval(()=>{if(!busy)index(false);},30000).unref();
+  if(folder){watchFolder();await index(true);}else await chooseReplayFolder();
+  setInterval(()=>{if(!busy)index(false,true);},300000).unref();
 });
 app.on('window-all-closed',()=>{worker?.terminate();app.quit();});
 

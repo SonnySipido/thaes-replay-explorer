@@ -6,6 +6,8 @@
 - Player names without a full BattleTag, such as pre-Reforged accounts, are plain text instead of a link that could only show an error.
 - Show where a game was played with the W3Champions or Battle.net icon (named on hover) in the match header and after the map name in the replay list, and filter the list by it ("Played on"). Read from the game's host recorded in the replay, so it also works for W3Champions games saved under Warcraft III's own Replay_… file names.
 - Show the date and time of the game in the match header, and a clock icon before its duration.
+- Show the winner of team games too (worked out from the players' leave records; only 1v1 games had one before). Decided for about 97% of team games; replays without leave records stay unknown.
+- No more freezes every 30 seconds with large libraries: the replay folder is watched for new and changed replays, a background check runs every 5 minutes, and only changed rows are sent to the list instead of the whole library.
 
 
 ## 0.2.1

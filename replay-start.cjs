@@ -74,6 +74,43 @@ function decodePlayers(blob){
  }
  return players.length?players:[p];
 }
+// The whole replay: who saved it (the first player record) and every leave record {playerId, result,
+// reason}, for replays analysed before the winner of team games was worked out.
+async function readLeaves(buffer){
+ const start=buffer.indexOf('Warcraft III recorded game');
+ if(start<0)return {recorderId:null,leaves:[]};
+ const headerSize=buffer.readUInt32LE(start+28),count=buffer.readUInt32LE(start+44),build=buffer.readUInt16LE(start+56);
+ const size=build>=6089?12:8,parts=[];let offset=start+headerSize;
+ for(let i=0;i<count&&offset+size<=buffer.length;i++){
+  const compressed=buffer.readUInt16LE(offset);
+  parts.push(await inflate(buffer.subarray(offset+size,offset+size+compressed),{finishFlush:zlib.constants.Z_SYNC_FLUSH}));
+  offset+=size+compressed;
+ }
+ const data=Buffer.concat(parts),leaves=[];
+ let o=0;
+ try{
+  // skip the start (as in parseStart) up to the game start record (0x19), then walk the game data
+  const zstring=()=>{const end=data.indexOf(0,o);if(end<0)throw Error('truncated');o=end+1;};
+  const record=()=>{o++;zstring();o+=1+data[o];};
+  o=5;record();zstring();zstring();zstring();o+=12;
+  while(data[o]===0x16){o++;record();o+=4;}
+  while(data[o]===0x38||data[o]===0x39)o+=6+data.readUInt32LE(o+2);
+  if(data[o]!==0x19)return {recorderId:data[5],leaves};
+  o+=3+data.readUInt16LE(o+1);
+  while(o<data.length){
+   const id=data[o];
+   if(id===0x1e||id===0x1f)o+=3+data.readUInt16LE(o+1);
+   else if(id===0x17){leaves.push({reason:data.readUInt32LE(o+1),playerId:data[o+5],result:data.readUInt32LE(o+6)});o+=14;}
+   else if(id===0x1a||id===0x1b||id===0x1c)o+=5;
+   else if(id===0x20)o+=4+data.readUInt16LE(o+2);
+   else if(id===0x22)o+=2+data[o+1];
+   else if(id===0x23)o+=11;
+   else if(id===0x2f)o+=9;
+   else break;  // 0 = end of the game data (padding)
+  }
+ }catch{}
+ return {recorderId:data[5],leaves};
+}
 // where a game was played: 'w3c' (W3Champions), 'bnet' (Battle.net) or null (custom, LAN, older replays)
 function gameSource(creator){return creator==='FLO'?'w3c':creator==='Battle.net'?'bnet':null;}
-module.exports={readReplayStart,readReplayStartFromFile,parseStart,gameSource};
+module.exports={readReplayStart,readReplayStartFromFile,parseStart,gameSource,readLeaves};
