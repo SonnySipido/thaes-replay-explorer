@@ -74,11 +74,11 @@ function decodePlayers(blob){
  }
  return players.length?players:[p];
 }
-// The whole replay: who saved it (the first player record) and every leave record {playerId, result,
-// reason}, for replays analysed before the winner of team games was worked out.
+// The whole replay's leave records {playerId, result, reason}, for replays analysed before the current way of
+// working out the winner (winner.cjs).
 async function readLeaves(buffer){
  const start=buffer.indexOf('Warcraft III recorded game');
- if(start<0)return {recorderId:null,leaves:[]};
+ if(start<0)return {leaves:[]};
  const headerSize=buffer.readUInt32LE(start+28),count=buffer.readUInt32LE(start+44),build=buffer.readUInt16LE(start+56);
  const size=build>=6089?12:8,parts=[];let offset=start+headerSize;
  for(let i=0;i<count&&offset+size<=buffer.length;i++){
@@ -95,7 +95,7 @@ async function readLeaves(buffer){
   o=5;record();zstring();zstring();zstring();o+=12;
   while(data[o]===0x16){o++;record();o+=4;}
   while(data[o]===0x38||data[o]===0x39)o+=6+data.readUInt32LE(o+2);
-  if(data[o]!==0x19)return {recorderId:data[5],leaves};
+  if(data[o]!==0x19)return {leaves};
   o+=3+data.readUInt16LE(o+1);
   while(o<data.length){
    const id=data[o];
@@ -109,7 +109,7 @@ async function readLeaves(buffer){
    else break;  // 0 = end of the game data (padding)
   }
  }catch{}
- return {recorderId:data[5],leaves};
+ return {leaves};
 }
 // where a game was played: 'w3c' (W3Champions), 'bnet' (Battle.net) or null (custom, LAN, older replays)
 function gameSource(creator){return creator==='FLO'?'w3c':creator==='Battle.net'?'bnet':null;}
