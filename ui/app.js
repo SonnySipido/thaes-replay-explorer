@@ -32,12 +32,12 @@ function cleanMapTitle(value){
  return clean(value).replace(/^\(\d+\)\s*/,'').replace(/^(?:(?:\d+|wal)[ _-]+)?(?:w3c|w3champions|w3arena)[ _-]+/i,'').replace(/^(?:(?:s\d+(?:\.\d+)?|\d{4,8}|ptr\d+)[ _-]+)+/i,'').replace(/^a[ _-]starter[ _-]map[ _-]*/i,'').replace(/[ _-]+(?:S\d+(?:\.\d+)?|LV|v\d+(?:\.\d+)*[a-z]?)(?=[ _-]|$)/gi,'').replace(/([a-z])([A-Z])/g,'$1 $2').replace(/\s+/g,' ').trim();
 }
 const mapTitles=new Map(Object.entries(window.warcraftMapNames||{}).map(([file,title])=>[file.toLowerCase(),title]));
-const mapImages=new Map(Object.entries(window.warcraftMaps||{}).map(([file,src])=>[file.toLowerCase(),src]));
+const resolveMapPreview=window.mapPreviewMatch.create(window.warcraftMaps||{},window.warcraftMapNames||{});
 function mapDisplayName(file){
  const base=mapBaseName(file),stored=mapTitles.get(base.toLowerCase());
  return cleanMapTitle(stored||base).replace(/\b[a-z]/g,c=>c.toUpperCase());
 }
-function mapImage(file){return mapImages.get(mapBaseName(file).toLowerCase());}
+function mapImage(file){return resolveMapPreview(file);}
 
 function selectedRace(p){return p.race||p.raceDetected||'R';}
 function raceColorClass(p){return 'race-color-'+selectedRace(p);}

@@ -1,0 +1,15 @@
+{
+  "copyright": "Warcraft III map artwork belongs to Blizzard Entertainment.",
+  "files": [
+    {
+      "file": "maps/classic-2.png",
+      "source": "war3.w3mod:maps/(8)BlastedLands.w3m",
+      "sha256": "565319ca163eee93f0a5985b7c815b59af807e52d7d0de24a81e4c2b144fb0cd"
+    },
+    {
+      "file": "maps/classic-8.png",
+      "source": "war3.w3mod:maps/(4)LostTemple.w3m",
+      "sha256": "10c313bfbb3312961517fb07aa082fd67710b5e8fecdb48e5dda403a65cd5422"
+    }
+  ]
+}
