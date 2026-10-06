@@ -130,11 +130,14 @@
 .source-badge{height:16px;width:auto;margin-left:10px;vertical-align:middle}
 .match-date{margin-left:10px;vertical-align:middle}
 /* Check for updates (header): a gold button when a newer version is ready */
-.updater{display:inline-flex;align-items:center;gap:8px}
-#update-check{white-space:nowrap}
+/* version above, a small button, "Last checked" below */
+.updater{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.updater-row{display:inline-flex;align-items:center;gap:6px}
+.updater-meta{font-size:10px;line-height:12px;color:var(--muted);white-space:nowrap}
+#update-check{white-space:nowrap;font-size:11px;padding:3px 9px;border-radius:5px}
 #update-check.update-ready{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
 #update-check:disabled{opacity:.7;cursor:default}
-.link-button{border:0;background:none;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:12px}
+.link-button{border:0;background:none;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:11px}
 .link-button:hover{background:none;color:var(--text)}
 /* game length: a clock before the duration */
 .duration-wrap{display:inline-flex;align-items:center;gap:6px}

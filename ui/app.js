@@ -396,9 +396,16 @@ window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredR
 window.replays.on('select-replay',openRequestedReplay);
 // Check for updates: asks GitHub only when pressed; a newer version turns it into "Update to x.y.z",
 // which downloads, checks and installs it (the app closes and starts again by itself)
-let update=null;
+let update=null,updateReset=null;
 const updateButton=$('update-check');
-function updateLabel(text,title){updateButton.textContent=text;if(title)updateButton.title=title;}
+function updateLabel(text,title){clearTimeout(updateReset);updateButton.textContent=text;if(title)updateButton.title=title;}
+// after "Up to date" / a failed check, back to the plain button
+function resetUpdateLabelSoon(ms){updateReset=setTimeout(()=>updateLabel('Check for updates','Look for a newer version on GitHub'),ms);}
+function showLastChecked(){
+ let at=null;try{at=Number(localStorage.getItem('update-last-checked'))||null;}catch{}
+ $('update-last').textContent='Last checked: '+(at?replayFilters.dateLabel({modified:at}):'never');
+}
+showLastChecked();
 updateButton.onclick=async()=>{
  updateButton.disabled=true;
  if(update?.newer){
@@ -410,14 +417,16 @@ updateButton.onclick=async()=>{
  updateLabel('Checking…');
  try{
   update=await window.replays.checkUpdate();
+  try{localStorage.setItem('update-last-checked',String(Date.now()));}catch{}
+  showLastChecked();
   if(update.newer){updateLabel('Update to '+update.version,'Download and install version '+update.version+' (you have '+update.current+')');updateButton.classList.add('update-ready');$('update-notes').hidden=false;}
-  else updateLabel('Up to date','Version '+update.current+' is the newest');
- }catch(e){updateLabel('Check failed · try again',e.message);}
+  else{updateLabel('Up to date','Version '+update.current+' is the newest');resetUpdateLabelSoon(4000);}
+ }catch(e){updateLabel('Check failed',e.message);resetUpdateLabelSoon(6000);}
  updateButton.disabled=false;
 };
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
-window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
+window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
 
 
 
