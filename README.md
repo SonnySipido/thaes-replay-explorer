@@ -37,7 +37,7 @@ On first launch, choose a replay folder. The app suggests your Documents/Warcraf
   
 By default the list of replays shown is sorted by newest first. Its possible to sort by oldest first as well as sorting by map name A-Z.
 
-The Reforged HD icons switch selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
+The Reforged HD icons switch in Settings (the gear at the top right) selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
 The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Names without a full BattleTag (such as accounts from before Reforged) cannot identify a unique profile and are shown as plain text.
 
@@ -49,7 +49,7 @@ Your last selected replay is restored after restarting. Press Escape to deselect
 
 Other apps can open a replay in the explorer: run **Thae's Replay Explorer.exe --select "C:\path\to\replay.w3g"**. If the explorer is already open, that window selects the replay and comes to the front; otherwise it starts with the replay selected. The replay must be inside the chosen replay folder; if the search text hides it, the search is cleared.
 
-Press **Check for updates** in the header to look for a newer version. If there is one, the button changes to **Update to x.y.z**: it downloads the installer from this repository's latest release, checks it against the release's SHA256SUMS.txt, installs it and restarts the app. Settings and the replay cache are kept. Versions before 0.3.0 have no button; install 0.3.0 once by hand.
+Open **Settings** (the gear at the top right) and press **Check for updates** to look for a newer version. If there is one, the button changes to **Update to x.y.z**: it downloads the installer from this repository's latest release, checks it against the release's SHA256SUMS.txt, installs it and restarts the app. Settings and the replay cache are kept. Versions before 0.3.0 have no button; install 0.3.0 once by hand.
 
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 

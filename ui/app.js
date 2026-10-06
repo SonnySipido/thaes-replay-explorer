@@ -36,7 +36,11 @@ function deselectReplay(){
  $('detail').innerHTML=emptyAnalysisMarkup;
  document.querySelectorAll('.replay-row.active').forEach(button=>{button.classList.remove('active');button.setAttribute('aria-pressed','false');});
 }
-document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();deselectReplay();}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!$('settings').hidden)closeSettings();else deselectReplay();}});
+// Settings panel (gear in the header): icon style and updates
+function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings-close').focus();}
+function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').focus();}
+$('settings-open').onclick=openSettings;$('settings-close').onclick=closeSettings;$('settings-backdrop').onclick=closeSettings;
 let listPage=0,listQuery='';const listPageSize=100;
 const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
 const savedAnalysisTab=localStorage.getItem('analysis-tab')||localStorage.getItem('replay-tab:'+pendingReplayRestore);
