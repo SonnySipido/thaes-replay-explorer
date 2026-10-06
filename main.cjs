@@ -11,7 +11,24 @@ app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explore
 const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
 const fsSync=require('node:fs');
+const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
+// "--select <replay.w3g>" (e.g. from another app) opens that replay; a second launch hands it to
+// the window that is already open instead of starting another one
+function selectArgument(argv){const i=argv.indexOf('--select');return i>=0&&argv[i+1]?argv[i+1]:null;}
+// (the request travels as additional data: the command line the first window receives can be reordered)
+const primaryInstance=app.requestSingleInstanceLock({select:selectArgument(process.argv)});
+if(!primaryInstance)app.quit();
+let pendingSelect=null,windowReady=false;
+function replayKey(file){return crypto.createHash('sha256').update(path.resolve(file).toLowerCase()).digest('hex');}
+function requestSelect(file){
+ if(file&&path.extname(file).toLowerCase()==='.w3g')pendingSelect=replayKey(file);
+ if(!windowReady||!win||win.isDestroyed())return;
+ if(win.isMinimized())win.restore();
+ win.show();win.focus();
+ if(pendingSelect){send('select-replay',pendingSelect);pendingSelect=null;}
+}
+app.on('second-instance',(_,argv,_cwd,data)=>requestSelect(data?.select||selectArgument(argv)));
 function saveSettings(){
  const temporary=configFile+'.tmp';
  fsSync.writeFileSync(temporary,JSON.stringify({folder,includeSubfolders,window:windowState}));
@@ -79,7 +96,7 @@ function registerIPC(){
   });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
-  ipcMain.handle('initial',()=>({folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy}}));
+  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select};});
   ipcMain.handle('replay',(_,key)=>{const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');return details.get(e);});
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
@@ -118,6 +135,8 @@ function registerIPC(){
   });
 }
 app.whenReady().then(async()=>{
+  if(!primaryInstance)return;
+  requestSelect(selectArgument(process.argv));
   const user=app.getPath('userData');
   await fs.mkdir(user,{recursive:true});
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
@@ -137,6 +156,8 @@ app.whenReady().then(async()=>{
   await win.loadFile(path.join(__dirname,'ui','index.html'));
   if(windowState?.maximized)win.maximize();
   win.show();
+  windowReady=true;
+  if(pendingSelect)requestSelect(null);  // asked for while the page was loading
   for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);
   rememberWindow();
   if(folder)await index(true);else await chooseReplayFolder();

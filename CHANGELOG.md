@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+- Open a replay from another app: `--select "<replay.w3g>"` selects it in the library and shows its analysis.
+- Only one window runs at a time; launching the app again brings the open window to the front.
+
+
 ## 0.2.0
 
 - Resize the replay list by dragging its divider to see more player names in team matches. The chosen width is saved between launches.

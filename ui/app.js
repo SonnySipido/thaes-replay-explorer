@@ -6,10 +6,26 @@ const clean=value=>String(value||'').replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(
 const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
 let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
+let requestedReplay=null;
 function restoreSelectedReplay(){
  if(!pendingReplayRestore||selected||!rows.has(pendingReplayRestore))return;
  const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
  selectReplay(key,true);renderList();
+ // a replay asked for from outside that the search text hides: clear the search so it shows in the list
+ if(requestedReplay===key){
+  requestedReplay=null;
+  if($('search').value&&!$('replay-list').querySelector('.replay-row.active')){
+   $('search').value='';localStorage.setItem('library-search','');
+   renderList();restoredReplayReveal=key;renderList();  // (a new search starts at page 1: then jump to the replay's page)
+  }
+ }
+}
+// a replay asked for from outside (--select, e.g. from another app): select it now, or as soon as the
+// library has it
+function openRequestedReplay(key){
+ if(!key)return;
+ pendingReplayRestore=key;requestedReplay=key;selected=null;
+ restoreSelectedReplay();
 }
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
@@ -354,7 +370,8 @@ $('search').oninput=()=>{
 window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();});
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
-window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
+window.replays.on('select-replay',openRequestedReplay);
+window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
 
 
 

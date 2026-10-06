@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('replays',{
  revealMap:key=>ipcRenderer.invoke('reveal-map',key),
  reveal:key=>ipcRenderer.invoke('reveal-replay',key),
  on:(channel,callback)=>{
-   if(!['library-reset','library-entry','progress'].includes(channel))return;
+   if(!['library-reset','library-entry','progress','select-replay'].includes(channel))return;
    const listener=(_,data)=>callback(data);ipcRenderer.on(channel,listener);
    return ()=>ipcRenderer.removeListener(channel,listener);
  }
