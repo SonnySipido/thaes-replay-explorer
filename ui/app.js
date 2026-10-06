@@ -180,7 +180,8 @@ function teamLabel(player){return entry.data.players.length>2?'<span class="team
 // same rule as player-profile.cjs: a W3Champions profile needs a full BattleTag
 function hasProfile(name){return /^[^#\s\x00-\x1f]+#[0-9]+$/.test(String(name||'').trim());}
 // Battle.net ladder MMR, stored in Battle.net ladder replays (W3Champions replays have none)
-function mmrBadge(p){return p.mmr>0?'<span class="mmr" title="BNet MMR"><img src="artwork/battlenet.png" alt="BNet MMR" width="16" height="16">'+esc(p.mmr)+'</span>':'';}
+// (number and label styled like the APM beside it)
+function mmrBadge(p){return p.mmr>0?'<span class="mmr" title="BNet MMR"><img src="artwork/battlenet.png" alt="BNet MMR" width="16" height="16"><span class="apm">'+esc(p.mmr)+'</span><span class="mmr-label">MMR</span></span>':'';}
 function renderPlayers(){
  const reveal=$('show-winner')?.checked;
  const winner=entry.data.winningTeamId;

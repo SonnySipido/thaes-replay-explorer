@@ -126,8 +126,9 @@
 .players .team{font-size:10px;color:var(--muted);margin:0}
 .players .stats{margin-left:auto;display:flex;align-items:baseline;gap:5px;flex-shrink:0;font-size:10px}
 .players .apm{font-size:20px;line-height:24px;color:var(--text)}
-.players .mmr{align-self:center;display:inline-flex;align-items:center;gap:5px;margin-right:10px;font-size:15px;color:var(--text)}
-.players .mmr img{width:16px;height:16px;display:block}
+.players .mmr{display:contents}
+.players .mmr img{align-self:center;width:16px;height:16px;display:block}
+.players .mmr-label{margin-right:10px}
 .comparison-heading{padding:10px 0;margin-bottom:15px}
 .comparison-heading h2{font-size:16px}
 .player-race-team{display:flex;align-items:center;gap:7px}
