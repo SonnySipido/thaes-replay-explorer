@@ -291,8 +291,11 @@ function chat(){
  const fontSizes=[10,12,14,16,18,20,24];
  const savedSize=Number(localStorage.getItem('chat-font-size'));
  const fontSize=fontSizes.includes(savedSize)?savedSize:12;
+ const spacingOptions=[0,1,2,3,4,6,8];
+ const savedSpacing=localStorage.getItem('chat-spacing');
+ const spacing=savedSpacing!==null&&spacingOptions.includes(Number(savedSpacing))?Number(savedSpacing):1;
  $('panel').innerHTML=
- '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
+ '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-spacing" aria-label="Chat vertical spacing" title="Padding above and below each message"><option value="0">Spacing: 0 px</option><option value="1">Spacing: 1 px</option><option value="2">Spacing: 2 px</option><option value="3">Spacing: 3 px</option><option value="4">Spacing: 4 px</option><option value="6">Spacing: 6 px</option><option value="8">Spacing: 8 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
  function draw(){
   const q=$('chat-search').value.toLowerCase(),who=$('chat-player').value;
   const messages=entry.data.chat.filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
@@ -302,6 +305,10 @@ function chat(){
  const applyFontSize=()=>{$('chat-log').style.setProperty('--chat-font-size',$('chat-font-size').value+'px');};
  $('chat-font-size').onchange=()=>{localStorage.setItem('chat-font-size',$('chat-font-size').value);applyFontSize();};
  applyFontSize();
+ $('chat-spacing').value=String(spacing);
+ const applySpacing=()=>{$('chat-log').style.setProperty('--chat-spacing',$('chat-spacing').value+'px');};
+ $('chat-spacing').onchange=()=>{localStorage.setItem('chat-spacing',$('chat-spacing').value);applySpacing();};
+ applySpacing();
  $('chat-search').oninput=draw;$('chat-player').onchange=draw;draw();
 }
 function showError(e){$('status').textContent=e.message||String(e);}

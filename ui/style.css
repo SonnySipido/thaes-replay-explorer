@@ -313,3 +313,10 @@
 body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-select:none!important}
 
 #chat-log .chat-row{font-size:var(--chat-font-size,12px);line-height:1.35}#chat-log .chat-row .speaker{font-size:calc(var(--chat-font-size,12px) + 2pt)}#chat-log .empty-note{font-size:var(--chat-font-size,12px)}#chat-font-size{flex:0 0 auto}
+
+#chat-log{display:grid;grid-template-columns:max-content max-content minmax(0,1fr) minmax(0,2fr);column-gap:12px;font-size:var(--chat-font-size,12px)}
+#chat-log .chat-row{grid-column:1/-1;grid-template-columns:subgrid;column-gap:12px;row-gap:0;padding:var(--chat-spacing,1px) 8px;line-height:1.2}
+#chat-log .chat-row>span{min-width:0}
+#chat-log .chat-row>.time,#chat-log .chat-row>.muted{white-space:nowrap}
+#chat-log .empty-note{grid-column:1/-1}
+#chat-spacing{flex:0 0 auto}
