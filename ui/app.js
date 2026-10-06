@@ -44,7 +44,13 @@ function raceColorClass(p){return 'race-color-'+selectedRace(p);}
 let showWinner=localStorage.getItem('show-winner')==='true';
 let reforgedIcons=localStorage.getItem('reforged-icons')==='true';
 function iconSource(id,kind){return (reforgedIcons?window.warcraftReforgedIcons?.[kind]?.[id]:null)||window.warcraftIcons?.[kind]?.[id];}
-function playerColorClass(index){return index>=0?'player-color-'+(index%24):'';}
+const replayColorClasses={"#0042ff":0,"#ff0303":1,"#1ce6b9":2,"#540081":3,"#fffc00":4,"#fe8a0e":5,"#20c000":6,"#e55bb0":7,"#959697":8,"#7ebff1":9,"#106246":10,"#4a2a04":11,"#9b0000":12,"#0000c3":13,"#00eaff":14,"#be00fe":15,"#ebcd87":16,"#f8a48b":17,"#bfff80":18,"#dcb9eb":19,"#282828":20,"#ebf0ff":21,"#00781e":22,"#a46f33":23};
+function playerColorClass(index){
+ if(index<0)return '';
+ const players=entry?.data?.players||[];
+ const recorded=players.length>2?replayColorClasses[String(players[index]?.color||'').toLowerCase()]:undefined;
+ return 'player-color-'+(recorded??(index%24));
+}
 function raceIcon(code){
  const key=window.warcraftIcons.races[code]?code:'R';
  return '<img class="race-icon" src="'+esc(window.warcraftIcons.races[key])+'" alt="'+esc(races[key])+'" title="'+esc(races[key])+'" width="24" height="24">';
