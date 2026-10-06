@@ -344,6 +344,13 @@ function groups(p,root){
  $('panel').innerHTML=
  '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members(g.members)+'</td></tr>').join(''))+'</div>';
 }
+// Battle.net replays since Reforged record the saving player's own messages twice, a few ms apart:
+// the same text from the same player in the same channel within a second is one of those copies
+const DUPLICATE_CHAT_MS=1000;
+function withoutDuplicateChat(messages){
+ const last=new Map();
+ return messages.filter(c=>{const key=c.playerId+'|'+c.mode+'|'+c.message,before=last.get(key);last.set(key,c.timeMS);return before===undefined||c.timeMS-before>=DUPLICATE_CHAT_MS;});
+}
 function chat(){
  const fontSizes=[10,12,14,16,18,20,24];
  const savedSize=Number(localStorage.getItem('chat-font-size'));
@@ -352,10 +359,12 @@ function chat(){
  const savedSpacing=localStorage.getItem('chat-spacing');
  const spacing=savedSpacing!==null&&spacingOptions.includes(Number(savedSpacing))?Number(savedSpacing):1;
  $('panel').innerHTML=
- '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-spacing" aria-label="Chat vertical spacing" title="Padding above and below each message"><option value="0">Spacing: 0 px</option><option value="1">Spacing: 1 px</option><option value="2">Spacing: 2 px</option><option value="3">Spacing: 3 px</option><option value="4">Spacing: 4 px</option><option value="6">Spacing: 6 px</option><option value="8">Spacing: 8 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
+ '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-spacing" aria-label="Chat vertical spacing" title="Padding above and below each message"><option value="0">Spacing: 0 px</option><option value="1">Spacing: 1 px</option><option value="2">Spacing: 2 px</option><option value="3">Spacing: 3 px</option><option value="4">Spacing: 4 px</option><option value="6">Spacing: 6 px</option><option value="8">Spacing: 8 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select><label class="switch-toggle" title="Battle.net replays record the saving player\'s own messages twice"><input id="chat-hide-duplicates" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span><span>Hide duplicates</span></label></div><div id="chat-log" class="box"></div>';
+ $('chat-hide-duplicates').checked=localStorage.getItem('chat-hide-duplicates')!=='0';
+ $('chat-hide-duplicates').onchange=()=>{localStorage.setItem('chat-hide-duplicates',$('chat-hide-duplicates').checked?'1':'0');draw();};
  function draw(){
   const q=$('chat-search').value.toLowerCase(),who=$('chat-player').value;
-  const messages=entry.data.chat.filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
+  const messages=($('chat-hide-duplicates').checked?withoutDuplicateChat(entry.data.chat):entry.data.chat).filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
   $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS)+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||'<p class="empty-note">No chat messages match this view.</p>';
  }
  $('chat-font-size').value=String(fontSize);

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 (not yet released)
+
+- Chat: **Hide duplicates** switch (on by default). Battle.net replays since Reforged record the saving player's own messages twice, a few milliseconds apart; the copy is hidden when the same player sends the same text in the same channel within a second.
+
+
 ## 0.4.0
 
 - Patch filter: tick one or more patches (listed from your own library, newest first, with their builds and replay counts) to show only games from those patches.
