@@ -288,13 +288,20 @@ function groups(p,root){
  '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members(g.members)+'</td></tr>').join(''))+'</div>';
 }
 function chat(){
+ const fontSizes=[10,12,14,16,18,20,24];
+ const savedSize=Number(localStorage.getItem('chat-font-size'));
+ const fontSize=fontSizes.includes(savedSize)?savedSize:12;
  $('panel').innerHTML=
- '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
+ '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select></div><div id="chat-log" class="box"></div>';
  function draw(){
   const q=$('chat-search').value.toLowerCase(),who=$('chat-player').value;
   const messages=entry.data.chat.filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
   $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS)+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||'<p class="empty-note">No chat messages match this view.</p>';
  }
+ $('chat-font-size').value=String(fontSize);
+ const applyFontSize=()=>{$('chat-log').style.setProperty('--chat-font-size',$('chat-font-size').value+'px');};
+ $('chat-font-size').onchange=()=>{localStorage.setItem('chat-font-size',$('chat-font-size').value);applyFontSize();};
+ applyFontSize();
  $('chat-search').oninput=draw;$('chat-player').onchange=draw;draw();
 }
 function showError(e){$('status').textContent=e.message||String(e);}

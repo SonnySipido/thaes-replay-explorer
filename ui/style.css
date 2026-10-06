@@ -311,3 +311,5 @@
 #library-resizer:hover:after,#library-resizer:focus-visible:after,.resizing-library #library-resizer:after{background:var(--gold)}
 #library-resizer:focus-visible{outline:none}
 body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-select:none!important}
+
+#chat-log .chat-row{font-size:var(--chat-font-size,12px);line-height:1.35}#chat-log .chat-row .speaker{font-size:calc(var(--chat-font-size,12px) + 2pt)}#chat-log .empty-note{font-size:var(--chat-font-size,12px)}#chat-font-size{flex:0 0 auto}
