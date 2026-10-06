@@ -85,6 +85,12 @@ function matchupIcons(players,fallback='',analysis=false){
  return '<span class="matchup-icons">'+groups.map(group=>'<span class="race-team">'+group.map(p=>playerRaceIcon(p,analysis)).join('')+'</span>').join('<span class="versus">VS</span>')+'</span>';
 }
 function replayDate(row){return replayFilters.timestamp(row);}
+// where a game was played: the W3Champions or Battle.net icon, named on hover
+function sourceIcon(source,className){
+ if(source==='w3c')return '<img class="'+className+'" src="artwork/w3champions.png" alt="W3Champions" title="Played on W3Champions">';
+ if(source==='bnet')return '<img class="'+className+'" src="artwork/battlenet.png" alt="Battle.net" title="Played on Battle.net">';
+ return '';
+}
 
 function teamNumber(p){return Number(p.teamid??p.team??0);}
 function teamColumns(container,players){
@@ -131,7 +137,7 @@ function renderList(){
    const button=document.createElement('button');button.className='replay-row'+(r.players.length>4?' team-match':'')+(r.players.length>4?' large-match':'')+(r.key===selected?' active':'');button.dataset.key=r.key;
    button.setAttribute('aria-pressed',String(r.key===selected));
    const stamp=replayFilters.dateLabel(r);
-   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong><span class="length">'+(r.error?'!':time(r.duration))+'</span></span>'+
+   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+'</span><span class="length">'+(r.error?'!':time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';fragment.append(button);
@@ -171,9 +177,7 @@ function showMatch(elapsed){
  $('version').textContent='PATCH '+r.version+' · BUILD '+r.buildNumber;
  // where the game was played (W3Champions games are hosted by FLO, Battle.net games by Battle.net)
  const source=r.source??(r.creator==='FLO'?'w3c':r.creator==='Battle.net'?'bnet':null);
- if(source)$('version').insertAdjacentHTML('beforeend',source==='w3c'
-  ?'<span class="source-badge" title="Played on W3Champions"><img src="artwork/w3champions.png" alt="">W3CHAMPIONS</span>'
-  :'<span class="source-badge" title="Played on Battle.net"><img src="artwork/battlenet.png" alt="">BATTLE.NET</span>');
+ if(source)$('version').insertAdjacentHTML('beforeend',sourceIcon(source,'source-badge'));
  $('filename-text').textContent=entry.file.split(/[\\/]/).pop();
  $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
  $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
