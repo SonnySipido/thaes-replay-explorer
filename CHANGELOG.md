@@ -5,6 +5,7 @@
 - Show each player's Battle.net MMR in the match header ("5610 MMR" with the Battle.net icon, styled like the APM beside it) (Battle.net ladder replays; W3Champions replays do not record MMR).
 - Player names without a full BattleTag, such as pre-Reforged accounts, are plain text instead of a link that could only show an error.
 - Show where a game was played with the W3Champions or Battle.net icon (named on hover) in the match header and after the map name in the replay list, and filter the list by it ("Played on"). Read from the game's host recorded in the replay, so it also works for W3Champions games saved under Warcraft III's own Replay_… file names.
+- Show the date and time of the game in the match header, and a clock icon before its duration.
 
 
 ## 0.2.1

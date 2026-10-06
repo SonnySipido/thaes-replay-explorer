@@ -178,6 +178,9 @@ function showMatch(elapsed){
  // where the game was played (W3Champions games are hosted by FLO, Battle.net games by Battle.net)
  const source=r.source??(r.creator==='FLO'?'w3c':r.creator==='Battle.net'?'bnet':null);
  if(source)$('version').insertAdjacentHTML('beforeend',sourceIcon(source,'source-badge'));
+ // when it was played, as in the replay list
+ const row=rows.get(selected);
+ if(row)$('version').insertAdjacentHTML('beforeend','<span class="match-date">'+esc(replayFilters.dateLabel(row))+'</span>');
  $('filename-text').textContent=entry.file.split(/[\\/]/).pop();
  $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
  $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
