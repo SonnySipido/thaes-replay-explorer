@@ -403,7 +403,7 @@ function updateLabel(text,title){clearTimeout(updateReset);updateButton.textCont
 function resetUpdateLabelSoon(ms){updateReset=setTimeout(()=>updateLabel('Check for updates','Look for a newer version on GitHub'),ms);}
 function showLastChecked(){
  let at=null;try{at=Number(localStorage.getItem('update-last-checked'))||null;}catch{}
- $('update-last').textContent='Last checked: '+(at?replayFilters.dateLabel({modified:at}):'never');
+ $('update-last').textContent='Last checked: '+(at?replayFilters.dateLabel({modified:at},true):'never');
 }
 showLastChecked();
 updateButton.onclick=async()=>{
