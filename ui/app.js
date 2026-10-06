@@ -110,7 +110,8 @@ function mapPreview(file,className=''){
  return '<img class="map-preview '+className+'" src="'+esc(src||'maps/unavailable.svg')+'" alt="'+esc(src?label+' minimap':'Map preview unavailable')+'" title="'+esc(src?label:'Map preview unavailable for '+label)+'" width="56" height="56">';
 }
 
-function folderLabel(value){$('folder').textContent=value||'Choose a replay folder';$('folder').title=value||'Choose a replay folder';$('folder-setting').textContent=value||'None chosen yet';}
+// (a line may wrap after each backslash rather than inside a folder name)
+function folderLabel(value){$('folder-setting').innerHTML=value?esc(value).replace(/\\/g,'\\<wbr>'):'None chosen yet';}
 function status(p){
   if(p.error){$('status').textContent=p.error;return;}
   $('status').textContent=p.busy
@@ -366,7 +367,7 @@ function chat(){
 }
 function showError(e){$('status').textContent=e.message||String(e);}
 $('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
-$('folder').onclick=()=>window.replays.openFolder().catch(showError);
+$('folder-setting').onclick=()=>window.replays.openFolder().catch(showError);  // opens it in File Explorer (or asks for one)
 $('reforged-icons').checked=reforgedIcons;
 $('reforged-icons').onchange=()=>{
  reforgedIcons=$('reforged-icons').checked;

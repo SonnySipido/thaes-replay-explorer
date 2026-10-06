@@ -2,7 +2,7 @@
 
 ## 0.3.1 (not yet released)
 
-- Settings panel behind the gear at the top right, with Choose folder, the Include subfolders and Reforged HD icons switches, and Check for updates (with the version and the date it last checked). Up to date / Check failed return to the normal button after a few seconds.
+- Settings panel behind the gear at the top right (the header keeps only the gear), with the replay folder (click it to open it in File Explorer), Choose folder, the Include subfolders and Reforged HD icons switches, and Check for updates (with the version and the date it last checked). Up to date / Check failed return to the normal button after a few seconds.
 
 
 ## 0.3.0
