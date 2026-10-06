@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+- Show each player's Battle.net MMR in the match header, with the Battle.net icon, left of the APM (Battle.net ladder replays; W3Champions replays do not record MMR).
+- Player names without a full BattleTag, such as pre-Reforged accounts, are plain text instead of a link that could only show an error.
+
+
 ## 0.2.1
 
 - Open a replay from another app: `--select "<replay.w3g>"` selects it in the library and shows its analysis.

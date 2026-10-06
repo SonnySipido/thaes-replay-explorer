@@ -177,16 +177,25 @@ function showMatch(elapsed){
  renderPlayers();renderTabs();renderPanel();
 }
 function teamLabel(player){return entry.data.players.length>2?'<span class="team">Team '+(teamNumber(player)+1)+'</span>':'';}
+// same rule as player-profile.cjs: a W3Champions profile needs a full BattleTag
+function hasProfile(name){return /^[^#\s\x00-\x1f]+#[0-9]+$/.test(String(name||'').trim());}
+// Battle.net ladder MMR, stored in Battle.net ladder replays (W3Champions replays have none)
+function mmrBadge(p){return p.mmr>0?'<span class="mmr" title="BNet MMR"><img src="artwork/battlenet.png" alt="BNet MMR" width="16" height="16">'+esc(p.mmr)+'</span>':'';}
 function renderPlayers(){
  const reveal=$('show-winner')?.checked;
  const winner=entry.data.winningTeamId;
  const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
  $('winner-status').textContent=reveal&&!known?'Winner unavailable':'';
- $('players').innerHTML=entry.data.players.map((p,i)=>'<div class="player '+playerColorClass(i)+(reveal&&known&&teamNumber(p)===winner?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity"><button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+(reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'')+'</button>'+teamLabel(p)+'</div><div class="stats"><span class="apm">'+p.apm+'</span><span>APM</span></div></div>').join('');
+ $('players').innerHTML=entry.data.players.map((p,i)=>{
+  const badge=reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'';
+  // only full BattleTags (Name#1234) have a W3Champions profile; older names are plain text
+  const name=hasProfile(p.name)?'<button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+badge+'</button>':'<span class="player-name">'+esc(p.name)+badge+'</span>';
+  return '<div class="player '+playerColorClass(i)+(badge?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity">'+name+teamLabel(p)+'</div><div class="stats">'+mmrBadge(p)+'<span class="apm">'+p.apm+'</span><span>APM</span></div></div>';
+ }).join('');
  const cards=[...$('players').children];$('players').replaceChildren();
  const teams=teamColumns($('players'),entry.data.players);
  const replayKey=selected;
- cards.forEach((card,i)=>{const player=entry.data.players[i];card.querySelector('.player-profile').onclick=()=>window.replays.openPlayerProfile(replayKey,player.id).catch(showError);teams.get(teamNumber(player)).append(card);});
+ cards.forEach((card,i)=>{const player=entry.data.players[i],link=card.querySelector('.player-profile');if(link)link.onclick=()=>window.replays.openPlayerProfile(replayKey,player.id).catch(showError);teams.get(teamNumber(player)).append(card);});
 }
 function renderTabs(){
  $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');

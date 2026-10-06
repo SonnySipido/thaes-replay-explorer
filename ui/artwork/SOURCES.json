@@ -28,6 +28,12 @@
       "sha256": "2479e5211be741d9dd8be0d17b5e87dc100d966131c86fb73d3ee99bcefb3ce7"
     },
     {
+      "file": "battlenet.png",
+      "source": "Installed Battle.net desktop app icon",
+      "texture": "Battle.net Launcher.exe icon, 64x64",
+      "sha256": "d4eced03a6129ec60c762d7b9461a2f8709f271d72a8572a7aa4fffb6893caee"
+    },
+    {
       "file": "replay.png",
       "source": "Installed Warcraft III game data",
       "texture": "ReplaceableTextures/CommandButtons/BTNScroll.dds",

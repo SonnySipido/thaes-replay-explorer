@@ -4,6 +4,7 @@ const path = require('node:path');
 const zlib = require('node:zlib');
 const {promisify} = require('node:util');
 const {default: Replay} = require('w3gjs');
+const {readLadderMmr} = require('./ladder-mmr.cjs');
 const parserRoot = path.dirname(require.resolve('w3gjs'));
 const mappings = require(path.join(parserRoot, 'mappings.js'));
 const {inferHeroAbilityLevelsFromAbilityOrder: infer} = require(path.join(parserRoot, 'inferHeroAbilityLevelsFromAbilityOrder.js'));
@@ -125,7 +126,9 @@ async function parseReplay(fileOrBuffer) {
   finally { console.error = oldError; console.warn = oldWarn; }
   if (diagnostics.length) throw new Error('Parser reported incomplete or unsupported data: ' + diagnostics.slice(0,3).join('; '));
   const result = JSON.parse(JSON.stringify(parsed));
+  const mmr = await readLadderMmr(buffer);
   for (const p of result.players) {
+    p.mmr = mmr.get(p.id) ?? null;  // Battle.net ladder MMR, when the replay has it
     const e = extra.players.get(p.id) || {groups:{},groupHistory:[],itemUses:[],unknownOrders:[],heroOrders:[],itemTransfers:[],cancellations:[],observedHeroes:new Set(),apmBuckets:[],actionCount:0};
     p.actionCount = e.actionCount;
     p.apm = Math.round(e.actionCount * 60000 / Math.max(1,replay.players[p.id]?.currentTimePlayed || result.duration));

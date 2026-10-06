@@ -39,7 +39,9 @@ By default the list of replays shown is sorted by newest first. Its possible to 
 
 The Reforged HD icons switch selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
-The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Replays without a full BattleTag cannot identify a unique profile.
+The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Names without a full BattleTag (such as accounts from before Reforged) cannot identify a unique profile and are shown as plain text.
+
+Battle.net ladder replays store each player's MMR; the match header shows it with the Battle.net icon, left of the APM. W3Champions replays do not include MMR.
 
 Your last selected replay is restored after restarting. Press Escape to deselect it and return to the empty analysis screen.
 

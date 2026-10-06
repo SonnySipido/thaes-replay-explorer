@@ -10,6 +10,7 @@ app.setAppUserModelId('Thae.ReplayExplorer');
 app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explorer'));
 const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
+const {readLadderMmr}=require('./ladder-mmr.cjs');
 const fsSync=require('node:fs');
 const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
@@ -97,7 +98,16 @@ function registerIPC(){
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
   ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select};});
-  ipcMain.handle('replay',(_,key)=>{const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');return details.get(e);});
+  ipcMain.handle('replay',async(_,key)=>{
+    const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');
+    const entry=await details.get(e);
+    // replays analysed before MMR was read: read it from the file now (a few milliseconds)
+    if(entry.data?.players?.some(p=>p.mmr===undefined)){
+      let mmr=new Map();try{mmr=await readLadderMmr(await fs.readFile(entry.file));}catch{}
+      for(const p of entry.data.players)p.mmr=mmr.get(p.id)??null;
+    }
+    return entry;
+  });
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
     if(typeof enabled!=='boolean')throw new Error('Invalid subfolder preference.');
