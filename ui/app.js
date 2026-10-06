@@ -246,8 +246,10 @@ function heroes(p,root){
 }
 function buildingsAndUpgrades(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const buildings=Object.entries(p.buildings.summary).sort((a,b)=>b[1]-a[1]);
+ const buildings=Object.entries(p.buildings.summary);
  const starts=new Map();for(const order of p.buildings.order){if(!starts.has(order.id))starts.set(order.id,[]);starts.get(order.id).push(order.ms);}
+ for(const times of starts.values())times.sort((a,b)=>a-b);
+ buildings.sort((a,b)=>(starts.get(a[0])?.[0]??Infinity)-(starts.get(b[0])?.[0]??Infinity));
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
  table(['Building','Amount','Started'],buildings.map(([id,count])=>'<tr><td>'+objectIcon(id,'buildings')+'</td><td class="number">'+count+'</td><td><div class="build-start-times">'+(starts.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+
