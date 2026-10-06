@@ -15,6 +15,16 @@ header .brand,header .author{text-shadow:0 1px 4px #000}
 header .author{color:#d5e3ef}
 @media(max-width:760px){header{padding:20px 22px;background-size:auto,900px auto;background-position:center,right 20%}}
 
+/* "Everything it does": short feature lists, a check mark per line */
+.feature-list{border-top:1px solid #ffffff16;padding:32px 0}
+.feature-groups{columns:3 240px;column-gap:40px;padding-top:8px}
+.feature-groups>div{break-inside:avoid;margin-bottom:26px}
+.feature-groups h3{font-size:11px;font-weight:750;letter-spacing:2px;text-transform:uppercase;color:#7fc4b6;margin:0 0 10px}
+.feature-groups ul{list-style:none;margin:0;padding:0}
+.feature-groups li{font-size:14px;line-height:1.45;color:#c4d0db;padding:3px 0 3px 20px;position:relative}
+.feature-groups li:before{content:"✓";position:absolute;left:0;color:#7fc4b6}
+@media(max-width:760px){.feature-list{padding:26px 0}.feature-groups>div{margin-bottom:20px}}
+
 .hero-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px}
 .hero-heading h1{margin:0;flex-shrink:0}
 .hero-logo{display:block;width:clamp(80px,11vw,150px);height:auto;min-width:0;object-fit:contain}
