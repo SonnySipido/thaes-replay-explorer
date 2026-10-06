@@ -15,6 +15,11 @@
   const exact=new Map(),aliases=new Map();
   // Prefer simple original filenames over timestamped tournament versions.
   const entries=Object.entries(images).sort((a,b)=>a[0].length-b[0].length||a[0].localeCompare(b[0]));
+  const isDirectStrike=file=>/^directstrike(?:\d|reforged|$)/.test(normalize(file));
+  const directStrike=entries.filter(([file])=>isDirectStrike(file)).sort((a,b)=>{
+   const version=file=>(String(names[file]||file).match(/\d+(?:\.\d+)+(?:[a-z])?/i)||['0'])[0];
+   return version(b[0]).localeCompare(version(a[0]),'en',{numeric:true});
+  })[0]?.[1];
   for(const [file,image] of entries){
    exact.set(file.toLowerCase(),image);
    for(const value of [file,names[file]]){
@@ -22,7 +27,7 @@
     if(key&&!aliases.has(key))aliases.set(key,image);
    }
   }
-  return file=>exact.get(String(file||'').split(/[\\/]/).pop().toLowerCase())||aliases.get(normalize(file));
+  return file=>exact.get(String(file||'').split(/[\\/]/).pop().toLowerCase())||aliases.get(normalize(file))||(isDirectStrike(file)?directStrike:undefined);
  }
  const api={normalize,create};
  if(typeof module==='object'&&module.exports)module.exports=api;
