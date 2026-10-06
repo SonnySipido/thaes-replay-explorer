@@ -23,6 +23,8 @@ function deselectReplay(){
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();deselectReplay();}});
 let listPage=0,listQuery='';const listPageSize=100;
 const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
+const savedAnalysisTab=localStorage.getItem('analysis-tab')||localStorage.getItem('replay-tab:'+pendingReplayRestore);
+if(tabs.includes(savedAnalysisTab))tab=savedAnalysisTab;
 const name=id=>entry?.data?.names[id] || id || 'Unknown';
 
 function mapBaseName(file){return String(file||'').split(/[\\/]/).pop();}
@@ -126,8 +128,6 @@ async function selectReplay(key,restoring=false){
   const next=await window.replays.get(key);if(token!==request)return;
   entry=next;playerId=next.data?.players[0]?.id;
   if(next.error){$('detail').innerHTML='<div class="empty"><h2 class="error-title">This replay could not be read.</h2><p>'+esc(next.file)+'</p><div class="warning">'+esc(next.error)+'</div><p>Other matches remain available. Refresh to retry this file.</p></div>';return;}
-  const savedTab=localStorage.getItem('replay-tab:'+key);
-  tab=tabs.includes(savedTab)?savedTab:'Heroes';
   showMatch(performance.now()-start);
  }catch(e){if(token!==request)return;$('detail').innerHTML='<div class="warning">'+esc(e.message)+'</div>';}
 }
@@ -167,9 +167,8 @@ function renderPlayers(){
  cards.forEach((card,i)=>{const player=entry.data.players[i];card.querySelector('.player-profile').onclick=()=>window.replays.openPlayerProfile(replayKey,player.id).catch(showError);teams.get(teamNumber(player)).append(card);});
 }
 function renderTabs(){
- const replayKey=entry.key;
  $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');
- [...$('tabs').children].forEach((b,i)=>b.onclick=()=>{tab=tabs[i];localStorage.setItem('replay-tab:'+replayKey,tab);renderTabs();renderPanel();});
+ [...$('tabs').children].forEach((b,i)=>b.onclick=()=>{tab=tabs[i];localStorage.setItem('analysis-tab',tab);renderTabs();renderPanel();});
 }
 function title(text,note){return '<h2 class="section-title">'+esc(text)+'</h2>'+(note?'<p class="section-note">'+esc(note)+'</p>':'');}
 function table(headers,body){return '<table class="data-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table>';}
