@@ -14,7 +14,7 @@ No GitHub account, source-code download, or development tools are needed. The in
 
 ## Use
 
-On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Enable or disable subfolders beside Choose folder. The app remembers your choice and picks up new and changed replays automatically (it watches the folder, with a background check every 5 minutes).
+On first launch, choose a replay folder. The app suggests your Documents/Warcraft III/BattleNet/<account>/Replays folder when available. Choose folder and the Include subfolders switch are in Settings (the gear at the top right). The app remembers your choice and picks up new and changed replays automatically (it watches the folder, with a background check every 5 minutes).
 
   -Clicking on a player's name opens their W3Champions profile page in the browser.
   

@@ -110,7 +110,7 @@ function mapPreview(file,className=''){
  return '<img class="map-preview '+className+'" src="'+esc(src||'maps/unavailable.svg')+'" alt="'+esc(src?label+' minimap':'Map preview unavailable')+'" title="'+esc(src?label:'Map preview unavailable for '+label)+'" width="56" height="56">';
 }
 
-function folderLabel(value){$('folder').textContent=value||'Choose a replay folder';$('folder').title=value||'Choose a replay folder';}
+function folderLabel(value){$('folder').textContent=value||'Choose a replay folder';$('folder').title=value||'Choose a replay folder';$('folder-setting').textContent=value||'None chosen yet';}
 function status(p){
   if(p.error){$('status').textContent=p.error;return;}
   $('status').textContent=p.busy
