@@ -311,10 +311,22 @@ $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 
 $('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
 $('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;renderList();$('replay-list').scrollTop=0;};
-const savedTeamSize=localStorage.getItem('team-size')||'any';$('team-size').value=['any','1v1','2v2','3v3','4v4','other'].includes(savedTeamSize)?savedTeamSize:'any';
-$('team-size').onchange=()=>{localStorage.setItem('team-size',$('team-size').value);renderList();};
-$('matchup-left').onchange=renderList;$('matchup-right').onchange=renderList;
-$('search').oninput=scheduleList;$('filter').onchange=renderList;$('sort').onchange=renderList;
+// Restore controls before the first library render; save immediately on edits.
+for(const id of ['filter','sort','team-size','matchup-left','matchup-right']){
+ const control=$(id),key=id==='team-size'?'team-size':'library-'+id;
+ const saved=localStorage.getItem(key);
+ if([...control.options].some(option=>option.value===saved))control.value=saved;
+ control.onchange=()=>{
+  localStorage.setItem(key,control.value);
+  renderList();
+ };
+}
+const savedSearch=localStorage.getItem('library-search');
+if(savedSearch!==null)$('search').value=savedSearch;
+$('search').oninput=()=>{
+ localStorage.setItem('library-search',$('search').value);
+ scheduleList();
+};
 window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();});
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
