@@ -30,6 +30,8 @@ On first launch, choose a replay folder. The app suggests your Documents/Warcraf
   
   -You can select team sizes such as 1v1, 2v2, 3v3, 4v4 or any size.
   
+  -You can filter by patch: the Patch menu lists every patch in your library (with its builds) and any number can be ticked.
+  
   -The replay explorer is capable of showing information Heroes, abilities & units used, Buildings & upgrades, Items, APM, Control groups and ingame chat.
   
   -You can toggle Show Winner to show which side won the match.

@@ -7,6 +7,9 @@ const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
 let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
 let requestedReplay=null;
+// Patch filter: the patches ticked in its menu (none = every patch), remembered between launches
+let patchFilter=new Set();
+try{patchFilter=new Set(JSON.parse(localStorage.getItem('library-patches')||'[]'));}catch{}
 function restoreSelectedReplay(){
  if(!pendingReplayRestore||selected||!rows.has(pendingReplayRestore))return;
  const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
@@ -36,7 +39,7 @@ function deselectReplay(){
  $('detail').innerHTML=emptyAnalysisMarkup;
  document.querySelectorAll('.replay-row.active').forEach(button=>{button.classList.remove('active');button.setAttribute('aria-pressed','false');});
 }
-document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!$('settings').hidden)closeSettings();else deselectReplay();}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!$('patch-menu').hidden)closePatchMenu();else if(!$('settings').hidden)closeSettings();else deselectReplay();}});
 // Settings panel (gear in the header): icon style and updates
 function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings-close').focus();}
 function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').focus();}
@@ -127,9 +130,9 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
+ const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
  let list=[...rows.values()].filter(r=>(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
- ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
+ ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
@@ -380,6 +383,43 @@ $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 $('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
 $('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;renderList();$('replay-list').scrollTop=0;};
 // Restore controls before the first library render; save immediately on edits.
+// Patch menu: one tick box per patch found in the library (newest first, with its builds and replay count)
+function comparePatch(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
+function libraryPatches(){
+ const found=new Map();
+ for(const r of rows.values()){
+  if(r.error||!r.version)continue;
+  const p=found.get(r.version)||{version:r.version,replays:0,builds:new Set()};
+  p.replays++;if(r.build)p.builds.add(r.build);found.set(r.version,p);
+ }
+ return [...found.values()].sort((a,b)=>comparePatch(b.version,a.version));
+}
+function patchLabel(){
+ const ticked=[...patchFilter].sort((a,b)=>comparePatch(b,a));
+ $('patch-button').textContent=!ticked.length?'All patches':ticked.length<=2?ticked.join(', '):ticked.length+' patches';
+}
+function renderPatchMenu(){
+ const patches=libraryPatches();
+ $('patch-menu').innerHTML=patches.length?'<button type="button" class="patch-all">All patches</button>'+patches.map(p=>{
+  const builds=[...p.builds].sort((a,b)=>a-b);
+  const label=builds.length>1?'builds '+builds[0]+'–'+builds.at(-1):builds.length?'build '+builds[0]:'';
+  return '<label class="patch-option"><input type="checkbox" value="'+esc(p.version)+'"'+(patchFilter.has(p.version)?' checked':'')+'><span>'+esc(p.version)+'</span><small>'+label+' · '+p.replays.toLocaleString()+'</small></label>';
+ }).join(''):'<p class="empty-note">No replays indexed yet.</p>';
+}
+function closePatchMenu(){$('patch-menu').hidden=true;$('patch-button').setAttribute('aria-expanded','false');}
+function savePatches(){try{localStorage.setItem('library-patches',JSON.stringify([...patchFilter]));}catch{}patchLabel();renderList();}
+$('patch-button').onclick=event=>{
+ event.stopPropagation();
+ if(!$('patch-menu').hidden){closePatchMenu();return;}
+ renderPatchMenu();$('patch-menu').hidden=false;$('patch-button').setAttribute('aria-expanded','true');
+};
+$('patch-menu').onclick=event=>{
+ event.stopPropagation();
+ if(event.target.closest('.patch-all')){patchFilter.clear();renderPatchMenu();savePatches();}
+};
+$('patch-menu').onchange=event=>{const box=event.target;if(box.checked)patchFilter.add(box.value);else patchFilter.delete(box.value);savePatches();};
+document.addEventListener('click',()=>{if(!$('patch-menu').hidden)closePatchMenu();});
+patchLabel();
 for(const id of ['filter','sort','team-size','matchup-left','matchup-right','source']){
  const control=$(id),key=id==='team-size'?'team-size':'library-'+id;
  const saved=localStorage.getItem(key);
