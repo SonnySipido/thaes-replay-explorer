@@ -1,6 +1,8 @@
 ﻿'use strict';
 const fs=require('node:fs/promises'), path=require('node:path'), crypto=require('node:crypto');
 const {parseReplay,SCHEMA}=require('./parser.cjs');
+const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
+const SUMMARY_VERSION=2;  // 2: where the game was played (source)
 async function scan(folder,includeSubfolders=true) {
   const files=[];
   async function visit(dir) {
@@ -16,9 +18,9 @@ async function scan(folder,includeSubfolders=true) {
   return files.sort().reverse();
 }
 function summary(entry) {
-  if(entry.summaryVersion===1)return entry;
+  if(entry.summaryVersion)return entry;
   const r=entry.data;
-  return {summaryVersion:1,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
+  return {summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
     map:r?.map.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
     players:r?.players.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat.length || 0};
 }
@@ -37,7 +39,18 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
       if(known[key]===fingerprint) { cached++; onProgress({total:files.length,done:i+1,parsed,cached,failed}); continue; }
       const cacheFile=path.join(cacheDir,key+'.json');
       const summaryFile=path.join(summaryDir,key+'.json');
-      if(lightweight){try{const row=JSON.parse(await fs.readFile(summaryFile,'utf8'));if(row.summaryVersion===1&&row.fingerprint===fingerprint&&!row.error){cached++;onEntry(row);onProgress({total:files.length,done:i+1,parsed,cached,failed});continue;}}catch{}} 
+      if(lightweight){try{
+        const row=JSON.parse(await fs.readFile(summaryFile,'utf8'));
+        if(row.fingerprint===fingerprint&&!row.error&&row.summaryVersion>=1){
+          if(row.summaryVersion<SUMMARY_VERSION){
+            // summaries from before the game's source was kept: read just the start of the replay
+            // (the full analysis cache is far larger) and save the summary again
+            row.source=gameSource((await readReplayStartFromFile(file)).creator);row.summaryVersion=SUMMARY_VERSION;
+            const temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(row));await fs.rename(temp,summaryFile);
+          }
+          cached++;onEntry(row);onProgress({total:files.length,done:i+1,parsed,cached,failed});continue;
+        }
+      }catch{}}
       try { const saved=JSON.parse(await fs.readFile(cacheFile,'utf8'));if(saved.fingerprint===fingerprint && saved.schema===SCHEMA && saved.data?.schema===SCHEMA) entry=saved; } catch {}
       if(entry) cached++;
       else {
@@ -57,5 +70,5 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
   }
   return {total:files.length,parsed,cached,failed,files};
 }
-module.exports={indexFolder,scan,summary};
+module.exports={indexFolder,scan,summary,SUMMARY_VERSION};
 

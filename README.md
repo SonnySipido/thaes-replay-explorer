@@ -43,6 +43,8 @@ The window remembers its size, position and maximized state. If a monitor is dis
 
 Battle.net ladder replays store each player's MMR; the match header shows it with the Battle.net icon, left of the APM. W3Champions replays do not include MMR.
 
+The match header also shows where a game was played, W3Champions or Battle.net, and the Played on filter narrows the replay list to one of them (or to custom, LAN and older games). This comes from the game host recorded in the replay, not from the file name.
+
 Your last selected replay is restored after restarting. Press Escape to deselect it and return to the empty analysis screen.
 
 Other apps can open a replay in the explorer: run **Thae's Replay Explorer.exe --select "C:\path\to\replay.w3g"**. If the explorer is already open, that window selects the replay and comes to the front; otherwise it starts with the replay selected. The replay must be inside the chosen replay folder; if the search text hides it, the search is cleared.

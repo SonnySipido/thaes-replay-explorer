@@ -115,9 +115,10 @@ function replayPlayerNames(players){
 }
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
- const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
+ const source=$('source').value;
+ const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
  let list=[...rows.values()].filter(r=>(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
- ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
+ ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
@@ -168,6 +169,11 @@ function showMatch(elapsed){
  $('map').textContent=mapDisplayName(r.map.file)||r.gamename||'Untitled match';
  $('map-preview').innerHTML=mapPreview(r.map.file);
  $('version').textContent='PATCH '+r.version+' · BUILD '+r.buildNumber;
+ // where the game was played (W3Champions games are hosted by FLO, Battle.net games by Battle.net)
+ const source=r.source??(r.creator==='FLO'?'w3c':r.creator==='Battle.net'?'bnet':null);
+ if(source)$('version').insertAdjacentHTML('beforeend',source==='w3c'
+  ?'<span class="source-badge" title="Played on W3Champions"><img src="artwork/w3champions.png" alt="">W3CHAMPIONS</span>'
+  :'<span class="source-badge" title="Played on Battle.net"><img src="artwork/battlenet.png" alt="">BATTLE.NET</span>');
  $('filename-text').textContent=entry.file.split(/[\\/]/).pop();
  $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
  $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
@@ -362,7 +368,7 @@ $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 $('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);renderList();$('replay-list').scrollTop=0;};
 $('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;renderList();$('replay-list').scrollTop=0;};
 // Restore controls before the first library render; save immediately on edits.
-for(const id of ['filter','sort','team-size','matchup-left','matchup-right']){
+for(const id of ['filter','sort','team-size','matchup-left','matchup-right','source']){
  const control=$(id),key=id==='team-size'?'team-size':'library-'+id;
  const saved=localStorage.getItem(key);
  if([...control.options].some(option=>option.value===saved))control.value=saved;

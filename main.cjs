@@ -10,7 +10,7 @@ app.setAppUserModelId('Thae.ReplayExplorer');
 app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explorer'));
 const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
-const {readLadderMmr}=require('./ladder-mmr.cjs');
+const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const fsSync=require('node:fs');
 const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
@@ -101,9 +101,10 @@ function registerIPC(){
   ipcMain.handle('replay',async(_,key)=>{
     const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');
     const entry=await details.get(e);
-    // replays analysed before MMR was read: read it from the file now (a few milliseconds)
+    // replays analysed before MMR and the game's source were read: fill them in now (a few milliseconds)
+    if(entry.data&&entry.data.source===undefined)entry.data.source=gameSource(entry.data.creator);
     if(entry.data?.players?.some(p=>p.mmr===undefined)){
-      let mmr=new Map();try{mmr=await readLadderMmr(await fs.readFile(entry.file));}catch{}
+      let mmr=new Map();try{({mmr}=await readReplayStartFromFile(entry.file));}catch{}
       for(const p of entry.data.players)p.mmr=mmr.get(p.id)??null;
     }
     return entry;

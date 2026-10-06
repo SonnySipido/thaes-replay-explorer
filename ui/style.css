@@ -126,6 +126,8 @@
 .players .team{font-size:10px;color:var(--muted);margin:0}
 .players .stats{margin-left:auto;display:flex;align-items:baseline;gap:5px;flex-shrink:0;font-size:10px}
 .players .apm{font-size:20px;line-height:24px;color:var(--text)}
+.source-badge{display:inline-flex;align-items:center;gap:5px;margin-left:10px;vertical-align:middle}
+.source-badge img{width:14px;height:14px;display:block}
 .players .mmr{display:contents}
 .players .mmr img{align-self:center;width:16px;height:16px;display:block}
 .players .mmr-label{margin-right:10px}
