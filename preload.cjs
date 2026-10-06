@@ -12,8 +12,11 @@ contextBridge.exposeInMainWorld('replays',{
  play:(key,requireMap=false)=>ipcRenderer.invoke('play-replay',key,requireMap),
  revealMap:key=>ipcRenderer.invoke('reveal-map',key),
  reveal:key=>ipcRenderer.invoke('reveal-replay',key),
+ checkUpdate:()=>ipcRenderer.invoke('update-check'),
+ installUpdate:()=>ipcRenderer.invoke('update-install'),
+ openUpdateNotes:()=>ipcRenderer.invoke('update-notes'),
  on:(channel,callback)=>{
-   if(!['library-reset','library-entry','progress','select-replay'].includes(channel))return;
+   if(!['library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
    const listener=(_,data)=>callback(data);ipcRenderer.on(channel,listener);
    return ()=>ipcRenderer.removeListener(channel,listener);
  }

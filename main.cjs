@@ -12,6 +12,8 @@ const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
 const {readReplayStartFromFile,gameSource,readLeaves}=require('./replay-start.cjs');
 const {winningTeam}=require('./winner.cjs');
+const updater=require('./updater.cjs');
+let availableUpdate=null;  // the last "Check for updates" answer
 const fsSync=require('node:fs');
 const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
@@ -137,6 +139,22 @@ function registerIPC(){
     return entry;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
+  // updates: only when the button is pressed
+  ipcMain.handle('update-check',async()=>{
+    availableUpdate=await updater.checkForUpdate(app.getVersion());
+    return {current:availableUpdate.current,version:availableUpdate.version,newer:availableUpdate.newer};
+  });
+  ipcMain.handle('update-install',async()=>{
+    if(!availableUpdate?.newer)throw Error('Check for updates first.');
+    let shown=-1;
+    const file=await updater.downloadUpdate(availableUpdate,(received,total)=>{
+      const percent=total?Math.floor(100*received/total):-1;
+      if(percent!==shown){shown=percent;send('update-progress',{percent});}
+    });
+    updater.runInstaller(file);
+    setTimeout(()=>app.quit(),300);  // the installer replaces the files once the app has closed
+  });
+  ipcMain.handle('update-notes',()=>shell.openExternal(availableUpdate?.notes||updater.RELEASES));
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
     if(typeof enabled!=='boolean')throw new Error('Invalid subfolder preference.');
     includeSubfolders=enabled;saveSettings();watchFolder();await index(true);return includeSubfolders;

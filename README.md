@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and W3Champions replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.2.0/Thae-Replay-Explorer-0.2.0-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.3.0/Thae-Replay-Explorer-0.3.0-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -49,13 +49,15 @@ Your last selected replay is restored after restarting. Press Escape to deselect
 
 Other apps can open a replay in the explorer: run **Thae's Replay Explorer.exe --select "C:\path\to\replay.w3g"**. If the explorer is already open, that window selects the replay and comes to the front; otherwise it starts with the replay selected. The replay must be inside the chosen replay folder; if the search text hides it, the search is cleared.
 
+Press **Check for updates** in the header to look for a newer version. If there is one, the button changes to **Update to x.y.z**: it downloads the installer from this repository's latest release, checks it against the release's SHA256SUMS.txt, installs it and restarts the app. Settings and the replay cache are kept. Versions before 0.3.0 have no button; install 0.3.0 once by hand.
+
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
 
 ## Local data and privacy
 
-Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked.
+Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked, and Check for updates contacts GitHub only when pressed.
 
 ## Other download options
 

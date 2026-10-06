@@ -394,6 +394,29 @@ window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
 window.replays.on('select-replay',openRequestedReplay);
+// Check for updates: asks GitHub only when pressed; a newer version turns it into "Update to x.y.z",
+// which downloads, checks and installs it (the app closes and starts again by itself)
+let update=null;
+const updateButton=$('update-check');
+function updateLabel(text,title){updateButton.textContent=text;if(title)updateButton.title=title;}
+updateButton.onclick=async()=>{
+ updateButton.disabled=true;
+ if(update?.newer){
+  updateLabel('Downloading…');
+  try{await window.replays.installUpdate();updateLabel('Installing…','The app closes and starts again with version '+update.version);}
+  catch(e){updateLabel('Update failed · try again',e.message);updateButton.disabled=false;}
+  return;
+ }
+ updateLabel('Checking…');
+ try{
+  update=await window.replays.checkUpdate();
+  if(update.newer){updateLabel('Update to '+update.version,'Download and install version '+update.version+' (you have '+update.current+')');updateButton.classList.add('update-ready');$('update-notes').hidden=false;}
+  else updateLabel('Up to date','Version '+update.current+' is the newest');
+ }catch(e){updateLabel('Check failed · try again',e.message);}
+ updateButton.disabled=false;
+};
+window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
+$('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
 window.replays.initial().then(data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
 
 

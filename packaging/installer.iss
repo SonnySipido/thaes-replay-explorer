@@ -31,3 +31,10 @@ Name: "{autoprograms}\Thae's Replay Explorer"; Filename: "{app}\Thae's Replay Ex
 Name: "{autodesktop}\Thae's Replay Explorer"; Filename: "{app}\Thae's Replay Explorer.exe"; WorkingDir: "{app}"; IconFilename: "{app}\Thae's Replay Explorer.exe"; AppUserModelID: "Thae.ReplayExplorer"; Tasks: desktopicon
 [Run]
 Filename: "{app}\Thae's Replay Explorer.exe"; Description: "Launch Thae's Replay Explorer"; Flags: nowait postinstall skipifsilent
+; an update started from the app's "Check for updates" (silent, /RELAUNCH=1) opens the app again
+Filename: "{app}\Thae's Replay Explorer.exe"; Flags: nowait; Check: RelaunchAfterUpdate
+[Code]
+function RelaunchAfterUpdate: Boolean;
+begin
+  Result := ExpandConstant('{param:RELAUNCH|0}') = '1';
+end;

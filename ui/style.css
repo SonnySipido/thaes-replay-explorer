@@ -129,6 +129,13 @@
 /* where a game was played: icon only (named on hover), at its own proportions */
 .source-badge{height:16px;width:auto;margin-left:10px;vertical-align:middle}
 .match-date{margin-left:10px;vertical-align:middle}
+/* Check for updates (header): a gold button when a newer version is ready */
+.updater{display:inline-flex;align-items:center;gap:8px}
+#update-check{white-space:nowrap}
+#update-check.update-ready{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
+#update-check:disabled{opacity:.7;cursor:default}
+.link-button{border:0;background:none;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:12px}
+.link-button:hover{background:none;color:var(--text)}
 /* game length: a clock before the duration */
 .duration-wrap{display:inline-flex;align-items:center;gap:6px}
 .duration-clock{width:16px;height:16px;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
