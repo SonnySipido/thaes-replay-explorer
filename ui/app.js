@@ -119,7 +119,7 @@ function status(p){
   if(p.error){$('status').textContent=p.error;return;}
   $('status').textContent=p.busy
     ? 'Indexing '+(p.done||0)+' / '+(p.total||0)+' · '+(p.cached||0)+' cached'
-    : (p.total||0)+' replays';
+    : (p.total||0)+' replays indexed';  // all of them; the count beside "Replays" is after the filters
 }
 function scheduleList(){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;renderList();},250);}
 function replayPlayerNames(players){
