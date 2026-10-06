@@ -29,3 +29,15 @@ header .author{color:#d5e3ef}
 .hero-heading h1{margin:0;flex-shrink:0}
 .hero-logo{display:block;width:clamp(80px,11vw,150px);height:auto;min-width:0;object-fit:contain}
 @media(max-width:400px){.hero-heading{gap:8px}.hero-heading h1{font-size:36px}.hero-logo{width:82px}}
+
+/* Tighter vertical spacing: less empty space around the intro, the install steps and each section. */
+.hero{padding:34px 0 26px}
+.hero .facts{padding-top:0}
+.install,.features,.feature-list{padding:22px 0}
+.steps{padding:0;margin:0 0 10px}
+.steps p,.columns p{margin:0}
+.install .small{margin:0}
+.columns{padding-top:4px}
+.features h2,.feature-list h2{margin-bottom:12px}
+.feature-groups>div{margin-bottom:18px}
+@media(max-width:760px){.hero{padding:26px 0 20px}.install,.features,.feature-list{padding:20px 0}}
