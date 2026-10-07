@@ -448,3 +448,9 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 #source option:hover,#source option:focus{background:#253549;outline:none}
 
 #source .race-icon{object-fit:contain}
+
+.platform-patch-filters{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:8px;margin-bottom:5px}
+.platform-patch-filters>.team-size-filter{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0;margin:0}
+.platform-patch-filters #source{flex:none;width:100%}
+.platform-patch-filters #patch-button{height:30px}
+.platform-patch-filters .patch-menu{left:auto;right:0;width:230px;max-width:calc(100vw - 40px)}
