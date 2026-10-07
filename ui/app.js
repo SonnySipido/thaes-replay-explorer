@@ -459,13 +459,13 @@ $('patch-menu').onchange=event=>{const box=event.target;if(box.checked)patchFilt
 document.addEventListener('click',()=>{if(!$('patch-menu').hidden)closePatchMenu();});
 patchLabel();
 // Native customizable selects preserve keyboard navigation and saved filter values.
-for(const id of ['matchup-left','matchup-right']){
+for(const id of ['matchup-left','matchup-right','source']){
  const select=$(id);
  const button=document.createElement('button');button.type='button';
  button.append(document.createElement('selectedcontent'));select.prepend(button);
  for(const option of select.options){
   const label=option.textContent;
-  option.innerHTML=(option.value==='any'?'<span class="race-filter-placeholder" aria-hidden="true"></span>':raceIcon(option.value))+'<span class="race-filter-label">'+esc(label)+'</span>';
+  option.innerHTML=(id==='source'?(sourceIcon(option.value,'race-icon')||'<span class="race-filter-placeholder" aria-hidden="true"></span>'):(option.value==='any'?'<span class="race-filter-placeholder" aria-hidden="true"></span>':raceIcon(option.value)))+'<span class="race-filter-label">'+esc(label)+'</span>';
   const icon=option.querySelector('img');if(icon){icon.alt='';icon.removeAttribute('title');icon.setAttribute('aria-hidden','true');}
  }
 }

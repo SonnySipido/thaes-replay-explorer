@@ -431,3 +431,20 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .matchup-filter option::checkmark{display:none}
 .matchup-filter option:checked{background:#293629;color:var(--gold)}
 .matchup-filter option:hover,.matchup-filter option:focus{background:#253549;outline:none}
+
+/* Platform logos use the same compact dropdown layout as race filters. */
+#source,#source::picker(select){appearance:base-select}
+#source{display:flex;align-items:center;gap:5px;height:30px;padding:4px 7px;min-width:0}
+#source>button{display:contents}
+#source selectedcontent,#source option{display:flex;align-items:center;gap:6px;min-width:0}
+#source selectedcontent{flex:1;overflow:hidden}
+#source .race-icon,#source .race-filter-placeholder{width:20px;height:20px;flex:0 0 20px}
+#source .race-filter-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#source::picker-icon{margin-left:auto;color:var(--muted);font-size:10px}
+#source::picker(select){background:#0e1723;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:3px;box-shadow:0 6px 18px #0008}
+#source option{padding:5px 7px;font-size:11px;border-radius:3px}
+#source option::checkmark{display:none}
+#source option:checked{background:#293629;color:var(--gold)}
+#source option:hover,#source option:focus{background:#253549;outline:none}
+
+#source .race-icon{object-fit:contain}
