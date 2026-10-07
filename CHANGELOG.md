@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2 (not yet released)
+
+- Check for updates on startup: on the first start the app asks whether it should look for a newer version each time it starts (a **Check on startup** switch in Settings changes this later). When it is on and a newer version is found, the app asks whether to install it now.
+
+
 ## 0.4.1
 
 - Chat: **Hide duplicates** switch (on by default). Battle.net replays since Reforged record the saving player's own messages twice, a few milliseconds apart; the copy is hidden when the same player sends the same text in the same channel within a second.

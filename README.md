@@ -53,13 +53,15 @@ Other apps can open a replay in the explorer: run **Thae's Replay Explorer.exe -
 
 Open **Settings** (the gear at the top right) and press **Check for updates** to look for a newer version. If there is one, the button changes to **Update to x.y.z**: it downloads the installer from this repository's latest release, checks it against the release's SHA256SUMS.txt, installs it and restarts the app. Settings and the replay cache are kept. Versions before 0.3.0 have no button; install 0.3.0 once by hand.
 
+With **Check on startup** switched on, the app looks for a newer version each time it starts and asks whether to install it. On the first start it asks whether you want this; the switch in Settings changes it later.
+
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
 
 ## Local data and privacy
 
-Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked, and Check for updates contacts GitHub only when pressed.
+Replays stay on your computer. The app has no telemetry or replay upload feature. It stores settings and its analysis cache in %APPDATA%/Warcraft Replay Explorer (the original data directory is retained for upgrade compatibility). These files can include player names and replay chat. The uninstaller preserves these settings and your replays. The W3Champions profile link opens your browser only when clicked, and the app contacts GitHub for updates only when you press Check for updates or, if you switched it on, when it starts.
 
 ## Other download options
 

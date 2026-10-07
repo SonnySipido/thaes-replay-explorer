@@ -461,8 +461,8 @@ window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
 window.replays.on('select-replay',openRequestedReplay);
-// Check for updates: asks GitHub only when pressed; a newer version turns it into "Update to x.y.z",
-// which downloads, checks and installs it (the app closes and starts again by itself)
+// Check for updates: asks GitHub when pressed (and at startup when that is switched on); a newer version
+// turns it into "Update to x.y.z", which downloads, checks and installs it (the app closes and starts again by itself)
 let update=null,updateReset=null;
 const updateButton=$('update-check');
 function updateLabel(text,title){clearTimeout(updateReset);updateButton.textContent=text;if(title)updateButton.title=title;}
@@ -473,27 +473,43 @@ function showLastChecked(){
  $('update-last').textContent='Last checked: '+(at?replayFilters.dateLabel({modified:at},true):'never');
 }
 showLastChecked();
-updateButton.onclick=async()=>{
- updateButton.disabled=true;
- if(update?.newer){
-  updateLabel('Downloading…');
-  try{await window.replays.installUpdate();updateLabel('Installing…','The app closes and starts again with version '+update.version);}
-  catch(e){updateLabel('Update failed · try again',e.message);updateButton.disabled=false;}
-  return;
- }
- updateLabel('Checking…');
+async function installUpdate(){
+ updateButton.disabled=true;updateLabel('Downloading…');
+ try{await window.replays.installUpdate();updateLabel('Installing…','The app closes and starts again with version '+update.version);}
+ catch(e){updateLabel('Update failed · try again',e.message);updateButton.disabled=false;}
+}
+// the newest version on GitHub, or null when the check failed
+async function checkForUpdate(){
+ updateButton.disabled=true;updateLabel('Checking…');
  try{
   update=await window.replays.checkUpdate();
   try{localStorage.setItem('update-last-checked',String(Date.now()));}catch{}
   showLastChecked();
   if(update.newer){updateLabel('Update to '+update.version,'Download and install version '+update.version+' (you have '+update.current+')');updateButton.classList.add('update-ready');$('update-notes').hidden=false;}
   else{updateLabel('Up to date','Version '+update.current+' is the newest');resetUpdateLabelSoon(4000);}
- }catch(e){updateLabel('Check failed',e.message);resetUpdateLabelSoon(6000);}
- updateButton.disabled=false;
-};
+  return update;
+ }catch(e){updateLabel('Check failed',e.message);resetUpdateLabelSoon(6000);return null;}
+ finally{updateButton.disabled=false;}
+}
+updateButton.onclick=()=>update?.newer?installUpdate():checkForUpdate();
+// Check on startup: asked once on the first start (the switch in Settings changes it later); when it is on,
+// each start looks for a newer version and asks whether to install it now
+const startupSwitch=$('update-on-startup');
+function startupChoice(){try{return localStorage.getItem('update-on-startup');}catch{return null;}}
+function saveStartupChoice(on){startupSwitch.checked=on;try{localStorage.setItem('update-on-startup',on?'1':'0');}catch{}}
+startupSwitch.checked=startupChoice()==='1';
+startupSwitch.onchange=()=>saveStartupChoice(startupSwitch.checked);
+async function startupUpdateCheck(){
+ try{
+  if(startupChoice()===null)saveStartupChoice(await window.replays.ask({message:'Check for updates when the app starts?',detail:"Thae's Replay Explorer can look on GitHub for a newer version each time it starts. You can change this later in Settings.",buttons:['Check on startup','No']}));
+  if(startupChoice()!=='1')return;
+  const found=await checkForUpdate();
+  if(found?.newer&&await window.replays.ask({message:'Version '+found.version+' is available',detail:'You have version '+found.current+'. Install it now? The app closes and starts again by itself.',buttons:['Update now','Later']}))installUpdate();
+ }catch(e){console.warn('Startup update check:',e);}
+}
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
-window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;}).catch(showError);
+window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(startupUpdateCheck,1500);}).catch(showError);
 
 
 
