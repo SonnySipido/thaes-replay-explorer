@@ -296,7 +296,22 @@ function heroes(p,root){
 function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms);
+ // Collapse likely repeated clicks only for buildings normally constructed singly.
+ // Compare with the retained order so a chain of clicks cannot hide later builds indefinitely.
+ const repeatClickBuildings=new Set([
+  'halt','oalt','eate','uaod', // Altars.
+  'hbla','hlum','ofor','edob','ugrv','usap', // Research and technology buildings.
+  'hvlt','ovln','eden','utom', // Shops.
+  'htow','hkee','hcas','ogre','ostr','ofrt','etol','etoa','etoe','unpl','unp1','unp2','ugol'
+ ]);
+ const lastRetained=new Map();
+ const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms).filter(order=>{
+  if(!repeatClickBuildings.has(order.id))return true;
+  const previous=lastRetained.get(order.id);
+  if(previous!==undefined&&order.ms-previous<=3000)return false;
+  lastRetained.set(order.id,order.ms);
+  return true;
+ });
  const fastExpandBuildings=new Set(['htow','ogre','etol','unpl','ugol']);
  const firstTier2=buildings.find(order=>tiers[order.id]==='T2')?.ms??Infinity;
  const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<300000&&order.ms<firstTier2;
