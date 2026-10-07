@@ -367,3 +367,15 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 #chat-log .chat-row>.time,#chat-log .chat-row>.muted{white-space:nowrap}
 #chat-log .empty-note{grid-column:1/-1}
 #chat-spacing{flex:0 0 auto}
+/* Questions the app asks (check for updates on startup, install a newer version), in the style of the Settings panel */
+.ask-backdrop{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;background:rgba(5,9,15,.62)}
+.ask-backdrop[hidden]{display:none}
+.ask{width:min(440px,100%);padding:22px 24px 20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 48px rgba(0,0,0,.55)}
+.ask-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ask-head img{flex:none;border-radius:8px;border:1px solid rgba(227,188,112,.45)}
+.ask-head h2{margin:0;font-size:18px;line-height:1.3}
+.ask p{margin:0 0 20px;font-size:13px;line-height:1.55;color:var(--muted)}
+.ask-buttons{display:flex;justify-content:flex-end;gap:10px}
+.ask-buttons button{font-size:13px;padding:8px 16px}
+.ask-buttons #ask-yes{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
+.ask-buttons #ask-yes:hover{background:#f0cf8c;border-color:#f0cf8c}

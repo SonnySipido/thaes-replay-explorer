@@ -499,12 +499,24 @@ function startupChoice(){try{return localStorage.getItem('update-on-startup');}c
 function saveStartupChoice(on){startupSwitch.checked=on;try{localStorage.setItem('update-on-startup',on?'1':'0');}catch{}}
 startupSwitch.checked=startupChoice()==='1';
 startupSwitch.onchange=()=>saveStartupChoice(startupSwitch.checked);
+// a question in the app's own style: true for the first answer, false for the second one (or Escape)
+function ask({message,detail,buttons:[yes,no]}){
+ return new Promise(resolve=>{
+  $('ask-title').textContent=message;$('ask-text').textContent=detail;$('ask-yes').textContent=yes;$('ask-no').textContent=no;
+  $('ask-backdrop').hidden=false;$('ask-yes').focus();
+  // Escape answers the question here instead of reaching the page's own Escape handling
+  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();done(false);}};
+  const done=answer=>{$('ask-backdrop').hidden=true;document.removeEventListener('keydown',onKey,true);resolve(answer);};
+  document.addEventListener('keydown',onKey,true);
+  $('ask-yes').onclick=()=>done(true);$('ask-no').onclick=()=>done(false);
+ });
+}
 async function startupUpdateCheck(){
  try{
-  if(startupChoice()===null)saveStartupChoice(await window.replays.ask({message:'Check for updates when the app starts?',detail:"Thae's Replay Explorer can look on GitHub for a newer version each time it starts. You can change this later in Settings.",buttons:['Check on startup','No']}));
+  if(startupChoice()===null)saveStartupChoice(await ask({message:'Check for updates when the app starts?',detail:"Thae's Replay Explorer can check for updates on startup. You can change this later in Settings and also update the application from Settings.",buttons:['Check on startup','No']}));
   if(startupChoice()!=='1')return;
   const found=await checkForUpdate();
-  if(found?.newer&&await window.replays.ask({message:'Version '+found.version+' is available',detail:'You have version '+found.current+'. Install it now? The app closes and starts again by itself.',buttons:['Update now','Later']}))installUpdate();
+  if(found?.newer&&await ask({message:'Version '+found.version+' is available',detail:'You have version '+found.current+'. Install it now? The app closes and starts again by itself.',buttons:['Update now','Later']}))installUpdate();
  }catch(e){console.warn('Startup update check:',e);}
 }
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));

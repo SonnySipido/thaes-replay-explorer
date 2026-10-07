@@ -14,9 +14,7 @@ contextBridge.exposeInMainWorld('replays',{
  reveal:key=>ipcRenderer.invoke('reveal-replay',key),
  checkUpdate:()=>ipcRenderer.invoke('update-check'),
  installUpdate:()=>ipcRenderer.invoke('update-install'),
- openUpdateNotes:()=>ipcRenderer.invoke('update-notes'),
- ask:question=>ipcRenderer.invoke('ask',question),
- copyText:text=>ipcRenderer.invoke('copy-text',text),
+ openUpdateNotes:()=>ipcRenderer.invoke('update-notes'), copyText:text=>ipcRenderer.invoke('copy-text',text),
  exportChat:(key,text)=>ipcRenderer.invoke('export-chat',key,text),
  on:(channel,callback)=>{
    if(!['library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;

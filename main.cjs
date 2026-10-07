@@ -139,12 +139,6 @@ function registerIPC(){
     return entry;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
-  // a question with two answers in a Windows dialog: true for the first one
-  ipcMain.handle('ask',async(_,{message,detail,buttons}={})=>{
-    const answers=Array.isArray(buttons)&&buttons.length===2?buttons.map(String):['Yes','No'];
-    const pick=await dialog.showMessageBox(win,{type:'question',title:"Thae's Replay Explorer",message:String(message||''),detail:String(detail||''),buttons:answers,defaultId:0,cancelId:1,noLink:true});
-    return pick.response===0;
-  });
   // updates: when the button is pressed, or at startup when that is switched on in Settings
   ipcMain.handle('update-check',async()=>{
     availableUpdate=await updater.checkForUpdate(app.getVersion());
