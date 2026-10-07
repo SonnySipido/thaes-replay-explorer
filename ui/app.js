@@ -295,13 +295,10 @@ function heroes(p,root){
 }
 function buildingsAndUpgrades(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const buildings=Object.entries(p.buildings.summary);
- const starts=new Map();for(const order of p.buildings.order){if(!starts.has(order.id))starts.set(order.id,[]);starts.get(order.id).push(order.ms);}
- for(const times of starts.values())times.sort((a,b)=>a-b);
- buildings.sort((a,b)=>(starts.get(a[0])?.[0]??Infinity)-(starts.get(b[0])?.[0]??Infinity));
+ const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms);
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
- table(['Building','Amount','Started'],buildings.map(([id,count])=>'<tr><td>'+objectIcon(id,'buildings')+'</td><td class="number">'+count+'</td><td><div class="build-start-times">'+(starts.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+
+ table(['Building','Started'],buildings.map(order=>'<tr><td>'+objectIcon(order.id,'buildings')+'</td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
  pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
