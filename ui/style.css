@@ -387,3 +387,10 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .building-identity{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;vertical-align:middle}.building-identity .object-portrait{flex-shrink:0}.building-identity .building-tier{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin:0;padding:3px 6px;border:1px solid #8c7347;border-radius:5px;background:#302a1e;color:#f0cd88;font-size:11px;font-weight:700;line-height:1;letter-spacing:.3px}
 
 .building-identity .building-fast-expand{border-color:#43865c;background:#183b29;color:#98e5ad}
+
+/* Keep icons, badges and times visible while building names use remaining space. */
+.economy-overview .building-summary .data-table{table-layout:fixed}
+.economy-overview .building-summary .data-table th:last-child{width:62px}
+.economy-overview .building-summary .data-table td.time{white-space:nowrap}
+.building-summary .building-identity{display:flex;width:100%;min-width:0;gap:5px}
+.building-name{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
