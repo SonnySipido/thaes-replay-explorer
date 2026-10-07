@@ -393,4 +393,4 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .economy-overview .building-summary .data-table th:last-child{width:62px}
 .economy-overview .building-summary .data-table td.time{white-space:nowrap}
 .building-summary .building-identity{display:flex;width:100%;min-width:0;gap:5px}
-.building-name{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.building-name{font-size:calc(1em + 2pt);flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
