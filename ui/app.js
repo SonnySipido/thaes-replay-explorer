@@ -314,7 +314,7 @@ function buildingsAndUpgrades(p,root){
  });
  const fastExpandBuildings=new Set(['htow','ogre','etol','unpl','ugol']);
  const firstTier2=buildings.find(order=>tiers[order.id]==='T2')?.ms??Infinity;
- const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<300000&&order.ms<firstTier2;
+ const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<360000&&order.ms<firstTier2;
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
  table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'<span class="building-name" title="'+esc(name(order.id))+'">'+esc(name(order.id))+'</span></span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
