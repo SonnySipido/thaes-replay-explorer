@@ -339,8 +339,8 @@ function apm(p,root){
  const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=235,dpr=window.devicePixelRatio||1;
  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
  const max=Math.max(1,...entry.data.players.flatMap(player=>player.apmBuckets));
- ctx.font='12px Segoe UI';const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
- ctx.font='12px Segoe UI';
+ ctx.font=(12+2*96/72)+'px Segoe UI';const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
+ ctx.font=(12+2*96/72)+'px Segoe UI';
  for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle='#2b3b4e';ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle='#93a5b9';ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
  const count=Math.max(1,...entry.data.players.map(player=>player.apmBuckets.length));
  const plotWidth=w-pad-12,step=plotWidth/Math.max(1,count-1);

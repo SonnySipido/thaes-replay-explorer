@@ -394,3 +394,18 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .economy-overview .building-summary .data-table td.time{white-space:nowrap}
 .building-summary .building-identity{display:flex;width:100%;min-width:0;gap:5px}
 .building-name{font-size:calc(1em + 2pt);flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Larger analysis detail text; chat retains its independent font controls. */
+.comparison-content .data-table{font-size:calc(12px + 2pt)}
+.comparison-content .data-table th{font-size:calc(9px + 2pt)}
+.comparison-content .mini-heading,.comparison-content .chart-caption{font-size:calc(10px + 2pt)}
+.comparison-content .time,.comparison-content .pagination,.comparison-content .pagination button{font-size:calc(11px + 2pt)}
+.comparison-content .empty-note{font-size:calc(13px + 2pt)}
+.comparison-content .army-overview .hero-head .level{font-size:calc(23px + 2pt)}
+.comparison-content .army-overview .ability-icons .ability-level,.comparison-content .keycap{font-size:calc(14px + 2pt)}
+.comparison-content .unit-count{font-size:calc(16px + 2pt)}
+.comparison-content .economy-overview .data-table td.time{font-size:calc(13px + 2pt)}
+.comparison-content .economy-overview .data-table td.number{font-size:calc(16px + 2pt)}
+.comparison-content .building-name{font-size:calc(12px + 2pt)}
+.comparison-content .building-identity .building-tier{font-size:calc(11px + 2pt)}
+.economy-overview .building-summary .data-table th:last-child{width:72px}
