@@ -413,3 +413,6 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .army-overview .hero-card,.army-overview .hero-head{min-width:0}
 .army-overview .hero-head .level{flex-shrink:0}
 .army-overview .hero-name{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(12px + 2pt);font-weight:500}
+
+/* Chat timestamps scale with the user-selected message font size. */
+#chat-log .chat-row>.time{font-size:inherit}
