@@ -499,13 +499,15 @@ function startupChoice(){try{return localStorage.getItem('update-on-startup');}c
 function saveStartupChoice(on){startupSwitch.checked=on;try{localStorage.setItem('update-on-startup',on?'1':'0');}catch{}}
 startupSwitch.checked=startupChoice()==='1';
 startupSwitch.onchange=()=>saveStartupChoice(startupSwitch.checked);
-// a question in the app's own style: true for the first answer, false for the second one (or Escape)
-function ask({message,detail,buttons:[yes,no]}){
+// a question in the app's own style (optionally showing a folder): true for the first answer, false for
+// the second one, null when closed with Escape
+function ask({message,detail,folder,buttons:[yes,no]}){
  return new Promise(resolve=>{
   $('ask-title').textContent=message;$('ask-text').textContent=detail;$('ask-yes').textContent=yes;$('ask-no').textContent=no;
+  $('ask-folder').textContent=folder||'';$('ask-folder').hidden=!folder;
   $('ask-backdrop').hidden=false;$('ask-yes').focus();
   // Escape answers the question here instead of reaching the page's own Escape handling
-  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();done(false);}};
+  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();done(null);}};
   const done=answer=>{$('ask-backdrop').hidden=true;document.removeEventListener('keydown',onKey,true);resolve(answer);};
   document.addEventListener('keydown',onKey,true);
   $('ask-yes').onclick=()=>done(true);$('ask-no').onclick=()=>done(false);
@@ -513,15 +515,30 @@ function ask({message,detail,buttons:[yes,no]}){
 }
 async function startupUpdateCheck(){
  try{
-  if(startupChoice()===null)saveStartupChoice(await ask({message:'Check for updates when the app starts?',detail:"Thae's Replay Explorer can check for updates on startup. You can change this later in Settings and also update the application from Settings.",buttons:['Check on startup','No']}));
+  if(startupChoice()===null)saveStartupChoice(!!await ask({message:'Check for updates when the app starts?',detail:"Thae's Replay Explorer can check for updates on startup. You can change this later in Settings and also update the application from Settings.",buttons:['Check on startup','No']}));
   if(startupChoice()!=='1')return;
   const found=await checkForUpdate();
   if(found?.newer&&await ask({message:'Version '+found.version+' is available',detail:'You have version '+found.current+'. Install it now? The app closes and starts again by itself.',buttons:['Update now','Later']}))installUpdate();
  }catch(e){console.warn('Startup update check:',e);}
 }
+// first start without a replay folder: offer the one found on this PC (or the folder picker), in the app's style
+async function welcomeFolderQuestion(found){
+ try{
+  if(found){
+   const answer=await ask({message:'Choose your replay folder',detail:"Thae's Replay Explorer found your Warcraft III replays here:",folder:found,buttons:['Use this folder','Choose another folder…']});
+   if(answer===true)await window.replays.useWelcomeFolder();
+   else if(answer===false)await window.replays.chooseFolder();
+  }else if(await ask({message:'Choose your replay folder',detail:'Pick the folder where Warcraft III saves your replays. You can change it later in Settings.',buttons:['Choose folder','Later']}))await window.replays.chooseFolder();
+ }catch(e){showError(e);}
+}
+// the startup questions one at a time: the replay folder first (first start only), then updates
+async function startupQuestions(data){
+ if(!data.folder)await welcomeFolderQuestion(data.welcomeFolder);
+ await startupUpdateCheck();
+}
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
-window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(startupUpdateCheck,1500);}).catch(showError);
+window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
 
 
 

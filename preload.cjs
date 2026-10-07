@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('replays',{
  initial:()=>ipcRenderer.invoke('initial'),
  get:key=>ipcRenderer.invoke('replay',key),
  chooseFolder:()=>ipcRenderer.invoke('choose-folder'),
+ useWelcomeFolder:()=>ipcRenderer.invoke('use-welcome-folder'),
  refresh:()=>ipcRenderer.invoke('refresh'),
  openFolder:()=>ipcRenderer.invoke('open-folder'),
  mapAvailable:key=>ipcRenderer.invoke('map-available',key),

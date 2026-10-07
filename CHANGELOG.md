@@ -2,7 +2,8 @@
 
 ## 0.4.2 (not yet released)
 
-- Check for updates on startup: on the first start the app asks whether it should look for a newer version each time it starts (a **Check on startup** switch in Settings changes this later). When it is on and a newer version is found, the app asks whether to install it now.
+- Check for updates on startup: on the first start the app asks whether it should look for a newer version each time it starts (a **Check on startup** switch in Settings changes this later). When it is on and a newer version is found, the app asks whether to install it now. These questions appear in the app's own style instead of Windows dialogs.
+- First start: instead of opening the Windows folder picker straight away, the app suggests the replay folder it found (Documents\Warcraft III\BattleNet, covering every account) with **Use this folder** and **Choose another folder…**. The update question follows once the folder is settled, so the two never overlap.
 
 
 ## 0.4.1

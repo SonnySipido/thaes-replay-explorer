@@ -379,3 +379,5 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .ask-buttons button{font-size:13px;padding:8px 16px}
 .ask-buttons #ask-yes{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
 .ask-buttons #ask-yes:hover{background:#f0cf8c;border-color:#f0cf8c}
+.ask .ask-folder{margin:-10px 0 20px;padding:8px 10px;background:var(--bg);border:1px solid var(--line);border-radius:6px;font:12px/1.45 Consolas,"Cascadia Mono",monospace;color:var(--text);overflow-wrap:anywhere}
+.ask .ask-folder[hidden]{display:none}

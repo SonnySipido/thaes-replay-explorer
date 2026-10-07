@@ -47,7 +47,7 @@ function scheduleWindowSave(){
  windowSaveTimer=setTimeout(()=>{try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}},250);windowSaveTimer.unref();
 }
 const DEFAULT_FOLDER='';
-let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder;
+let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder,welcomeFolder;
 function send(channel,data){if(win && !win.isDestroyed())win.webContents.send(channel,data);}
 // reset: index from scratch (start, new folder). Otherwise only new, changed and deleted replays are
 // passed to the page: sending the whole library (tens of thousands of rows) on every check froze it.
@@ -107,7 +107,8 @@ async function chooseReplayFolder(){
  if(pick.canceled||!pick.filePaths[0])return;
  folder=pick.filePaths[0];saveSettings();
  watchFolder();
- await index(true);
+ // indexing goes on in the background: the caller only waits for the folder to be chosen
+ index(true).catch(error=>send('progress',{busy:false,error:error.message}));
 }
 function registerIPC(){
   ipcMain.handle('open-player-profile',async(_,key,playerId)=>{
@@ -121,7 +122,13 @@ function registerIPC(){
   });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
-  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select,appVersion:app.getVersion()};});
+  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
+  // first start: use the replay folder the welcome question offered
+  ipcMain.handle('use-welcome-folder',()=>{
+    if(folder||!welcomeFolder)return;
+    folder=welcomeFolder;saveSettings();watchFolder();
+    index(true).catch(error=>send('progress',{busy:false,error:error.message}));
+  });
   ipcMain.handle('replay',async(_,key)=>{
     const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');
     const entry=await details.get(e);
@@ -206,7 +213,9 @@ app.whenReady().then(async()=>{
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
   try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));folder=saved.folder||folder;includeSubfolders=saved.includeSubfolders!==false;windowState=saved.window;}catch{}
   if(folder){try{if(!(await fs.stat(folder)).isDirectory())folder='';}catch{folder='';}}
-  suggestedFolder=await require('./replay-folders.cjs').suggestedReplayFolder(app.getPath('documents'));
+  const replayFolders=require('./replay-folders.cjs');
+  suggestedFolder=await replayFolders.suggestedReplayFolder(app.getPath('documents'));
+  if(!folder)welcomeFolder=await replayFolders.welcomeReplayFolder(app.getPath('documents'));
   registerIPC();
   const area=screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
   const restored=restoreWindowBounds(windowState,screen.getAllDisplays(),area);
@@ -224,7 +233,8 @@ app.whenReady().then(async()=>{
   if(pendingSelect)requestSelect(null);  // asked for while the page was loading
   for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);
   rememberWindow();
-  if(folder){watchFolder();await index(true);}else await chooseReplayFolder();
+  // without a folder the page asks for one (the welcome question) before the update question
+  if(folder){watchFolder();await index(true);}
   setInterval(()=>{if(!busy)index(false,true);},300000).unref();
 });
 app.on('window-all-closed',()=>{worker?.terminate();app.quit();});
