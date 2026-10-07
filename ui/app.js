@@ -297,9 +297,12 @@ function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms);
+ const fastExpandBuildings=new Set(['htow','ogre','etol','unpl','ugol']);
+ const firstTier2=buildings.find(order=>tiers[order.id]==='T2')?.ms??Infinity;
+ const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<300000&&order.ms<firstTier2;
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
- table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
+ table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
  pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
