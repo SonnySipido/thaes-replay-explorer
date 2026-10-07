@@ -416,3 +416,18 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 
 /* Chat timestamps scale with the user-selected message font size. */
 #chat-log .chat-row>.time{font-size:inherit}
+
+/* Race art in both the selected value and the native dropdown options. */
+.matchup-filter select,.matchup-filter select::picker(select){appearance:base-select}
+.matchup-filter select{display:flex;align-items:center;gap:5px;height:30px;padding:4px 7px;min-width:0}
+.matchup-filter select>button{display:contents}
+.matchup-filter selectedcontent,.matchup-filter option{display:flex;align-items:center;gap:6px;min-width:0}
+.matchup-filter selectedcontent{flex:1;overflow:hidden}
+.matchup-filter .race-icon,.matchup-filter .race-filter-placeholder{width:20px;height:20px;flex:0 0 20px}
+.matchup-filter .race-filter-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.matchup-filter select::picker-icon{margin-left:auto;color:var(--muted);font-size:10px}
+.matchup-filter select::picker(select){background:#0e1723;color:var(--text);border:1px solid var(--line);border-radius:6px;padding:3px;box-shadow:0 6px 18px #0008}
+.matchup-filter option{padding:5px 7px;font-size:11px;border-radius:3px}
+.matchup-filter option::checkmark{display:none}
+.matchup-filter option:checked{background:#293629;color:var(--gold)}
+.matchup-filter option:hover,.matchup-filter option:focus{background:#253549;outline:none}
