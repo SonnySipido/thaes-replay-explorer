@@ -409,3 +409,7 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .comparison-content .building-name{font-size:calc(12px + 2pt)}
 .comparison-content .building-identity .building-tier{font-size:calc(11px + 2pt)}
 .economy-overview .building-summary .data-table th:last-child{width:72px}
+
+.army-overview .hero-card,.army-overview .hero-head{min-width:0}
+.army-overview .hero-head .level{flex-shrink:0}
+.army-overview .hero-name{flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:calc(12px + 2pt);font-weight:500}
