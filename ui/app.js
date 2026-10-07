@@ -299,7 +299,7 @@ function buildingsAndUpgrades(p,root){
  const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms);
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
- table(['Building','Started'],buildings.map(order=>'<tr><td>'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+'</td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
+ table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
  pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
