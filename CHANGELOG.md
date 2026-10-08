@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.3
+
+- Buildings now have individual chronological rows, responsive names, and T2/T3 badges. Early expansions started before 6:00 and before T2 receive a green FE badge. Rapid repeat orders for altars, research buildings, shops, and town halls are hidden within three seconds; production and supply buildings keep separate entries.
+- Hero names fit beside their icons and levels. Larger analysis text and timestamps improve readability without changing chat's font controls.
+- Compact library filters include race and platform icons, an Anywhere globe, and side-by-side Team size/matchup and Platform/Version controls.
+- Chat timestamps follow the selected font size and use two-digit minutes, including copied and exported chat.
+- Black dividers separate opposing teams in the header and analysis tabs; allied-player separators are thin gray lines. Removed redundant heading borders and unavailable-winner text.
+- Added minimap previews for Nomad Isles 1.2, Centaur Grove, Furbolg Mountain, Swamped Temple, and both classic Moonglade editions.
+
+
 ## 0.4.2
 
 - Check for updates on startup: on the first start the app asks whether it should look for a newer version each time it starts (a **Check on startup** switch in Settings changes this later). When it is on and a newer version is found, the app asks whether to install it now. These questions appear in the app's own style instead of Windows dialogs.
