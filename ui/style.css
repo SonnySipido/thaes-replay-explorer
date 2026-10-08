@@ -7,8 +7,8 @@
 .players .player:nth-child(even){border-top-color:var(--gold)}
 .player-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
 .comparison-player{min-width:0}
-.comparison-heading{border-top:3px solid var(--cyan);border-bottom:1px solid var(--line);padding:15px 0;margin-bottom:20px}
-.comparison-player:nth-child(even) .comparison-heading{border-top-color:var(--gold)}
+.comparison-heading{border-top:1px solid #393939;border-bottom:1px solid var(--line);padding:15px 0;margin-bottom:20px}
+
 .comparison-heading h2{margin:0 0 6px;font-size:18px;overflow-wrap:anywhere}
 .comparison-heading span{font-size:11px;color:var(--muted)}
 .comparison-content .hero-grid,.comparison-content .split{grid-template-columns:minmax(0,1fr)}
@@ -190,8 +190,8 @@
 .players>.team-column{gap:8px}
 .team-column[data-team="0"]{grid-column:1;grid-row:1}
 .team-column[data-team="1"]{grid-column:2;grid-row:1}
-.team-column .comparison-heading{border-top-color:var(--cyan)}
-.team-column[data-team="1"] .comparison-heading{border-top-color:var(--gold)}
+
+
 .map-preview{display:block;width:56px;height:56px;object-fit:contain;background:#101824;border:1px solid var(--line);border-radius:5px;flex-shrink:0}
 .match-head>div:first-child{min-width:0}
 .map-title-row{display:flex;align-items:center;gap:12px;margin-top:9px;min-width:0;height:59px}
