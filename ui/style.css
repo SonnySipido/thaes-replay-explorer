@@ -490,8 +490,12 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 
 .favorites-filter{font-size:11px;gap:5px}
 .replay-card{position:relative}
-.replay-card>.favorite-toggle{position:absolute;top:6px;right:4px}
-.replay-card .row-top{padding-right:24px}
+.replay-card-actions{position:absolute;top:5px;right:11px;display:flex;align-items:center;gap:4px;pointer-events:none}
+.replay-card-actions>.favorite-toggle{pointer-events:auto}
+.replay-card-actions .length{display:inline-flex;align-items:center;gap:4px;color:var(--gold);font-variant-numeric:tabular-nums}
+.replay-card-actions .duration-clock{width:14px;height:14px}
+.replay-card .duration-spacer{visibility:hidden;padding-left:30px}
+.favorite-duration{display:inline-flex;align-items:center;gap:4px}
 .favorite-toggle{padding:0;border:0;background:transparent;color:var(--muted);font-size:23px;line-height:26px;width:26px;height:26px;flex:0 0 26px}
 .favorite-toggle:hover{background:#ffffff0c;color:var(--gold)}
 .favorite-toggle.is-favorite{color:var(--gold)}
