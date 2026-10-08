@@ -209,7 +209,7 @@ function renderPlayers(){
  const reveal=$('show-winner')?.checked;
  const winner=entry.data.winningTeamId;
  const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
- $('winner-status').textContent=reveal&&!known?'Winner unavailable':'';
+ $('winner-status').textContent='';
  $('players').innerHTML=entry.data.players.map((p,i)=>{
   const badge=reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'';
   // only full BattleTags (Name#1234) have a W3Champions profile; older names are plain text
