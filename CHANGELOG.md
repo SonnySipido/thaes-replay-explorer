@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Library search includes in-game chat and replay notes. Chat text is cached in lightweight summaries and existing libraries upgrade automatically.
+
 - Favorite replays with a star and filter the library to favorites. Add autosaved notes below the match header, search their contents, and export or import annotation backups in Advanced settings. Identical replay files share annotations even after a rename or move.
 
 - Drop .w3g files onto the window to copy them into the primary folder and select their analysis. Existing identical replays are selected without copying; filename conflicts keep both files.

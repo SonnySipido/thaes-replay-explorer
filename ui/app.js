@@ -195,7 +195,7 @@ function renderList(){
  const query=JSON.stringify([term,filter,$('only-favorites').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
  let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
- [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
+ [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,r.chatSearch,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
  $('count').textContent=list.length;

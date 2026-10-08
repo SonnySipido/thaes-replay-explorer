@@ -34,7 +34,7 @@ test('old lightweight summaries acquire content identity without requiring a ful
  const {dir}=await fixture(t),folder=path.join(dir,'replays'),cache=path.join(dir,'cache');await fs.mkdir(folder);await fs.mkdir(path.join(cache,'summaries'),{recursive:true});
  const replay=path.join(folder,'old.w3g');await fs.writeFile(replay,'summary migration fixture');const stat=await fs.stat(replay),{SCHEMA}=require('../parser.cjs'),crypto=require('node:crypto');
  const key=crypto.createHash('sha256').update(replay.toLowerCase()).digest('hex'),fingerprint=stat.size+':'+stat.mtimeMs+':'+SCHEMA;
- await fs.writeFile(path.join(cache,'summaries',key+'.json'),JSON.stringify({summaryVersion:2,key,file:replay,fingerprint,source:'w3c'}));
+ await fs.writeFile(path.join(cache,'summaries',key+'.json'),JSON.stringify({summaryVersion:2,key,file:replay,fingerprint,source:'w3c',chatCount:0}));
  const rows=[];const result=await require('../library.cjs').indexFolder(folder,cache,row=>rows.push(row),()=>{},{},true,true);
  assert.equal(result.parsed,0);assert.equal(result.failed,0);assert.equal(rows[0].contentHash,await hashReplay(replay));assert.equal(rows[0].source,'w3c');
 });

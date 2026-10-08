@@ -3,7 +3,7 @@ const fs=require('node:fs/promises'), path=require('node:path'), crypto=require(
 const {parseReplay,SCHEMA}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const {hashReplay}=require('./annotations.cjs');
-const SUMMARY_VERSION=3;  // 3: replay content hash for persistent favorites and notes
+const SUMMARY_VERSION=4;  // 4: searchable chat text in lightweight summaries
 async function scan(folder,includeSubfolders=true,onError) {
   const files=[];
   async function visit(dir) {
@@ -27,12 +27,13 @@ async function scanFolders(folders){
  }
  return {files:[...files.values()].sort().reverse(),folderErrors};
 }
+function chatSearch(chat){return [...new Set((chat||[]).map(c=>String(c.playerName||'')+' '+String(c.message||'')))].join('\n').toLowerCase();}
 function summary(entry) {
   if(entry.summaryVersion)return entry;
   const r=entry.data;
   return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
     map:r?.map.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
-    players:r?.players.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat.length || 0};
+    players:r?.players.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat.length || 0,chatSearch:chatSearch(r?.chat)};
 }
 async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},known={},includeSubfolders=true,lightweight=false) {
   await fs.mkdir(cacheDir,{recursive:true});
@@ -53,9 +54,16 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
         const row=JSON.parse(await fs.readFile(summaryFile,'utf8'));
         if(row.fingerprint===fingerprint&&!row.error&&row.summaryVersion>=1){
           if(row.summaryVersion<SUMMARY_VERSION){
-            // summaries from before the game's source was kept: read just the start of the replay
-            // (the full analysis cache is far larger) and save the summary again
-            if(row.summaryVersion<2)row.source=gameSource((await readReplayStartFromFile(file)).creator);row.contentHash=await hashReplay(file);row.summaryVersion=SUMMARY_VERSION;
+            // Upgrade old summaries once, keeping full replay analyses out of library memory.
+            if(row.summaryVersion<2)row.source=gameSource((await readReplayStartFromFile(file)).creator);
+            if(!row.contentHash)row.contentHash=await hashReplay(file);
+            if(row.chatCount===0)row.chatSearch='';
+            else {
+              const saved=JSON.parse(await fs.readFile(cacheFile,'utf8'));
+              if(saved.fingerprint!==fingerprint||saved.schema!==SCHEMA||saved.data?.schema!==SCHEMA||!Array.isArray(saved.data.chat))throw Error('Chat cache needs rebuilding');
+              row.chatSearch=chatSearch(saved.data.chat);
+            }
+            row.summaryVersion=SUMMARY_VERSION;
             const temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(row));await fs.rename(temp,summaryFile);
           }
           cached++;onEntry(row);onProgress({total:files.length,done:i+1,parsed,cached,failed});continue;
