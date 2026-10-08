@@ -15,4 +15,16 @@ async function welcomeReplayFolder(documents){
  try{if((await fs.stat(classic)).isDirectory())return classic;}catch{}
  return null;
 }
-module.exports={suggestedReplayFolder,welcomeReplayFolder};
+
+function folderKey(folder){return path.resolve(folder).toLowerCase();}
+function normalizeReplayFolders(saved={}){
+ const input=Array.isArray(saved.replayFolders)?saved.replayFolders:(saved.folder?[{path:saved.folder,includeSubfolders:saved.includeSubfolders}]:[]);
+ const found=new Set(),result=[];
+ for(const row of input){
+  if(!row||typeof row.path!=='string'||!row.path.trim()||!path.isAbsolute(row.path))continue;
+  const full=path.resolve(row.path),key=folderKey(full);if(found.has(key))continue;found.add(key);
+  result.push({path:full,enabled:row.enabled!==false,includeSubfolders:row.includeSubfolders!==false});
+ }
+ return result;
+}
+module.exports={suggestedReplayFolder,welcomeReplayFolder,normalizeReplayFolders,folderKey};

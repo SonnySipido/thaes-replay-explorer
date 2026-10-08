@@ -3,10 +3,10 @@ const fs=require('node:fs/promises'), path=require('node:path'), crypto=require(
 const {parseReplay,SCHEMA}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const SUMMARY_VERSION=2;  // 2: where the game was played (source)
-async function scan(folder,includeSubfolders=true) {
+async function scan(folder,includeSubfolders=true,onError) {
   const files=[];
   async function visit(dir) {
-    const entries=await fs.readdir(dir,{withFileTypes:true});
+    let entries;try{entries=await fs.readdir(dir,{withFileTypes:true});}catch(error){if(!onError)throw error;onError(dir,error);return;}
     for(const entry of entries) {
       if(entry.isSymbolicLink()) continue;
       const full=path.join(dir,entry.name);
@@ -16,6 +16,15 @@ async function scan(folder,includeSubfolders=true) {
   }
   await visit(folder);
   return files.sort().reverse();
+}
+async function scanFolders(folders){
+ const files=new Map(),folderErrors=[];
+ for(const location of folders){
+  if(location.enabled===false)continue;
+  const discovered=await scan(location.path,location.includeSubfolders!==false,(directory,error)=>folderErrors.push({path:location.path,directory,message:error.message}));
+  for(const file of discovered){const key=path.resolve(file).toLowerCase();if(!files.has(key))files.set(key,file);}
+ }
+ return {files:[...files.values()].sort().reverse(),folderErrors};
 }
 function summary(entry) {
   if(entry.summaryVersion)return entry;
@@ -28,7 +37,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
   await fs.mkdir(cacheDir,{recursive:true});
   const summaryDir=path.join(cacheDir,'summaries');
   await fs.mkdir(summaryDir,{recursive:true});
-  const files=await scan(folder,includeSubfolders);
+  const {files,folderErrors}=Array.isArray(folder)?await scanFolders(folder):{files:await scan(folder,includeSubfolders),folderErrors:[]};
   let parsed=0,cached=0,failed=0;
   onProgress({total:files.length,done:0,parsed,cached,failed});
   for(let i=0;i<files.length;i++) {
@@ -68,7 +77,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
     onEntry(lightweight?summary(entry):entry);
     onProgress({total:files.length,done:i+1,parsed,cached,failed});
   }
-  return {total:files.length,parsed,cached,failed,files};
+  return {total:files.length,parsed,cached,failed,files,folderErrors};
 }
-module.exports={indexFolder,scan,summary,SUMMARY_VERSION};
+module.exports={indexFolder,scan,scanFolders,summary,SUMMARY_VERSION};
 

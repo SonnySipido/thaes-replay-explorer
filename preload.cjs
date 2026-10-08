@@ -6,6 +6,9 @@ contextBridge.exposeInMainWorld('replays',{
  initial:()=>ipcRenderer.invoke('initial'),
  get:key=>ipcRenderer.invoke('replay',key),
  chooseFolder:()=>ipcRenderer.invoke('choose-folder'),
+ addReplayFolder:()=>ipcRenderer.invoke('add-replay-folder'),
+ updateReplayFolder:(path,changes)=>ipcRenderer.invoke('update-replay-folder',path,changes),
+ removeReplayFolder:path=>ipcRenderer.invoke('remove-replay-folder',path),
  useWelcomeFolder:()=>ipcRenderer.invoke('use-welcome-folder'),
  refresh:()=>ipcRenderer.invoke('refresh'),
  openFolder:()=>ipcRenderer.invoke('open-folder'),
@@ -18,7 +21,7 @@ contextBridge.exposeInMainWorld('replays',{
  openUpdateNotes:()=>ipcRenderer.invoke('update-notes'), copyText:text=>ipcRenderer.invoke('copy-text',text),
  exportChat:(key,text)=>ipcRenderer.invoke('export-chat',key,text),
  on:(channel,callback)=>{
-   if(!['library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
+   if(!['folders-changed','library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
    const listener=(_,data)=>callback(data);ipcRenderer.on(channel,listener);
    return ()=>ipcRenderer.removeListener(channel,listener);
  }

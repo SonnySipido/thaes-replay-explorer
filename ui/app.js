@@ -116,6 +116,8 @@ function mapPreview(file,className=''){
 // (a line may wrap after each backslash rather than inside a folder name)
 function folderLabel(value){$('folder-setting').innerHTML=value?esc(value).replace(/\\/g,'\\<wbr>'):'None chosen yet';}
 function status(p){
+  if(p.busy===false&&p.folderErrors){const error=$('folder-settings-error');error.textContent=p.folderErrors.map(e=>e.path+': '+e.message).join('\n');error.hidden=!p.folderErrors.length;}
+  if(p.busy===false&&selected&&!rows.has(selected))deselectReplay();
   if(p.error){$('status').textContent=p.error;return;}
   $('status').textContent=p.busy
     ? 'Indexing '+(p.done||0)+' / '+(p.total||0)+' · '+(p.cached||0)+' cached'
@@ -415,6 +417,35 @@ $('reforged-icons').onchange=()=>{
  localStorage.setItem('reforged-icons',String(reforgedIcons));
  document.querySelectorAll('img[data-icon-id]').forEach(img=>{img.src=iconSource(img.dataset.iconId,img.dataset.iconKind);});
 };
+let configuredReplayFolders=[];
+function renderReplayFolders(){
+ const list=$('replay-folders-list');
+ list.innerHTML=configuredReplayFolders.map((location,index)=>'<div class="replay-folder-card'+(location.enabled?'':' folder-disabled')+'"><div class="replay-folder-title"><span class="replay-folder-path" title="'+esc(location.path)+'">'+esc(location.path)+'</span>'+(index===0?'<span class="primary-folder-label">Primary</span>':'')+'</div><div class="replay-folder-actions"><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="enabled" aria-label="Enable '+esc(location.path)+'" '+(location.enabled?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Enabled</span></label><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="includeSubfolders" aria-label="Include subfolders in '+esc(location.path)+'" '+(location.includeSubfolders?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Subfolders</span></label><button type="button" data-remove-folder="'+index+'" aria-label="Remove '+esc(location.path)+' from the library">Remove</button></div></div>').join('')||'<p class="settings-note">No replay folders. Add a folder to start indexing.</p>';
+}
+function applyFolderSettings(data){
+ configuredReplayFolders=data.replayFolders|| (data.folder?[{path:data.folder,enabled:true,includeSubfolders:data.includeSubfolders!==false}]:[]);
+ folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;$('include-subfolders').disabled=!configuredReplayFolders.length;
+ renderReplayFolders();
+}
+async function changeReplayFolders(action){
+ const error=$('folder-settings-error');error.hidden=true;
+ $('add-replay-folder').disabled=true;
+ $('replay-folders-list').querySelectorAll('input,button').forEach(control=>control.disabled=true);
+ try{await action();}catch(e){error.textContent=e.message||String(e);error.hidden=false;}
+ finally{$('add-replay-folder').disabled=false;renderReplayFolders();}
+}
+$('add-replay-folder').onclick=()=>changeReplayFolders(()=>window.replays.addReplayFolder());
+$('replay-folders-list').onchange=event=>{
+ const control=event.target,location=configuredReplayFolders[Number(control.dataset.folder)];
+ if(!location||!['enabled','includeSubfolders'].includes(control.dataset.setting))return;
+ changeReplayFolders(()=>window.replays.updateReplayFolder(location.path,{[control.dataset.setting]:control.checked}));
+};
+$('replay-folders-list').onclick=event=>{
+ const button=event.target.closest('[data-remove-folder]');if(!button)return;
+ const location=configuredReplayFolders[Number(button.dataset.removeFolder)];
+ if(location)changeReplayFolders(()=>window.replays.removeReplayFolder(location.path));
+};
+window.replays.on('folders-changed',applyFolderSettings);
 $('include-subfolders').onchange=async()=>{const control=$('include-subfolders'),enabled=control.checked;control.disabled=true;try{await window.replays.setSubfolders(enabled);}catch(e){control.checked=!enabled;showError(e);}finally{control.disabled=false;}};
 $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 
@@ -484,7 +515,7 @@ $('search').oninput=()=>{
  localStorage.setItem('library-search',$('search').value);
  scheduleList();
 };
-window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;renderList();restoreSelectedReplay();});
+window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));applyFolderSettings(data);renderList();restoreSelectedReplay();});
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
 window.replays.on('select-replay',openRequestedReplay);
@@ -565,7 +596,7 @@ async function startupQuestions(data){
 }
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
-window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
+window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));applyFolderSettings(data);if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
 
 
 

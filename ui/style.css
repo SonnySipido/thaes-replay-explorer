@@ -468,3 +468,18 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 /* A divider in the existing gap between team analysis columns. */
 .player-comparison,#players{position:relative}
 .player-comparison:has(>.team-column:nth-child(2))::after,#players:has(>.team-column:nth-child(2))::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);border-radius:2px;background:#000;pointer-events:none}
+
+.advanced-settings{margin:0;border-top:1px solid var(--line)}
+.advanced-settings>summary{padding:14px 0;font-size:13px;color:var(--text)}
+.advanced-settings>.settings-section{border-top:0;padding-top:0}
+.folder-list-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.folder-list-heading h3{margin:0}
+.folder-list-heading button,.replay-folder-actions button{font-size:11px;padding:6px 9px}
+.replay-folder-card{padding:10px;border:1px solid var(--line);border-radius:6px;margin-top:8px;min-width:0}
+.replay-folder-title{display:flex;align-items:center;gap:6px;min-width:0;margin-bottom:10px}
+.replay-folder-path{min-width:0;overflow-wrap:anywhere;font-size:12px;line-height:1.4}
+.primary-folder-label{flex-shrink:0;color:var(--muted);font-size:10px}
+.replay-folder-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;justify-content:space-between}
+.replay-folder-actions .switch-toggle{font-size:11px;gap:5px}
+.folder-disabled .replay-folder-path{color:var(--muted)}
+.folder-settings-error{color:#eba58c;font-size:12px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere}

@@ -3,6 +3,7 @@ const {app,BrowserWindow,ipcMain,dialog,shell,screen,clipboard}=require('electro
 const fs=require('node:fs/promises'),path=require('node:path');
 const {Worker}=require('node:worker_threads');
 const {summary}=require('./library.cjs');
+const {normalizeReplayFolders,folderKey}=require('./replay-folders.cjs');
 const {ReplayDetails}=require('./replay-details.cjs');
 const {resolveMapFile}=require('./map-files.cjs');
 app.setName("Thae's Replay Explorer");
@@ -35,7 +36,7 @@ function requestSelect(file){
 app.on('second-instance',(_,argv,_cwd,data)=>requestSelect(data?.select||selectArgument(argv)));
 function saveSettings(){
  const temporary=configFile+'.tmp';
- fsSync.writeFileSync(temporary,JSON.stringify({folder,includeSubfolders,window:windowState}));
+ fsSync.writeFileSync(temporary,JSON.stringify({folder,includeSubfolders,replayFolders,window:windowState}));
  fsSync.renameSync(temporary,configFile);
 }
 function rememberWindow(){
@@ -46,22 +47,29 @@ function scheduleWindowSave(){
  rememberWindow();clearTimeout(windowSaveTimer);
  windowSaveTimer=setTimeout(()=>{try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}},250);windowSaveTimer.unref();
 }
+let replayFolders=[],indexGeneration=0;
 const DEFAULT_FOLDER='';
 let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder,welcomeFolder;
+function syncPrimaryFolder(){folder=replayFolders[0]?.path||'';includeSubfolders=replayFolders[0]?.includeSubfolders!==false;}
+function foldersChanged(){
+ syncPrimaryFolder();saveSettings();watchFolder();send('folders-changed',{folder,includeSubfolders,replayFolders});
+ index(true).catch(error=>send('progress',{busy:false,error:error.message}));
+}
 function send(channel,data){if(win && !win.isDestroyed())win.webContents.send(channel,data);}
 // reset: index from scratch (start, new folder). Otherwise only new, changed and deleted replays are
 // passed to the page: sending the whole library (tens of thousands of rows) on every check froze it.
 // background: a check nobody asked for, shown only when it finds something.
 async function index(reset=false,background=false) {
-  if(!folder)return;
   if(busy && !reset)return;
+  const generation=++indexGeneration;busy=true;
   if(worker){const previous=worker;worker=null;await previous.terminate();}
+  if(generation!==indexGeneration)return;
   if(reset){entries.clear();details?.clear();}
   busy=true;
-  if(reset)send('library-reset',{folder,includeSubfolders,rows:[]});
+  if(reset)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[]});
   let found=false;
   const known=Object.fromEntries([...entries].filter(([,e])=>!e.error).map(([k,e])=>[k,e.fingerprint]));
-  const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{folder,cache,known,includeSubfolders}});
+  const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{replayFolders,cache,known}});
   worker=active;
   active.on('message',msg=>{
     if(worker!==active)return;
@@ -72,7 +80,7 @@ async function index(reset=false,background=false) {
       const present=new Set(msg.result.files);let removed=false;
       for(const [key,entry] of entries)if(!present.has(entry.file)){entries.delete(key);details?.invalidate(key);removed=true;}
       busy=false;progress={...msg.result,files:undefined,busy:false};
-      if(reset||removed)send('library-reset',{folder,includeSubfolders,rows:[...entries.values()].map(summary)});
+      if(reset||removed)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(summary)});
       send('progress',progress);
     }
   });
@@ -81,19 +89,19 @@ async function index(reset=false,background=false) {
 }
 // New and changed replays: watch the folder rather than checking every file every 30 seconds. A slow
 // background check still runs in case a change is missed (network drives, sleep).
-let watcher=null,watchTimer=null;
+let watchers=[],watchTimer=null;
 function watchFolder(){
-  watcher?.close();watcher=null;clearTimeout(watchTimer);
-  if(!folder)return;
-  const check=()=>{if(busy){watchTimer=setTimeout(check,3000);watchTimer.unref();return;}index(false,true);};
+ for(const watcher of watchers)watcher.close();watchers=[];clearTimeout(watchTimer);
+ const check=()=>{if(busy){watchTimer=setTimeout(check,3000);watchTimer.unref();return;}index(false,true);};
+ for(const location of replayFolders.filter(row=>row.enabled)){
   try{
-    watcher=fsSync.watch(folder,{recursive:includeSubfolders},(_,name)=>{
-      // TempReplay.w3g is the game being played: rewritten all the time, indexed once it is saved
-      if(!name||!/\.w3g$/i.test(name)||/(^|[\\/])TempReplay\.w3g$/i.test(name))return;
-      clearTimeout(watchTimer);watchTimer=setTimeout(check,3000);watchTimer.unref();
-    });
-    watcher.on('error',()=>{watcher?.close();watcher=null;});
-  }catch{watcher=null;}
+   const watcher=fsSync.watch(location.path,{recursive:location.includeSubfolders},(_,name)=>{
+    if(name&&(!/\.w3g$/i.test(name)||/(^|[\\/])TempReplay\.w3g$/i.test(name)))return;
+    clearTimeout(watchTimer);watchTimer=setTimeout(check,3000);watchTimer.unref();
+   });
+   watchers.push(watcher);watcher.on('error',()=>{watcher.close();watchers=watchers.filter(w=>w!==watcher);});
+  }catch{}
+ }
 }
 async function localMap(entry){
  if(!entry?.mapInfo)throw Error('Map information is unavailable.');
@@ -105,10 +113,8 @@ async function localMap(entry){
 async function chooseReplayFolder(){
  const pick=await dialog.showOpenDialog(win,{title:folder?'Choose a replay folder':'Choose a replay folder — suggested Warcraft III replay location',defaultPath:folder||suggestedFolder,properties:['openDirectory']});
  if(pick.canceled||!pick.filePaths[0])return;
- folder=pick.filePaths[0];saveSettings();
- watchFolder();
- // indexing goes on in the background: the caller only waits for the folder to be chosen
- index(true).catch(error=>send('progress',{busy:false,error:error.message}));
+ replayFolders=normalizeReplayFolders({replayFolders:[{path:pick.filePaths[0],enabled:true,includeSubfolders},...replayFolders.slice(1)]});
+ foldersChanged();
 }
 function registerIPC(){
   ipcMain.handle('open-player-profile',async(_,key,playerId)=>{
@@ -122,12 +128,11 @@ function registerIPC(){
   });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
-  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
+  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
   // first start: use the replay folder the welcome question offered
   ipcMain.handle('use-welcome-folder',()=>{
     if(folder||!welcomeFolder)return;
-    folder=welcomeFolder;saveSettings();watchFolder();
-    index(true).catch(error=>send('progress',{busy:false,error:error.message}));
+    replayFolders=[{path:welcomeFolder,enabled:true,includeSubfolders:true}];foldersChanged();
   });
   ipcMain.handle('replay',async(_,key)=>{
     const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');
@@ -146,6 +151,23 @@ function registerIPC(){
     return entry;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
+  ipcMain.handle('add-replay-folder',async()=>{
+    const pick=await dialog.showOpenDialog(win,{title:'Add replay folder',defaultPath:folder||suggestedFolder,properties:['openDirectory']});
+    if(pick.canceled||!pick.filePaths[0])return replayFolders;
+    const full=path.resolve(pick.filePaths[0]),existing=replayFolders.find(row=>folderKey(row.path)===folderKey(full));
+    if(existing)existing.enabled=true;
+    else replayFolders.push({path:full,enabled:true,includeSubfolders:true});
+    foldersChanged();return replayFolders;
+  });
+  ipcMain.handle('update-replay-folder',(_,folderPath,changes)=>{
+    if(typeof folderPath!=='string'||!changes||typeof changes!=='object'||Object.keys(changes).some(key=>!['enabled','includeSubfolders'].includes(key))||Object.values(changes).some(value=>typeof value!=='boolean'))throw Error('Invalid folder preference.');
+    const location=replayFolders.find(row=>folderKey(row.path)===folderKey(folderPath));if(!location)throw Error('Replay folder is no longer configured.');
+    Object.assign(location,changes);foldersChanged();return replayFolders;
+  });
+  ipcMain.handle('remove-replay-folder',(_,folderPath)=>{
+    if(typeof folderPath!=='string')throw Error('Invalid replay folder.');
+    replayFolders=replayFolders.filter(row=>folderKey(row.path)!==folderKey(folderPath));foldersChanged();return replayFolders;
+  });
   // updates: when the button is pressed, or at startup when that is switched on in Settings
   ipcMain.handle('update-check',async()=>{
     availableUpdate=await updater.checkForUpdate(app.getVersion());
@@ -164,7 +186,8 @@ function registerIPC(){
   ipcMain.handle('update-notes',()=>shell.openExternal(availableUpdate?.notes||updater.RELEASES));
   ipcMain.handle('set-subfolders',async(_,enabled)=>{
     if(typeof enabled!=='boolean')throw new Error('Invalid subfolder preference.');
-    includeSubfolders=enabled;saveSettings();watchFolder();await index(true);return includeSubfolders;
+    if(!replayFolders[0])return includeSubfolders;
+    replayFolders[0].includeSubfolders=enabled;foldersChanged();return enabled;
   });
   ipcMain.handle('refresh',()=>index(false));
   ipcMain.handle('open-folder',async()=>{
@@ -211,11 +234,10 @@ app.whenReady().then(async()=>{
   const user=app.getPath('userData');
   await fs.mkdir(user,{recursive:true});
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
-  try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));folder=saved.folder||folder;includeSubfolders=saved.includeSubfolders!==false;windowState=saved.window;}catch{}
-  if(folder){try{if(!(await fs.stat(folder)).isDirectory())folder='';}catch{folder='';}}
-  const replayFolders=require('./replay-folders.cjs');
-  suggestedFolder=await replayFolders.suggestedReplayFolder(app.getPath('documents'));
-  if(!folder)welcomeFolder=await replayFolders.welcomeReplayFolder(app.getPath('documents'));
+  try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));replayFolders=normalizeReplayFolders(saved);syncPrimaryFolder();windowState=saved.window;}catch{}
+  const folderDiscovery=require('./replay-folders.cjs');
+  suggestedFolder=await folderDiscovery.suggestedReplayFolder(app.getPath('documents'));
+  if(!replayFolders.length)welcomeFolder=await folderDiscovery.welcomeReplayFolder(app.getPath('documents'));
   registerIPC();
   const area=screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
   const restored=restoreWindowBounds(windowState,screen.getAllDisplays(),area);
@@ -237,6 +259,6 @@ app.whenReady().then(async()=>{
   if(folder){watchFolder();await index(true);}
   setInterval(()=>{if(!busy)index(false,true);},300000).unref();
 });
-app.on('window-all-closed',()=>{worker?.terminate();app.quit();});
+app.on('window-all-closed',()=>{clearTimeout(watchTimer);for(const watcher of watchers)watcher.close();worker?.terminate();app.quit();});
 
 

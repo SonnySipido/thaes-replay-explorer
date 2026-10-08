@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Advanced settings can manage multiple replay folders, with independent enabled and subfolder switches, removal without deleting files, and a combined library that deduplicates overlapping locations. Folder settings persist across restarts; unavailable locations do not stop other folders from indexing.
+
+
 ## 0.4.3
 
 - Buildings now have individual chronological rows, responsive names, and T2/T3 badges. Early expansions started before 6:00 and before T2 receive a green FE badge. Rapid repeat orders for altars, research buildings, shops, and town halls are hidden within three seconds; production and supply buildings keep separate entries.
