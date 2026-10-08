@@ -512,4 +512,5 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 /* Balance the favorite and clock symbols independently in each context. */
 .favorite-duration .duration-clock{width:24px;height:24px}
 .favorite-duration>.favorite-toggle,.replay-card-actions>.favorite-toggle{display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.replay-card-actions>.favorite-toggle{font-size:16px}
+.replay-card-actions>.favorite-toggle{font-size:19px}
+.favorite-duration>.favorite-toggle{font-size:27px}
