@@ -3,6 +3,8 @@ const {app,BrowserWindow,ipcMain,dialog,shell,screen,clipboard}=require('electro
 const fs=require('node:fs/promises'),path=require('node:path');
 const {Worker}=require('node:worker_threads');
 const {summary}=require('./library.cjs');
+const {importReplay}=require('./replay-import.cjs');
+let importQueue=Promise.resolve();
 const {normalizeReplayFolders,folderKey}=require('./replay-folders.cjs');
 const {ReplayDetails}=require('./replay-details.cjs');
 const {resolveMapFile}=require('./map-files.cjs');
@@ -149,6 +151,20 @@ function registerIPC(){
       entry.data.winnerChecked=WINNER_VERSION;
     }
     return entry;
+  });
+  ipcMain.handle('import-replays',(_,files)=>{
+    const task=async()=>{
+      if(!Array.isArray(files)||!files.length||files.some(file=>typeof file!=='string'||!path.isAbsolute(file)||path.extname(file).toLowerCase()!=='.w3g'))throw Error('Drop Warcraft III replay (.w3g) files.');
+      if(!replayFolders.length)await chooseReplayFolder();
+      if(!replayFolders.length)return null;
+      const location=replayFolders[0],wasEnabled=location.enabled,results=[];
+      for(const file of files)results.push(await importReplay(file,location));
+      if(!location.enabled){location.enabled=true;syncPrimaryFolder();saveSettings();watchFolder();send('folders-changed',{folder,includeSubfolders,replayFolders});}
+      const key=replayKey(results.at(-1).file),copied=results.filter(r=>r.copied).length;
+      if(copied||!wasEnabled||!entries.has(key))await index(true);
+      return {key,copied};
+    };
+    const job=importQueue.then(task);importQueue=job.catch(()=>{});return job;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('add-replay-folder',async()=>{

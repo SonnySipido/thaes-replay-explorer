@@ -483,3 +483,5 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .replay-folder-actions .switch-toggle{font-size:11px;gap:5px}
 .folder-disabled .replay-folder-path{color:var(--muted)}
 .folder-settings-error{color:#eba58c;font-size:12px;line-height:1.4;white-space:pre-wrap;overflow-wrap:anywhere}
+
+body.replay-drop-active::after{content:"Drop replay to add it to your library";position:fixed;inset:10px;z-index:100;display:grid;place-items:center;border:2px dashed var(--gold);border-radius:10px;background:#101824e8;color:var(--gold);font-size:22px;pointer-events:none}

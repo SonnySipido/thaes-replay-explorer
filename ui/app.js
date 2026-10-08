@@ -4,6 +4,7 @@ const esc=value=>String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 const time=ms=>{const s=Math.floor((ms||0)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
 const clean=value=>String(value||'').replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(/\.w3[xm]$/i,'').replace(/_/g,' ');
 const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
+let droppedReplayKey=null;
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
 let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
 let requestedReplay=null;
@@ -15,7 +16,7 @@ function restoreSelectedReplay(){
  const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
  selectReplay(key,true);renderList();
  // a replay asked for from outside that the search text hides: clear the search so it shows in the list
- if(requestedReplay===key){
+ if(requestedReplay===key&&droppedReplayKey!==key){
   requestedReplay=null;
   if($('search').value&&!$('replay-list').querySelector('.replay-row.active')){
    $('search').value='';localStorage.setItem('library-search','');
@@ -30,6 +31,25 @@ function openRequestedReplay(key){
  pendingReplayRestore=key;requestedReplay=key;selected=null;
  restoreSelectedReplay();
 }
+let dragDepth=0,importingReplay=false;
+const hasDraggedFiles=event=>Array.from(event.dataTransfer?.types||[]).includes('Files');
+const clearReplayDrop=()=>{dragDepth=0;document.body.classList.remove('replay-drop-active');};
+document.addEventListener('dragenter',event=>{if(!hasDraggedFiles(event))return;event.preventDefault();dragDepth++;document.body.classList.add('replay-drop-active');});
+document.addEventListener('dragover',event=>{if(!hasDraggedFiles(event))return;event.preventDefault();event.dataTransfer.dropEffect='copy';});
+document.addEventListener('dragleave',event=>{if(!hasDraggedFiles(event))return;if(--dragDepth<=0)clearReplayDrop();});
+window.addEventListener('blur',clearReplayDrop);
+document.addEventListener('drop',async event=>{
+ if(!hasDraggedFiles(event))return;event.preventDefault();clearReplayDrop();
+ const files=Array.from(event.dataTransfer.files);
+ if(!files.length)return;
+ if(files.some(file=>!/\.w3g$/i.test(file.name))){showError(new Error('Drop Warcraft III replay (.w3g) files.'));return;}
+ if(importingReplay){showError(new Error('Please wait for the current replay import to finish.'));return;}
+ importingReplay=true;$('status').textContent='Adding replay to the primary folder…';
+ try{
+  const result=await window.replays.importReplays(files);
+  if(result){renderList();droppedReplayKey=result.key;openRequestedReplay(result.key);}
+ }catch(error){showError(error);}finally{importingReplay=false;}
+});
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
 function deselectReplay(){
@@ -132,8 +152,8 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;}
- let list=[...rows.values()].filter(r=>(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));

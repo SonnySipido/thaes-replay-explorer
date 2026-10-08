@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Drop .w3g files onto the window to copy them into the primary folder and select their analysis. Existing identical replays are selected without copying; filename conflicts keep both files.
+
 - Advanced settings can manage multiple replay folders, with independent enabled and subfolder switches, removal without deleting files, and a combined library that deduplicates overlapping locations. Folder settings persist across restarts; unavailable locations do not stop other folders from indexing.
 
 

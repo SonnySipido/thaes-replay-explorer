@@ -1,9 +1,10 @@
-﻿const {contextBridge,ipcRenderer}=require('electron');
+﻿const {contextBridge,ipcRenderer,webUtils}=require('electron');
 contextBridge.exposeInMainWorld('replays',{
  openPlayerProfile:(key,playerId)=>ipcRenderer.invoke('open-player-profile',key,playerId),
  openProfile:()=>ipcRenderer.invoke('open-w3c-profile'),
  setSubfolders:enabled=>ipcRenderer.invoke('set-subfolders',enabled),
  initial:()=>ipcRenderer.invoke('initial'),
+ importReplays:files=>ipcRenderer.invoke('import-replays',files.map(file=>webUtils.getPathForFile(file))),
  get:key=>ipcRenderer.invoke('replay',key),
  chooseFolder:()=>ipcRenderer.invoke('choose-folder'),
  addReplayFolder:()=>ipcRenderer.invoke('add-replay-folder'),

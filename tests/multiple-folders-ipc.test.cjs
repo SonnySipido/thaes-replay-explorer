@@ -44,3 +44,13 @@ test('folder IPC persists additions, per-folder toggles, primary migration and r
  await run.invoke('remove-replay-folder',b);assert.equal((await run.settled()).replayFolders.length,0);assert.ok((await fs.stat(path.join(b,'two.w3g'))).isFile());
  assert.ok(run.messages.some(m=>m.channel==='folders-changed'));
 });
+
+test('dropped replay enters the primary library and returns the existing key on repeated drops',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-drop-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const primary=path.join(temp,'primary'),source=path.join(temp,'external.w3g'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(primary);await fs.mkdir(user);await fs.writeFile(source,'example replay');
+ await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({replayFolders:[{path:primary,enabled:false,includeSubfolders:false}]}));
+ run=await launch(temp);await run.settled();const first=await run.invoke('import-replays',[source]);const state=await run.settled();assert.equal(first.copied,1);assert.equal(state.replayFolders[0].enabled,true);assert.ok(state.rows.some(r=>r.key===first.key));
+ const second=await run.invoke('import-replays',[source]);await run.settled();assert.equal(second.copied,0);assert.equal(first.key,second.key);assert.equal((await fs.readdir(primary)).length,1);
+ await assert.rejects(run.invoke('import-replays',['bad.txt']),/replay/);
+});
