@@ -466,5 +466,5 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .matchup-team-filters #team-size{min-width:0;width:0;height:30px;padding:4px 2px}
 
 /* A divider in the existing gap between team analysis columns. */
-.player-comparison{position:relative}
-.player-comparison:has(>.team-column:nth-child(2))::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);border-radius:2px;background:#a58a50;pointer-events:none}
+.player-comparison,#players{position:relative}
+.player-comparison:has(>.team-column:nth-child(2))::after,#players:has(>.team-column:nth-child(2))::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);border-radius:2px;background:#a58a50;pointer-events:none}
