@@ -383,7 +383,7 @@ function chat(){
  const chatText=()=>{
   const row=rows.get(selected);
   const head=[$('map').textContent,row?replayFilters.dateLabel(row):'',entry.file.split(/[\\/]/).pop()].filter(Boolean).join(' · ');
-  return [head,'',...shown.map(c=>time(c.timeMS)+'  ['+(c.mode==='Obervers'?'Observers':c.mode)+'] '+c.playerName+': '+c.message)].join('\r\n')+'\r\n';
+  return [head,'',...shown.map(c=>time(c.timeMS).padStart(5,'0')+'  ['+(c.mode==='Obervers'?'Observers':c.mode)+'] '+c.playerName+': '+c.message)].join('\r\n')+'\r\n';
  };
  // the button says what happened for a moment, then returns to its label
  const flash=(button,text)=>{const label=button.dataset.label||(button.dataset.label=button.textContent);button.textContent=text;clearTimeout(button.flashTimer);button.flashTimer=setTimeout(()=>{button.textContent=label;},2000);};
@@ -394,7 +394,7 @@ function chat(){
  function draw(){
   const q=$('chat-search').value.toLowerCase(),who=$('chat-player').value;
   const messages=shown=($('chat-hide-duplicates').checked?withoutDuplicateChat(entry.data.chat):entry.data.chat).filter(c=>(who==='all'||who===c.playerName)&&(c.message+' '+c.playerName).toLowerCase().includes(q));
-  $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS)+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||'<p class="empty-note">No chat messages match this view.</p>';
+  $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS).padStart(5,'0')+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||'<p class="empty-note">No chat messages match this view.</p>';
  }
  $('chat-font-size').value=String(fontSize);
  const applyFontSize=()=>{$('chat-log').style.setProperty('--chat-font-size',$('chat-font-size').value+'px');};

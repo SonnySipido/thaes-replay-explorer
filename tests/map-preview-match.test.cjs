@@ -29,3 +29,12 @@ test('Nomad Isles 1.2 uses its own preview and current/W3Arena variants remain a
  assert.equal(lookup('w3arena__nomadisles__v3.w3x'),maps['(3)NomadIsles.w3x']);
  assert.equal(lookup('NomadIslesTowerDefense.w3x'),undefined);
 });
+
+test('Centaur Grove, Furbolg Mountain, Swamped Temple and both Moonglade editions have previews',()=>{
+ const context={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../ui/maps.js'),'utf8'),context);
+ const lookup=create(context.window.warcraftMaps,context.window.warcraftMapNames);
+ for(const file of ['(4)CentaurGrove.w3x','(4)FurbolgMountain.w3x','(2)SwampedTemple.w3x','(6)Moonglade.w3x','(6)Moonglade.w3m']){
+  assert.ok(lookup(file),file);assert.ok(fs.existsSync(path.join(__dirname,'../ui',lookup(file))));
+ }
+ assert.notEqual(lookup('(6)Moonglade.w3x'),lookup('(6)Moonglade.w3m'));
+});

@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "file": "maps/centaur-grove.png",
+      "map": "(4)CentaurGrove.w3x",
+      "name": "Centaur Grove",
+      "source": "(4)CentaurGrove.w3x:war3mapMap.blp",
+      "sha256": "b924260f4fbba1338f125b26c9995dd9e95f474fa0addfe1b007a9d2f549470c"
+    },
+    {
+      "file": "maps/furbolg-mountain.png",
+      "map": "(4)FurbolgMountain.w3x",
+      "name": "Furbolg Mountain",
+      "source": "(4)FurbolgMountain.w3x:war3mapMap.blp",
+      "sha256": "6309ce87abf3d8df501e62093c906149117ba39a21f674a3cc3a8ecbbbb1324c"
+    },
+    {
+      "file": "maps/swamped-temple.png",
+      "map": "(2)SwampedTemple.w3x",
+      "name": "Swamped Temple",
+      "source": "(2)SwampedTemple.w3x:war3mapMap.blp",
+      "sha256": "1f3bdf92e4c21182816f017d298449a2726c7b5eeb1b3482fc3c62acc1b871b1"
+    },
+    {
+      "file": "maps/moonglade-tft.png",
+      "map": "(6)Moonglade.w3x",
+      "name": "Moonglade",
+      "source": "(6)Moonglade.w3x:war3mapMap.blp",
+      "sha256": "77cc24b678c8b39a79c3b2e3f9a65dd9afee0c354e4782cbb0b8fe1f24d33515"
+    },
+    {
+      "file": "maps/moonglade-roc.png",
+      "map": "(6)Moonglade.w3m",
+      "name": "Moonglade",
+      "source": "(6)Moonglade.w3m:war3mapMap.blp",
+      "sha256": "beb153043dc962dd8b784759dda7a504b5d7b11b384e895b47d8ccd85e0b0961"
+    }
+  ]
+}
