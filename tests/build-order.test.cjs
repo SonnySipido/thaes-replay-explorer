@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),build=require('../ui/build-order.js');
 test('build orders combine units, heroes and buildings chronologically within five minutes',()=>{
  const player={heroes:[{id:'Obla'}],units:{order:[{id:'ogru',ms:110000},{id:'opeo',ms:0},{id:'Obla',ms:50000},{id:'ogru',ms:300001}]},heroOrders:[{id:'Obla',ms:50000},{id:'Nbst',ms:290000}],buildings:{order:[{id:'oalt',ms:10000},{id:'obar',ms:300000}]},upgrades:{order:[{id:'upgrade',ms:10}]},cancellations:[{id:'opeo',ms:20}]};
- const rows=build.orders(player);assert.deepEqual(rows.map(r=>r.ms),[0,10000,50000,110000,290000,300000]);assert.equal(rows.filter(r=>r.id==='Obla').length,1);assert.equal(rows.find(r=>r.id==='Nbst').kind,'heroes');assert.equal(rows.find(r=>r.id==='ogru').kind,'units');
+ const rows=build.orders(player);assert.deepEqual(rows.map(r=>r.ms),[0,10,10000,50000,110000,290000,300000]);assert.equal(rows.filter(r=>r.id==='Obla').length,1);assert.equal(rows.find(r=>r.id==='Nbst').kind,'heroes');assert.equal(rows.find(r=>r.id==='ogru').kind,'units');
 });
 test('build orders suppress rapid singleton building clicks but retain repeated production and training',()=>{
  const p={units:{order:[{id:'opeo',ms:0},{id:'opeo',ms:0}]},buildings:{order:[{id:'oalt',ms:1000},{id:'oalt',ms:2000},{id:'oalt',ms:5000},{id:'obar',ms:6000},{id:'obar',ms:6500}]}};
@@ -14,4 +14,9 @@ test('exports contain every player in team order, padded timestamps, and readabl
 
 test('rapid repeated hero clicks collapse while later hero orders remain',()=>{
  const rows=build.orders({heroOrders:[{id:'Hamg',ms:69026},{id:'Hamg',ms:69066},{id:'Hamg',ms:150000}]});assert.deepEqual(rows.map(r=>r.ms),[69026,150000]);
+});
+
+test('build order tags use the same tiers and before-T2 expansion rule as Buildings',()=>{
+ const p={buildings:{order:[{id:'ogre',ms:50000},{id:'ostr',ms:180000},{id:'ogre',ms:200000},{id:'ofrt',ms:280000}]},upgrades:{order:[{id:'Rost',ms:150000},{id:'Roar',ms:300001}]}};
+ const rows=build.orders(p);assert.deepEqual(rows.map(o=>o.tag||''),['FE','','T2','','T3']);assert.equal(rows[1].kind,'upgrades');const text=build.text({names:{ogre:'Great Hall',ostr:'Stronghold'},players:[{...p,name:'Player'}]},'Echo Isles');assert.ok(text.includes('Great Hall [FE]'));assert.ok(text.includes('Stronghold [T2]'));
 });

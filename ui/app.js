@@ -316,7 +316,6 @@ function renderPanel(){
  if(!entry.data.players.length){panel.innerHTML='<p class="empty-note">No active players recorded.</p>';return;}
  panel.replaceChildren();
  const comparison=document.createElement('div');comparison.className='player-comparison';
- if(tab==='Build Order'){const toolbar=document.createElement('div');toolbar.className='build-order-toolbar';toolbar.innerHTML='<span>First 5 minutes</span><button id="build-order-text">Save to text</button><button id="build-order-image">Export to image</button>';panel.append(toolbar);bindBuildOrderExports(toolbar);}
  panel.append(comparison);
  const teams=teamColumns(comparison,entry.data.players);
  const maxTeamSize=Math.max(...[...teams.keys()].map(id=>entry.data.players.filter(p=>teamNumber(p)===id).length));
@@ -674,13 +673,14 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 
 function buildOrder(player,root){
  const orders=replayBuildOrder.orders(player);
- root.innerHTML='<div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span></div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+ root.innerHTML='<div class="build-order-toolbar"><button data-build-export="text">Save to text</button><button data-build-export="image">Export to image</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span></div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+ bindBuildOrderExports(root,player);
 }
-function bindBuildOrderExports(toolbar){
- const key=selected,data=entry.data,map=mapDisplayName(data.map.file);
- for(const format of ['text','image'])toolbar.querySelector('#build-order-'+format).onclick=async event=>{
+function bindBuildOrderExports(toolbar,player){
+ const key=selected,data={...entry.data,players:[player]},map=mapDisplayName(data.map.file),filename=map+' - '+player.name+' - Build order';
+ for(const format of ['text','image'])toolbar.querySelector('[data-build-export="'+format+'"]').onclick=async event=>{
   const button=event.currentTarget;button.disabled=true;const label=button.textContent;
-  try{const contents=format==='text'?replayBuildOrder.text(data,map):await buildOrderImage(data,map);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents))button.textContent='Saved';}
+  try{const contents=format==='text'?replayBuildOrder.text(data,map):await buildOrderImage(data,map);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents,filename))button.textContent='Saved';}
   catch(error){showError(error);}finally{button.disabled=false;setTimeout(()=>{button.textContent=label;},1800);}
  };
 }
@@ -697,13 +697,13 @@ async function buildOrderImage(data,map){
  }
  const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
- const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='bold 24px Segoe UI';ctx.fillText('Build order · First 5 minutes',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px Segoe UI';ctx.fillText(map,margin,66);
+ const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='bold 24px Segoe UI';ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px Segoe UI';ctx.fillText(map,margin,66);
  const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+o.id,o]))).values()].map(async o=>{const src=iconSource(o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+o.id,img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
   ctx.fillStyle='#e3bc70';ctx.font='bold 17px Segoe UI';ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px Segoe UI';
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
-  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);ctx.fillStyle='#e6edf5';ctx.fillText(fit(data.names[o.id]||o.id,columnWidth-120),b.x+91,top+18);});
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);let textX=b.x+91;if(o.tag){ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(textX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,textX+7,top+17);ctx.font='14px Segoe UI';textX+=37;}ctx.fillStyle='#e6edf5';ctx.fillText(fit(data.names[o.id]||o.id,columnWidth-(textX-b.x)-29),textX,top+18);});
  }
  return canvas.toDataURL('image/png');
 }

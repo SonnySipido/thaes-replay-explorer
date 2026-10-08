@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Build Order includes researched upgrades and FE/T2/T3 tags. Each player has separate text and PNG exports named after the map and player. Removed the five-minute label and increased Match Analysis date/time text by two points.
+
 - Added a compact Build Order tab showing each player’s first five minutes of unit, hero and building orders chronologically, with text and full-length PNG exports. Rapid repeat orders for the same hero and singleton buildings are collapsed.
 
 - Hide identical replay files across indexed folders by default. Settings remembers the Hide duplicates switch and shows duplicate counts. Files remain untouched; hovering a replay lists its identical copies.

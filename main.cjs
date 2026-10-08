@@ -256,7 +256,7 @@ function registerIPC(){
   });
   ipcMain.handle('copy-text',(_,text)=>{clipboard.writeText(String(text));});
   // the chat as shown in the Chat tab, saved as a text file named after the replay
-  ipcMain.handle('export-build-order',async(_,key,format,contents)=>{
+  ipcMain.handle('export-build-order',async(_,key,format,contents,filename)=>{
     const row=entries.get(key);if(!row)throw Error('Replay is no longer in the library.');
     if(!['txt','png'].includes(format)||typeof contents!=='string'||contents.length>48*1024*1024)throw Error('Invalid build order export.');
     let output=contents;
@@ -265,7 +265,8 @@ function registerIPC(){
       output=Buffer.from(contents.split(',')[1],'base64');
       if(output.subarray(0,8).toString('hex')!=='89504e470d0a1a0a')throw Error('Invalid PNG image.');
     }
-    const pick=await dialog.showSaveDialog(win,{title:format==='png'?'Export build order image':'Save build order',defaultPath:path.join(app.getPath('documents'),path.basename(row.file,path.extname(row.file))+' build order.'+format),filters:[{name:format==='png'?'PNG image':'Text',extensions:[format]}]});
+    const basename=(typeof filename==='string'?filename:'Build order').replace(/[<>:"/\\|?*\x00-\x1f]/g,' ').replace(/\s+/g,' ').trim().slice(0,180).replace(/[. ]+$/,'')||'Build order';
+    const pick=await dialog.showSaveDialog(win,{title:format==='png'?'Export build order image':'Save build order',defaultPath:path.join(app.getPath('documents'),basename+'.'+format),filters:[{name:format==='png'?'PNG image':'Text',extensions:[format]}]});
     if(pick.canceled)return false;await fs.writeFile(pick.filePath,output);return true;
   });
   ipcMain.handle('export-chat',async(_,key,text)=>{

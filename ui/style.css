@@ -523,3 +523,6 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .build-order-row .time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;width:42px;flex:0 0 42px}
 .build-order-row .object-portrait{width:24px;height:24px;flex:0 0 24px}
 .build-order-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+.match-date{font-size:calc(10px + 2pt)}
+.build-order-row .building-tier{flex-shrink:0}

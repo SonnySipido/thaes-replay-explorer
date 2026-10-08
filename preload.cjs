@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld('replays',{
  checkUpdate:()=>ipcRenderer.invoke('update-check'),
  installUpdate:()=>ipcRenderer.invoke('update-install'),
  openUpdateNotes:()=>ipcRenderer.invoke('update-notes'), copyText:text=>ipcRenderer.invoke('copy-text',text),
- exportBuildOrder:(key,format,contents)=>ipcRenderer.invoke('export-build-order',key,format,contents),
+ exportBuildOrder:(key,format,contents,filename)=>ipcRenderer.invoke('export-build-order',key,format,contents,filename),
  exportChat:(key,text)=>ipcRenderer.invoke('export-chat',key,text),
  on:(channel,callback)=>{
    if(!['annotation-changed','annotation-error','folders-changed','library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
