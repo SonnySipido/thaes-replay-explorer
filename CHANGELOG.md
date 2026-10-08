@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a compact Build Order tab showing each player’s first five minutes of unit, hero and building orders chronologically, with text and full-length PNG exports. Rapid repeat orders for the same hero and singleton buildings are collapsed.
+
 - Hide identical replay files across indexed folders by default. Settings remembers the Hide duplicates switch and shows duplicate counts. Files remain untouched; hovering a replay lists its identical copies.
 
 - Library search includes in-game chat and replay notes. Chat text is cached in lightweight summaries and existing libraries upgrade automatically.

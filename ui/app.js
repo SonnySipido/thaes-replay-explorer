@@ -107,7 +107,7 @@ function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden
 function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').focus();}
 $('settings-open').onclick=openSettings;$('settings-close').onclick=closeSettings;$('settings-backdrop').onclick=closeSettings;
 let listPage=0,listQuery='';const listPageSize=100;
-const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat'];
+const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat','Build Order'];
 const savedAnalysisTab=localStorage.getItem('analysis-tab')||localStorage.getItem('replay-tab:'+pendingReplayRestore);
 if(tabs.includes(savedAnalysisTab))tab=savedAnalysisTab;
 const name=id=>entry?.data?.names[id] || id || 'Unknown';
@@ -316,6 +316,7 @@ function renderPanel(){
  if(!entry.data.players.length){panel.innerHTML='<p class="empty-note">No active players recorded.</p>';return;}
  panel.replaceChildren();
  const comparison=document.createElement('div');comparison.className='player-comparison';
+ if(tab==='Build Order'){const toolbar=document.createElement('div');toolbar.className='build-order-toolbar';toolbar.innerHTML='<span>First 5 minutes</span><button id="build-order-text">Save to text</button><button id="build-order-image">Export to image</button>';panel.append(toolbar);bindBuildOrderExports(toolbar);}
  panel.append(comparison);
  const teams=teamColumns(comparison,entry.data.players);
  const maxTeamSize=Math.max(...[...teams.keys()].map(id=>entry.data.players.filter(p=>teamNumber(p)===id).length));
@@ -334,6 +335,7 @@ function renderPanel(){
   else if(tab==='Items')items(p,content);
   else if(tab==='APM')apm(p,content);
   else if(tab==='Control groups')groups(p,content);
+  else if(tab==='Build Order')buildOrder(p,content);
 
  }
 }
@@ -669,3 +671,39 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 
 
 
+
+function buildOrder(player,root){
+ const orders=replayBuildOrder.orders(player);
+ root.innerHTML='<div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span></div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+}
+function bindBuildOrderExports(toolbar){
+ const key=selected,data=entry.data,map=mapDisplayName(data.map.file);
+ for(const format of ['text','image'])toolbar.querySelector('#build-order-'+format).onclick=async event=>{
+  const button=event.currentTarget;button.disabled=true;const label=button.textContent;
+  try{const contents=format==='text'?replayBuildOrder.text(data,map):await buildOrderImage(data,map);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents))button.textContent='Saved';}
+  catch(error){showError(error);}finally{button.disabled=false;setTimeout(()=>{button.textContent=label;},1800);}
+ };
+}
+async function buildOrderImage(data,map){
+ const teams=new Map();for(const p of replayBuildOrder.playersByTeam(data.players)){const id=p.teamid??p.team??0;if(!teams.has(id))teams.set(id,[]);teams.get(id).push(p);}
+ const groups=[...teams.values()],columns=Math.min(2,Math.max(1,groups.length)),columnWidth=570,margin=26,rowHeight=26,blocks=[];let y=100;
+ for(let pair=0;pair<groups.length;pair+=2){
+  const left=groups[pair],right=groups[pair+1]||[];
+  for(let i=0;i<Math.max(left.length,right.length);i++){
+   let height=0;
+   for(const [column,p] of [left[i],right[i]].entries()){if(!p)continue;const orders=replayBuildOrder.orders(p);blocks.push({p,orders,x:margin+column*columnWidth,y});height=Math.max(height,48+Math.max(1,orders.length)*rowHeight);}
+   y+=height+22;
+  }
+ }
+ const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
+ if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
+ const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='bold 24px Segoe UI';ctx.fillText('Build order · First 5 minutes',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px Segoe UI';ctx.fillText(map,margin,66);
+ const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+o.id,o]))).values()].map(async o=>{const src=iconSource(o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+o.id,img);}catch{}}));
+ const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
+ for(const b of blocks){
+  ctx.fillStyle='#e3bc70';ctx.font='bold 17px Segoe UI';ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px Segoe UI';
+  if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);ctx.fillStyle='#e6edf5';ctx.fillText(fit(data.names[o.id]||o.id,columnWidth-120),b.x+91,top+18);});
+ }
+ return canvas.toDataURL('image/png');
+}

@@ -8,8 +8,8 @@ async function launch(appData){
   constructor(){super();window=this;this.webContents={send:(channel,data)=>messages.push({channel,data}),setWindowOpenHandler(){},on(){}};}
   isDestroyed(){return false;}getNormalBounds(){return {x:0,y:0,width:1200,height:800};}isMinimized(){return false;}isMaximized(){return false;}show(){}focus(){}restore(){}maximize(){}setAppDetails(){}removeMenu(){}async loadFile(){}
  }
- const electron={app,BrowserWindow:Window,ipcMain:{handle:(name,fn)=>handlers.set(name,fn)},dialog:{showOpenDialog:async()=>picks.shift()||{canceled:true,filePaths:[]}},shell:{},clipboard:{},screen:{getDisplayNearestPoint:()=>({workArea:{x:0,y:0,width:1920,height:1080}}),getCursorScreenPoint:()=>({x:0,y:0}),getAllDisplays:()=>[{workArea:{x:0,y:0,width:1920,height:1080}}]}};
- const context={require:name=>name==='electron'?electron:realRequire(name),__dirname:root,process,console,setTimeout,clearTimeout,setInterval};
+ const electron={app,BrowserWindow:Window,ipcMain:{handle:(name,fn)=>handlers.set(name,fn)},dialog:{showSaveDialog:async()=>picks.shift()||{canceled:true},showOpenDialog:async()=>picks.shift()||{canceled:true,filePaths:[]}},shell:{},clipboard:{},screen:{getDisplayNearestPoint:()=>({workArea:{x:0,y:0,width:1920,height:1080}}),getCursorScreenPoint:()=>({x:0,y:0}),getAllDisplays:()=>[{workArea:{x:0,y:0,width:1920,height:1080}}]}};
+ const context={require:name=>name==='electron'?electron:realRequire(name),__dirname:root,process,console,Buffer,setTimeout,clearTimeout,setInterval};
  vm.runInNewContext(sync.readFileSync(path.join(root,'main.cjs'),'utf8'),context,{filename:'main.cjs'});await ready;
  const invoke=(name,...args)=>handlers.get(name)(null,...args);
  async function settled(){for(let i=0;i<300;i++){const state=invoke('initial');if(!state.progress.busy)return state;await new Promise(r=>setTimeout(r,10));}throw Error('Indexer did not settle');}
@@ -63,4 +63,13 @@ test('annotation IPC shares identical replay content and retains favorites and n
  const result=await run.invoke('annotation-update',state.rows[0].key,{favorite:true,notes:'Review the first expansion'});assert.ok(result.hash);assert.equal(result.annotation.favorite,true);
  for(const row of run.invoke('initial').rows){assert.equal(row.annotation.notes,'Review the first expansion');assert.equal(row.contentHash,result.hash);}
  run.close();run=null;await new Promise(r=>setTimeout(r,100));run=await launch(temp);for(const row of (await run.settled()).rows){assert.equal(row.annotation.favorite,true);assert.equal(row.annotation.notes,'Review the first expansion');}
+});
+
+test('build-order export IPC saves text and PNG to chosen files and handles cancellation',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'build-order-export-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(folder);await fs.mkdir(user);await fs.writeFile(path.join(folder,'one.w3g'),'fixture');await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({folder}));run=await launch(temp);const key=(await run.settled()).rows[0].key;
+ const text='Build order\r\n00:00 Peon',txt=path.join(temp,'build.txt');run.picks.push({filePath:txt});assert.equal(await run.invoke('export-build-order',key,'txt',text),true);assert.equal(await fs.readFile(txt,'utf8'),text);
+ const png='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=',file=path.join(temp,'build.png');run.picks.push({filePath:file});assert.equal(await run.invoke('export-build-order',key,'png','data:image/png;base64,'+png),true);assert.deepEqual(await fs.readFile(file),Buffer.from(png,'base64'));
+ assert.equal(await run.invoke('export-build-order',key,'txt',text),false);await assert.rejects(run.invoke('export-build-order',key,'png','not a png'),/Invalid/);
 });
