@@ -19,3 +19,13 @@ test('Direct Strike fallback uses the newest bundled version and keeps exact pre
  assert.equal(lookup('Direct_Strike_6.1.4a.w3x'),maps['Direct_Strike_6.1.4a.w3x']);
  assert.equal(lookup('DirectStriker.w3x'),undefined);
 });
+
+test('Nomad Isles 1.2 uses its own preview and current/W3Arena variants remain available',()=>{
+ const context={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../ui/maps.js'),'utf8'),context);
+ const maps=context.window.warcraftMaps,lookup=create(maps,context.window.warcraftMapNames);
+ for(const file of ['(3)NomadIsles1.2.w3x','Maps\\Download\\(3)NomadIsles1.2.w3x','NomadIsles1.2.w3x'])assert.equal(lookup(file),'maps/nomad-isles-1-2.png');
+ assert.equal(context.window.warcraftMapNames['(3)NomadIsles1.2.w3x'],'Nomad Isles');
+ assert.ok(fs.existsSync(path.join(__dirname,'../ui',lookup('(3)NomadIsles1.2.w3x'))));
+ assert.equal(lookup('w3arena__nomadisles__v3.w3x'),maps['(3)NomadIsles.w3x']);
+ assert.equal(lookup('NomadIslesTowerDefense.w3x'),undefined);
+});
