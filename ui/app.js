@@ -90,6 +90,8 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
  try{await window.flushReplayNotes();const result=await window.replays[action==='export'?'exportAnnotations':'importAnnotations']();if(result!==null&&result!==false){$('annotation-backup-status').textContent=action==='export'?'Annotations exported.':result+' annotations imported.';if(action==='import'&&$('replay-notes-text')&&selected)$('replay-notes-text').value=annotationFor(rows.get(selected)).notes;refreshFavoriteButtons();}}
  catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
 };
+$('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
+$('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
 function deselectReplay(){
@@ -192,11 +194,15 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('only-favorites').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ const query=JSON.stringify([term,filter,$('only-favorites').checked,$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
  let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,r.chatSearch,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
+ const copies=replayFilters.duplicateGroups(rows.values());
+ const duplicateCount=[...copies.values()].reduce((total,group)=>total+group.length-1,0);
+ $('duplicate-summary').textContent=duplicateCount+' duplicate '+(duplicateCount===1?'file':'files')+' across '+copies.size+' '+(copies.size===1?'replay':'replays')+'. Identical files appear once when hidden. No files are deleted.';
+ if($('hide-duplicates').checked)list=replayFilters.uniqueReplays(list,[droppedReplayKey,selected,pendingReplayRestore]);
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
  $('count').textContent=list.length;
  const pages=Math.max(1,Math.ceil(list.length/listPageSize));listPage=Math.min(listPage,pages-1);
@@ -212,7 +218,7 @@ function renderList(){
    button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+sourceIcon(r.source,'row-source')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
-   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';
+   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
    const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();card.append(button,star);fragment.append(card);
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}

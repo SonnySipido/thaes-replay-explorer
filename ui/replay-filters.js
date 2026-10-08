@@ -10,5 +10,19 @@
   return Number(row.modified)||0;
  }
  function dateLabel(row,dateOnly=false){const ms=timestamp(row);if(!ms)return 'Date unavailable';const d=new Date(ms),pad=v=>String(v).padStart(2,'0');return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear()+(dateOnly?'':' \u00b7 '+pad(d.getHours())+':'+pad(d.getMinutes()));}
- const api={teamSize,matchup,timestamp,dateLabel};if(typeof module!=='undefined')module.exports=api;else root.replayFilters=api;
+ function duplicateGroups(items){
+  const groups=new Map();
+  for(const row of items){if(!/^[a-f0-9]{64}$/.test(row.contentHash||''))continue;let group=groups.get(row.contentHash);if(!group){group=[];groups.set(row.contentHash,group);}group.push(row);}
+  for(const [hash,group] of groups)if(group.length<2)groups.delete(hash);
+  return groups;
+ }
+ function uniqueReplays(items,preferredKeys=[]){
+  const groups=duplicateGroups(items),hidden=new Set();
+  for(const group of groups.values()){
+   const keep=preferredKeys.map(key=>group.find(row=>row.key===key)).find(Boolean)||group[0];
+   for(const row of group)if(row!==keep)hidden.add(row);
+  }
+  return items.filter(row=>!hidden.has(row));
+ }
+ const api={teamSize,matchup,timestamp,dateLabel,duplicateGroups,uniqueReplays};if(typeof module!=='undefined')module.exports=api;else root.replayFilters=api;
 })(typeof window!=='undefined'?window:globalThis);

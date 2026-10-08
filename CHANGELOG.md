@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Hide identical replay files across indexed folders by default. Settings remembers the Hide duplicates switch and shows duplicate counts. Files remain untouched; hovering a replay lists its identical copies.
+
 - Library search includes in-game chat and replay notes. Chat text is cached in lightweight summaries and existing libraries upgrade automatically.
 
 - Favorite replays with a star and filter the library to favorites. Add autosaved notes below the match header, search their contents, and export or import annotation backups in Advanced settings. Identical replay files share annotations even after a rename or move.
