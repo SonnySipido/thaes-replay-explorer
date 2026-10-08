@@ -508,3 +508,8 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 #replay-notes-text{display:block;width:100%;resize:vertical;min-height:74px;max-height:350px;margin-top:8px;padding:9px;background:#0e1723;color:var(--text);border:1px solid var(--line);border-radius:5px;font:13px/1.5 'Segoe UI',sans-serif}
 .annotation-backup-actions{display:flex;gap:8px;flex-wrap:wrap}
 .annotation-backup-actions button{font-size:11px;padding:7px 9px}
+
+/* Balance the favorite and clock symbols independently in each context. */
+.favorite-duration .duration-clock{width:24px;height:24px}
+.favorite-duration>.favorite-toggle,.replay-card-actions>.favorite-toggle{display:inline-flex;align-items:center;justify-content:center;line-height:1}
+.replay-card-actions>.favorite-toggle{font-size:16px}
