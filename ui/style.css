@@ -456,11 +456,11 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .platform-patch-filters #patch-button{height:30px}
 .platform-patch-filters .patch-menu{left:auto;right:0;width:230px;max-width:calc(100vw - 40px)}
 
-.matchup-team-filters{display:grid;grid-template-columns:minmax(0,1fr) 84px;align-items:center;gap:7px;margin-bottom:5px}
+.matchup-team-filters{display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;gap:7px;margin-bottom:5px}
 .matchup-team-filters .matchup-filter{min-width:0;margin:0;align-items:center;gap:4px}
 .matchup-team-filters .matchup-filter select{margin:0;padding:4px;gap:3px}
 .matchup-team-filters .matchup-filter>span{padding:0}
 .matchup-team-filters .matchup-filter selectedcontent{gap:4px}
 .matchup-team-filters>.team-size-filter{min-width:0;gap:4px;margin:0}
-.matchup-team-filters>.team-size-filter>span{flex:0 0 25px;font-size:10px;line-height:1.15}
+.matchup-team-filters>.team-size-filter>span{flex:0 0 auto;font-size:11px;line-height:1.15;white-space:nowrap}
 .matchup-team-filters #team-size{min-width:0;width:0;height:30px;padding:4px 2px}
