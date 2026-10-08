@@ -2,7 +2,8 @@
 const fs=require('node:fs/promises'), path=require('node:path'), crypto=require('node:crypto');
 const {parseReplay,SCHEMA}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
-const SUMMARY_VERSION=2;  // 2: where the game was played (source)
+const {hashReplay}=require('./annotations.cjs');
+const SUMMARY_VERSION=3;  // 3: replay content hash for persistent favorites and notes
 async function scan(folder,includeSubfolders=true,onError) {
   const files=[];
   async function visit(dir) {
@@ -29,7 +30,7 @@ async function scanFolders(folders){
 function summary(entry) {
   if(entry.summaryVersion)return entry;
   const r=entry.data;
-  return {summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
+  return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
     map:r?.map.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
     players:r?.players.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat.length || 0};
 }
@@ -54,7 +55,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
           if(row.summaryVersion<SUMMARY_VERSION){
             // summaries from before the game's source was kept: read just the start of the replay
             // (the full analysis cache is far larger) and save the summary again
-            row.source=gameSource((await readReplayStartFromFile(file)).creator);row.summaryVersion=SUMMARY_VERSION;
+            if(row.summaryVersion<2)row.source=gameSource((await readReplayStartFromFile(file)).creator);row.contentHash=await hashReplay(file);row.summaryVersion=SUMMARY_VERSION;
             const temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(row));await fs.rename(temp,summaryFile);
           }
           cached++;onEntry(row);onProgress({total:files.length,done:i+1,parsed,cached,failed});continue;
@@ -73,6 +74,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
         parsed++;
       }
     } catch(error) { failed++;entry={schema:SCHEMA,key,file,error:error.message};try{const stat=await fs.stat(file);entry.modified=stat.mtimeMs;entry.size=stat.size;}catch{} }
+    if(!entry.contentHash)try{entry.contentHash=await hashReplay(file);}catch{}
     if(!entry.error){const summaryFile=path.join(summaryDir,key+'.json'),temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(summary(entry)));await fs.rename(temp,summaryFile);}
     onEntry(lightweight?summary(entry):entry);
     onProgress({total:files.length,done:i+1,parsed,cached,failed});

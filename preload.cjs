@@ -4,6 +4,9 @@ contextBridge.exposeInMainWorld('replays',{
  openProfile:()=>ipcRenderer.invoke('open-w3c-profile'),
  setSubfolders:enabled=>ipcRenderer.invoke('set-subfolders',enabled),
  initial:()=>ipcRenderer.invoke('initial'),
+ saveAnnotation:(key,patch)=>ipcRenderer.invoke('annotation-update',key,patch),
+ exportAnnotations:()=>ipcRenderer.invoke('annotations-export'),
+ importAnnotations:()=>ipcRenderer.invoke('annotations-import'),
  importReplays:files=>ipcRenderer.invoke('import-replays',files.map(file=>webUtils.getPathForFile(file))),
  get:key=>ipcRenderer.invoke('replay',key),
  chooseFolder:()=>ipcRenderer.invoke('choose-folder'),
@@ -22,7 +25,7 @@ contextBridge.exposeInMainWorld('replays',{
  openUpdateNotes:()=>ipcRenderer.invoke('update-notes'), copyText:text=>ipcRenderer.invoke('copy-text',text),
  exportChat:(key,text)=>ipcRenderer.invoke('export-chat',key,text),
  on:(channel,callback)=>{
-   if(!['folders-changed','library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
+   if(!['annotation-changed','annotation-error','folders-changed','library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
    const listener=(_,data)=>callback(data);ipcRenderer.on(channel,listener);
    return ()=>ipcRenderer.removeListener(channel,listener);
  }

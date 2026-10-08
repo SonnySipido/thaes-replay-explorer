@@ -50,6 +50,46 @@ document.addEventListener('drop',async event=>{
   if(result){renderList();droppedReplayKey=result.key;openRequestedReplay(result.key);}
  }catch(error){showError(error);}finally{importingReplay=false;}
 });
+const annotationPending=new Map(),annotationJobs=new Set();
+const annotationFor=row=>annotationPending.get(row?.contentHash||row?.key)||row?.annotation||{favorite:false,notes:''};
+function updateAnnotationRows(hash,value){for(const row of rows.values())if(row.contentHash===hash)row.annotation=value;}
+function refreshFavoriteButtons(){
+ for(const button of document.querySelectorAll('[data-favorite-key]')){const value=annotationFor(rows.get(button.dataset.favoriteKey)).favorite;button.textContent=value?'★':'☆';button.classList.toggle('is-favorite',value);button.setAttribute('aria-pressed',String(value));button.setAttribute('aria-label',value?'Remove favorite':'Add favorite');button.title=value?'Remove favorite':'Add favorite';}
+}
+async function saveReplayAnnotation(key,patch){
+ const row=rows.get(key);if(!row)return;const id=row.contentHash||key;
+ const optimistic={...annotationFor(row),...patch};annotationPending.set(id,optimistic);refreshFavoriteButtons();scheduleList();
+ if(selected===key&&$('notes-status'))$('notes-status').textContent='Saving…';
+ const job=window.replays.saveAnnotation(key,patch);annotationJobs.add(job);
+ try{
+  const result=await job;row.contentHash=result.hash;updateAnnotationRows(result.hash,result.annotation);
+  if(annotationPending.get(id)===optimistic){annotationPending.delete(id);if(selected===key&&$('notes-status'))$('notes-status').textContent='Saved';}
+ }catch(error){if(selected===key&&$('notes-status'))$('notes-status').textContent='Not saved — '+error.message;showError(error);throw error;}
+ finally{annotationJobs.delete(job);refreshFavoriteButtons();scheduleList();}
+}
+window.flushReplayNotes=async()=>{
+ const pending=[...annotationPending.entries()];
+ await Promise.allSettled([...annotationJobs]);
+ // Retry failed saves rather than letting the app close with unsaved edits.
+ for(const [id,value] of pending){if(!annotationPending.has(id))continue;const row=[...rows.values()].find(r=>(r.contentHash||r.key)===id);if(!row)throw new Error("A replay with unsaved notes is no longer in the library. Re-enable its folder before closing.");const latest=annotationPending.get(id);await saveReplayAnnotation(row.key,{favorite:latest.favorite,notes:latest.notes});}
+};
+function bindReplayAnnotations(){
+ const key=selected,row=rows.get(key),value=annotationFor(row);
+ $('match-favorite').dataset.favoriteKey=key;$('match-favorite').onclick=()=>saveReplayAnnotation(key,{favorite:!annotationFor(rows.get(key)).favorite}).catch(()=>{});
+ $('notes-status').textContent=annotationPending.has(row?.contentHash||key)?'Saving…':'';$('replay-notes-text').value=value.notes;$('replay-notes').open=localStorage.getItem('notes-open')==='true';
+ $('replay-notes').ontoggle=event=>localStorage.setItem('notes-open',String(event.currentTarget.open));
+ $('replay-notes-text').oninput=event=>saveReplayAnnotation(key,{notes:event.target.value}).catch(()=>{});
+ refreshFavoriteButtons();
+}
+window.replays.on('annotation-changed',({hash,annotation})=>{updateAnnotationRows(hash,annotation);refreshFavoriteButtons();scheduleList();});
+window.replays.on('annotation-error',error=>{showError(error);if($('notes-status'))$('notes-status').textContent=error.message;});
+$('only-favorites').checked=localStorage.getItem('only-favorites')==='true';
+$('only-favorites').onchange=()=>{localStorage.setItem('only-favorites',String($('only-favorites').checked));renderList();};
+for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{
+ const button=$('annotations-'+action);button.disabled=true;
+ try{await window.flushReplayNotes();const result=await window.replays[action==='export'?'exportAnnotations':'importAnnotations']();if(result!==null&&result!==false){$('annotation-backup-status').textContent=action==='export'?'Annotations exported.':result+' annotations imported.';if(action==='import'&&$('replay-notes-text')&&selected)$('replay-notes-text').value=annotationFor(rows.get(selected)).notes;refreshFavoriteButtons();}}
+ catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
+};
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
 function deselectReplay(){
@@ -152,10 +192,10 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
- let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ const query=JSON.stringify([term,filter,$('only-favorites').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
- [r.name,r.map,mapDisplayName(r.map),r.matchup,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
+ [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
  $('count').textContent=list.length;
@@ -169,18 +209,21 @@ function renderList(){
    const button=document.createElement('button');button.className='replay-row'+(r.players.length>4?' team-match':'')+(r.players.length>4?' large-match':'')+(r.key===selected?' active':'');button.dataset.key=r.key;
    button.setAttribute('aria-pressed',String(r.key===selected));
    const stamp=replayFilters.dateLabel(r);
-   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
+   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+sourceIcon(r.source,'row-source')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
-   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';fragment.append(button);
+   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';
+   const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();card.append(button,star);fragment.append(card);
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
- $('replay-list').replaceChildren(fragment);
+ $('replay-list').replaceChildren(fragment);refreshFavoriteButtons();
  if(restoredReplayReveal===selected)$('replay-list').querySelector('.replay-row.active')?.scrollIntoView({block:'nearest'});
 }
 async function selectReplay(key,restoring=false){
+ const token=++request,start=performance.now();
+ if(!restoring&&selected&&selected!==key){try{await window.flushReplayNotes();}catch{return;}}
  pendingReplayRestore=null;if(!restoring)restoredReplayReveal=null;
- const token=++request,start=performance.now();selected=key;
+ if(token!==request)return;selected=key;
  localStorage.setItem('selected-replay',key);
  document.querySelectorAll('.replay-row.active').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
  const selectedButton=[...document.querySelectorAll('.replay-row')].find(b=>b.dataset.key===key);
@@ -219,7 +262,7 @@ function showMatch(elapsed){
 
  $('show-winner').checked=showWinner;
  $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers();};
- renderPlayers();renderTabs();renderPanel();
+ bindReplayAnnotations();renderPlayers();renderTabs();renderPanel();
 }
 function teamLabel(player){return entry.data.players.length>2?'<span class="team">Team '+(teamNumber(player)+1)+'</span>':'';}
 // same rule as player-profile.cjs: a W3Champions profile needs a full BattleTag

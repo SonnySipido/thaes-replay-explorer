@@ -3,6 +3,9 @@ const {app,BrowserWindow,ipcMain,dialog,shell,screen,clipboard}=require('electro
 const fs=require('node:fs/promises'),path=require('node:path');
 const {Worker}=require('node:worker_threads');
 const {summary}=require('./library.cjs');
+const {ReplayAnnotations,hashReplay}=require('./annotations.cjs');
+let annotations;
+const annotatedSummary=entry=>{const row=summary(entry);return {...row,annotation:annotations?.get(row.contentHash)||{favorite:false,notes:''}};};
 const {importReplay}=require('./replay-import.cjs');
 let importQueue=Promise.resolve();
 const {normalizeReplayFolders,folderKey}=require('./replay-folders.cjs');
@@ -75,14 +78,14 @@ async function index(reset=false,background=false) {
   worker=active;
   active.on('message',msg=>{
     if(worker!==active)return;
-    if(msg.type==='entry'){found=true;details?.invalidate(msg.entry.key);entries.set(msg.entry.key,msg.entry);send('library-entry',summary(msg.entry));}
+    if(msg.type==='entry'){found=true;details?.invalidate(msg.entry.key);entries.set(msg.entry.key,msg.entry);send('library-entry',annotatedSummary(msg.entry));}
     if(msg.type==='progress'){progress={...msg.progress,busy:true};if(!background||found)send('progress',progress);}
     if(msg.type==='error'){busy=false;progress={...progress,busy:false,error:msg.error};send('progress',progress);}
     if(msg.type==='done'){
       const present=new Set(msg.result.files);let removed=false;
       for(const [key,entry] of entries)if(!present.has(entry.file)){entries.delete(key);details?.invalidate(key);removed=true;}
       busy=false;progress={...msg.result,files:undefined,busy:false};
-      if(reset||removed)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(summary)});
+      if(reset||removed)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary)});
       send('progress',progress);
     }
   });
@@ -130,7 +133,7 @@ function registerIPC(){
   });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
-  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(summary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
+  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
   // first start: use the replay folder the welcome question offered
   ipcMain.handle('use-welcome-folder',()=>{
     if(folder||!welcomeFolder)return;
@@ -165,6 +168,22 @@ function registerIPC(){
       return {key,copied};
     };
     const job=importQueue.then(task);importQueue=job.catch(()=>{});return job;
+  });
+  ipcMain.handle('annotation-update',async(_,key,patch)=>{
+    const row=entries.get(key);if(!row)throw Error('Replay is no longer in the library.');
+    row.contentHash ||= await hashReplay(row.file);
+    await annotations.update(row.contentHash,patch);
+    const result={hash:row.contentHash,annotation:annotations.get(row.contentHash)};send('annotation-changed',result);return result;
+  });
+  ipcMain.handle('annotations-export',async()=>{
+    const pick=await dialog.showSaveDialog(win,{title:'Export favorites and notes',defaultPath:'Replay Explorer annotations.json',filters:[{name:'Annotations',extensions:['json']}]});if(pick.canceled)return false;
+    await fs.writeFile(pick.filePath,JSON.stringify(await annotations.export(),null,2));return true;
+  });
+  ipcMain.handle('annotations-import',async()=>{
+    const pick=await dialog.showOpenDialog(win,{title:'Import favorites and notes',properties:['openFile'],filters:[{name:'Annotations',extensions:['json']}]});if(pick.canceled||!pick.filePaths[0])return null;
+    const file=pick.filePaths[0];if((await fs.stat(file)).size>16*1024*1024)throw Error('Annotation backup is too large.');
+    const count=await annotations.import(JSON.parse((await fs.readFile(file,'utf8')).replace(/^\uFEFF/,'')));
+    send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary)});return count;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('add-replay-folder',async()=>{
@@ -249,6 +268,7 @@ app.whenReady().then(async()=>{
   requestSelect(selectArgument(process.argv));
   const user=app.getPath('userData');
   await fs.mkdir(user,{recursive:true});
+  annotations=await new ReplayAnnotations(path.join(user,'annotations.json')).load();
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
   try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));replayFolders=normalizeReplayFolders(saved);syncPrimaryFolder();windowState=saved.window;}catch{}
   const folderDiscovery=require('./replay-folders.cjs');
@@ -263,7 +283,13 @@ app.whenReady().then(async()=>{
   win.removeMenu();
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',event=>event.preventDefault());
-  win.on('close',()=>{clearTimeout(windowSaveTimer);rememberWindow();try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}});
+  let closeReady=false;
+  win.on('close',event=>{
+    clearTimeout(windowSaveTimer);rememberWindow();try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}
+    if(closeReady||!event)return;
+    event.preventDefault();
+    win.webContents.executeJavaScript('window.flushReplayNotes ? window.flushReplayNotes() : Promise.resolve()').then(()=>annotations.flush()).then(()=>{closeReady=true;win.close();}).catch(error=>{send('annotation-error',{message:'Notes could not be saved: '+error.message});});
+  });
   await win.loadFile(path.join(__dirname,'ui','index.html'));
   if(windowState?.maximized)win.maximize();
   win.show();

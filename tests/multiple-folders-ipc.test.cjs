@@ -54,3 +54,13 @@ test('dropped replay enters the primary library and returns the existing key on 
  const second=await run.invoke('import-replays',[source]);await run.settled();assert.equal(second.copied,0);assert.equal(first.key,second.key);assert.equal((await fs.readdir(primary)).length,1);
  await assert.rejects(run.invoke('import-replays',['bad.txt']),/replay/);
 });
+
+test('annotation IPC shares identical replay content and retains favorites and notes after restart',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-annotations-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(folder);await fs.mkdir(user);await fs.writeFile(path.join(folder,'one.w3g'),'same replay');await fs.writeFile(path.join(folder,'copy.w3g'),'same replay');
+ await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({folder}));run=await launch(temp);const state=await run.settled();
+ const result=await run.invoke('annotation-update',state.rows[0].key,{favorite:true,notes:'Review the first expansion'});assert.ok(result.hash);assert.equal(result.annotation.favorite,true);
+ for(const row of run.invoke('initial').rows){assert.equal(row.annotation.notes,'Review the first expansion');assert.equal(row.contentHash,result.hash);}
+ run.close();run=null;await new Promise(r=>setTimeout(r,100));run=await launch(temp);for(const row of (await run.settled()).rows){assert.equal(row.annotation.favorite,true);assert.equal(row.annotation.notes,'Review the first expansion');}
+});
