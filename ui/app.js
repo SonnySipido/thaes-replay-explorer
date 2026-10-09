@@ -83,10 +83,13 @@ function bindReplayAnnotations(){
 }
 window.replays.on('annotation-changed',({hash,annotation})=>{updateAnnotationRows(hash,annotation);refreshFavoriteButtons();scheduleList();});
 window.replays.on('annotation-error',error=>{showError(error);if($('notes-status'))$('notes-status').textContent=error.message;});
-$('only-notes').checked=localStorage.getItem('only-notes')==='true';
-$('only-notes').onchange=()=>{localStorage.setItem('only-notes',String($('only-notes').checked));if($('only-notes').checked){localStorage.setItem('notes-open','true');const notes=$('replay-notes');if(notes)notes.open=true;}renderList();};
-$('only-favorites').checked=localStorage.getItem('only-favorites')==='true';
-$('only-favorites').onchange=()=>{localStorage.setItem('only-favorites',String($('only-favorites').checked));renderList();};
+const annotationFilterEnabled=id=>$(id).getAttribute('aria-pressed')==='true';
+for(const id of ['only-notes','only-favorites']){
+ const button=$(id);
+ const apply=enabled=>{button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites')button.firstElementChild.textContent=enabled?'★':'☆';};
+ apply(localStorage.getItem(id)==='true');
+ button.onclick=()=>{const enabled=!annotationFilterEnabled(id);apply(enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'&&enabled){localStorage.setItem('notes-open','true');const notes=$('replay-notes');if(notes)notes.open=true;}renderList();};
+}
 for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{
  const button=$('annotations-'+action);button.disabled=true;
  try{await window.flushReplayNotes();const result=await window.replays[action==='export'?'exportAnnotations':'importAnnotations']();if(result!==null&&result!==false){$('annotation-backup-status').textContent=action==='export'?'Annotations exported.':result+' annotations imported.';if(action==='import'&&$('replay-notes-text')&&selected)$('replay-notes-text').value=annotationFor(rows.get(selected)).notes;refreshFavoriteButtons();}}
@@ -198,8 +201,8 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('only-notes').checked,$('only-favorites').checked,$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
- let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(!$('only-notes').checked||annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ const query=JSON.stringify([term,filter,annotationFilterEnabled('only-notes'),annotationFilterEnabled('only-favorites'),$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!annotationFilterEnabled('only-favorites')||annotationFor(r).favorite)&&(!annotationFilterEnabled('only-notes')||annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,r.chatSearch,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
@@ -223,8 +226,13 @@ function renderList(){
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
-   if($('compact-replays').checked){button.classList.add('compact-replay-row');button.textContent=r.name;button.title=r.name+'\n'+button.title;fragment.append(button);continue;}
-   const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);actions.append(star,duration);card.append(button,actions);fragment.append(card);
+   const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();
+   if($('compact-replays').checked){
+    card.classList.add('compact-replay-card');button.classList.add('compact-replay-row');
+    button.innerHTML='<span class="compact-replay-name">'+esc(r.name)+'</span>'+(annotationFor(r).notes.trim()?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'');
+    button.title=r.name+'\n'+button.title;card.append(button,star);fragment.append(card);continue;
+   }
+   const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);actions.append(star,duration);card.append(button,actions);fragment.append(card);
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
  $('replay-list').replaceChildren(fragment);refreshFavoriteButtons();

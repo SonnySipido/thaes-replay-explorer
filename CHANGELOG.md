@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Notes and Favorites library filters now use clickable icons. Compact replay rows include a right-aligned favorite star and a notes indicator when applicable.
+
 - Added a persistent Notes toggle beside Favorites to show only replays with nonempty notes.
 
 - Added a persistent Compact replay list switch in Settings for single-line, filename-only rows.
