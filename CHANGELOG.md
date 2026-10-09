@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.6.0
+
+- Control groups show all identified unit, hero and building types assigned throughout the match, rather than only the final membership.
+- Improved responsive Match Analysis headers so map names have more space.
+- Notes headings and arrows turn yellow when a replay has notes; enabling the notes filter expands notes once while preserving manual collapse afterward.
+- Clearer annotation backup instructions and improved note/favorite icon placement.
 
 - Notes and Favorites library filters now use clickable icons. Compact replay rows include a right-aligned favorite star and a notes indicator when applicable.
 
