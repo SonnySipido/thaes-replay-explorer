@@ -444,9 +444,16 @@ function members(list){
  return '<div class="member-icons">'+ids.map(id=>'<span class="member-icon">'+objectIcon(id)+'</span>').join('')+'</div>';
 }
 function groups(p,root){
+ // Include every recorded assignment, not just the final membership snapshot.
+ const history=new Map();
+ for(const entry of p.groupHistory||[]){
+  if(entry.action!=='Assign')continue;
+  if(!history.has(entry.key))history.set(entry.key,[]);
+  history.get(entry.key).push(...(entry.members||[]));
+ }
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  $('panel').innerHTML=
- '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members(g.members)+'</td></tr>').join(''))+'</div>';
+ '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members([...(history.get(g.key)||[]),...(g.members||[])])+'</td></tr>').join(''))+'</div>';
 }
 // Battle.net replays since Reforged record the saving player's own messages twice, a few ms apart:
 // the same text from the same player in the same channel within a second is one of those copies
