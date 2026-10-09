@@ -529,3 +529,5 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 
 .replay-row.compact-replay-row{display:block;min-height:30px;padding:4px 10px;margin-bottom:1px;font-size:13px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .replay-row.compact-replay-row.active{padding-left:8px}
+
+.library-annotation-filters{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}

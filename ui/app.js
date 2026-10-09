@@ -83,6 +83,8 @@ function bindReplayAnnotations(){
 }
 window.replays.on('annotation-changed',({hash,annotation})=>{updateAnnotationRows(hash,annotation);refreshFavoriteButtons();scheduleList();});
 window.replays.on('annotation-error',error=>{showError(error);if($('notes-status'))$('notes-status').textContent=error.message;});
+$('only-notes').checked=localStorage.getItem('only-notes')==='true';
+$('only-notes').onchange=()=>{localStorage.setItem('only-notes',String($('only-notes').checked));renderList();};
 $('only-favorites').checked=localStorage.getItem('only-favorites')==='true';
 $('only-favorites').onchange=()=>{localStorage.setItem('only-favorites',String($('only-favorites').checked));renderList();};
 for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{
@@ -196,8 +198,8 @@ function replayPlayerNames(players){
 function renderList(){
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
- const query=JSON.stringify([term,filter,$('only-favorites').checked,$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
- let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ const query=JSON.stringify([term,filter,$('only-notes').checked,$('only-favorites').checked,$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!$('only-favorites').checked||annotationFor(r).favorite)&&(!$('only-notes').checked||annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,r.chatSearch,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a persistent Notes toggle beside Favorites to show only replays with nonempty notes.
+
 - Added a persistent Compact replay list switch in Settings for single-line, filename-only rows.
 
 ## 0.5.0
