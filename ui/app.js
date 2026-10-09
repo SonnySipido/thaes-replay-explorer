@@ -232,7 +232,7 @@ function renderList(){
     button.innerHTML='<span class="compact-replay-name">'+esc(r.name)+'</span>'+(annotationFor(r).notes.trim()?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'');
     button.title=r.name+'\n'+button.title;card.append(button,star);fragment.append(card);continue;
    }
-   const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);actions.append(star,duration);card.append(button,actions);fragment.append(card);
+   const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);const note=button.querySelector('.replay-note-indicator');if(note){card.classList.add('has-note');note.onclick=()=>selectReplay(r.key);actions.append(note);}actions.append(star,duration);card.append(button,actions);fragment.append(card);
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
  $('replay-list').replaceChildren(fragment);refreshFavoriteButtons();
