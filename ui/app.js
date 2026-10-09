@@ -76,15 +76,15 @@ window.flushReplayNotes=async()=>{
 function bindReplayAnnotations(){
  const key=selected,row=rows.get(key),value=annotationFor(row);
  $('match-favorite').dataset.favoriteKey=key;$('match-favorite').onclick=()=>saveReplayAnnotation(key,{favorite:!annotationFor(rows.get(key)).favorite}).catch(()=>{});
- $('notes-status').textContent=annotationPending.has(row?.contentHash||key)?'Saving…':'';$('replay-notes-text').value=value.notes;$('replay-notes').open=$('only-notes').checked||localStorage.getItem('notes-open')==='true';
- $('replay-notes').ontoggle=event=>{const notes=event.currentTarget;if(!notes.isConnected)return;if($('only-notes').checked){notes.open=true;return;}localStorage.setItem('notes-open',String(notes.open));};
+ $('notes-status').textContent=annotationPending.has(row?.contentHash||key)?'Saving…':'';$('replay-notes-text').value=value.notes;$('replay-notes').open=localStorage.getItem('notes-open')==='true';
+ $('replay-notes').ontoggle=event=>{const notes=event.currentTarget;if(!notes.isConnected)return;localStorage.setItem('notes-open',String(notes.open));};
  $('replay-notes-text').oninput=event=>saveReplayAnnotation(key,{notes:event.target.value}).catch(()=>{});
  refreshFavoriteButtons();
 }
 window.replays.on('annotation-changed',({hash,annotation})=>{updateAnnotationRows(hash,annotation);refreshFavoriteButtons();scheduleList();});
 window.replays.on('annotation-error',error=>{showError(error);if($('notes-status'))$('notes-status').textContent=error.message;});
 $('only-notes').checked=localStorage.getItem('only-notes')==='true';
-$('only-notes').onchange=()=>{localStorage.setItem('only-notes',String($('only-notes').checked));const notes=$('replay-notes');if(notes)notes.open=$('only-notes').checked||localStorage.getItem('notes-open')==='true';renderList();};
+$('only-notes').onchange=()=>{localStorage.setItem('only-notes',String($('only-notes').checked));if($('only-notes').checked){localStorage.setItem('notes-open','true');const notes=$('replay-notes');if(notes)notes.open=true;}renderList();};
 $('only-favorites').checked=localStorage.getItem('only-favorites')==='true';
 $('only-favorites').onchange=()=>{localStorage.setItem('only-favorites',String($('only-favorites').checked));renderList();};
 for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{

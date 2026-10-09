@@ -493,7 +493,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .replay-card-actions{position:absolute;top:5px;right:11px;display:flex;align-items:center;gap:4px;pointer-events:none}
 .replay-card-actions>.favorite-toggle{pointer-events:auto}
 .replay-card-actions .length{display:inline-flex;align-items:center;gap:4px;color:var(--gold);font-variant-numeric:tabular-nums}
-.replay-card-actions .duration-clock{width:14px;height:14px}
+.replay-card-actions .duration-clock{width:14px;height:14px;transform:translateY(1px)}
 .replay-card .duration-spacer{visibility:hidden;padding-left:30px}
 .favorite-duration{display:inline-flex;align-items:center;gap:4px}
 .favorite-toggle{padding:0;border:0;background:transparent;color:var(--muted);font-size:23px;line-height:26px;width:26px;height:26px;flex:0 0 26px}
@@ -512,7 +512,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 /* Balance the favorite and clock symbols independently in each context. */
 .favorite-duration .duration-clock{width:24px;height:24px}
 .favorite-duration>.favorite-toggle,.replay-card-actions>.favorite-toggle{display:inline-flex;align-items:center;justify-content:center;line-height:1}
-.replay-card-actions>.favorite-toggle{font-size:19px;transform:translateY(-2px)}
+.replay-card-actions>.favorite-toggle{font-size:19px;transform:translateY(-1px)}
 .favorite-duration>.favorite-toggle{font-size:32.4px;transform:translateY(-2px)}
 
 .build-order-toolbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
