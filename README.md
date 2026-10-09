@@ -1,6 +1,6 @@
 # Thae's Replay Explorer
 
-**[Download page & installation instructions](https://sonnysipido.github.io/thaes-replay-explorer/)** — a simple page for users, without the source-file list.
+**[Download page & installation instructions](https://thaesreplayexplorer.com/)** — a simple page for users, without the source-file list.
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and W3Champions replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
