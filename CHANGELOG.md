@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added a persistent Compact replay list switch in Settings for single-line, filename-only rows.
+
 ## 0.5.0
 
 - Build Order includes researched upgrades and FE/T2/T3 tags. Each player has separate text and PNG exports named after the map and player. Removed the five-minute label and increased Match Analysis date/time text by two points.

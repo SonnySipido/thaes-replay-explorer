@@ -90,6 +90,8 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
  try{await window.flushReplayNotes();const result=await window.replays[action==='export'?'exportAnnotations':'importAnnotations']();if(result!==null&&result!==false){$('annotation-backup-status').textContent=action==='export'?'Annotations exported.':result+' annotations imported.';if(action==='import'&&$('replay-notes-text')&&selected)$('replay-notes-text').value=annotationFor(rows.get(selected)).notes;refreshFavoriteButtons();}}
  catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
 };
+$('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
+$('compact-replays').onchange=()=>{localStorage.setItem('compact-replays',String($('compact-replays').checked));renderList();};
 $('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
 $('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
@@ -219,6 +221,7 @@ function renderList(){
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
+   if($('compact-replays').checked){button.classList.add('compact-replay-row');button.textContent=r.name;button.title=r.name+'\n'+button.title;fragment.append(button);continue;}
    const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);actions.append(star,duration);card.append(button,actions);fragment.append(card);
  }
  if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
