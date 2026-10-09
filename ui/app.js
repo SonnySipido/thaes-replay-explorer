@@ -54,6 +54,7 @@ const annotationPending=new Map(),annotationJobs=new Set();
 const annotationFor=row=>annotationPending.get(row?.contentHash||row?.key)||row?.annotation||{favorite:false,notes:''};
 function updateAnnotationRows(hash,value){for(const row of rows.values())if(row.contentHash===hash)row.annotation=value;}
 function refreshFavoriteButtons(){
+ $('replay-notes')?.classList.toggle('has-notes',Boolean(annotationFor(rows.get(selected)).notes.trim()));
  for(const button of document.querySelectorAll('[data-favorite-key]')){const value=annotationFor(rows.get(button.dataset.favoriteKey)).favorite;button.textContent=value?'★':'☆';button.classList.toggle('is-favorite',value);button.setAttribute('aria-pressed',String(value));button.setAttribute('aria-label',value?'Remove favorite':'Add favorite');button.title=value?'Remove favorite':'Add favorite';}
 }
 async function saveReplayAnnotation(key,patch){

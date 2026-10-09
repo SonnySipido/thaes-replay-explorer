@@ -559,3 +559,6 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-map-line .map-title-copy{flex:1;min-width:0}
 .match-map-line .match-right{flex:0 0 auto}
 .match-map-line #map-preview{flex-shrink:0}
+
+.replay-notes.has-notes>summary,.replay-notes.has-notes>summary::marker{color:var(--gold)}
+.replay-notes #notes-status{color:var(--muted)}
