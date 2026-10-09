@@ -532,7 +532,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 
 .library-annotation-filters{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
 
-.replay-note-indicator{transform:translateY(-1px)}
+.replay-note-indicator{transform:translateY(0)}
 
 .library-annotation-filters{gap:5px}
 .library-filter-icon{display:inline-flex;align-items:center;justify-content:center;width:30px;height:28px;padding:0;font-size:21px;line-height:1;background:transparent;border:1px solid transparent;color:var(--muted)}
