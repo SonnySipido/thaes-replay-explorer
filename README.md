@@ -24,7 +24,7 @@ On first launch, the app suggests the replay folder it found (Documents/Warcraft
   
   -You can filter replays to only include matches above 2 minutes so that instant leaves are not shown.
   
-  -In the search bar typing a map name, player name, file name or any partial of any of those and immediately filter the replay list - Makes finding matches containing certain players really easy!
+  -In the search bar typing a map name, player name, file name, replay notes or game chat and immediately filter the replay list - Makes finding matches containing certain players really easy!
   
   -You can select match ups, for team games this means that the team has at least that race included in it's team.
   
@@ -45,7 +45,7 @@ The window remembers its size, position and maximized state. If a monitor is dis
 
 Battle.net ladder replays store each player's MMR; the match header shows it with the Battle.net icon, left of the APM. W3Champions replays do not include MMR.
 
-The W3Champions or Battle.net icon shows where a game was played, in the match header and after the map name in the replay list (hover for the name), and the Played on filter narrows the replay list to one of them (or to custom, LAN and older games). This comes from the game host recorded in the replay, not from the file name.
+The W3Champions or Battle.net icon shows where a game was played, in the match header and after the map name in the replay list (hover for the name), and the Platform filter narrows the replay list to one of them (or to custom, LAN and older games). This comes from the game host recorded in the replay, not from the file name.
 
 Your last selected replay is restored after restarting. Press Escape to deselect it and return to the empty analysis screen.
 
