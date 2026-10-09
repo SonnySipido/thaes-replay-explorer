@@ -403,7 +403,7 @@ function buildingsAndUpgrades(p,root){
  const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<360000&&order.ms<firstTier2;
  $('panel').innerHTML=
  '<div class="economy-overview"><section class="building-summary"><h3 class="mini-heading">BUILDINGS</h3>'+
- table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'<span class="building-name" title="'+esc(name(order.id))+'">'+esc(name(order.id))+'</span></span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
+ table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+'<span class="building-name" title="'+esc(name(order.id))+'">'+esc(name(order.id))+'</span>'+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
  pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
@@ -694,7 +694,7 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 
 function buildOrder(player,root){
  const orders=replayBuildOrder.orders(player);
- root.innerHTML='<div class="build-order-toolbar"><button data-build-export="text">Save to text</button><button data-build-export="image">Export to image</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span></div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+ root.innerHTML='<div class="build-order-toolbar"><button data-build-export="text">Save to text</button><button data-build-export="image">Export to image</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
  bindBuildOrderExports(root,player);
 }
 function bindBuildOrderExports(toolbar,player){
@@ -724,7 +724,7 @@ async function buildOrderImage(data,map){
  for(const b of blocks){
   ctx.fillStyle='#e3bc70';ctx.font='bold 17px Segoe UI';ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px Segoe UI';
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
-  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);let textX=b.x+91;if(o.tag){ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(textX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,textX+7,top+17);ctx.font='14px Segoe UI';textX+=37;}ctx.fillStyle='#e6edf5';ctx.fillText(fit(data.names[o.id]||o.id,columnWidth-(textX-b.x)-29),textX,top+18);});
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit(data.names[o.id]||o.id,columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px Segoe UI';}});
  }
  return canvas.toDataURL('image/png');
 }
