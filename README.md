@@ -12,6 +12,20 @@ A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedali
 
 No GitHub account, source-code download, or development tools are needed. The installer includes everything needed to run the app and offers a desktop shortcut. For Windows 10/11, 64-bit.
 
+## Features
+
+- **Match analysis:** heroes and ability levels, units produced, individual building and research start times, FE/T2/T3 tags, items, APM graphs and optional winner display.
+- **Control groups:** every identified unit, hero and building type assigned to each group throughout the match.
+- **Build orders:** each player's first five minutes of units, heroes, buildings and research, with separate text and image exports named after the map and player.
+- **Favorites and notes:** favorite matches, add autosaved notes, filter with clickable icons, and export or import annotation backups. Identical replay files share their annotations.
+- **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version.
+- **Multiple folders:** enable or disable each location and its subfolders in Advanced settings. New replays are indexed automatically.
+- **Duplicate management:** optionally hide identical replay files across folders without deleting them.
+- **Flexible browsing:** resize the replay list or use compact single-line cards with favorites and notes indicators. Drag replay files into the app to import and select them.
+- **Chat:** search, filter by player, copy or export messages, and adjust font size and spacing.
+- **Personalization:** Classic or Reforged HD icons; remembered filters, window position, selected replay and analysis tab.
+- **Convenient links:** watch replays in Warcraft III, locate replay and map files in Explorer, and open eligible W3Champions profiles.
+
 ## Use
 
 On first launch, the app suggests the replay folder it found (Documents/Warcraft III/BattleNet, which covers every account with Include subfolders on): press **Use this folder**, or **Choose another folder…** to pick one yourself. Choose folder and the Include subfolders switch are in Settings (the gear at the top right); click the folder path there to open it in File Explorer. The app remembers your choice and picks up new and changed replays automatically (it watches the folder, with a background check every 5 minutes).
