@@ -573,6 +573,7 @@ function chat(){
 }
 function showError(e){$('status').textContent=e.message||String(e);}
 $('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
+for(const id of ['app-website-title','app-website-icon'])$(id).onclick=e=>{e.preventDefault();window.replays.openWebsite().catch(showError);};
 $('folder-setting').onclick=()=>window.replays.openFolder().catch(showError);  // opens it in File Explorer (or asks for one)
 $('reforged-icons').checked=reforgedIcons;
 $('reforged-icons').onchange=()=>{
