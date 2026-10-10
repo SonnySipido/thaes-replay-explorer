@@ -100,7 +100,16 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
  catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
 };
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
-$('compact-replays').onchange=()=>{restoredReplayReveal=selected;localStorage.setItem('compact-replays',String($('compact-replays').checked));renderList();};
+$('hide-empty-folders').checked=localStorage.getItem('hide-empty-folders')==='true';
+function updateClassicViewOptions(){
+ const enabled=$('compact-replays').checked;
+ $('hide-empty-folders').disabled=!enabled;
+ $('hide-empty-folders-row').classList.toggle('is-disabled',!enabled);
+ $('hide-empty-folders-row').title=enabled?'Hide folders with no replay results in this view.':'Enable Classic explorer view to use this option.';
+}
+updateClassicViewOptions();
+$('compact-replays').onchange=()=>{restoredReplayReveal=selected;localStorage.setItem('compact-replays',String($('compact-replays').checked));updateClassicViewOptions();renderList();};
+$('hide-empty-folders').onchange=()=>{localStorage.setItem('hide-empty-folders',String($('hide-empty-folders').checked));renderList();};
 $('race-colored-names').checked=localStorage.getItem('race-colored-names')!=='false';
 function applyRaceNameColors(){document.body.classList.toggle('plain-replay-names',!$('race-colored-names').checked);}
 applyRaceNameColors();
@@ -294,9 +303,11 @@ const expandedReplayFolders=new Set();
 try{for(const path of JSON.parse(localStorage.getItem('classic-expanded-folders')||'[]'))expandedReplayFolders.add(path);}catch{}
 function renderClassicTree(container,list,makeCard){
  const tree=replayTree.build(configuredReplayFolders,list,replayDirectories);
+ const hideEmpty=$('hide-empty-folders').checked;
  const reveal=restoredReplayReveal===selected?rows.get(selected):null;
  const revealPath=reveal?replayTree.key(reveal.file):'';
  function appendFolder(parent,node,isRoot=false){
+  if(hideEmpty&&node.count===0)return;
   const id=replayTree.key(node.path),empty=node.count===0,details=document.createElement('details'),summary=document.createElement('summary');
   details.className='classic-folder';summary.className='classic-folder-heading';summary.title=node.path+'\nRight-click to open in File Explorer';
   if(empty){

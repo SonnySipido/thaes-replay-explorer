@@ -557,6 +557,9 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .action-icon-button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .action-icon-button .button-icon{width:16px;height:16px;flex:0 0 16px;pointer-events:none}
 .action-icon-button .button-label{white-space:nowrap}
+.classic-view-option.is-disabled{opacity:.45}
+.classic-view-option.is-disabled .switch-toggle,.classic-view-option.is-disabled input,.classic-view-option.is-disabled .switch-track{cursor:not-allowed}
+.classic-view-option.is-disabled .switch-track{opacity:1}
 .compact-replay-card>.favorite-toggle{position:absolute;top:1px;right:7px;font-size:19px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
 .compact-replay-row .replay-note-indicator{flex-shrink:0}
 
