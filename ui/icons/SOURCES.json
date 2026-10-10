@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/PBug90/wc3-replay-parser-web",
   "commit": "15c4f86f3dcc82b1f389ec6f491add350743326b",
-  "attribution": "Warcraft III artwork belongs to Blizzard Entertainment. Images sourced from the public replay viewer asset collection; no ownership of artwork is claimed.",
+  "attribution": "Warcraft III artwork belongs to Blizzard Entertainment. Images sourced from the public replay viewer asset collection and Blizzard's official Warcraft III guide; no ownership of artwork is claimed.",
   "files": [
     {
       "id": "AEer",
@@ -144,8 +144,9 @@
     {
       "id": "AHds",
       "kind": "abilities",
-      "url": "https://raw.githubusercontent.com/PBug90/wc3-replay-parser-web/15c4f86f3dcc82b1f389ec6f491add350743326b/public/abilities/AHds.png",
-      "sha256": "a620a193f3b598375a91d7c0ccbb6e1b977c041aa2ddc04ce9f8c9acc4034907"
+      "url": "https://classic.battle.net/war3/images/human/spells/divineshield.gif",
+      "sha256": "38328890b29401d45d03fa608b09e4445281a5c58cee6e37becb92041e1d9319",
+      "conversion": "Converted from GIF to PNG without resizing."
     },
     {
       "id": "AHfs",

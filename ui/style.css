@@ -553,6 +553,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 #only-notes{font-size:18px}
 .replay-row.compact-replay-row{display:flex;align-items:center;gap:7px;padding-right:39px}
 .compact-replay-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.compact-replay-icon{pointer-events:none}
 .compact-replay-card>.favorite-toggle{position:absolute;top:1px;right:7px;font-size:19px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
 .compact-replay-row .replay-note-indicator{flex-shrink:0}
 
