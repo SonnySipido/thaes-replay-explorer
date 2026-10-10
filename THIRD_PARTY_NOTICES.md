@@ -11,6 +11,13 @@ The PolyForm Noncommercial license applies to the original application code only
 
 Full dependency license files are retained alongside the bundled dependencies and copied into licenses/ in the release and source package. Developer dependencies have their own license files in their installed packages.
 
+## Fonts
+
+- Inter: Copyright (c) 2016 The Inter Project Authors, SIL Open Font License 1.1, https://github.com/rsms/inter. Bundled license: ui/fonts/Inter-OFL.txt.
+- Cinzel: Copyright 2020 The Cinzel Project Authors, SIL Open Font License 1.1, https://github.com/NDISCOVER/Cinzel. Bundled license: ui/fonts/Cinzel-OFL.txt.
+
+The unmodified variable fonts are bundled for offline use. Pinned source URLs and SHA-256 checksums are recorded in ui/fonts/SOURCES.json.
+
 ## Artwork, maps and brands
 
 Warcraft III, The Frozen Throne, Rexxar, race icons, hero/unit/building/item/ability icons and Warcraft artwork belong to Blizzard Entertainment and/or their respective rights holders. Map images are previews extracted from installed map files; map authors retain any applicable rights. No game installation, complete map or user replay is included.

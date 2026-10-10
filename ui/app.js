@@ -417,6 +417,7 @@ function pagedTable(target,headers,items,render,pageSize=100){
 function renderPanel(){
  chartObservers.forEach(observer=>observer.disconnect());chartObservers=[];
  const panel=$('panel');
+ panel.classList.toggle('chat-panel',tab==='Chat');
  if(tab==='Chat'){chat();return;}
  if(!entry.data.players.length){panel.innerHTML='<p class="empty-note">No active players recorded.</p>';return;}
  panel.replaceChildren();
@@ -501,8 +502,7 @@ function apm(p,root){
  const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=235,dpr=window.devicePixelRatio||1;
  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
  const max=Math.max(1,...entry.data.players.flatMap(player=>player.apmBuckets));
- ctx.font=(12+2*96/72)+'px Segoe UI';const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
- ctx.font=(12+2*96/72)+'px Segoe UI';
+ ctx.font=(12+2*96/72)+'px '+getComputedStyle(canvas).fontFamily;const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
  for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle='#2b3b4e';ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle='#93a5b9';ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
  const count=Math.max(1,...entry.data.players.map(player=>player.apmBuckets.length));
  const plotWidth=w-pad-12,step=plotWidth/Math.max(1,count-1);
@@ -511,7 +511,7 @@ function apm(p,root){
  ctx.fillStyle=ctx.strokeStyle;p.apmBuckets.forEach((v,i)=>{ctx.beginPath();ctx.arc(pad+i*step,h-25-v/max*(h-50),3,0,Math.PI*2);ctx.fill();});
  canvas.onmousemove=e=>{const index=Math.round((e.offsetX/canvas.clientWidth*w-pad)/step);canvas.title=index>=0&&index<p.apmBuckets.length?'Minute '+(index+1)+': '+p.apmBuckets[index]+' actions':'';};
  }
- drawChart();const observer=new ResizeObserver(drawChart);observer.observe(canvas);chartObservers.push(observer);
+ drawChart();document.fonts.ready.then(()=>{if(canvas.isConnected)drawChart();});const observer=new ResizeObserver(drawChart);observer.observe(canvas);chartObservers.push(observer);
  const labels={assigngroup:'Assign control group',rightclick:'Right click',basic:'Basic orders',buildtrain:'Build / train / learn',ability:'Abilities and other orders',item:'Item transfer',select:'Selection',removeunit:'Remove from queue',subgroup:'Subgroup',selecthotkey:'Select control group',esc:'Escape'};
  $('action-breakdown').innerHTML='<h3 class="mini-heading">PARSER ACTION CATEGORIES</h3>'+table(['Category','Count'],Object.entries(p.actions).filter(([k,v])=>typeof v==='number').map(([k,v])=>'<tr><td>'+esc(labels[k]||k)+'</td><td class="number">'+v.toLocaleString()+'</td></tr>').join(''));
 }
@@ -796,6 +796,8 @@ function bindBuildOrderExports(toolbar,player){
  };
 }
 async function buildOrderImage(data,map,options=buildOrderOptions()){
+ await document.fonts.ready;
+ const uiFont=getComputedStyle(document.body).fontFamily,headingFont=getComputedStyle(document.documentElement).getPropertyValue('--font-heading').trim();
  const teams=new Map();for(const p of replayBuildOrder.playersByTeam(data.players)){const id=p.teamid??p.team??0;if(!teams.has(id))teams.set(id,[]);teams.get(id).push(p);}
  const groups=[...teams.values()],columns=Math.min(2,Math.max(1,groups.length)),columnWidth=570,margin=26,rowHeight=26,blocks=[];let y=100;
  for(let pair=0;pair<groups.length;pair+=2){
@@ -808,14 +810,14 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  }
  const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
- const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='bold 24px Segoe UI';ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px Segoe UI';ctx.fillText(map,margin,66);
- ctx.fillStyle='#95a5b9';ctx.font='12px Segoe UI';ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders',margin,86);
+ const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='600 24px '+headingFont;ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px '+uiFont;ctx.fillText(map,margin,66);
+ ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders',margin,86);
  const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+o.id,o]))).values()].map(async o=>{const src=iconSource(o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+o.id,img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
-  ctx.fillStyle='#e3bc70';ctx.font='bold 17px Segoe UI';ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px Segoe UI';
+  ctx.fillStyle='#e3bc70';ctx.font='bold 17px '+uiFont;ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px '+uiFont;
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
-  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit((data.names[o.id]||o.id),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px Segoe UI';}});
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit((data.names[o.id]||o.id),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px '+uiFont;ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px '+uiFont;}});
  }
  return canvas.toDataURL('image/png');
 }

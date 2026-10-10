@@ -1,0 +1,43 @@
+/* Bundled fonts: usable offline, with licenses in fonts/. */
+@font-face{
+ font-family:"Inter";
+ src:url("fonts/InterVariable.woff2") format("woff2");
+ font-style:normal;
+ font-weight:100 900;
+ font-display:swap;
+}
+@font-face{
+ font-family:"Cinzel";
+ src:url("fonts/CinzelVariable.ttf") format("truetype");
+ font-style:normal;
+ font-weight:400 900;
+ font-display:swap;
+}
+:root{
+ --font-ui:"Inter","Segoe UI",sans-serif;
+ --font-heading:"Cinzel",Georgia,serif;
+}
+body{font-family:var(--font-ui);font-optical-sizing:auto}
+button,input,select,textarea{font-family:inherit}
+h1,h2,h3{font-family:var(--font-heading);font-weight:600}
+.topbar h1{font-size:18px;letter-spacing:.045em;font-weight:700}
+.topbar p{letter-spacing:.16em}
+.library-heading h2{font-size:18px}
+.library-heading h2 span{font-family:var(--font-ui)}
+.settings-head h2,.ask-head h2{font-weight:600;letter-spacing:.015em}
+.settings-section h3{font-family:var(--font-ui);font-weight:650;letter-spacing:.09em}
+.settings-row b{font-weight:600}
+.empty h2{font-weight:600}
+.match-head h2{font-weight:600;letter-spacing:-.015em}
+.replay-row strong,.classic-folder-heading,.players .player-name{font-weight:600}
+.tabs button{font-weight:500}
+.tabs button.active{font-weight:600}
+.comparison-heading h2{font-family:var(--font-ui);font-weight:600}
+.section-title{letter-spacing:.015em}
+.mini-heading,.data-table th{font-family:var(--font-ui);font-weight:600;letter-spacing:.075em}
+.keycap,#replay-notes-text,.ask .ask-folder{font-family:var(--font-ui)}
+.time,.length,#duration,.number{font-variant-numeric:tabular-nums}
+
+/* Preserve the entire Chat tab, including its toolbar and font controls. */
+#panel.chat-panel{font-family:"Segoe UI",sans-serif;font-optical-sizing:auto}
+#panel.chat-panel :is(button,input,select,textarea){font-family:inherit}
