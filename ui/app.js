@@ -567,6 +567,15 @@ function withoutDuplicateChat(messages){
  const last=new Map();
  return messages.filter(c=>{const key=c.playerId+'|'+c.mode+'|'+c.message,before=last.get(key);last.set(key,c.timeMS);return before===undefined||c.timeMS-before>=DUPLICATE_CHAT_MS;});
 }
+const actionButtonIcons={
+ copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
+ export:'<path d="M12 16V3m-4 4 4-4 4 4M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>',
+ text:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6"/>',
+ image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/>'
+};
+function actionButtonMarkup(icon,label){
+ return '<svg class="button-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'+actionButtonIcons[icon]+'</svg><span class="button-label">'+esc(label)+'</span>';
+}
 function chat(){
  const fontSizes=[10,12,14,16,18,20,24];
  const savedSize=Number(localStorage.getItem('chat-font-size'));
@@ -575,7 +584,7 @@ function chat(){
  const savedSpacing=localStorage.getItem('chat-spacing');
  const spacing=savedSpacing!==null&&spacingOptions.includes(Number(savedSpacing))?Number(savedSpacing):1;
  $('panel').innerHTML=
- '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-spacing" aria-label="Chat vertical spacing" title="Padding above and below each message"><option value="0">Spacing: 0 px</option><option value="1">Spacing: 1 px</option><option value="2">Spacing: 2 px</option><option value="3">Spacing: 3 px</option><option value="4">Spacing: 4 px</option><option value="6">Spacing: 6 px</option><option value="8">Spacing: 8 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select><label class="switch-toggle" title="Battle.net replays record the saving player\'s own messages twice"><input id="chat-hide-duplicates" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span><span>Hide duplicates</span></label><button id="chat-copy" title="Copy the chat shown below to the clipboard">Copy chat</button><button id="chat-export" title="Save the chat shown below as a text file">Export chat</button></div><div id="chat-log" class="box"></div>';
+ '<div class="toolbar"><input id="chat-search" placeholder="Search chat…" aria-label="Search chat"><select id="chat-font-size" aria-label="Chat font size" title="Chat font size"><option value="10">Font: 10 px</option><option value="12">Font: 12 px</option><option value="14">Font: 14 px</option><option value="16">Font: 16 px</option><option value="18">Font: 18 px</option><option value="20">Font: 20 px</option><option value="24">Font: 24 px</option></select><select id="chat-spacing" aria-label="Chat vertical spacing" title="Padding above and below each message"><option value="0">Spacing: 0 px</option><option value="1">Spacing: 1 px</option><option value="2">Spacing: 2 px</option><option value="3">Spacing: 3 px</option><option value="4">Spacing: 4 px</option><option value="6">Spacing: 6 px</option><option value="8">Spacing: 8 px</option></select><select id="chat-player" aria-label="Filter chat by player"><option value="all">All players</option>'+[...new Set(entry.data.chat.map(c=>c.playerName))].map(n=>'<option>'+esc(n)+'</option>').join('')+'</select><label class="switch-toggle" title="Battle.net replays record the saving player\'s own messages twice"><input id="chat-hide-duplicates" type="checkbox" role="switch"><span class="switch-track" aria-hidden="true"></span><span>Hide duplicates</span></label><button id="chat-copy" class="action-icon-button" title="Copy the chat shown below to the clipboard">'+actionButtonMarkup('copy','Copy chat')+'</button><button id="chat-export" class="action-icon-button" title="Save the chat shown below as a text file">'+actionButtonMarkup('export','Export chat')+'</button></div><div id="chat-log" class="box"></div>';
  let shown=[];
  // the messages shown below as plain text: the match on the first line, then one message per line
  const chatText=()=>{
@@ -584,7 +593,7 @@ function chat(){
   return [head,'',...shown.map(c=>time(c.timeMS).padStart(5,'0')+'  ['+(c.mode==='Obervers'?'Observers':c.mode)+'] '+c.playerName+': '+c.message)].join('\r\n')+'\r\n';
  };
  // the button says what happened for a moment, then returns to its label
- const flash=(button,text)=>{const label=button.dataset.label||(button.dataset.label=button.textContent);button.textContent=text;clearTimeout(button.flashTimer);button.flashTimer=setTimeout(()=>{button.textContent=label;},2000);};
+ const flash=(button,text)=>{const target=button.querySelector('.button-label'),label=button.dataset.label||(button.dataset.label=target.textContent);target.textContent=text;clearTimeout(button.flashTimer);button.flashTimer=setTimeout(()=>{target.textContent=label;},2000);};
  $('chat-copy').onclick=async()=>{try{await window.replays.copyText(chatText());flash($('chat-copy'),'Copied');}catch(e){showError(e);}};
  $('chat-export').onclick=async()=>{try{if(await window.replays.exportChat(selected,chatText()))flash($('chat-export'),'Saved');}catch(e){showError(e);}};
  $('chat-hide-duplicates').checked=localStorage.getItem('chat-hide-duplicates')!=='0';
@@ -812,16 +821,16 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 function buildOrderOptions(){return {hideSuspectedDuplicates:localStorage.getItem('hide-build-duplicates')!=='false'};}
 function buildOrder(player,root){
  const orders=replayBuildOrder.orders(player,buildOrderOptions());
- root.innerHTML='<div class="build-order-toolbar"><button data-build-export="text">Save to text</button><button data-build-export="image">Export to image</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+ root.innerHTML='<div class="build-order-toolbar"><button class="action-icon-button" data-build-export="text">'+actionButtonMarkup('text','Save to text')+'</button><button class="action-icon-button" data-build-export="image">'+actionButtonMarkup('image','Export to image')+'</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
  bindBuildOrderExports(root,player);
  root.querySelectorAll('.build-order-name').forEach((label,index)=>{const order=orders[index];if(order.suspectedDuplicates){label.title+=' — Suspected repeated clicks; may include valid queued units. Turn off the filter to see each command.';}});
 }
 function bindBuildOrderExports(toolbar,player){
  const key=selected,data={...entry.data,players:[player]},map=mapDisplayName(data.map.file),filename=map+' - '+player.name+' - Build order';
  for(const format of ['text','image'])toolbar.querySelector('[data-build-export="'+format+'"]').onclick=async event=>{
-  const button=event.currentTarget;button.disabled=true;const label=button.textContent;
-  try{const options=buildOrderOptions(),contents=format==='text'?replayBuildOrder.text(data,map,options):await buildOrderImage(data,map,options);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents,filename))button.textContent='Saved';}
-  catch(error){showError(error);}finally{button.disabled=false;setTimeout(()=>{button.textContent=label;},1800);}
+  const button=event.currentTarget,target=button.querySelector('.button-label');button.disabled=true;const label=target.textContent;
+  try{const options=buildOrderOptions(),contents=format==='text'?replayBuildOrder.text(data,map,options):await buildOrderImage(data,map,options);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents,filename))target.textContent='Saved';}
+  catch(error){showError(error);}finally{button.disabled=false;setTimeout(()=>{target.textContent=label;},1800);}
  };
 }
 async function buildOrderImage(data,map,options=buildOrderOptions()){

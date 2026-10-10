@@ -554,6 +554,9 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .replay-row.compact-replay-row{display:flex;align-items:center;gap:7px;padding-right:39px}
 .compact-replay-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .compact-replay-icon{pointer-events:none}
+.action-icon-button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.action-icon-button .button-icon{width:16px;height:16px;flex:0 0 16px;pointer-events:none}
+.action-icon-button .button-label{white-space:nowrap}
 .compact-replay-card>.favorite-toggle{position:absolute;top:1px;right:7px;font-size:19px;display:inline-flex;align-items:center;justify-content:center;line-height:1}
 .compact-replay-row .replay-note-indicator{flex-shrink:0}
 
@@ -606,4 +609,4 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .favorite-duration .favorite-star{width:24px;height:24px}
 #only-favorites .favorite-star{width:20px;height:20px}
 .replay-card .favorite-star{transform:translateY(1px)}
-.replay-card .replay-note-indicator{transform:translateY(1px)}
+.replay-card:not(.compact-replay-card) .replay-note-indicator{transform:translateY(1px)}
