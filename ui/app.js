@@ -465,13 +465,18 @@ function heroAbilityMarkup(id,level){
  const bars=Array.from({length:maximum},(_,i)=>'<span class="ability-rank-bar'+(i<rank?' filled':'')+'"></span>').join('');
  return '<div class="ability" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars" aria-hidden="true">'+bars+'</span></div>';
 }
+function heroExperienceMarkup(hero){
+ const level=Math.max(1,Math.min(10,Math.trunc(Number(hero.minimumLevel??hero.level)||1)));
+ const label='Inferred level '+level+'. Exact experience progress is unavailable; the purple fill is decorative.';
+ return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
+}
 function heroes(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort((a,b)=>b[1]-a[1]);
  $('panel').innerHTML=
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
- '<span class="level" title="Inferred minimum level" aria-label="Inferred minimum level '+h.minimumLevel+'">'+h.minimumLevel+'</span><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span></div><div class="ability-icons">'+
+ '<span class="hero-identity"><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span>'+heroExperienceMarkup(h)+'</span></div><div class="ability-icons">'+
  (Object.entries(h.abilities).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
