@@ -252,7 +252,11 @@ function renderList(){
  let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!favorites&&!notes||favorites&&annotationFor(r).favorite||notes&&annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
  (!term||replaySearchText(r).includes(term)||annotationFor(r).notes.toLowerCase().includes(term)));
- list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
+ const sort=$('sort').value,newestFirst=(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name);
+ list.sort(sort==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):
+  sort==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):
+  sort==='longest'?(a,b)=>(b.duration||0)-(a.duration||0)||newestFirst(a,b):
+  sort==='shortest'?(a,b)=>(a.duration||0)-(b.duration||0)||newestFirst(a,b):newestFirst);
  const copies=replayFilters.duplicateGroups(rows.values());
  const duplicateCount=[...copies.values()].reduce((total,group)=>total+group.length-1,0);
  $('duplicate-summary').textContent=duplicateCount+' duplicate '+(duplicateCount===1?'file':'files')+' across '+copies.size+' '+(copies.size===1?'replay':'replays')+'. Identical files appear once when hidden. No files are deleted.';
