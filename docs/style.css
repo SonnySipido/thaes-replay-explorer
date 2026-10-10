@@ -55,3 +55,4 @@ header .author{color:#d5e3ef}
 @media(max-width:900px){.guide-layout{grid-template-columns:1fr;gap:12px}.guide-toc{position:static;display:flex;flex-wrap:wrap;gap:4px 22px;padding:0 0 20px}.guide-toc .eyebrow{width:100%}.guide-toc .toc-download{border:0;margin:0;padding:10px 0}.guide-teaser{align-items:flex-start;flex-direction:column;gap:16px}}
 @media(max-width:480px){.guide-example,.guide-note{padding:16px}.guide-article h2{font-size:25px}.guide-article{padding-bottom:26px}.guides-intro{padding-top:30px}}
 .guide-layout>div{min-width:0}
+.hero>div{container-type:inline-size}.hero .search-heading{font-size:clamp(12px,4.2cqi,24px);white-space:nowrap;letter-spacing:-.4px}
