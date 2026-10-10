@@ -282,7 +282,7 @@
 #map-preview .map-preview{width:76.8px;height:76.8px}
 .map-title-row{height:76.8px}
 
-.banner-brand{flex-shrink:0}.banner-title{display:flex;align-items:center;gap:12px;margin-bottom:5px}.banner-title h1{margin:0;white-space:nowrap}
+.banner-brand{flex-shrink:0}.banner-title{display:flex;align-items:center;gap:12px;margin:0}.banner-title h1{margin:0;white-space:nowrap}
 .banner-rexxar{width:32px;height:32px;flex-shrink:0;object-fit:contain;border-radius:3px}
 #app-website-title{color:inherit;text-decoration:none;border-radius:3px}
 #app-website-title:hover{color:var(--gold)}
