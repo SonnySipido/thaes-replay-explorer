@@ -56,3 +56,5 @@ header .author{color:#d5e3ef}
 @media(max-width:480px){.guide-example,.guide-note{padding:16px}.guide-article h2{font-size:25px}.guide-article{padding-bottom:26px}.guides-intro{padding-top:30px}}
 .guide-layout>div{min-width:0}
 .hero>div{container-type:inline-size}.hero .search-heading{font-size:clamp(12px,4.2cqi,24px);white-space:nowrap;letter-spacing:-.4px}
+
+.share-example{display:flex;align-items:center;gap:12px;color:#d2dce5;margin-bottom:14px;overflow-wrap:anywhere}.copy-icon-example{display:inline-flex;flex:none;padding:7px;border:1px solid #708799;border-radius:5px;background:#203144;color:#e9edf2}.guide-example figcaption{color:#9dadc0;font-size:13px}
