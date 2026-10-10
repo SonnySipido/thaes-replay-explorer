@@ -62,9 +62,10 @@ header .author{color:#d5e3ef}
 /* A labelled picker keeps the larger screenshot collection easy to browse. */
 .screenshots{container-type:inline-size}
 /* Keep the full image, caption and navigation within the viewport. */
-.screenshots a{height:min(500px,63.889cqi,max(80px,calc(100svh - 280px)));aspect-ratio:auto}
+.screenshots figure{overflow:visible;border:0;border-radius:0;background:none}
+.screenshots a{width:min(100%,calc(min(500px,max(80px,calc(100svh - 280px))) * 1440 / 920));height:min(500px,63.889cqi,max(80px,calc(100svh - 280px)));aspect-ratio:auto;margin-inline:auto;overflow:hidden;border-radius:10px}
 .screenshots img{height:100%;object-fit:contain}
-.screenshots figcaption{padding:14px 18px 18px}
+.screenshots figcaption{width:min(100%,783px);margin-inline:auto;padding:14px 18px 18px}
 .screenshots figcaption h3{margin:0 0 5px}
 .screenshots figcaption p{max-width:none}
 .slider-controls{display:grid;grid-template-columns:32px minmax(0,360px) auto 32px;gap:10px}
