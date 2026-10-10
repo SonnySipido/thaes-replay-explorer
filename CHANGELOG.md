@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.8.0
+
+- Refreshed the app and website with bundled Inter and Cinzel fonts. Chat keeps its adjustable font size and spacing.
+- Hero abilities use equal-height vertical rank bars, with one full bar for ultimates, and follow the game's ability order. Hero levels appear in purple bars under their names; exact experience progress is not available from replay data.
+- Group unit types by their first recorded training order. Unknown heroes are hidden, and empty unit and chat sections no longer show placeholder messages.
+- Classic explorer view shows replay scroll icons. Empty folder branches are greyed out and cannot expand, with an optional Hide empty folders setting available only in Classic view.
+- Race colored names can be turned off for white player names in detailed view. The setting is disabled in Classic explorer view while preserving the saved preference.
+- Added Longest first and Shortest first sorting in both replay list views, with remembered selections.
+- Added Rexxar to the aligned banner and website links on the app title and external-link icon. Updated Any race badges and fixed the default Anywhere globe and dropdown focus styling.
+- Added copy/export button icons, refined number spacing and favorite/notes alignment, and corrected the Classic Paladin Divine Shield icon.
+- Updated website features, illustrated guides and screenshots for version 0.8.
+
 ## 0.7.0
 
 - Classic explorer view replaces the compact list: browse separate configured roots, expand nested folders, and right-click folders to open File Explorer. Empty folders stay compact.

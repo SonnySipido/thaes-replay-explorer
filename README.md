@@ -2,9 +2,9 @@
 
 **[Download page & installation instructions](https://thaesreplayexplorer.com/)** — a simple page for users, without the source-file list.
 
-A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and W3Champions replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
+A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.7.0/Thae-Replay-Explorer-0.7.0-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.8.0/Thae-Replay-Explorer-0.8.0-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -14,16 +14,16 @@ No GitHub account, source-code download, or development tools are needed. The in
 
 ## Features
 
-- **Match analysis:** heroes and ability levels, units produced, individual building and research start times, FE/T2/T3 tags, items, APM graphs and optional winner display.
+- **Match analysis:** hero levels and ability rank bars in game order, grouped units ordered by their first training event, individual building and research start times, FE/T2/T3 tags, items, APM graphs and optional winner display.
 - **Control groups:** every identified unit, hero and building type assigned to each group throughout the match.
 - **Build orders:** each player's first five minutes of units, heroes, buildings and research, with separate text and image exports named after the map and player.
 - **Favorites and notes:** favorite matches, add autosaved notes, filter with clickable icons, and export or import annotation backups. Identical replay files share their annotations.
 - **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version.
 - **Multiple folders:** enable or disable each location and its subfolders in Advanced settings. New replays are indexed automatically.
 - **Duplicate management:** optionally hide identical replay files across folders without deleting them.
-- **Flexible browsing:** resize the replay list or use Classic explorer view with expandable folders, replay filenames, favorites and notes indicators. Drag replay files into the app to import and select them.
+- **Flexible browsing:** resize the replay list or use Classic explorer view with expandable folders, replay filenames, favorites and notes indicators. Empty folders are greyed out and can optionally be hidden in Classic view. Drag replay files into the app to import and select them.
 - **Chat:** search, filter by player, copy or export messages, and adjust font size and spacing.
-- **Personalization:** Classic or Reforged HD icons; remembered filters, window position, selected replay and analysis tab.
+- **Personalization:** bundled Inter and Cinzel fonts, Classic or Reforged HD icons, optional race-colored player names in detailed view, and remembered filters, window position, selected replay and analysis tab.
 - **Convenient links:** watch replays in Warcraft III, locate replay and map files in Explorer, and open eligible W3Champions profiles.
 
 ## Use
@@ -51,7 +51,7 @@ On first launch, the app suggests the replay folder it found (Documents/Warcraft
   -You can toggle Show Winner to show which side won the match.
 
   
-By default the list of replays shown is sorted by newest first. Its possible to sort by oldest first as well as sorting by map name A-Z.
+By default the list of replays shown is sorted by newest first. You can also sort by oldest first, longest first, shortest first or map name A-Z. Classic view sorts replays within each folder.
 
 The Reforged HD icons switch in Settings (the gear at the top right) selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
