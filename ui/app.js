@@ -472,7 +472,9 @@ function heroExperienceMarkup(hero){
 }
 function heroes(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort((a,b)=>b[1]-a[1]);
+ const firstUnitTimes=new Map();
+ for(const {id,ms} of p.units?.order||[]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
+ const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort(([a],[b])=>(firstUnitTimes.get(a)??Infinity)-(firstUnitTimes.get(b)??Infinity)||0);
  $('panel').innerHTML=
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
