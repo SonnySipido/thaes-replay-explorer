@@ -106,6 +106,11 @@ function updateClassicViewOptions(){
  $('hide-empty-folders').disabled=!enabled;
  $('hide-empty-folders-row').classList.toggle('is-disabled',!enabled);
  $('hide-empty-folders-row').title=enabled?'Hide folders with no replay results in this view.':'Enable Classic explorer view to use this option.';
+ const raceNames=$('race-colored-names'),raceNamesRow=raceNames.closest('.settings-row');
+ raceNames.disabled=enabled;
+ raceNamesRow.classList.toggle('is-disabled',enabled);
+ raceNamesRow.title=enabled?'Turn off Classic explorer view to use this option.':'';
+ raceNames.closest('.switch-toggle').title=enabled?raceNamesRow.title:'Color player names by race in the replay overview. Turn off for white names.';
 }
 updateClassicViewOptions();
 $('compact-replays').onchange=()=>{restoredReplayReveal=selected;localStorage.setItem('compact-replays',String($('compact-replays').checked));updateClassicViewOptions();renderList();};
