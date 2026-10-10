@@ -599,3 +599,4 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .favorite-duration>.favorite-toggle,.replay-card-actions>.favorite-toggle{transform:none}
 .favorite-duration .favorite-star{width:24px;height:24px}
 #only-favorites .favorite-star{width:20px;height:20px}
+.replay-card .favorite-star{transform:translateY(1px)}
