@@ -297,14 +297,21 @@ function renderClassicTree(container,list,makeCard){
  const reveal=restoredReplayReveal===selected?rows.get(selected):null;
  const revealPath=reveal?replayTree.key(reveal.file):'';
  function appendFolder(parent,node,isRoot=false){
-  const id=replayTree.key(node.path),details=document.createElement('details'),summary=document.createElement('summary');
+  const id=replayTree.key(node.path),empty=node.count===0,details=document.createElement('details'),summary=document.createElement('summary');
   details.className='classic-folder';summary.className='classic-folder-heading';summary.title=node.path+'\nRight-click to open in File Explorer';
+  if(empty){
+   const reason='Cannot expand: no replays in this folder or its subfolders match the current view.';
+   summary.setAttribute('aria-disabled','true');summary.setAttribute('aria-description',reason);
+   summary.title=node.path+'\n'+reason+'\nRight-click to open in File Explorer';
+   summary.onclick=event=>event.preventDefault();
+   summary.onkeydown=event=>{if(event.key==='Enter'||event.key===' ')event.preventDefault();};
+  }
   summary.oncontextmenu=event=>{event.preventDefault();event.stopPropagation();window.replays.openReplayFolder(node.path).catch(showError);};
   const label=document.createElement('span');label.textContent=isRoot?node.path.replace(/\//g,'\\'):node.name;summary.append(label);details.append(summary);parent.append(details);
   if(revealPath.startsWith(id+'/')||($('search').value.trim()||annotationFilterEnabled('only-favorites')||annotationFilterEnabled('only-notes'))&&node.count)expandedReplayFolders.add(id);
   let loaded=false;
   function load(){
-   if(loaded)return;loaded=true;if(!node.children.size&&!node.replays.length)return;
+   if(empty||loaded)return;loaded=true;if(!node.children.size&&!node.replays.length)return;
    const contents=document.createElement('div');contents.className='classic-folder-contents';details.append(contents);
    for(const child of replayTree.sortedChildren(node))appendFolder(contents,child);
    let shown=0;const more=document.createElement('button');more.className='classic-show-more';
@@ -312,8 +319,8 @@ function renderClassicTree(container,list,makeCard){
    contents.append(more);batch();more.onclick=batch;
    if(reveal){const index=node.replays.findIndex(r=>r.key===reveal.key);while(shown<=index)batch();}
   }
-  details.open=expandedReplayFolders.has(id);if(details.open)load();
-  details.ontoggle=()=>{if(!details.isConnected)return;if(details.open){expandedReplayFolders.add(id);load();}else expandedReplayFolders.delete(id);localStorage.setItem('classic-expanded-folders',JSON.stringify([...expandedReplayFolders]));};
+  details.open=!empty&&expandedReplayFolders.has(id);if(details.open)load();
+  details.ontoggle=()=>{if(!details.isConnected)return;if(empty){details.open=false;return;}if(details.open){expandedReplayFolders.add(id);load();}else expandedReplayFolders.delete(id);localStorage.setItem('classic-expanded-folders',JSON.stringify([...expandedReplayFolders]));};
  }
  for(const node of tree)appendFolder(container,node,true);
 }
