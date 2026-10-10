@@ -28,13 +28,11 @@
 .comparison-content .chart-caption{gap:8px}.comparison-content .chart-caption span:nth-child(2){text-align:center}
 .comparison-content canvas{display:block}
 
-.ability .ability-level{color:var(--gold);font-size:13px;font-weight:600;margin-left:4px}
 
 .game-icon{display:block;object-fit:contain;flex-shrink:0;border:1px solid #746445;border-radius:5px;background:#080d13}
 .hero-portrait{width:64px;height:64px}.ability-portrait{width:48px;height:48px}
 .ability-icons{display:flex;flex-wrap:wrap;gap:12px 22px;border-top:1px solid var(--line);padding-top:16px}
 .ability-icons .ability{border:0;padding:0;gap:9px}
-.ability-icons .ability-level{font-size:18px;margin:0;min-width:13px}
 .missing-icon{display:grid;place-items:center;color:var(--muted);font-size:28px}
 .comparison-content .hero-head{margin-bottom:16px}
 
@@ -55,7 +53,9 @@
 .army-overview .ability-icons{gap:10px 12px;padding-top:12px}
 .army-overview .ability-portrait{width:32px;height:32px}
 .army-overview .ability-icons .ability{gap:5px}
-.army-overview .ability-icons .ability-level{font-size:14px;min-width:9px}
+.ability-rank-bars{display:flex;flex-direction:column-reverse;gap:3px;width:7px;height:28px;flex:0 0 7px}
+.ability-rank-bar{display:block;flex:1;min-height:0;border:1px solid #435064;border-radius:2px;background:#1b2635}
+.ability-rank-bar.filled{border-color:#e9c67c;background:linear-gradient(90deg,#c19a4e,#f5d58d);box-shadow:0 0 3px #e3bc7026}
 .unit-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:10px}
 .unit-tile{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:8px 6px}
 .unit-tile .object-portrait{width:36px;height:36px}
@@ -409,7 +409,7 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 .comparison-content .time,.comparison-content .pagination,.comparison-content .pagination button{font-size:calc(11px + 2pt)}
 .comparison-content .empty-note{font-size:calc(13px + 2pt)}
 .comparison-content .army-overview .hero-head .level{font-size:calc(23px + 2pt)}
-.comparison-content .army-overview .ability-icons .ability-level,.comparison-content .keycap{font-size:calc(14px + 2pt)}
+.comparison-content .keycap{font-size:calc(14px + 2pt)}
 .comparison-content .unit-count{font-size:calc(16px + 2pt)}
 .comparison-content .economy-overview .data-table td.time{font-size:calc(13px + 2pt)}
 .comparison-content .economy-overview .data-table td.number{font-size:calc(16px + 2pt)}

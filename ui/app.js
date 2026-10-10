@@ -456,6 +456,14 @@ function objectIcon(id,preferred){
  return gameIcon(id,kind,'object-portrait');
 }
 
+// Keep ultimate IDs aligned with the replay parser, including alternate Tinker forms.
+const ultimateAbilities=new Set('AEtq AEme AEsf AEsv AOww AOeq AOre AOvd AUan AUin AUdd AUls ANef ANch ANto ANdo ANst ANrg ANg1 ANg2 ANg3 ANvc ANtm AHmt AHav AHre AHpx AHcl'.split(' '));
+function heroAbilityMarkup(id,level){
+ const maximum=ultimateAbilities.has(id)?1:3,rank=Math.max(0,Math.min(maximum,Math.trunc(Number(level)||0)));
+ const label=name(id)+', level '+rank+' of '+maximum+(maximum===1?' (ultimate)':'');
+ const bars=Array.from({length:maximum},(_,i)=>'<span class="ability-rank-bar'+(i<rank?' filled':'')+'"></span>').join('');
+ return '<div class="ability" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars" aria-hidden="true">'+bars+'</span></div>';
+}
 function heroes(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort((a,b)=>b[1]-a[1]);
@@ -463,7 +471,7 @@ function heroes(p,root){
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
  '<span class="level" title="Inferred minimum level" aria-label="Inferred minimum level '+h.minimumLevel+'">'+h.minimumLevel+'</span><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span></div><div class="ability-icons">'+
- (Object.entries(h.abilities).map(([id,level])=>'<div class="ability" aria-label="'+esc(name(id))+' '+level+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-level">'+level+'</span></div>').join('')||
+ (Object.entries(h.abilities).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
