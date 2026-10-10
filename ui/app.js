@@ -723,7 +723,7 @@ for(const id of ['matchup-left','matchup-right','source']){
  button.append(document.createElement('selectedcontent'));
  for(const option of select.options){
   const label=option.textContent;
-  option.innerHTML=(id==='source'?(sourceIcon(option.value,'race-icon')||(option.value==='any'?'<svg class="race-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/></svg>':'<span class="race-filter-placeholder" aria-hidden="true"></span>')):raceIcon(option.value==='any'?'R':option.value))+'<span class="race-filter-label">'+esc(label)+'</span>';
+  option.innerHTML=(id==='source'?(sourceIcon(option.value,'race-icon')||(option.value==='any'?'<svg class="race-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M4.5 7.5h15M4.5 16.5h15"/></svg>':'<span class="race-filter-placeholder" aria-hidden="true"></span>')):(option.value==='any'?'<img class="race-icon" src="artwork/any-race.png" alt="" aria-hidden="true" width="24" height="24">':raceIcon(option.value)))+'<span class="race-filter-label">'+esc(label)+'</span>';
   const icon=option.querySelector('img');if(icon){icon.alt='';icon.removeAttribute('title');icon.setAttribute('aria-hidden','true');}
  }
  // Insert after decorating options so the initial selected value includes its icon.

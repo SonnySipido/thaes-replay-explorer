@@ -2,6 +2,12 @@
   "copyright": "Warcraft artwork belongs to Blizzard Entertainment",
   "files": [
     {
+      "file": "any-race.png",
+      "source": "ImageGen edit of ../icons/races/R.png; resized to 128x128 with transparency preserved",
+      "prompt": "Remove only the central question mark and diamond dot, filling the area with the matching dark metal surface. Preserve the circular badge, beveled rings, palette, lighting and transparent background. No replacement symbol.",
+      "original_sha256": "d87679088992b49be99b5c4b5c010f32818473ac394d7e6f6bb7872a360a2e3d"
+    },
+    {
       "file": "frozen-throne.jpg",
       "url": "https://img.goodfon.com/original/1920x1200/9/a0/badfon-warcraft-3-the-frozen-throne-6292.jpg"
     },
