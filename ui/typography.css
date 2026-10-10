@@ -37,6 +37,7 @@ h1,h2,h3{font-family:var(--font-heading);font-weight:600}
 .mini-heading,.data-table th{font-family:var(--font-ui);font-weight:600;letter-spacing:.075em}
 .keycap,#replay-notes-text,.ask .ask-folder{font-family:var(--font-ui)}
 .time,.length,#duration,.number{font-variant-numeric:tabular-nums}
+.army-overview .unit-count,.army-overview .hero-head .level{letter-spacing:-.04em}
 
 /* Preserve the entire Chat tab, including its toolbar and font controls. */
 #panel.chat-panel{font-family:"Segoe UI",sans-serif;font-optical-sizing:auto}

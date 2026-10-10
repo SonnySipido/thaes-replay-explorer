@@ -591,3 +591,11 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 #filename[draggable=true]{cursor:grab;user-select:none}#filename[draggable=true]:active{cursor:grabbing}#filename img{pointer-events:none}#copy-replay-file{flex:none;font-size:11px;padding:3px 8px}.replay-share-status{font-size:11px;color:var(--muted);margin:5px 0 0}.replay-share-status:empty{display:none}
 
 #rename-replay{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:28px;min-height:26px;padding:3px 8px}#rename-dialog{color:var(--text);background:#14202d;border:1px solid #556578;border-radius:12px;padding:24px;width:min(460px,90vw)}#rename-dialog::backdrop{background:#050910b0}.rename-input-row{display:flex;gap:8px;align-items:center;margin:10px 0}.rename-input-row input{width:100%;min-width:0}.rename-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+/* Vector stars keep the same scale as the duration clocks, independent of font. */
+.favorite-toggle{display:inline-flex;align-items:center;justify-content:center}
+.favorite-star{display:block;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.favorite-toggle.is-favorite .favorite-star,#only-favorites[aria-pressed="true"] .favorite-star{fill:currentColor}
+.favorite-duration>.favorite-toggle,.replay-card-actions>.favorite-toggle{transform:none}
+.favorite-duration .favorite-star{width:24px;height:24px}
+#only-favorites .favorite-star{width:20px;height:20px}

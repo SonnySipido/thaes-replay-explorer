@@ -16,7 +16,7 @@ Full dependency license files are retained alongside the bundled dependencies an
 - Inter: Copyright (c) 2016 The Inter Project Authors, SIL Open Font License 1.1, https://github.com/rsms/inter. Bundled license: ui/fonts/Inter-OFL.txt.
 - Cinzel: Copyright 2020 The Cinzel Project Authors, SIL Open Font License 1.1, https://github.com/NDISCOVER/Cinzel. Bundled license: ui/fonts/Cinzel-OFL.txt.
 
-The unmodified variable fonts are bundled for offline use. Pinned source URLs and SHA-256 checksums are recorded in ui/fonts/SOURCES.json.
+The unmodified variable fonts are bundled for offline use in the app and self-hosted in docs/assets/fonts/ for the website. Both locations retain the font licenses. Pinned source URLs and SHA-256 checksums are recorded in ui/fonts/SOURCES.json and docs/assets/fonts/SOURCES.json.
 
 ## Artwork, maps and brands
 

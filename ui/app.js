@@ -54,10 +54,11 @@ document.addEventListener('drop',async event=>{
 });
 const annotationPending=new Map(),annotationJobs=new Set();
 const annotationFor=row=>annotationPending.get(row?.contentHash||row?.key)||row?.annotation||{favorite:false,notes:''};
+const FAVORITE_STAR_ICON='<svg class="favorite-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.78 5.63 6.22.91-4.5 4.38 1.06 6.2L12 17.19l-5.56 2.93 1.06-6.2L3 9.54l6.22-.91L12 3z"/></svg>';
 function updateAnnotationRows(hash,value){for(const row of rows.values())if(row.contentHash===hash)row.annotation=value;}
 function refreshFavoriteButtons(){
  $('replay-notes')?.classList.toggle('has-notes',Boolean(annotationFor(rows.get(selected)).notes.trim()));
- for(const button of document.querySelectorAll('[data-favorite-key]')){const value=annotationFor(rows.get(button.dataset.favoriteKey)).favorite;button.textContent=value?'★':'☆';button.classList.toggle('is-favorite',value);button.setAttribute('aria-pressed',String(value));button.setAttribute('aria-label',value?'Remove favorite':'Add favorite');button.title=value?'Remove favorite':'Add favorite';}
+ for(const button of document.querySelectorAll('[data-favorite-key]')){const value=annotationFor(rows.get(button.dataset.favoriteKey)).favorite;if(!button.querySelector('.favorite-star'))button.innerHTML=FAVORITE_STAR_ICON;button.classList.toggle('is-favorite',value);button.setAttribute('aria-pressed',String(value));button.setAttribute('aria-label',value?'Remove favorite':'Add favorite');button.title=value?'Remove favorite':'Add favorite';}
 }
 async function saveReplayAnnotation(key,patch){
  const row=rows.get(key);if(!row)return;const id=row.contentHash||key;
@@ -89,7 +90,7 @@ window.replays.on('annotation-error',error=>{showError(error);if($('notes-status
 const annotationFilterEnabled=id=>$(id).getAttribute('aria-pressed')==='true';
 for(const id of ['only-notes','only-favorites']){
  const button=$(id);
- const apply=enabled=>{button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites')button.firstElementChild.textContent=enabled?'★':'☆';};
+ const apply=enabled=>{button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites'&&!button.querySelector('.favorite-star'))button.innerHTML=FAVORITE_STAR_ICON;};
  apply(localStorage.getItem(id)==='true');
  button.onclick=()=>{const enabled=!annotationFilterEnabled(id);apply(enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'&&enabled){localStorage.setItem('notes-open','true');const notes=$('replay-notes');if(notes)notes.open=true;}renderList();};
 }
@@ -537,7 +538,7 @@ function groups(p,root){
  }
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  $('panel').innerHTML=
- '<div class="box">'+table(['Key','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members([...(history.get(g.key)||[]),...(g.members||[])])+'</td></tr>').join(''))+'</div>';
+ '<div class="box">'+table(['Group','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members([...(history.get(g.key)||[]),...(g.members||[])])+'</td></tr>').join(''))+'</div>';
 }
 // Battle.net replays since Reforged record the saving player's own messages twice, a few ms apart:
 // the same text from the same player in the same channel within a second is one of those copies

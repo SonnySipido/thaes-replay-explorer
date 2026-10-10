@@ -1,0 +1,24 @@
+/* The same locally bundled typefaces used by the desktop app. */
+@font-face{
+ font-family:"Inter";
+ src:url("assets/fonts/InterVariable.woff2") format("woff2");
+ font-style:normal;
+ font-weight:100 900;
+ font-display:swap;
+}
+@font-face{
+ font-family:"Cinzel";
+ src:url("assets/fonts/CinzelVariable.ttf") format("truetype");
+ font-style:normal;
+ font-weight:400 900;
+ font-display:swap;
+}
+:root{--font-ui:"Inter","Segoe UI",sans-serif;--font-heading:"Cinzel",Georgia,serif}
+body{font-family:var(--font-ui);font-optical-sizing:auto}
+button,input,select,textarea{font-family:inherit}
+h1,h2,h3{font-family:var(--font-heading);font-weight:600;letter-spacing:0}
+.brand,.hero-heading .hero-title{font-family:var(--font-heading);font-weight:700;letter-spacing:.04em}
+.hero .search-heading{font-family:var(--font-ui);font-weight:600}
+.eyebrow{font-weight:650;letter-spacing:.12em}
+.site-tabs a,.guide-link{font-weight:600}
+strong,summary,th{font-weight:600}
