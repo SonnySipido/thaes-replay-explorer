@@ -100,6 +100,10 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
 };
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
 $('compact-replays').onchange=()=>{restoredReplayReveal=selected;localStorage.setItem('compact-replays',String($('compact-replays').checked));renderList();};
+$('race-colored-names').checked=localStorage.getItem('race-colored-names')!=='false';
+function applyRaceNameColors(){document.body.classList.toggle('plain-replay-names',!$('race-colored-names').checked);}
+applyRaceNameColors();
+$('race-colored-names').onchange=()=>{localStorage.setItem('race-colored-names',String($('race-colored-names').checked));applyRaceNameColors();};
 $('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
 $('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
 $('hide-build-duplicates').checked=buildOrderOptions().hideSuspectedDuplicates;

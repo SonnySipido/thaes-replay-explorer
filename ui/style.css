@@ -240,6 +240,7 @@
 .winner-badge{display:inline-block;margin-left:8px;vertical-align:middle;letter-spacing:.6px;font-size:9px;font-weight:700;color:#ffe5a7;border:1px solid #917a43;border-radius:3px;padding:1px 4px}
 
 .row-player.race-color-R{color:#ffdf43!important}
+.plain-replay-names .replay-row .row-player{color:var(--text)!important}
 .random-race-icon{display:inline-flex;position:relative;align-items:center;justify-content:center;flex-shrink:0}
 .random-mark{position:absolute;inset:0;display:grid;place-items:center;font-size:18px!important;font-weight:900;color:#ffed93!important;text-shadow:0 1px 2px #000,1px 0 2px #000,-1px 0 2px #000;line-height:1}
 .player-race-team .random-mark{font-size:15px!important}
