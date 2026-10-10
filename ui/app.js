@@ -501,7 +501,7 @@ function heroAbilityMarkup(id,level){
 }
 function heroExperienceMarkup(hero){
  const level=Math.max(1,Math.min(10,Math.trunc(Number(hero.minimumLevel??hero.level)||1)));
- const label='Inferred level '+level+'. Exact experience progress is unavailable; the purple fill is decorative.';
+ const label='Inferred level '+level+'. Exact experience progress is unavailable.';
  return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
 }
 function heroes(p,root){
