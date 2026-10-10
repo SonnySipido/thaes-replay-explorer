@@ -58,3 +58,15 @@ header .author{color:#d5e3ef}
 .hero>div{container-type:inline-size}.hero .search-heading{font-size:clamp(12px,4.2cqi,24px);white-space:nowrap;letter-spacing:-.4px}
 
 .share-example{display:flex;align-items:center;gap:12px;color:#d2dce5;margin-bottom:14px;overflow-wrap:anywhere}.copy-icon-example{display:inline-flex;flex:none;padding:7px;border:1px solid #708799;border-radius:5px;background:#203144;color:#e9edf2}.guide-example figcaption{color:#9dadc0;font-size:13px}
+
+/* A labelled picker keeps the larger screenshot collection easy to browse. */
+.screenshots a{height:auto;aspect-ratio:1440/920}
+.screenshots img{height:auto}
+.screenshots figcaption{padding:14px 18px 18px}
+.screenshots figcaption h3{margin:0 0 5px}
+.screenshots figcaption p{max-width:none}
+.slider-controls{display:grid;grid-template-columns:32px minmax(0,360px) auto 32px;gap:10px}
+.screenshot-choice{display:flex;align-items:center;gap:8px;min-width:0;color:#9dadc0;font-size:13px}
+.screenshot-choice select{flex:1;width:0;min-width:0;font:inherit;color:#e9edf2;background:#172331;border:1px solid #ffffff30;border-radius:6px;padding:8px;text-overflow:ellipsis}
+.screenshot-choice select:focus-visible{outline:2px solid #7fc4b6;outline-offset:2px}
+@media(max-width:480px){.screenshot-choice>span{display:none}.slider-controls{gap:8px}.screenshots figcaption{padding:12px}}
