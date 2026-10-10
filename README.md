@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and W3Champions replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.6.0/Thae-Replay-Explorer-0.6.0-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.7.0/Thae-Replay-Explorer-0.7.0-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -21,7 +21,7 @@ No GitHub account, source-code download, or development tools are needed. The in
 - **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version.
 - **Multiple folders:** enable or disable each location and its subfolders in Advanced settings. New replays are indexed automatically.
 - **Duplicate management:** optionally hide identical replay files across folders without deleting them.
-- **Flexible browsing:** resize the replay list or use compact single-line cards with favorites and notes indicators. Drag replay files into the app to import and select them.
+- **Flexible browsing:** resize the replay list or use Classic explorer view with expandable folders, replay filenames, favorites and notes indicators. Drag replay files into the app to import and select them.
 - **Chat:** search, filter by player, copy or export messages, and adjust font size and spacing.
 - **Personalization:** Classic or Reforged HD icons; remembered filters, window position, selected replay and analysis tab.
 - **Convenient links:** watch replays in Warcraft III, locate replay and map files in Explorer, and open eligible W3Champions profiles.
@@ -72,6 +72,14 @@ With **Check on startup** switched on, the app looks for a newer version each ti
 Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
+
+## Rename a replay
+
+Click the pencil beside the filename under Match Analysis, or right-click a replay in Classic explorer view. F2 also opens the rename dialog for the focused or selected replay. Enter the name and press Enter. The .w3g extension is kept automatically; existing files are never overwritten. Favorites and notes stay with the replay.
+
+## Share a replay
+
+Select a match and click **Copy replay** beside its filename to put the actual .w3g file on the Windows clipboard. Paste it into a Discord conversation with **Ctrl+V**, review the attachment and send it yourself. You can also drag the filename from the match header directly into Discord, File Explorer or another application that accepts file drops. Clicking the filename still reveals it in Explorer. Copying does not upload the replay; the receiving application handles sharing. Clipboard/file-drop support depends on the receiving app.
 
 ## Local data and privacy
 

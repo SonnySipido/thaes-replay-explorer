@@ -7,6 +7,8 @@ const {ReplayAnnotations,hashReplay}=require('./annotations.cjs');
 let annotations;
 const annotatedSummary=entry=>{const row=summary(entry);return {...row,annotation:annotations?.get(row.contentHash)||{favorite:false,notes:''}};};
 const {importReplay}=require('./replay-import.cjs');
+const {replayFile,copyReplayFile}=require('./replay-share.cjs');
+const {renameReplay}=require('./replay-rename.cjs');
 let importQueue=Promise.resolve();
 const {normalizeReplayFolders,folderKey}=require('./replay-folders.cjs');
 const {ReplayDetails}=require('./replay-details.cjs');
@@ -52,7 +54,7 @@ function scheduleWindowSave(){
  rememberWindow();clearTimeout(windowSaveTimer);
  windowSaveTimer=setTimeout(()=>{try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}},250);windowSaveTimer.unref();
 }
-let replayFolders=[],indexGeneration=0;
+let replayFolders=[],replayDirectories=[],indexGeneration=0;
 const DEFAULT_FOLDER='';
 let win,worker,folder=DEFAULT_FOLDER,includeSubfolders=true,entries=new Map(),progress={done:0,total:0},busy=false,configFile,cache,details,suggestedFolder,welcomeFolder;
 function syncPrimaryFolder(){folder=replayFolders[0]?.path||'';includeSubfolders=replayFolders[0]?.includeSubfolders!==false;}
@@ -69,9 +71,9 @@ async function index(reset=false,background=false) {
   const generation=++indexGeneration;busy=true;
   if(worker){const previous=worker;worker=null;await previous.terminate();}
   if(generation!==indexGeneration)return;
-  if(reset){entries.clear();details?.clear();}
+  if(reset){replayDirectories=[];entries.clear();details?.clear();}
   busy=true;
-  if(reset)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[]});
+  if(reset)send('library-reset',{folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[]});
   let found=false;
   const known=Object.fromEntries([...entries].filter(([,e])=>!e.error).map(([k,e])=>[k,e.fingerprint]));
   const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{replayFolders,cache,known}});
@@ -79,13 +81,15 @@ async function index(reset=false,background=false) {
   active.on('message',msg=>{
     if(worker!==active)return;
     if(msg.type==='entry'){found=true;details?.invalidate(msg.entry.key);entries.set(msg.entry.key,msg.entry);send('library-entry',annotatedSummary(msg.entry));}
+    if(msg.type==='entries'){found=true;for(const entry of msg.entries){details?.invalidate(entry.key);entries.set(entry.key,entry);}send('library-entries',msg.entries.map(annotatedSummary));}
     if(msg.type==='progress'){progress={...msg.progress,busy:true};if(!background||found)send('progress',progress);}
     if(msg.type==='error'){busy=false;progress={...progress,busy:false,error:msg.error};send('progress',progress);}
     if(msg.type==='done'){
+      replayDirectories=msg.result.directories||[];
       const present=new Set(msg.result.files);let removed=false;
       for(const [key,entry] of entries)if(!present.has(entry.file)){entries.delete(key);details?.invalidate(key);removed=true;}
       busy=false;progress={...msg.result,files:undefined,busy:false};
-      if(reset||removed)send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary)});
+      if(reset||removed)send('library-reset',{folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[...entries.values()].map(annotatedSummary)});
       send('progress',progress);
     }
   });
@@ -133,7 +137,7 @@ function registerIPC(){
   });
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
-  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
+  ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[...entries.values()].map(annotatedSummary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
   // first start: use the replay folder the welcome question offered
   ipcMain.handle('use-welcome-folder',()=>{
     if(folder||!welcomeFolder)return;
@@ -158,6 +162,10 @@ function registerIPC(){
   ipcMain.handle('import-replays',(_,files)=>{
     const task=async()=>{
       if(!Array.isArray(files)||!files.length||files.some(file=>typeof file!=='string'||!path.isAbsolute(file)||path.extname(file).toLowerCase()!=='.w3g'))throw Error('Drop Warcraft III replay (.w3g) files.');
+      // Dropping our own library files back into the app is not an import.
+      // Avoid copying from a secondary root, reindexing or selecting later.
+      const knownFiles=new Set([...entries.values()].map(entry=>path.resolve(entry.file).toLowerCase()));
+      if(files.every(file=>knownFiles.has(path.resolve(file).toLowerCase())))return {alreadyInLibrary:true};
       if(!replayFolders.length)await chooseReplayFolder();
       if(!replayFolders.length)return null;
       const location=replayFolders[0],wasEnabled=location.enabled,results=[];
@@ -183,7 +191,7 @@ function registerIPC(){
     const pick=await dialog.showOpenDialog(win,{title:'Import favorites and notes',properties:['openFile'],filters:[{name:'Annotations',extensions:['json']}]});if(pick.canceled||!pick.filePaths[0])return null;
     const file=pick.filePaths[0];if((await fs.stat(file)).size>16*1024*1024)throw Error('Annotation backup is too large.');
     const count=await annotations.import(JSON.parse((await fs.readFile(file,'utf8')).replace(/^\uFEFF/,'')));
-    send('library-reset',{folder,includeSubfolders,replayFolders,rows:[...entries.values()].map(annotatedSummary)});return count;
+    send('library-reset',{folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[...entries.values()].map(annotatedSummary)});return count;
   });
   ipcMain.handle('choose-folder',chooseReplayFolder);
   ipcMain.handle('add-replay-folder',async()=>{
@@ -230,6 +238,17 @@ function registerIPC(){
     const error=await shell.openPath(path.resolve(folder));
     if(error)throw new Error(error);
   });
+  ipcMain.handle('open-replay-folder',async(_,requested)=>{
+    if(typeof requested!=='string'||!path.isAbsolute(requested))throw new Error('Invalid replay folder.');
+    const target=path.resolve(requested);
+    const allowed=replayFolders.some(location=>{
+      const relative=path.relative(location.path,target);
+      return relative===''||(location.enabled!==false&&location.includeSubfolders!==false&&!path.isAbsolute(relative)&&relative!=='..'&&!relative.startsWith('..'+path.sep));
+    });
+    if(!allowed)throw new Error('Folder is no longer in the replay library.');
+    if(!(await fs.stat(target)).isDirectory())throw new Error('Replay folder no longer exists.');
+    const error=await shell.openPath(target);if(error)throw new Error(error);
+  });
   ipcMain.handle('play-replay',async(_,key,requireMap=false)=>{
     const entry=entries.get(key);if(!entry)throw new Error('Replay is no longer in the library.');
     if(path.extname(entry.file).toLowerCase()!=='.w3g')throw new Error('Not a Warcraft replay.');
@@ -248,6 +267,27 @@ function registerIPC(){
   ipcMain.handle('reveal-replay',async(_,key)=>{
     const entry=entries.get(key);if(!entry)throw new Error('Replay is no longer in the library.');
     await fs.access(entry.file);shell.showItemInFolder(path.resolve(entry.file));
+  });
+  ipcMain.handle('copy-replay-file',(_,key)=>copyReplayFile(replayFile(entries,key)));
+  let renameQueue=Promise.resolve();
+  ipcMain.handle('rename-replay',(_,key,name)=>{
+    const task=async()=>{
+      const old=entries.get(key);if(!old)throw Error('Replay is no longer in the library.');
+      ++indexGeneration;const previous=worker;worker=null;busy=true;if(previous)await previous.terminate();
+      try{
+        const file=await renameReplay(replayFile(entries,key),name),newKey=replayKey(file),next={...old,key:newKey,file,name:path.basename(file)};
+        // Carry the parsed cache across the path change, so the open match remains usable.
+        if(newKey!==key){
+          try{const saved=JSON.parse(await fs.readFile(path.join(cache,key+'.json'),'utf8'));saved.key=newKey;saved.file=file;await fs.writeFile(path.join(cache,newKey+'.json'),JSON.stringify(saved));}catch{}
+        }
+        entries.delete(key);entries.set(newKey,next);details.invalidate(key);details.invalidate(newKey);
+        const row=annotatedSummary(next);send('replay-renamed',{oldKey:key,row});return row;
+      }finally{busy=false;index(false,true).catch(error=>send('progress',{busy:false,error:error.message}));}
+    };
+    const job=renameQueue.then(task);renameQueue=job.catch(()=>{});return job;
+  });
+  ipcMain.handle('drag-replay-file',(event,key)=>{
+    event.sender.startDrag({file:replayFile(entries,key),icon:path.join(__dirname,'ui','artwork','replay.png')});
   });
   ipcMain.handle('export',async(_,key)=>{
     const row=entries.get(key);if(!row)return;const entry=await details.get(row);if(!entry.data)return;

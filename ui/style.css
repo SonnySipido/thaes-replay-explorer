@@ -562,3 +562,25 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 
 .replay-notes.has-notes>summary,.replay-notes.has-notes>summary::marker{color:var(--gold)}
 .replay-notes #notes-status{color:var(--muted)}
+
+/* Classic explorer view mirrors configured replay folders with nested disclosures. */
+.classic-folder{min-width:0;margin:2px 0}
+.classic-folder-heading{cursor:pointer;user-select:none;-webkit-user-select:none;padding:8px 6px;color:var(--text,#e9e5db);font-weight:600;border-radius:4px;overflow-wrap:anywhere}
+.classic-folder-heading:hover{background:rgba(255,255,255,.06)}
+.classic-folder-heading:focus-visible{outline:2px solid #cba65e;outline-offset:-2px}
+.classic-folder-heading>span:before{content:'📁';margin-right:7px}
+.classic-folder[open]>.classic-folder-heading>span:before{content:'📂'}
+.classic-folder-contents{margin-left:14px;padding-left:6px;border-left:1px solid rgba(255,255,255,.13)}
+.classic-show-more{margin:6px;font-size:12px}
+
+/* Keep selection geometry stable; keyboard outlines stay inside the scroll area. */
+.replay-row,.replay-row.compact-replay-row{border-left-width:3px;padding-left:8px}
+.replay-row:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+.replay-row.active:focus-visible{outline:none}
+
+/* Native replay sharing beside the selected filename. */
+.replay-row[draggable=true]{user-select:none}.replay-row[draggable=true] img{pointer-events:none;-webkit-user-drag:none}
+#copy-replay-file{display:inline-flex;align-items:center;justify-content:center;min-width:28px;min-height:26px}
+#filename[draggable=true]{cursor:grab;user-select:none}#filename[draggable=true]:active{cursor:grabbing}#filename img{pointer-events:none}#copy-replay-file{flex:none;font-size:11px;padding:3px 8px}.replay-share-status{font-size:11px;color:var(--muted);margin:5px 0 0}.replay-share-status:empty{display:none}
+
+#rename-replay{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:28px;min-height:26px;padding:3px 8px}#rename-dialog{color:var(--text);background:#14202d;border:1px solid #556578;border-radius:12px;padding:24px;width:min(460px,90vw)}#rename-dialog::backdrop{background:#050910b0}.rename-input-row{display:flex;gap:8px;align-items:center;margin:10px 0}.rename-input-row input{width:100%;min-width:0}.rename-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}

@@ -2,7 +2,7 @@
 const source=fs.readFileSync(require('node:path').join(__dirname,'../ui/app.js'),'utf8');
 const fn=source.slice(source.indexOf('function buildingsAndUpgrades('),source.indexOf('function items('));
 function render(order){
- const ctx={name:id=>id,esc:String,objectIcon:id=>'<i>'+id+'</i>',time:String,table:(headers,body)=>body,pagedTable:()=>{}};
+ const ctx={replayBuildOrder:require('../ui/build-order.js'),buildOrderOptions:()=>({hideSuspectedDuplicates:true}),name:id=>id,esc:String,objectIcon:id=>'<i>'+id+'</i>',time:String,table:(headers,body)=>body,pagedTable:()=>{}};
  vm.createContext(ctx);vm.runInContext(fn,ctx);
  const root={innerHTML:'',querySelector:()=>({})};
  ctx.buildingsAndUpgrades({buildings:{order},upgrades:{order:[]}},root);

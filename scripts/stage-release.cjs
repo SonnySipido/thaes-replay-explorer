@@ -8,7 +8,7 @@ for(const item of fs.readdirSync(runtime)){if(['electron.exe','resources','LICEN
 fs.copyFileSync(path.join(runtime,'electron.exe'),path.join(target,"Thae's Replay Explorer.exe"));
 fs.copyFileSync(path.join(runtime,'LICENSE'),path.join(target,'LICENSE.electron.txt'));
 const app=path.join(target,'resources/app');fs.mkdirSync(app,{recursive:true});
-for(const name of ['main.cjs','preload.cjs','parser.cjs','library.cjs','worker.cjs','map-files.cjs','replay-details.cjs','replay-folders.cjs','replay-import.cjs','annotations.cjs','window-state.cjs','player-profile.cjs','replay-start.cjs','winner.cjs','updater.cjs'])fs.copyFileSync(path.join(root,name),path.join(app,name));
+for(const name of ['main.cjs','preload.cjs','parser.cjs','library.cjs','worker.cjs','map-files.cjs','replay-details.cjs','replay-folders.cjs','replay-import.cjs','replay-share.cjs','replay-rename.cjs','annotations.cjs','window-state.cjs','player-profile.cjs','replay-start.cjs','winner.cjs','updater.cjs'])fs.copyFileSync(path.join(root,name),path.join(app,name));
 fs.cpSync(path.join(root,'ui'),path.join(app,'ui'),{recursive:true,filter:p=>!path.basename(p).startsWith('forsaken-kingdom')});
 const sources=path.join(app,'ui/artwork/SOURCES.json');const provenance=JSON.parse(fs.readFileSync(sources));provenance.files=provenance.files.filter(f=>!f.file.startsWith('forsaken-kingdom'));fs.writeFileSync(sources,JSON.stringify(provenance,null,2)+'\n');
 const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json')));

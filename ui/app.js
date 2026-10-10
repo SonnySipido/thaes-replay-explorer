@@ -45,9 +45,11 @@ document.addEventListener('drop',async event=>{
  if(files.some(file=>!/\.w3g$/i.test(file.name))){showError(new Error('Drop Warcraft III replay (.w3g) files.'));return;}
  if(importingReplay){showError(new Error('Please wait for the current replay import to finish.'));return;}
  importingReplay=true;$('status').textContent='Adding replay to the primary folder…';
+ const selectionAtDrop=request;
  try{
   const result=await window.replays.importReplays(files);
-  if(result){renderList();droppedReplayKey=result.key;openRequestedReplay(result.key);}
+  if(result?.alreadyInLibrary){$('status').textContent='Replay is already in your library.';}
+  else if(result&&request===selectionAtDrop){renderList();droppedReplayKey=result.key;openRequestedReplay(result.key);}
  }catch(error){showError(error);}finally{importingReplay=false;}
 });
 const annotationPending=new Map(),annotationJobs=new Set();
@@ -97,9 +99,11 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
  catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
 };
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
-$('compact-replays').onchange=()=>{localStorage.setItem('compact-replays',String($('compact-replays').checked));renderList();};
+$('compact-replays').onchange=()=>{restoredReplayReveal=selected;localStorage.setItem('compact-replays',String($('compact-replays').checked));renderList();};
 $('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
 $('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
+$('hide-build-duplicates').checked=buildOrderOptions().hideSuspectedDuplicates;
+$('hide-build-duplicates').onchange=event=>{localStorage.setItem('hide-build-duplicates',String(event.target.checked));if(entry?.data&&['Build Order','Heroes','Buildings'].includes(tab))renderPanel();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
 function deselectReplay(){
@@ -114,7 +118,18 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preve
 function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings-close').focus();}
 function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').focus();}
 $('settings-open').onclick=openSettings;$('settings-close').onclick=closeSettings;$('settings-backdrop').onclick=closeSettings;
-let listPage=0,listQuery='';const listPageSize=100;
+let listPage=0,listQuery='',filteredReplayList=[];const listPageSize=100;
+document.addEventListener('keydown',async event=>{
+ if(!['ArrowUp','ArrowDown'].includes(event.key)||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey)return;
+ if(event.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="textbox"],[role="combobox"]')||!$('settings').hidden||!$('ask-backdrop').hidden||!$('patch-menu').hidden)return;
+ const classic=$('compact-replays').checked;
+ const list=classic?replayTree.visibleReplays(replayTree.build(configuredReplayFolders,filteredReplayList,replayDirectories),expandedReplayFolders):filteredReplayList;
+ if(!list.length)return;
+ event.preventDefault();
+ const current=list.findIndex(row=>row.key===selected),direction=event.key==='ArrowDown'?1:-1;
+ const index=current<0?(classic?(direction>0?0:list.length-1):Math.min(listPage*listPageSize+(direction>0?0:listPageSize-1),list.length-1)):Math.max(0,Math.min(list.length-1,current+direction));
+ await selectReplay(list[index].key,false,true);
+});
 const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat','Build Order'];
 const savedAnalysisTab=localStorage.getItem('analysis-tab')||localStorage.getItem('replay-tab:'+pendingReplayRestore);
 if(tabs.includes(savedAnalysisTab))tab=savedAnalysisTab;
@@ -161,7 +176,10 @@ function matchupIcons(players,fallback='',analysis=false){
  const groups=teams.size?[...teams.entries()].sort((a,b)=>a[0]-b[0]).map(([,players])=>players):fallback.split('v').filter(Boolean).map(team=>[...team].map(race=>({race})));
  return '<span class="matchup-icons">'+groups.map(group=>'<span class="race-team">'+group.map(p=>playerRaceIcon(p,analysis)).join('')+'</span>').join('<span class="versus">VS</span>')+'</span>';
 }
-function replayDate(row){return replayFilters.timestamp(row);}
+const replayMetadata=new WeakMap();
+function metadata(row){let value=replayMetadata.get(row);if(!value){value={date:replayFilters.timestamp(row),map:mapDisplayName(row.map)};replayMetadata.set(row,value);}return value;}
+function replayDate(row){return metadata(row).date;}
+function replaySearchText(row){const value=metadata(row);return value.search??(value.search=[row.name,row.map,value.map,row.matchup,row.chatSearch,...row.players.map(p=>p.name)].join(' ').toLowerCase());}
 // where a game was played: the W3Champions or Battle.net icon, named on hover
 function sourceIcon(source,className){
  if(source==='w3c')return '<img class="'+className+'" src="artwork/w3champions.png" alt="W3Champions" title="Played on W3Champions">';
@@ -186,6 +204,7 @@ function mapPreview(file,className=''){
 // (a line may wrap after each backslash rather than inside a folder name)
 function folderLabel(value){$('folder-setting').innerHTML=value?esc(value).replace(/\\/g,'\\<wbr>'):'None chosen yet';}
 function status(p){
+  if(p.directories){replayDirectories=p.directories;scheduleList();}
   if(p.busy===false&&p.folderErrors){const error=$('folder-settings-error');error.textContent=p.folderErrors.map(e=>e.path+': '+e.message).join('\n');error.hidden=!p.folderErrors.length;}
   if(p.busy===false&&selected&&!rows.has(selected))deselectReplay();
   if(p.error){$('status').textContent=p.error;return;}
@@ -193,61 +212,117 @@ function status(p){
     ? 'Indexing '+(p.done||0)+' / '+(p.total||0)+' · '+(p.cached||0)+' cached'
     : (p.total||0)+' replays indexed';  // all of them; the count beside "Replays" is after the filters
 }
-function scheduleList(){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;renderList();},250);}
+let listPointerHeld=false,lastListInteraction=0;
+$('replay-list').addEventListener('pointerdown',()=>{listPointerHeld=true;lastListInteraction=performance.now();});
+window.addEventListener('pointerup',()=>{listPointerHeld=false;lastListInteraction=performance.now();});
+window.addEventListener('pointercancel',()=>{listPointerHeld=false;});window.addEventListener('blur',()=>{listPointerHeld=false;});
+function scheduleList(delay=250){if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;if(listPointerHeld||performance.now()-lastListInteraction<150){scheduleList(150);return;}renderList();},delay);}
+const detailedReplayCards=new Map();
+function reconcileReplayCards(container,cards){
+ let cursor=container.firstChild;
+ for(const card of cards){if(card===cursor){cursor=cursor.nextSibling;}else container.insertBefore(card,cursor);}
+ while(cursor){const next=cursor.nextSibling;cursor.remove();cursor=next;}
+}
 function replayPlayerNames(players){
  const teams=new Map();
  for(const player of players){const team=teamNumber(player);if(!teams.has(team))teams.set(team,[]);teams.get(team).push(player);}
  return [...teams.entries()].sort((a,b)=>a[0]-b[0]).map(([,team])=>'<span class="row-player-team">'+team.map(p=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join(' ')+'</span>').join('<span class="versus"> VS </span>');
 }
 function renderList(){
+ if(listPointerHeld){scheduleList(150);return;}
+ clearTimeout(renderTimer);renderTimer=null;
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
  const source=$('source').value;
  const query=JSON.stringify([term,filter,annotationFilterEnabled('only-notes'),annotationFilterEnabled('only-favorites'),$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
- let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!annotationFilterEnabled('only-favorites')||annotationFor(r).favorite)&&(!annotationFilterEnabled('only-notes')||annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
+ const favorites=annotationFilterEnabled('only-favorites'),notes=annotationFilterEnabled('only-notes');
+ let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!favorites&&!notes||favorites&&annotationFor(r).favorite||notes&&annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
  ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
- [r.name,r.map,mapDisplayName(r.map),r.matchup,annotationFor(r).notes,r.chatSearch,...r.players.map(p=>p.name)].join(' ').toLowerCase().includes(term));
+ (!term||replaySearchText(r).includes(term)||annotationFor(r).notes.toLowerCase().includes(term)));
  list.sort($('sort').value==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):$('sort').value==='map'?(a,b)=>mapDisplayName(a.map).localeCompare(mapDisplayName(b.map)):(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name));
  const copies=replayFilters.duplicateGroups(rows.values());
  const duplicateCount=[...copies.values()].reduce((total,group)=>total+group.length-1,0);
  $('duplicate-summary').textContent=duplicateCount+' duplicate '+(duplicateCount===1?'file':'files')+' across '+copies.size+' '+(copies.size===1?'replay':'replays')+'. Identical files appear once when hidden. No files are deleted.';
  if($('hide-duplicates').checked)list=replayFilters.uniqueReplays(list,[droppedReplayKey,selected,pendingReplayRestore]);
+ filteredReplayList=list;
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
  $('count').textContent=list.length;
  const pages=Math.max(1,Math.ceil(list.length/listPageSize));listPage=Math.min(listPage,pages-1);
- $('library-paging').hidden=pages===1;$('library-page').textContent=(listPage+1)+' / '+pages+' · Replays '+(list.length?listPage*listPageSize+1:0)+'–'+Math.min((listPage+1)*listPageSize,list.length);
+ $('library-paging').hidden=$('compact-replays').checked||pages===1;$('library-page').textContent=(listPage+1)+' / '+pages+' · Replays '+(list.length?listPage*listPageSize+1:0)+'–'+Math.min((listPage+1)*listPageSize,list.length);
  $('library-prev').disabled=listPage===0;$('library-next').disabled=listPage===pages-1;
  const fragment=document.createDocumentFragment();
  // the clock of the match header's game length, before each replay's duration
  const CLOCK_ICON='<svg class="duration-clock" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
- for(const r of list.slice(listPage*listPageSize,(listPage+1)*listPageSize)){
+ function replayCard(r){
+   const classic=$('compact-replays').checked,signature=annotationFor(r).notes+'|'+(copies.get(r.contentHash)?.length||0),cached=detailedReplayCards.get(r.key);
+   if(!classic&&cached?.row===r&&cached.signature===signature){const button=cached.card.querySelector('.replay-row');button.classList.toggle('active',r.key===selected);button.setAttribute('aria-pressed',String(r.key===selected));return cached.card;}
    const button=document.createElement('button');button.className='replay-row'+(r.players.length>4?' team-match':'')+(r.players.length>4?' large-match':'')+(r.key===selected?' active':'');button.dataset.key=r.key;
    button.setAttribute('aria-pressed',String(r.key===selected));
+   button.draggable=true;
+   if(classic)button.oncontextmenu=event=>{event.preventDefault();openReplayRename(r.key);};
+   button.ondragstart=event=>{
+    event.preventDefault();clearReplayDrop();listPointerHeld=false;
+    window.replays.dragReplayFile(r.key).catch(showError);
+   };
    const stamp=replayFilters.dateLabel(r);
    button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
-   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
+   button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Drag to share replay · Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
    const card=document.createElement('div');card.className='replay-card';const star=document.createElement('button');star.className='favorite-toggle';star.dataset.favoriteKey=r.key;star.onclick=event=>{event.stopPropagation();saveReplayAnnotation(r.key,{favorite:!annotationFor(r).favorite}).catch(()=>{});};star.ondblclick=event=>event.stopPropagation();
    if($('compact-replays').checked){
     card.classList.add('compact-replay-card');button.classList.add('compact-replay-row');
     button.innerHTML='<span class="compact-replay-name">'+esc(r.name)+'</span>'+(annotationFor(r).notes.trim()?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'');
-    button.title=r.name+'\n'+button.title;card.append(button,star);fragment.append(card);continue;
+    button.title=r.name+'\nRight-click or press F2 to rename\n'+button.title;card.append(button,star);return card;
    }
-   const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);const note=button.querySelector('.replay-note-indicator');if(note){card.classList.add('has-note');note.onclick=()=>selectReplay(r.key);actions.append(note);}actions.append(star,duration);card.append(button,actions);fragment.append(card);
+   const actions=document.createElement('span');actions.className='replay-card-actions';const duration=button.querySelector('.length');const spacer=duration.cloneNode(true);spacer.classList.add('duration-spacer');spacer.setAttribute('aria-hidden','true');duration.replaceWith(spacer);const note=button.querySelector('.replay-note-indicator');if(note){card.classList.add('has-note');note.onclick=()=>selectReplay(r.key);actions.append(note);}actions.append(star,duration);card.append(button,actions);detailedReplayCards.set(r.key,{row:r,signature,card});return card;
  }
- if(!list.length){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
- $('replay-list').replaceChildren(fragment);refreshFavoriteButtons();
+ const classic=$('compact-replays').checked,pageRows=list.slice(listPage*listPageSize,(listPage+1)*listPageSize);
+ if(classic)renderClassicTree(fragment,list,replayCard);
+ if(!list.length&&!$('compact-replays').checked){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
+ if(!classic&&list.length)reconcileReplayCards($('replay-list'),pageRows.map(replayCard));else $('replay-list').replaceChildren(fragment);
+ const visibleKeys=new Set(classic?[]:pageRows.map(r=>r.key));for(const key of detailedReplayCards.keys())if(!visibleKeys.has(key))detailedReplayCards.delete(key);
+ refreshFavoriteButtons();
  if(restoredReplayReveal===selected)$('replay-list').querySelector('.replay-row.active')?.scrollIntoView({block:'nearest'});
 }
-async function selectReplay(key,restoring=false){
+// Native disclosures provide keyboard-accessible, lazily rendered folder navigation.
+const expandedReplayFolders=new Set();
+try{for(const path of JSON.parse(localStorage.getItem('classic-expanded-folders')||'[]'))expandedReplayFolders.add(path);}catch{}
+function renderClassicTree(container,list,makeCard){
+ const tree=replayTree.build(configuredReplayFolders,list,replayDirectories);
+ const reveal=restoredReplayReveal===selected?rows.get(selected):null;
+ const revealPath=reveal?replayTree.key(reveal.file):'';
+ function appendFolder(parent,node,isRoot=false){
+  const id=replayTree.key(node.path),details=document.createElement('details'),summary=document.createElement('summary');
+  details.className='classic-folder';summary.className='classic-folder-heading';summary.title=node.path+'\nRight-click to open in File Explorer';
+  summary.oncontextmenu=event=>{event.preventDefault();event.stopPropagation();window.replays.openReplayFolder(node.path).catch(showError);};
+  const label=document.createElement('span');label.textContent=isRoot?node.path.replace(/\//g,'\\'):node.name;summary.append(label);details.append(summary);parent.append(details);
+  if(revealPath.startsWith(id+'/')||($('search').value.trim()||annotationFilterEnabled('only-favorites')||annotationFilterEnabled('only-notes'))&&node.count)expandedReplayFolders.add(id);
+  let loaded=false;
+  function load(){
+   if(loaded)return;loaded=true;if(!node.children.size&&!node.replays.length)return;
+   const contents=document.createElement('div');contents.className='classic-folder-contents';details.append(contents);
+   for(const child of replayTree.sortedChildren(node))appendFolder(contents,child);
+   let shown=0;const more=document.createElement('button');more.className='classic-show-more';
+   function batch(){const end=Math.min(node.replays.length,shown+100);for(;shown<end;shown++)contents.insertBefore(makeCard(node.replays[shown]),more);more.hidden=shown>=node.replays.length;more.textContent='Show more replays ('+(node.replays.length-shown)+' remaining)';refreshFavoriteButtons();}
+   contents.append(more);batch();more.onclick=batch;
+   if(reveal){const index=node.replays.findIndex(r=>r.key===reveal.key);while(shown<=index)batch();}
+  }
+  details.open=expandedReplayFolders.has(id);if(details.open)load();
+  details.ontoggle=()=>{if(!details.isConnected)return;if(details.open){expandedReplayFolders.add(id);load();}else expandedReplayFolders.delete(id);localStorage.setItem('classic-expanded-folders',JSON.stringify([...expandedReplayFolders]));};
+ }
+ for(const node of tree)appendFolder(container,node,true);
+}
+async function selectReplay(key,restoring=false,keyboard=false){
  const token=++request,start=performance.now();
- if(!restoring&&selected&&selected!==key){try{await window.flushReplayNotes();}catch{return;}}
+ if(!restoring&&selected&&selected!==key&&(annotationPending.size||annotationJobs.size)){try{await window.flushReplayNotes();}catch{return;}}
  pendingReplayRestore=null;if(!restoring)restoredReplayReveal=null;
  if(token!==request)return;selected=key;
  localStorage.setItem('selected-replay',key);
  document.querySelectorAll('.replay-row.active').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
- const selectedButton=[...document.querySelectorAll('.replay-row')].find(b=>b.dataset.key===key);
+ let selectedButton=[...document.querySelectorAll('.replay-row')].find(b=>b.dataset.key===key);
+ if(keyboard&&!selectedButton){restoredReplayReveal=key;renderList();restoredReplayReveal=null;selectedButton=$('replay-list').querySelector('.replay-row.active');}
  if(selectedButton){selectedButton.classList.add('active');selectedButton.setAttribute('aria-pressed','true');}
+ if(selectedButton&&(keyboard||document.activeElement?.classList.contains('replay-row'))){selectedButton.focus({preventScroll:true});selectedButton.scrollIntoView({block:'nearest'});}
  try{
   const next=await window.replays.get(key);if(token!==request)return;
   entry=next;playerId=next.data?.players[0]?.id;
@@ -279,6 +354,18 @@ function showMatch(elapsed){
  $('filename-text').textContent=entry.file.split(/[\\/]/).pop();
  $('duration').textContent=time(r.duration);$('matchup').innerHTML=matchupIcons(r.players,r.matchup,true);
  $('filename').onclick=()=>window.replays.reveal(selected).catch(showError);
+ const shareKey=selected,copyReplay=$('copy-replay-file'),shareStatus=$('replay-share-status');
+ $('rename-replay').onclick=()=>openReplayRename(shareKey);
+ $('filename').ondragstart=event=>{
+  event.preventDefault();clearReplayDrop();
+  window.replays.dragReplayFile(shareKey).catch(error=>{if(selected===shareKey)shareStatus.textContent=error.message;showError(error);});
+ };
+ copyReplay.onclick=async()=>{
+  copyReplay.disabled=true;shareStatus.textContent='Copying replay…';
+  try{await window.replays.copyReplayFile(shareKey);shareStatus.textContent='Replay copied — paste into Discord with Ctrl+V.';}
+  catch(error){shareStatus.textContent=error.message;showError(error);}
+  finally{copyReplay.disabled=false;}
+ };
 
  $('show-winner').checked=showWinner;
  $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers();};
@@ -366,7 +453,7 @@ function objectIcon(id,preferred){
 
 function heroes(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const units=Object.entries(p.units.summary).sort((a,b)=>b[1]-a[1]);
+ const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort((a,b)=>b[1]-a[1]);
  $('panel').innerHTML=
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
@@ -382,22 +469,7 @@ function heroes(p,root){
 function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- // Collapse likely repeated clicks only for buildings normally constructed singly.
- // Compare with the retained order so a chain of clicks cannot hide later builds indefinitely.
- const repeatClickBuildings=new Set([
-  'halt','oalt','eate','uaod', // Altars.
-  'hbla','hlum','ofor','edob','ugrv','usap', // Research and technology buildings.
-  'hvlt','ovln','eden','utom', // Shops.
-  'htow','hkee','hcas','ogre','ostr','ofrt','etol','etoa','etoe','unpl','unp1','unp2','ugol'
- ]);
- const lastRetained=new Map();
- const buildings=[...p.buildings.order].sort((a,b)=>a.ms-b.ms).filter(order=>{
-  if(!repeatClickBuildings.has(order.id))return true;
-  const previous=lastRetained.get(order.id);
-  if(previous!==undefined&&order.ms-previous<=3000)return false;
-  lastRetained.set(order.id,order.ms);
-  return true;
- });
+ const analysis=replayBuildOrder.analysis(p,buildOrderOptions()),buildings=analysis.buildings;
  const fastExpandBuildings=new Set(['htow','ogre','etol','unpl','ugol']);
  const firstTier2=buildings.find(order=>tiers[order.id]==='T2')?.ms??Infinity;
  const isFastExpand=order=>fastExpandBuildings.has(order.id)&&order.ms>=0&&order.ms<360000&&order.ms<firstTier2;
@@ -406,7 +478,7 @@ function buildingsAndUpgrades(p,root){
  table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+'<span class="building-name" title="'+esc(name(order.id))+'">'+esc(name(order.id))+'</span>'+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
- pagedTable($('research-starts'),['Upgrade','Started'],p.upgrades.order,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
+ pagedTable($('research-starts'),['Upgrade','Started'],analysis.upgrades,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
 }
 function items(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
@@ -508,15 +580,16 @@ $('reforged-icons').onchange=()=>{
  localStorage.setItem('reforged-icons',String(reforgedIcons));
  document.querySelectorAll('img[data-icon-id]').forEach(img=>{img.src=iconSource(img.dataset.iconId,img.dataset.iconKind);});
 };
-let configuredReplayFolders=[];
+let configuredReplayFolders=[],replayDirectories=[];
 function renderReplayFolders(){
  const list=$('replay-folders-list');
- list.innerHTML=configuredReplayFolders.map((location,index)=>'<div class="replay-folder-card'+(location.enabled?'':' folder-disabled')+'"><div class="replay-folder-title"><span class="replay-folder-path" title="'+esc(location.path)+'">'+esc(location.path)+'</span>'+(index===0?'<span class="primary-folder-label">Primary</span>':'')+'</div><div class="replay-folder-actions"><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="enabled" aria-label="Enable '+esc(location.path)+'" '+(location.enabled?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Enabled</span></label><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="includeSubfolders" aria-label="Include subfolders in '+esc(location.path)+'" '+(location.includeSubfolders?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Subfolders</span></label><button type="button" data-remove-folder="'+index+'" aria-label="Remove '+esc(location.path)+' from the library">Remove</button></div></div>').join('')||'<p class="settings-note">No replay folders. Add a folder to start indexing.</p>';
+ list.innerHTML=configuredReplayFolders.map((location,index)=>'<div class="replay-folder-card'+(location.enabled?'':' folder-disabled')+'"><div class="replay-folder-title"><button type="button" class="folder-path replay-folder-path" data-open-folder="'+index+'" title="Open this folder in File Explorer">'+esc(location.path)+'</button>'+(index===0?'<span class="primary-folder-label">Primary</span>':'')+'</div><div class="replay-folder-actions"><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="enabled" aria-label="Enable '+esc(location.path)+'" '+(location.enabled?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Enabled</span></label><label class="switch-toggle"><input type="checkbox" role="switch" data-folder="'+index+'" data-setting="includeSubfolders" aria-label="Include subfolders in '+esc(location.path)+'" '+(location.includeSubfolders?'checked':'')+'><span class="switch-track" aria-hidden="true"></span><span>Subfolders</span></label><button type="button" data-remove-folder="'+index+'" aria-label="Remove '+esc(location.path)+' from the library">Remove</button></div></div>').join('')||'<p class="settings-note">No replay folders. Add a folder to start indexing.</p>';
 }
 function applyFolderSettings(data){
+ if(data.directories)replayDirectories=data.directories;
  configuredReplayFolders=data.replayFolders|| (data.folder?[{path:data.folder,enabled:true,includeSubfolders:data.includeSubfolders!==false}]:[]);
  folderLabel(data.folder);$('include-subfolders').checked=data.includeSubfolders!==false;$('include-subfolders').disabled=!configuredReplayFolders.length;
- renderReplayFolders();
+ renderReplayFolders();scheduleList();
 }
 async function changeReplayFolders(action){
  const error=$('folder-settings-error');error.hidden=true;
@@ -532,6 +605,8 @@ $('replay-folders-list').onchange=event=>{
  changeReplayFolders(()=>window.replays.updateReplayFolder(location.path,{[control.dataset.setting]:control.checked}));
 };
 $('replay-folders-list').onclick=event=>{
+ const open=event.target.closest('[data-open-folder]');
+ if(open){const location=configuredReplayFolders[Number(open.dataset.openFolder)];if(location)window.replays.openReplayFolder(location.path).catch(showError);return;}
  const button=event.target.closest('[data-remove-folder]');if(!button)return;
  const location=configuredReplayFolders[Number(button.dataset.removeFolder)];
  if(location)changeReplayFolders(()=>window.replays.removeReplayFolder(location.path));
@@ -606,8 +681,16 @@ $('search').oninput=()=>{
  localStorage.setItem('library-search',$('search').value);
  scheduleList();
 };
+window.replays.on('replay-renamed',({oldKey,row})=>{
+ rows.delete(oldKey);rows.set(row.key,row);detailedReplayCards.delete(oldKey);
+ if(droppedReplayKey===oldKey)droppedReplayKey=row.key;
+ if(pendingReplayRestore===oldKey)pendingReplayRestore=row.key;
+ if(selected===oldKey){++request;selected=row.key;localStorage.setItem('selected-replay',row.key);if(entry){entry={...entry,key:row.key,file:row.file};if(entry.data)showMatch(0);}}
+ restoredReplayReveal=selected;renderList();restoredReplayReveal=null;
+});
 window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));applyFolderSettings(data);renderList();restoreSelectedReplay();});
 window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
+window.replays.on('library-entries',batch=>{for(const row of batch)rows.set(row.key,row);scheduleList(750);restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
 window.replays.on('select-replay',openRequestedReplay);
 // Check for updates: asks GitHub when pressed (and at startup when that is switched on); a newer version
@@ -692,39 +775,66 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 
 
 
+function buildOrderOptions(){return {hideSuspectedDuplicates:localStorage.getItem('hide-build-duplicates')!=='false'};}
 function buildOrder(player,root){
- const orders=replayBuildOrder.orders(player);
+ const orders=replayBuildOrder.orders(player,buildOrderOptions());
  root.innerHTML='<div class="build-order-toolbar"><button data-build-export="text">Save to text</button><button data-build-export="image">Export to image</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
  bindBuildOrderExports(root,player);
+ root.querySelectorAll('.build-order-name').forEach((label,index)=>{const order=orders[index];if(order.suspectedDuplicates){label.title+=' — Suspected repeated clicks; may include valid queued units. Turn off the filter to see each command.';}});
 }
 function bindBuildOrderExports(toolbar,player){
  const key=selected,data={...entry.data,players:[player]},map=mapDisplayName(data.map.file),filename=map+' - '+player.name+' - Build order';
  for(const format of ['text','image'])toolbar.querySelector('[data-build-export="'+format+'"]').onclick=async event=>{
   const button=event.currentTarget;button.disabled=true;const label=button.textContent;
-  try{const contents=format==='text'?replayBuildOrder.text(data,map):await buildOrderImage(data,map);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents,filename))button.textContent='Saved';}
+  try{const options=buildOrderOptions(),contents=format==='text'?replayBuildOrder.text(data,map,options):await buildOrderImage(data,map,options);if(await window.replays.exportBuildOrder(key,format==='text'?'txt':'png',contents,filename))button.textContent='Saved';}
   catch(error){showError(error);}finally{button.disabled=false;setTimeout(()=>{button.textContent=label;},1800);}
  };
 }
-async function buildOrderImage(data,map){
+async function buildOrderImage(data,map,options=buildOrderOptions()){
  const teams=new Map();for(const p of replayBuildOrder.playersByTeam(data.players)){const id=p.teamid??p.team??0;if(!teams.has(id))teams.set(id,[]);teams.get(id).push(p);}
  const groups=[...teams.values()],columns=Math.min(2,Math.max(1,groups.length)),columnWidth=570,margin=26,rowHeight=26,blocks=[];let y=100;
  for(let pair=0;pair<groups.length;pair+=2){
   const left=groups[pair],right=groups[pair+1]||[];
   for(let i=0;i<Math.max(left.length,right.length);i++){
    let height=0;
-   for(const [column,p] of [left[i],right[i]].entries()){if(!p)continue;const orders=replayBuildOrder.orders(p);blocks.push({p,orders,x:margin+column*columnWidth,y});height=Math.max(height,48+Math.max(1,orders.length)*rowHeight);}
+   for(const [column,p] of [left[i],right[i]].entries()){if(!p)continue;const orders=replayBuildOrder.orders(p,options);blocks.push({p,orders,x:margin+column*columnWidth,y});height=Math.max(height,48+Math.max(1,orders.length)*rowHeight);}
    y+=height+22;
   }
  }
  const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='bold 24px Segoe UI';ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px Segoe UI';ctx.fillText(map,margin,66);
+ ctx.fillStyle='#95a5b9';ctx.font='12px Segoe UI';ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders',margin,86);
  const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+o.id,o]))).values()].map(async o=>{const src=iconSource(o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+o.id,img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
   ctx.fillStyle='#e3bc70';ctx.font='bold 17px Segoe UI';ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px Segoe UI';
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
-  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit(data.names[o.id]||o.id,columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px Segoe UI';}});
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit((data.names[o.id]||o.id),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px Segoe UI';ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px Segoe UI';}});
  }
  return canvas.toDataURL('image/png');
 }
+
+let renamingReplayKey=null,renameSaving=false,renameFocus=null;
+function openReplayRename(key){
+ const row=rows.get(key);if(!row||$('rename-dialog').open)return;
+ renamingReplayKey=key;renameFocus=document.activeElement;
+ $('rename-name').value=row.file.split(/[\\/]/).pop().replace(/\.w3g$/i,'');
+ $('rename-error').hidden=true;$('rename-save').disabled=false;
+ $('rename-dialog').showModal();$('rename-name').focus();$('rename-name').select();
+}
+$('rename-cancel').onclick=()=>{if(!renameSaving)$('rename-dialog').close();};
+$('rename-dialog').addEventListener('cancel',event=>{if(renameSaving)event.preventDefault();});
+$('rename-dialog').addEventListener('close',()=>{renamingReplayKey=null;if(renameFocus?.isConnected)renameFocus.focus();else $('replay-list').querySelector('.replay-row.active')?.focus();});
+$('rename-form').onsubmit=async event=>{
+ event.preventDefault();if(renameSaving)return;renameSaving=true;$('rename-save').disabled=true;$('rename-error').hidden=true;
+ try{await window.flushReplayNotes();await window.replays.renameReplay(renamingReplayKey,$('rename-name').value);$('rename-dialog').close();}
+ catch(error){$('rename-error').textContent=error.message;$('rename-error').hidden=false;}
+ finally{renameSaving=false;$('rename-save').disabled=false;}
+};
+document.addEventListener('keydown',event=>{
+ if($('rename-dialog').open){event.stopImmediatePropagation();if(event.key==='Escape'){event.preventDefault();if(!renameSaving)$('rename-dialog').close();}return;}
+ if(event.key!=='F2'||event.target.closest('input,textarea,select')||!$('settings').hidden||!$('ask-backdrop').hidden)return;
+ const row=event.target.closest('.replay-row'),key=row?.dataset.key||selected;
+ if(key){event.preventDefault();openReplayRename(key);}
+},true);

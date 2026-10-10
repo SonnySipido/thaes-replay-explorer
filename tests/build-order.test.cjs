@@ -4,9 +4,32 @@ test('build orders combine units, heroes and buildings chronologically within fi
  const player={heroes:[{id:'Obla'}],units:{order:[{id:'ogru',ms:110000},{id:'opeo',ms:0},{id:'Obla',ms:50000},{id:'ogru',ms:300001}]},heroOrders:[{id:'Obla',ms:50000},{id:'Nbst',ms:290000}],buildings:{order:[{id:'oalt',ms:10000},{id:'obar',ms:300000}]},upgrades:{order:[{id:'upgrade',ms:10}]},cancellations:[{id:'opeo',ms:20}]};
  const rows=build.orders(player);assert.deepEqual(rows.map(r=>r.ms),[0,10,10000,50000,110000,290000,300000]);assert.equal(rows.filter(r=>r.id==='Obla').length,1);assert.equal(rows.find(r=>r.id==='Nbst').kind,'heroes');assert.equal(rows.find(r=>r.id==='ogru').kind,'units');
 });
-test('build orders suppress rapid singleton building clicks but retain repeated production and training',()=>{
+test('default view groups suspected training and singleton repeats; raw view preserves commands',()=>{
  const p={units:{order:[{id:'opeo',ms:0},{id:'opeo',ms:0}]},buildings:{order:[{id:'oalt',ms:1000},{id:'oalt',ms:2000},{id:'oalt',ms:5000},{id:'obar',ms:6000},{id:'obar',ms:6500}]}};
- assert.equal(build.orders(p).length,6);assert.equal(build.orders(p).filter(r=>r.id==='oalt').length,2);
+ assert.equal(build.orders(p).length,5);assert.equal(build.orders(p).filter(r=>r.id==='oalt').length,2);assert.equal(build.orders(p,{hideSuspectedDuplicates:false}).length,7);
+});
+
+test('unit bursts are anchored, preserve intervening orders and distinct sources, and do not mutate raw data',()=>{
+ const p={units:{order:[{id:'opeo',ms:0},{id:'opeo',ms:100},{id:'opeo',ms:250},{id:'opeo',ms:251},{id:'ogru',ms:260},{id:'opeo',ms:270},{id:'opeo',ms:280,source:'other'}]}};
+ const before=JSON.stringify(p),clean=build.orders(p);assert.equal(clean.length,5);assert.equal(clean[0].suspectedDuplicates,2);assert.equal(clean[1].ms,251);assert.equal(JSON.stringify(p),before);assert.equal(build.orders(p,{hideSuspectedDuplicates:false}).length,7);
+});
+
+test('raw view restores heuristic hero repeats but not duplicate parser representations',()=>{
+ const p={heroes:[{id:'Hamg'}],units:{order:[{id:'Hamg',ms:1000}]},heroOrders:[{id:'Hamg',ms:1000},{id:'Hamg',ms:1050}]};
+ assert.equal(build.orders(p).length,1);assert.equal(build.orders(p,{hideSuspectedDuplicates:false}).length,2);
+});
+
+test('text exports honor the toggle without grouped command labels',()=>{
+ const data={names:{opeo:'Peon'},players:[{name:'Player',units:{order:[{id:'opeo',ms:1000},{id:'opeo',ms:1100}]}}]};
+ const clean=build.text(data,'Map'),raw=build.text(data,'Map',{hideSuspectedDuplicates:false});assert.ok(!clean.includes('commands grouped'));assert.equal((clean.match(/00:01  Peon/g)||[]).length,1);assert.equal((raw.match(/00:01  Peon/g)||[]).length,2);assert.ok(raw.includes('Raw recorded orders'));
+});
+
+test('match analysis shares the filter for full-match units, buildings and upgrades, and restores raw counts',()=>{
+ const p={units:{summary:{opeo:4},order:[{id:'opeo',ms:1000},{id:'opeo',ms:1100},{id:'opeo',ms:600000},{id:'opeo',ms:600100}]},buildings:{order:[{id:'oalt',ms:620000},{id:'oalt',ms:620500}]},upgrades:{order:[{id:'Rost',ms:650000},{id:'Rost',ms:650100}]}};
+ const before=JSON.stringify(p),clean=build.analysis(p),raw=build.analysis(p,{hideSuspectedDuplicates:false});
+ assert.equal(clean.units.opeo,2);assert.equal(clean.buildings.length,1);assert.equal(clean.upgrades.length,1);
+ assert.equal(raw.units.opeo,4);assert.equal(raw.buildings.length,2);assert.equal(raw.upgrades.length,2);
+ assert.equal(build.orders(p).length,1);assert.equal(JSON.stringify(p),before);
 });
 test('exports contain every player in team order, padded timestamps, and readable object names',()=>{
  const data={names:{opeo:'Peon'},players:[{name:'Right',teamid:1,units:{order:[{id:'opeo',ms:65000}]}},{name:'Left',teamid:0,units:{order:[{id:'opeo',ms:42000}]}}]};const text=build.text(data,'Echo Isles');assert.ok(text.includes('00:42  Peon'));assert.ok(text.includes('01:05  Peon'));assert.ok(text.indexOf('Left')<text.indexOf('Right'));assert.ok(text.includes('Echo Isles'));assert.equal(build.orders({}).length,0);

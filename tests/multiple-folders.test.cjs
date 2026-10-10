@@ -16,8 +16,10 @@ test('multiple locations deduplicate overlap, respect independent flags and isol
  for(const file of [path.join(a,'one.w3g'),path.join(nested,'two.W3G'),path.join(b,'three.w3g'),path.join(b,'ignore.txt')])await fs.writeFile(file,'');
  const loc=(p,sub=true,enabled=true)=>({path:p,includeSubfolders:sub,enabled});
  let result=await scanFolders([loc(a),loc(nested),loc(b),loc(path.join(root,'missing'))]);
+ assert.ok(result.directories.includes(nested));
  assert.equal(result.files.length,3);assert.equal(result.folderErrors.length,1);
  result=await scanFolders([loc(a,false),loc(b,false)]);assert.equal(result.files.length,2);assert.ok(!result.files.includes(path.join(nested,'two.W3G')));
+ assert.ok(!result.directories.includes(nested));
  result=await scanFolders([loc(a,false),loc(nested),loc(b,true,false)]);assert.equal(result.files.length,2);
  result=await scanFolders([loc(a,true,false),loc(b,true,false)]);assert.equal(result.files.length,0);
  const indexed=[];const summary=await indexFolder([loc(a),loc(nested),loc(b)],path.join(root,'cache'),entry=>indexed.push(entry),()=>{}, {},true,true);

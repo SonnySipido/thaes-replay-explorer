@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.0
+
+- Classic explorer view replaces the compact list: browse separate configured roots, expand nested folders, and right-click folders to open File Explorer. Empty folders stay compact.
+- Up/Down arrows select replays in both list views, including across pages and lazy-loaded rows.
+- Rename replay files from the Match Analysis pencil, Classic-view right-click, or F2. The extension, favorites and notes are preserved; filename conflicts do not overwrite files.
+- Copy replay files to the Windows clipboard or drag them from either list view or the match-header filename into Discord and other apps that accept files.
+- Dropping an existing library file back into the app does nothing; delayed imports no longer override a newer selection.
+- Hide suspected duplicate orders is enabled by default in Settings and applies to build orders plus unit, building and upgrade analysis. Raw orders remain available by disabling it.
+- Favorites and Notes filters together include matches satisfying either filter. Advanced replay-folder paths are clickable.
+- Batched indexing and reused replay cards keep the library more responsive while new replays arrive. Fixed the old selection border when navigating with arrow keys.
+- Refreshed website features and guides for opening, organizing, renaming and sharing Warcraft III replays.
+
 ## 0.6.0
 
 - Control groups show all identified unit, hero and building types assigned throughout the match, rather than only the final membership.

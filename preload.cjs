@@ -16,17 +16,21 @@ contextBridge.exposeInMainWorld('replays',{
  useWelcomeFolder:()=>ipcRenderer.invoke('use-welcome-folder'),
  refresh:()=>ipcRenderer.invoke('refresh'),
  openFolder:()=>ipcRenderer.invoke('open-folder'),
+ openReplayFolder:folder=>ipcRenderer.invoke('open-replay-folder',folder),
  mapAvailable:key=>ipcRenderer.invoke('map-available',key),
  play:(key,requireMap=false)=>ipcRenderer.invoke('play-replay',key,requireMap),
  revealMap:key=>ipcRenderer.invoke('reveal-map',key),
  reveal:key=>ipcRenderer.invoke('reveal-replay',key),
+ copyReplayFile:key=>ipcRenderer.invoke('copy-replay-file',key),
+ renameReplay:(key,name)=>ipcRenderer.invoke('rename-replay',key,name),
+ dragReplayFile:key=>ipcRenderer.invoke('drag-replay-file',key),
  checkUpdate:()=>ipcRenderer.invoke('update-check'),
  installUpdate:()=>ipcRenderer.invoke('update-install'),
  openUpdateNotes:()=>ipcRenderer.invoke('update-notes'), copyText:text=>ipcRenderer.invoke('copy-text',text),
  exportBuildOrder:(key,format,contents,filename)=>ipcRenderer.invoke('export-build-order',key,format,contents,filename),
  exportChat:(key,text)=>ipcRenderer.invoke('export-chat',key,text),
  on:(channel,callback)=>{
-   if(!['annotation-changed','annotation-error','folders-changed','library-reset','library-entry','progress','select-replay','update-progress'].includes(channel))return;
+   if(!['replay-renamed','annotation-changed','annotation-error','folders-changed','library-reset','library-entry','library-entries','progress','select-replay','update-progress'].includes(channel))return;
    const listener=(_,data)=>callback(data);ipcRenderer.on(channel,listener);
    return ()=>ipcRenderer.removeListener(channel,listener);
  }

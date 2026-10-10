@@ -13,8 +13,29 @@ async function launch(appData){
  vm.runInNewContext(sync.readFileSync(path.join(root,'main.cjs'),'utf8'),context,{filename:'main.cjs'});await ready;
  const invoke=(name,...args)=>handlers.get(name)(null,...args);
  async function settled(){for(let i=0;i<300;i++){const state=invoke('initial');if(!state.progress.busy)return state;await new Promise(r=>setTimeout(r,10));}throw Error('Indexer did not settle');}
- return {invoke,picks,settled,messages,close:()=>{window.emit('close');app.emit('window-all-closed');}};
+ return {invoke,picks,settled,messages,invokeFrom:(event,name,...args)=>handlers.get(name)(event,...args),close:()=>{window.emit('close');app.emit('window-all-closed');}};
 }
+test('native drag IPC uses the indexed replay and rejects unknown or removed files',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-drag-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(folder);await fs.mkdir(user);
+ const file=path.join(folder,'example.w3g');await fs.writeFile(file,'');await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({folder}));
+ run=await launch(temp);const key=(await run.settled()).rows[0].key,calls=[],event={sender:{startDrag:item=>calls.push(item)}};
+ run.invokeFrom(event,'drag-replay-file',key);assert.equal(calls[0].file,file);assert(sync.existsSync(calls[0].icon));
+ assert.throws(()=>run.invokeFrom(event,'drag-replay-file',file),/no longer/);
+ await fs.unlink(file);assert.throws(()=>run.invokeFrom(event,'drag-replay-file',key),/missing|no longer/);assert.equal(calls.length,1);
+});
+test('rename IPC updates selection identity and keeps annotations across indexing and restart',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'rename-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(folder);await fs.mkdir(user);
+ const file=path.join(folder,'old.w3g');await fs.writeFile(file,'fixture');await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({folder}));
+ run=await launch(temp);const old=(await run.settled()).rows[0];await run.invoke('annotation-update',old.key,{favorite:true,notes:'Keep this match'});
+ const row=await run.invoke('rename-replay',old.key,'Practice');assert.notEqual(row.key,old.key);assert.equal(row.name,'Practice.w3g');assert.equal(row.annotation.favorite,true);assert.equal(row.annotation.notes,'Keep this match');
+ assert.equal(run.messages.find(m=>m.channel==='replay-renamed').data.oldKey,old.key);assert.equal((await run.settled()).rows.length,1);
+ await fs.writeFile(file,'different replay');await assert.rejects(run.invoke('rename-replay',row.key,'old'),/already exists/);await run.settled();assert.equal(await fs.readFile(file,'utf8'),'different replay');
+ run.close();run=await launch(temp);const restored=(await run.settled()).rows.find(r=>r.key===row.key);assert.equal(restored.annotation.notes,'Keep this match');assert.equal(restored.annotation.favorite,true);
+});
 test('folder IPC persists additions, per-folder toggles, primary migration and removal across restart',async t=>{
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-folder-ipc-'));let run;
  t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
@@ -45,6 +66,17 @@ test('folder IPC persists additions, per-folder toggles, primary migration and r
  assert.ok(run.messages.some(m=>m.channel==='folders-changed'));
 });
 
+test('indexing batches deliver every replay including the final partial batch',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-batch-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer');await fs.mkdir(folder);await fs.mkdir(user);
+ await Promise.all(Array.from({length:205},(_,i)=>fs.writeFile(path.join(folder,i+'.w3g'),'fixture '+i)));
+ await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({folder}));run=await launch(temp);const state=await run.settled();
+ const batches=run.messages.filter(m=>m.channel==='library-entries').map(m=>m.data);
+ assert.equal(state.rows.length,205);assert.ok(batches.length>1);assert.ok(batches.every(batch=>batch.length>0&&batch.length<=100));
+ assert.equal(new Set(batches.flat().map(row=>row.key)).size,205);
+});
+
 test('dropped replay enters the primary library and returns the existing key on repeated drops',async t=>{
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-drop-ipc-'));let run;
  t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
@@ -52,6 +84,9 @@ test('dropped replay enters the primary library and returns the existing key on 
  await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({replayFolders:[{path:primary,enabled:false,includeSubfolders:false}]}));
  run=await launch(temp);await run.settled();const first=await run.invoke('import-replays',[source]);const state=await run.settled();assert.equal(first.copied,1);assert.equal(state.replayFolders[0].enabled,true);assert.ok(state.rows.some(r=>r.key===first.key));
  const second=await run.invoke('import-replays',[source]);await run.settled();assert.equal(second.copied,0);assert.equal(first.key,second.key);assert.equal((await fs.readdir(primary)).length,1);
+ const indexedFile=state.rows.find(r=>r.key===first.key).file;
+ assert.equal((await run.invoke('import-replays',[indexedFile])).alreadyInLibrary,true);
+ assert.equal((await fs.readdir(primary)).length,1,'dropping a library replay does not create another copy');
  await assert.rejects(run.invoke('import-replays',['bad.txt']),/replay/);
 });
 

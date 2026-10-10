@@ -4,9 +4,10 @@ const {parseReplay,SCHEMA}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const {hashReplay}=require('./annotations.cjs');
 const SUMMARY_VERSION=4;  // 4: searchable chat text in lightweight summaries
-async function scan(folder,includeSubfolders=true,onError) {
+async function scan(folder,includeSubfolders=true,onError,onDirectory) {
   const files=[];
   async function visit(dir) {
+    onDirectory?.(dir);
     let entries;try{entries=await fs.readdir(dir,{withFileTypes:true});}catch(error){if(!onError)throw error;onError(dir,error);return;}
     for(const entry of entries) {
       if(entry.isSymbolicLink()) continue;
@@ -19,13 +20,13 @@ async function scan(folder,includeSubfolders=true,onError) {
   return files.sort().reverse();
 }
 async function scanFolders(folders){
- const files=new Map(),folderErrors=[];
+ const files=new Map(),folderErrors=[],directories=new Set();
  for(const location of folders){
   if(location.enabled===false)continue;
-  const discovered=await scan(location.path,location.includeSubfolders!==false,(directory,error)=>folderErrors.push({path:location.path,directory,message:error.message}));
+  const discovered=await scan(location.path,location.includeSubfolders!==false,(directory,error)=>folderErrors.push({path:location.path,directory,message:error.message}),directory=>directories.add(directory));
   for(const file of discovered){const key=path.resolve(file).toLowerCase();if(!files.has(key))files.set(key,file);}
  }
- return {files:[...files.values()].sort().reverse(),folderErrors};
+ return {files:[...files.values()].sort().reverse(),folderErrors,directories:[...directories]};
 }
 function chatSearch(chat){return [...new Set((chat||[]).map(c=>String(c.playerName||'')+' '+String(c.message||'')))].join('\n').toLowerCase();}
 function summary(entry) {
@@ -39,7 +40,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
   await fs.mkdir(cacheDir,{recursive:true});
   const summaryDir=path.join(cacheDir,'summaries');
   await fs.mkdir(summaryDir,{recursive:true});
-  const {files,folderErrors}=Array.isArray(folder)?await scanFolders(folder):{files:await scan(folder,includeSubfolders),folderErrors:[]};
+  const {files,folderErrors,directories=[]}=Array.isArray(folder)?await scanFolders(folder):{files:await scan(folder,includeSubfolders),folderErrors:[]};
   let parsed=0,cached=0,failed=0;
   onProgress({total:files.length,done:0,parsed,cached,failed});
   for(let i=0;i<files.length;i++) {
@@ -87,7 +88,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
     onEntry(lightweight?summary(entry):entry);
     onProgress({total:files.length,done:i+1,parsed,cached,failed});
   }
-  return {total:files.length,parsed,cached,failed,files,folderErrors};
+  return {total:files.length,parsed,cached,failed,files,folderErrors,directories};
 }
 module.exports={indexFolder,scan,scanFolders,summary,SUMMARY_VERSION};
 
