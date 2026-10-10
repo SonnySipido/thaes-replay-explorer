@@ -54,7 +54,7 @@
 .army-overview .ability-icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 12px;padding-top:12px}
 .army-overview .ability-portrait{width:32px;height:32px;flex:0 1 32px;min-width:0;object-fit:contain}
 .army-overview .ability-icons .ability{gap:5px}
-.ability-rank-bars{display:flex;flex-direction:column-reverse;gap:3px;width:7px;height:28px;flex:0 0 7px}
+.ability-rank-bars{display:flex;flex-direction:column-reverse;gap:2px;width:7px;height:28px;flex:0 0 7px}
 .ability-rank-bar{display:block;flex:1;min-height:0;border:1px solid #435064;border-radius:2px;background:#1b2635}
 .ability-rank-bar.filled{border-color:#e9c67c;background:linear-gradient(90deg,#c19a4e,#f5d58d);box-shadow:0 0 3px #e3bc7026}
 .unit-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:10px}
