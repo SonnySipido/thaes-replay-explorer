@@ -60,8 +60,10 @@ header .author{color:#d5e3ef}
 .share-example{display:flex;align-items:center;gap:12px;color:#d2dce5;margin-bottom:14px;overflow-wrap:anywhere}.copy-icon-example{display:inline-flex;flex:none;padding:7px;border:1px solid #708799;border-radius:5px;background:#203144;color:#e9edf2}.guide-example figcaption{color:#9dadc0;font-size:13px}
 
 /* A labelled picker keeps the larger screenshot collection easy to browse. */
-.screenshots a{height:auto;aspect-ratio:1440/920}
-.screenshots img{height:auto}
+.screenshots{container-type:inline-size}
+/* Keep the full image, caption and navigation within the viewport. */
+.screenshots a{height:min(500px,63.889cqi,max(80px,calc(100svh - 280px)));aspect-ratio:auto}
+.screenshots img{height:100%;object-fit:contain}
 .screenshots figcaption{padding:14px 18px 18px}
 .screenshots figcaption h3{margin:0 0 5px}
 .screenshots figcaption p{max-width:none}
