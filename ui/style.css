@@ -43,14 +43,16 @@
 .member-icon .object-portrait{width:32px;height:32px}
 .member-count{color:var(--gold);font-size:11px;white-space:nowrap}
 
-.army-overview{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start}
+.army-panel{container:hero-army / inline-size}
+.army-overview{--hero-card-width:238px;display:grid;grid-template-columns:minmax(0,var(--hero-card-width)) minmax(0,1fr);gap:16px;align-items:start}
 .army-overview>.army-heroes,.army-overview>.army-units{min-width:0}
+.army-overview>.army-heroes{max-width:var(--hero-card-width)}
 .army-overview .mini-heading{margin:0 0 12px}
 .army-overview .hero-card{padding:12px}
 .army-overview .hero-head{margin-bottom:12px;gap:10px;flex-wrap:wrap}
 .army-overview .hero-portrait{width:48px;height:48px}
-.army-overview .ability-icons{gap:10px 12px;padding-top:12px}
-.army-overview .ability-portrait{width:32px;height:32px}
+.army-overview .ability-icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 12px;padding-top:12px}
+.army-overview .ability-portrait{width:32px;height:32px;flex:0 1 32px;min-width:0;object-fit:contain}
 .army-overview .ability-icons .ability{gap:5px}
 .ability-rank-bars{display:flex;flex-direction:column-reverse;gap:3px;width:7px;height:28px;flex:0 0 7px}
 .ability-rank-bar{display:block;flex:1;min-height:0;border:1px solid #435064;border-radius:2px;background:#1b2635}
@@ -60,7 +62,8 @@
 .unit-tile .object-portrait{width:36px;height:36px}
 .unit-count{color:var(--gold);font-size:16px;font-variant-numeric:tabular-nums}
 .army-timeline{margin-top:20px}
-@media(max-width:1150px){.army-overview{gap:10px;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.unit-roster{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}.unit-tile{gap:5px;padding:6px 4px}.unit-tile .object-portrait{width:30px;height:30px}.army-overview .hero-card{padding:9px}}
+@media(max-width:1150px){.army-overview{gap:10px}.unit-roster{grid-template-columns:repeat(auto-fill,minmax(60px,1fr))}.unit-tile{gap:5px;padding:6px 4px}.unit-tile .object-portrait{width:30px;height:30px}}
+@container hero-army (max-width:400px){.army-overview{grid-template-columns:minmax(0,1fr)}}
 
 .economy-overview{display:grid;grid-template-columns:minmax(116px,.8fr) minmax(0,1.2fr);gap:20px;align-items:start}
 .economy-overview>section{min-width:0}

@@ -459,6 +459,18 @@ function objectIcon(id,preferred){
 
 // Keep ultimate IDs aligned with the replay parser, including alternate Tinker forms.
 const ultimateAbilities=new Set('AEtq AEme AEsf AEsv AOww AOeq AOre AOvd AUan AUin AUdd AUls ANef ANch ANto ANdo ANst ANrg ANg1 ANg2 ANg3 ANvc ANtm AHmt AHav AHre AHpx AHcl'.split(' '));
+// Standard Warcraft command-card columns, shared by the learn menu and learned spells.
+// Verified against extracted default Buttonpos/Researchbuttonpos data:
+// https://github.com/clemenscodes/warcraft-hotkey-editor/blob/main/crates/warcraft-keybinds/fixtures/resolved_default_customkeys.txt
+const heroAbilitySlots=new Map([
+ 'AHbz AHtb AHhb AHfs AEmb AEer AEst AEfk AOwk AOcl AOsh AOhw AUdc AUcs AUfn AUim ANbf ANsi ANfl ANrf ANsg ANsy ANs1 ANs2 ANs3 ANso ANhs',
+ 'AHwe AHtc AHds AHbn AEim AEfn AHfa AEbl AOmi AOfs AOws AOhx AUdp AUsl AUfa AUfu AUts ANdh ANba ANfa ANht ANsq ANcs ANc1 ANc2 ANc3 ANlm ANcr',
+ 'AHab AHbh AHad AHdr AEev AEah AEar AEsh AOcr AOsf AOae AOsw AUau AUav AUdr AUcb ANdb ANdr ANms ANca ANsw ANeg ANic ANia ANab'
+].flatMap((ids,slot)=>ids.split(' ').map(id=>[id,slot])));
+function orderedHeroAbilities(hero){
+ const slot=id=>ultimateAbilities.has(id)?3:heroAbilitySlots.get(id)??2.5;
+ return Object.entries(hero.abilities||{}).sort(([a],[b])=>slot(a)-slot(b));
+}
 function heroAbilityMarkup(id,level){
  const maximum=ultimateAbilities.has(id)?1:3,rank=Math.max(0,Math.min(maximum,Math.trunc(Number(level)||0)));
  const label=name(id)+', level '+rank+' of '+maximum+(maximum===1?' (ultimate)':'');
@@ -471,6 +483,7 @@ function heroExperienceMarkup(hero){
  return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
 }
 function heroes(p,root){
+ root.classList.add('army-panel');
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  const firstUnitTimes=new Map();
  for(const {id,ms} of p.units?.order||[]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
@@ -479,7 +492,7 @@ function heroes(p,root){
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
  '<span class="hero-identity"><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span>'+heroExperienceMarkup(h)+'</span></div><div class="ability-icons">'+
- (Object.entries(h.abilities).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
+ (orderedHeroAbilities(h).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
