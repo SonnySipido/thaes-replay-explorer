@@ -283,6 +283,7 @@
 .map-title-row{height:76.8px}
 
 .banner-brand{flex-shrink:0}.banner-title{display:flex;align-items:center;gap:12px;margin-bottom:5px}.banner-title h1{margin:0;white-space:nowrap}
+.banner-rexxar{width:32px;height:32px;flex-shrink:0;object-fit:contain;border-radius:3px}
 #app-website-title{color:inherit;text-decoration:none;border-radius:3px}
 #app-website-title:hover{color:var(--gold)}
 #app-website-title:focus-visible,.app-website-icon:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -430,6 +431,7 @@ body.resizing-library,body.resizing-library *{cursor:col-resize!important;user-s
 #chat-log .chat-row>.time{font-size:inherit}
 
 /* Race art in both the selected value and the native dropdown options. */
+select:focus-visible{outline:none;border-color:#68829e}
 .matchup-filter select,.matchup-filter select::picker(select){appearance:base-select}
 .matchup-filter select{display:flex;align-items:center;gap:5px;height:30px;padding:4px 7px;min-width:0}
 .matchup-filter select>button{display:contents}
