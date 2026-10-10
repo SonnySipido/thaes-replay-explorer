@@ -485,19 +485,19 @@ function heroExperienceMarkup(hero){
 function heroes(p,root){
  root.classList.add('army-panel');
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const knownHeroes=p.heroes.filter(h=>iconSource(h.id,'heroes'));
  const firstUnitTimes=new Map();
  for(const {id,ms} of p.units?.order||[]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
  const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort(([a],[b])=>(firstUnitTimes.get(a)??Infinity)-(firstUnitTimes.get(b)??Infinity)||0);
  $('panel').innerHTML=
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
- p.heroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
+ knownHeroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
  '<span class="hero-identity"><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span>'+heroExperienceMarkup(h)+'</span></div><div class="ability-icons">'+
  (orderedHeroAbilities(h).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
- (units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')||
- '<p class="empty-note">No training orders recorded.</p>')+
+ units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')+
  '</div></div></div>';
 }
 function buildingsAndUpgrades(p,root){
