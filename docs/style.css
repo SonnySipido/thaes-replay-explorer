@@ -73,3 +73,19 @@ header .author{flex:none}
 .screenshot-choice select{flex:1;width:0;min-width:0;font:inherit;color:#e9edf2;background:#172331;border:1px solid #ffffff30;border-radius:6px;padding:8px;text-overflow:ellipsis}
 .screenshot-choice select:focus-visible{outline:2px solid #7fc4b6;outline-offset:2px}
 @media(max-width:480px){.screenshot-choice>span{display:none}.slider-controls{gap:8px}.screenshots figcaption{padding:12px}}
+
+/* Enlarge screenshots without leaving the page. */
+html.screenshot-viewer-open{overflow:hidden}
+.screenshot-viewer{width:calc(100vw - 24px);max-width:1800px;height:calc(100dvh - 24px);max-height:none;margin:auto;padding:12px;border:1px solid #ffffff30;border-radius:12px;background:#0b1119;color:#e9edf2}
+.screenshot-viewer[open]{display:flex;flex-direction:column;gap:12px}
+.screenshot-viewer::backdrop{background:#000d}
+.screenshot-viewer-toolbar{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.screenshot-viewer-toolbar h2{flex:1;min-width:0;margin:0;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.screenshot-viewer-toolbar button{flex-shrink:0;padding:8px 12px;border:1px solid #ffffff30;border-radius:6px;background:#172331;color:#e9edf2;font:inherit;font-size:14px;cursor:pointer}
+.screenshot-viewer-toolbar button:hover{background:#293b4d}
+.screenshot-viewer-toolbar button:focus-visible{outline:2px solid #7fc4b6;outline-offset:2px}
+.screenshot-viewer-stage{display:flex;align-items:center;justify-content:center;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.screenshot-viewer-image{display:block;flex-shrink:0;width:auto;height:auto;max-width:100%;max-height:100%;margin:auto;object-fit:contain;cursor:zoom-in}
+.screenshot-viewer-stage.is-zoomed{display:block}
+.screenshot-viewer-stage.is-zoomed .screenshot-viewer-image{width:var(--screenshot-zoom-width);max-width:none;max-height:none;cursor:zoom-out}
+@media(max-width:480px){.screenshot-viewer{padding:8px}.screenshot-viewer-toolbar{gap:6px}.screenshot-viewer-toolbar h2{font-size:13px}.screenshot-viewer-toolbar button{padding:7px;font-size:12px}}
