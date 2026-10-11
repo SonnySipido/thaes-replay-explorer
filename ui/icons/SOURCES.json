@@ -1,7 +1,7 @@
 {
   "repository": "https://github.com/PBug90/wc3-replay-parser-web",
   "commit": "15c4f86f3dcc82b1f389ec6f491add350743326b",
-  "attribution": "Warcraft III artwork belongs to Blizzard Entertainment. Images sourced from the public replay viewer asset collection and Blizzard's official Warcraft III guide; no ownership of artwork is claimed.",
+  "attribution": "Warcraft III artwork belongs to Blizzard Entertainment. Images sourced from the public replay viewer asset collection, Blizzard's official Warcraft III guide and installed game data; no ownership of artwork is claimed.",
   "files": [
     {
       "id": "AEer",
@@ -4711,6 +4711,270 @@
       "id": "H",
       "url": "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/raceIcons/HUMAN.png",
       "sha256": "0ea81383c4fdb6cd50c5d773eb65eed346570184ffc497c9fa0f061031701415"
+    },
+    {
+      "id": "Rhme_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnthoriummelee.dds",
+      "sha256": "fc7ca22a51fdfca8563db0e58042c6a7dfd9c54b238a979ac00d4991991c00ce"
+    },
+    {
+      "id": "Rhme_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnarcanitemelee.dds",
+      "sha256": "fa828a757ce0c308a9489723b6b6d6b1c538e4962f040d9bcb8df6dcef40aef3"
+    },
+    {
+      "id": "Rhra_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnhumanmissileuptwo.dds",
+      "sha256": "eafa2a814a75079e7285d20371bc021b278d99f96918ccd1b039ff9f196ea37e"
+    },
+    {
+      "id": "Rhra_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnhumanmissileupthree.dds",
+      "sha256": "9b3d610815368ab172eead42cd01f81c025f463f241885f12aa4603a18a1712b"
+    },
+    {
+      "id": "Rhar_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnhumanarmoruptwo.dds",
+      "sha256": "41b5a5d6accdbdf6230b81501528ff7013e19d7624ff27bf964cbd9241a768fb"
+    },
+    {
+      "id": "Rhar_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnhumanarmorupthree.dds",
+      "sha256": "661c8055972577625d7fc7cc6e816f82f227d62c7502fc8617e7ec65851d4ec5"
+    },
+    {
+      "id": "Rhac_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnarcanitearchitecture.dds",
+      "sha256": "5080e0c2e8fec251e949c944573205afe46b9c52daa97c3eaa04fc0876be674d"
+    },
+    {
+      "id": "Rhac_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimbuedmasonry.dds",
+      "sha256": "e202b841e3fbc640c481950c1d8d259044e7f51f8f0010f2cab0cd55b78952c8"
+    },
+    {
+      "id": "Rhpt_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnpriestmaster.dds",
+      "sha256": "365e8bc544aec10b9aca8254ac725a8e57e01bf50980ae63d50dc37bb01cb080"
+    },
+    {
+      "id": "Rhst_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnsorceressmaster.dds",
+      "sha256": "11b7caf6e070b0c68afe0bb408b1c46d9385bcfdb017ab224a8c191e6beb8f4e"
+    },
+    {
+      "id": "Rhla_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnleatherupgradetwo.dds",
+      "sha256": "0371bfd353ffc3637995d059b56176cec03d55f08e4cfdcc6054a8da8a68538d"
+    },
+    {
+      "id": "Rhla_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnleatherupgradethree.dds",
+      "sha256": "801c765dc34b608192ff7884cb7e3b5208b62a7554de854e99e22ebcab1c03b5"
+    },
+    {
+      "id": "Rhlh_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnhumanlumberupgrade2.dds",
+      "sha256": "f31f237ffd41d64929daa0ea57357de0378528c0adc5ae0648481a0466b19715"
+    },
+    {
+      "id": "Rome_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnorcmeleeuptwo.dds",
+      "sha256": "b81909a2a2f94d0dff06101cf54a5d91bfabc935ec1db198fa05917b897fa5cd"
+    },
+    {
+      "id": "Rome_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnorcmeleeupthree.dds",
+      "sha256": "e2089e761183b6d9015294962523b9c175e4f7f35adf8743c43a7ebbdfef20e1"
+    },
+    {
+      "id": "Rora_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnthoriumranged.dds",
+      "sha256": "7c8ce4a4720410d231521d10f2d42e19e924cf85af95c807369d0b150b23d57f"
+    },
+    {
+      "id": "Rora_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnarcaniteranged.dds",
+      "sha256": "8feaf73b302c3d9e79fad95ceac129636b80758624c025d43fae7cf6a5b60119"
+    },
+    {
+      "id": "Roar_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnthoriumarmor.dds",
+      "sha256": "237e70d9bc4a6d9f9742b9a4f89f1e722218b285cf5c22b475a6f58c51b83fb5"
+    },
+    {
+      "id": "Roar_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnarcanitearmor.dds",
+      "sha256": "83bcc2d410cdb21c12eda6b20ec76ca0d5806d5c7ee50122c563d85106e914ec"
+    },
+    {
+      "id": "Rowd_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnwitchdoctormaster.dds",
+      "sha256": "3dd9274b62fd502d9000041cfe6610bfd8847861fe5a2894b040ade6eaa954f0"
+    },
+    {
+      "id": "Rost_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnshamanmaster.dds",
+      "sha256": "3e572ea379c8789125fb238827f5eae19ef51a2043a1f621823b8d124970bd9b"
+    },
+    {
+      "id": "Rosp_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedspikedbarricades.dds",
+      "sha256": "5726b3e5eb4dd1f42bbe679778c36caa5e94902ed1467906d728bbdae68f4e18"
+    },
+    {
+      "id": "Rosp_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedspikedbarricades.dds",
+      "sha256": "fc13cf177b2dac420ab22b39655aa3e1effb558fcb8761b93e39a4794549ca86"
+    },
+    {
+      "id": "Rowt_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnspiritwalkermastertraining.dds",
+      "sha256": "bb5086e79579d7449c8db02ec62156fbab4d8fc55acf3e7d43221581499dc83b"
+    },
+    {
+      "id": "Rume_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedunholystrength.dds",
+      "sha256": "c72d1a28a01080f275ad66da42e7b95f66f4a13d2bd7535fabec61fcc792c72b"
+    },
+    {
+      "id": "Rume_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedunholystrength.dds",
+      "sha256": "4a18966f1f9c7de415589fdd41a882e60f2ed15373ff0896f34bb1f63ff4dc4b"
+    },
+    {
+      "id": "Rura_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedcreatureattack.dds",
+      "sha256": "eef338f02c8f3d00d1f379e9439d8ce66e4f9f75320833f7172c5d4b3bbbee0e"
+    },
+    {
+      "id": "Rura_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedcreatureattack.dds",
+      "sha256": "adb568971391607258ea961a2bb792595f1373006ceb0f3f5eda9c9bf88442df"
+    },
+    {
+      "id": "Ruar_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedunholyarmor.dds",
+      "sha256": "b26b5b3c4634cd0583735e0d577cafd855a135840c5dcbc86772d862f65dd855"
+    },
+    {
+      "id": "Ruar_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedunholyarmor.dds",
+      "sha256": "75bae2a417318897ed632c3d3d0a5cbe90147b29d7f33ed2f59b2f81dbcf9d1d"
+    },
+    {
+      "id": "Rune_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnnecromancermaster.dds",
+      "sha256": "54b0f0ae75eddf7d5029e8b95fdacc1c1ad3a8dab4fbff1505e4281714f0bf6b"
+    },
+    {
+      "id": "Ruba_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnbansheemaster.dds",
+      "sha256": "0dc487df0f3adeb0ac2efea72cb2a092ae0b7e6188a3909181c4a3771be96cee"
+    },
+    {
+      "id": "Rucr_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedcreaturecarapace.dds",
+      "sha256": "65b5be8c2746335580bb33d6b629538fb56568169d709a53303a70c11572aaef"
+    },
+    {
+      "id": "Rucr_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedcreaturecarapace.dds",
+      "sha256": "ec8c5cb57a1c3f899df479624b99e003d08f777b7067e28e524c101e612fb0ea"
+    },
+    {
+      "id": "Resm_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedstrengthofthemoon.dds",
+      "sha256": "7be820f15bed4048850e6cf477e6be0257a0b85ab381aced87b7b31f1bfcf99c"
+    },
+    {
+      "id": "Resm_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedstrengthofthemoon.dds",
+      "sha256": "62546fdf026413551c26d9fd4bb62c79de632a66e111c1ca34398cc1b4dee65e"
+    },
+    {
+      "id": "Resw_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedstrengthofthewild.dds",
+      "sha256": "1684c1db996b37300029db6c72ed039ab1344fb73f5e2d8d9082bacdbad0ce5d"
+    },
+    {
+      "id": "Resw_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedstrengthofthewild.dds",
+      "sha256": "4e78daf70efa5f52032f949a335d0b98e143fe0adbe273672d4b771c84555e82"
+    },
+    {
+      "id": "Rema_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedmoonarmor.dds",
+      "sha256": "807f3fa783caa6f099b05d35a320415319138c83311c8405bd88a932c69a4080"
+    },
+    {
+      "id": "Rema_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedmoonarmor.dds",
+      "sha256": "c1da64c78d44725e88d6ab410e1898d30b1c0b1f7e215d47d4181b387f0e6f6c"
+    },
+    {
+      "id": "Rerh_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnimprovedreinforcedhides.dds",
+      "sha256": "78bbf9cf9fb801ebdc0e12b8a8ecb34ccc808208d9683950edb38c9b5892448e"
+    },
+    {
+      "id": "Rerh_3",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btnadvancedreinforcedhides.dds",
+      "sha256": "912f3f5578822df631f7e30194f29383a6af599d2a5eba91e7c163553a07106c"
+    },
+    {
+      "id": "Redt_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btndotmastertraining.dds",
+      "sha256": "a92eb425d2a2821df6329a32a182de90af8bdde01e2fb2ef912e4aa785f60eb9"
+    },
+    {
+      "id": "Redc_2",
+      "kind": "upgrades",
+      "source": "war3.w3mod:replaceabletextures/commandbuttons/btndocmastertraining.dds",
+      "sha256": "fda1bfec0c2efbf5b6d2f54fb356d70a460e5a8d0412fbee7b1f87dc499a9e02"
     }
   ]
 }

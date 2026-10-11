@@ -69,7 +69,7 @@ Open **Settings** (the gear at the top right) and press **Check for updates** to
 
 With **Check on startup** switched on, the app looks for a newer version each time it starts and asks whether to install it. On the first start it asks whether you want this; the switch in Settings changes it later.
 
-Initial indexing can take time with a large library. Summaries and analysis are cached locally; only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
+Initial indexing can take time with a large library. Summaries and analysis are cached locally; subsequent launches restore the list from a single saved catalogue and check for file changes in the background. Only a bounded number of full replay records are held in memory. Filters and winner visibility are remembered.
 
 Replays record commands, not a complete simulation: production and research entries represent orders, hero levels are inferred minimums, and unsupported or damaged replays may fail to parse. Compatibility depends on the included w3gjs parser and replay format; future game updates may require an app update. Missing map previews use a placeholder.
 

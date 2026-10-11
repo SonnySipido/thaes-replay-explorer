@@ -3,7 +3,23 @@ const fs=require('node:fs/promises'), path=require('node:path'), crypto=require(
 const {parseReplay,SCHEMA,names}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const {hashReplay}=require('./annotations.cjs');
-const SUMMARY_VERSION=5;  // 5: searchable names of recorded game entities
+const research=require('./ui/research.js');
+const SUMMARY_VERSION=6;  // 6: individual research ranks
+const snapshotFolders=folders=>JSON.stringify(folders.map(f=>({path:path.resolve(f.path).toLowerCase(),enabled:f.enabled!==false,includeSubfolders:f.includeSubfolders!==false})));
+async function loadLibrarySnapshot(cacheDir,folders){
+ try{
+  const saved=JSON.parse(await fs.readFile(path.join(cacheDir,'library.json'),'utf8'));
+  if(saved.schema!==SCHEMA||saved.summaryVersion!==SUMMARY_VERSION||saved.folders!==snapshotFolders(folders)||!Array.isArray(saved.rows)||!Array.isArray(saved.directories))return null;
+  if(saved.rows.some(row=>!row.key||typeof row.file!=='string'||row.data||(!row.error&&row.summaryVersion!==SUMMARY_VERSION)))return null;
+  return saved;
+ }catch{return null;}
+}
+async function saveLibrarySnapshot(cacheDir,folders,rows,directories){
+ await fs.mkdir(cacheDir,{recursive:true});
+ const file=path.join(cacheDir,'library.json'),temp=file+'.'+process.pid+'.tmp';
+ const saved={schema:SCHEMA,summaryVersion:SUMMARY_VERSION,folders:snapshotFolders(folders),rows,directories};
+ await fs.writeFile(temp,JSON.stringify(saved));await fs.rename(temp,file);
+}
 async function scan(folder,includeSubfolders=true,onError,onDirectory) {
   const files=[];
   async function visit(dir) {
@@ -34,6 +50,8 @@ function entitySearch(data){
  const add=id=>{const label=data?.names?.[id]||names[id];if(label)found.add(String(label).replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(/_/g,' ').trim().toLowerCase());};
  const abilities=values=>{for(const [id,rank] of Object.entries(values||{}))if(Number(rank)>0)add(id);};
  for(const player of data?.players||[]){
+  for(const order of player.morphOrders||[])add(order.id);
+  for(const order of research.orders(player))if(order.label)found.add(order.label.toLowerCase());
   for(const hero of player.heroes||[]){
    add(hero.id);abilities(hero.abilities);
    for(const retraining of hero.retrainingHistory||[])abilities(retraining.abilities);
@@ -53,7 +71,7 @@ function summary(entry) {
   if(entry.summaryVersion)return entry;
   const r=entry.data;
   return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
-    map:r?.map.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
+    map:r?.map?.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
     players:r?.players?.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat?.length || 0,chatSearch:chatSearch(r?.chat),entitySearch:entitySearch(r)};
 }
 async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},known={},includeSubfolders=true,lightweight=false) {
@@ -106,7 +124,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
         await fs.rename(temp,cacheFile);
         parsed++;
       }
-    } catch(error) { failed++;entry={schema:SCHEMA,key,file,error:error.message};try{const stat=await fs.stat(file);entry.modified=stat.mtimeMs;entry.size=stat.size;}catch{} }
+    } catch(error) { failed++;entry={schema:SCHEMA,key,file,error:error.message};try{const stat=await fs.stat(file);entry.modified=stat.mtimeMs;entry.size=stat.size;entry.fingerprint=stat.size+':'+stat.mtimeMs+':'+SCHEMA;}catch{} }
     if(!entry.contentHash)try{entry.contentHash=await hashReplay(file);}catch{}
     if(!entry.error){const summaryFile=path.join(summaryDir,key+'.json'),temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(summary(entry)));await fs.rename(temp,summaryFile);}
     onEntry(lightweight?summary(entry):entry);
@@ -114,5 +132,5 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
   }
   return {total:files.length,parsed,cached,failed,files,folderErrors,directories};
 }
-module.exports={indexFolder,scan,scanFolders,summary,SUMMARY_VERSION,entitySearch};
+module.exports={indexFolder,scan,scanFolders,summary,SUMMARY_VERSION,entitySearch,loadLibrarySnapshot,saveLibrarySnapshot};
 

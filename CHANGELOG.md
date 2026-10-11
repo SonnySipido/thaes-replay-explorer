@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Restore the replay library from one saved catalogue at startup, then check for new, changed and removed files in the background instead of loading thousands of summaries before showing the list.
+- Include Statue transformations and observed Destroyers in Units Produced. Existing analyses are upgraded when opened without rebuilding the entire cache.
+- Distinguish attack/armor research levels and Adept/Master caster training in match analysis, build orders, exports and search; repeated clicks and recorded research cancellations do not advance a level.
 - Search the replay library by recorded heroes, learned hero abilities, units, buildings and upgrades, in both list views. Existing cached analyses gain searchable names during indexing without a full reparse.
 
 ## 0.8.0

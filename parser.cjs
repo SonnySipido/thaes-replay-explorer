@@ -59,12 +59,12 @@ function collectActions(replay) {
   let time = 0;
   const players = new Map(), objects = new Map();
   function player(id) {
-    if (!players.has(id)) players.set(id, {groups: {}, groupHistory: [], itemUses: [], unknownOrders: [], heroOrders: [], itemTransfers: [], cancellations: [], observedHeroes: new Set(), active: null, apmBuckets: [], actionCount: 0});
+    if (!players.has(id)) players.set(id, {groups: {}, groupHistory: [], itemUses: [], unknownOrders: [], heroOrders: [], itemTransfers: [], cancellations: [], observedHeroes: new Set(), active: null, selection: new Set(), morphs: [], destroyers: new Map(), apmBuckets: [], actionCount: 0});
     return players.get(id);
   }
   // Count the same actions as w3gjs, but bucket them against the actual game clock.
-  const original = replay.handleActionBlock.bind(replay);
-  replay.handleActionBlock = (action, p) => {
+  const original = replay.handleActionBlock?.bind(replay);
+  if(original)replay.handleActionBlock = (action, p) => {
     const before = p._currentlyTrackedAPM;
     original(action,p);
     const delta = p._currentlyTrackedAPM - before;
@@ -85,8 +85,10 @@ function collectActions(replay) {
           const observations = objects.get(tag);
           if (observations.at(-1)?.id !== id) observations.push({ms: time, id});
           if (heroIds.has(id)) p.observedHeroes.add(id);
+          if (id === 'ubsp' && !p.destroyers.has(tag)) p.destroyers.set(tag,time);
         }
         if (a.id === 0x16 || a.id === 0x18) p.active = null;
+        if (a.id === 0x16) for(const unit of a.units){const tag=net(unit);if(a.selectMode===2)p.selection.delete(tag);else p.selection.add(tag);}
         if (a.id === 0x17) {
           const key = (a.groupNumber + 1) % 10, tags = a.units.map(net);
           p.groups[key] = tags;
@@ -94,11 +96,15 @@ function collectActions(replay) {
         }
         if (a.id === 0x18) {
           const key = (a.groupNumber + 1) % 10;
+          p.selection = new Set(p.groups[key] || []);
           p.groupHistory.push({ms: time, key, action: 'Select', tags: [...(p.groups[key] || [])]});
         }
         if ([0x10,0x11,0x12,0x14,0x15].includes(a.id)) {
           const order = numeric(a.orderId || a.orderId1);
           const rawId = four(a.orderId || a.orderId1);
+          // Destroyers are morphed, rather than trained: avengerform is a numeric order.
+          // https://github.com/WarRaft/Order (852531)
+          if (order === 852531) p.morphs.push({ms:time,active:p.active,tags:[...p.selection]});
           if (heroIds.has(rawId)) p.heroOrders.push({ms:time,id:rawId});
           if (/^[A-Za-z][A-Za-z0-9]{3}$/.test(rawId) && !names[rawId]) p.unknownOrders.push({ms:time,id:rawId,action:a.id});
           if (order >= 852008 && order <= 852013) p.itemUses.push({ms:time,slot:order-852007,source:p.active,target:net(a.object),order});
@@ -113,7 +119,33 @@ function collectActions(replay) {
     const observation = [...observations].reverse().find(o=>o.ms<=ms) || observations[0];
     return {tag, id:observation?.id || null, identifiedLater:!!observation && observation.ms>ms};
   }
-  return {players, resolve};
+  function morphOrders(id){
+    const p=players.get(id);if(!p)return [];
+    const formed=new Map();
+    for(const command of p.morphs){
+      const candidates=[...new Set([command.active,...command.tags].filter(Boolean))];
+      // One click morphs one Statue. Later subgroup observations can identify it.
+      const tag=candidates.find(tag=>!formed.has(tag)&&['uobs','ubsp'].includes(resolve(tag,command.ms).id));
+      if(tag)formed.set(tag,{id:'ubsp',ms:command.ms,source:tag,morphed:true,confirmed:p.destroyers.has(tag)});
+    }
+    for(const [tag,ms] of p.destroyers)if(!formed.has(tag))formed.set(tag,{id:'ubsp',ms,source:tag,morphed:true,confirmed:true,observed:true});
+    return [...formed.values()].sort((a,b)=>a.ms-b.ms);
+  }
+  return {players, resolve, morphOrders};
+}
+// Upgrade existing cached analyses only when opened, without re-indexing every replay.
+async function addUnitMorphs(data,file){
+  if(data.unitMorphVersion===1)return false;
+  const candidates=(data.players||[]).some(p=>p.units?.summary?.uobs||p.upgrades?.summary?.Rusp||(p.units?.order||[]).some(o=>o.id==='uobs'));
+  if(candidates){
+    const {ReplayParser}=require(path.join(parserRoot,'parsers/ReplayParser.js'));
+    const replay=new ReplayParser(),extra=collectActions(replay);
+    const buffer=Buffer.isBuffer(file)?file:await fs.readFile(file);
+    await validateContainer(buffer);
+    await replay.parse(buffer);
+    for(const player of data.players)player.morphOrders=extra.morphOrders(player.id);
+  }
+  data.unitMorphVersion=1;return true;
 }
 async function parseReplay(fileOrBuffer) {
   const buffer = Buffer.isBuffer(fileOrBuffer) ? fileOrBuffer : await fs.readFile(fileOrBuffer);
@@ -148,6 +180,7 @@ async function parseReplay(fileOrBuffer) {
     p.unknownOrders = e.unknownOrders;
     p.heroOrders = e.heroOrders;
     p.cancellations = e.cancellations;
+    p.morphOrders = extra.morphOrders(p.id);
     const known = new Set(p.heroes.map(h=>h.id));
     for (const id of new Set([...e.heroOrders.map(o=>o.id),...p.units.order.filter(o=>heroIds.has(o.id)).map(o=>o.id)])) {
       if (!known.has(id)) p.heroes.push({id,abilities:{},abilityOrder:[],retrainingHistory:[],level:1});
@@ -161,9 +194,9 @@ async function parseReplay(fileOrBuffer) {
       });
     }
   }
-  return {...result, schema:SCHEMA,parserVersion:'w3gjs 4.3.0',names};
+  return {...result, schema:SCHEMA,unitMorphVersion:1,parserVersion:'w3gjs 4.3.0',names};
 }
-module.exports = {parseReplay, validateContainer, names, four, numeric, minimumLevel, SCHEMA};
+module.exports = {parseReplay, validateContainer, names, four, numeric, minimumLevel, SCHEMA, collectActions, addUnitMorphs};
 
 
 

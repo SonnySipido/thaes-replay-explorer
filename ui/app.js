@@ -472,8 +472,8 @@ function renderPanel(){
 
  }
 }
-function gameIcon(id,kind,className){
- const label=name(id),src=iconSource(id,kind);
+function gameIcon(id,kind,className,label=name(id)){
+ const src=iconSource(id,kind);
  return src
   ? '<img data-icon-id="'+esc(id)+'" data-icon-kind="'+esc(kind)+'" class="game-icon '+className+'" src="'+esc(src)+'" alt="'+esc(label)+'" title="'+esc(label)+'" width="64" height="64">'
   : '<span class="game-icon missing-icon '+className+'" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">?</span>';
@@ -482,6 +482,11 @@ function objectIcon(id,preferred){
  const icons=window.warcraftIcons||{};
  const kind=[preferred,'heroes','units','buildings','upgrades','items','abilities'].find(k=>icons[k]?.[id]);
  return gameIcon(id,kind,'object-portrait');
+}
+function orderIcon(order){
+ const label=replayBuildOrder.orderName(order,entry.data.names);
+ if(order.kind!=='upgrades')return objectIcon(order.id,order.kind);
+ return '<span class="research-icon">'+gameIcon(order.iconId||order.id,'upgrades','object-portrait',label)+(order.rankLabel?'<span class="research-rank" aria-hidden="true">'+esc(order.rankLabel)+'</span>':'')+'</span>';
 }
 
 // Keep ultimate IDs aligned with the replay parser, including alternate Tinker forms.
@@ -506,7 +511,7 @@ function heroAbilityMarkup(id,level){
 }
 function heroExperienceMarkup(hero){
  const level=Math.max(1,Math.min(10,Math.trunc(Number(hero.minimumLevel??hero.level)||1)));
- const label='Inferred level '+level+'. Exact experience progress is unavailable.';
+ const label='At least level '+level+', inferred from learned abilities. Unspent skill points can mean a higher level. Exact experience progress is unavailable.';
  return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
 }
 function heroes(p,root){
@@ -514,7 +519,7 @@ function heroes(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  const knownHeroes=p.heroes.filter(h=>iconSource(h.id,'heroes'));
  const firstUnitTimes=new Map();
- for(const {id,ms} of p.units?.order||[]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
+ for(const {id,ms} of [...(p.units?.order||[]),...(p.morphOrders||[])]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
  const units=Object.entries(replayBuildOrder.analysis(p,buildOrderOptions()).units).sort(([a],[b])=>(firstUnitTimes.get(a)??Infinity)-(firstUnitTimes.get(b)??Infinity)||0);
  $('panel').innerHTML=
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
@@ -524,7 +529,7 @@ function heroes(p,root){
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
- units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+' training orders">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')+
+ units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+(id==='ubsp'?' recorded Destroyers':' training orders')+'">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')+
  '</div></div></div>';
 }
 function buildingsAndUpgrades(p,root){
@@ -539,7 +544,7 @@ function buildingsAndUpgrades(p,root){
  table(['Building','Started'],buildings.map(order=>'<tr><td><span class="building-identity">'+objectIcon(order.id,'buildings')+'<span class="building-name" title="'+esc(name(order.id))+'">'+esc(name(order.id))+'</span>'+(tiers[order.id]?'<span class="building-tier" aria-label="Tier '+tiers[order.id].slice(1)+'">'+tiers[order.id]+'</span>':'')+(isFastExpand(order)?'<span class="building-tier building-fast-expand" title="Fast expand" aria-label="Fast expand">FE</span>':'')+'</span></td><td class="time">'+time(order.ms)+'</td></tr>').join(''))+
  (!buildings.length?'<p class="empty-note">No construction recorded.</p>':'')+
  '</section><section class="upgrade-starts"><h3 class="mini-heading">UPGRADES</h3><div data-view="research-starts"></div></section></div>';
- pagedTable($('research-starts'),['Upgrade','Started'],analysis.upgrades,o=>'<tr><td>'+objectIcon(o.id,'upgrades')+'</td><td class="time">'+time(o.ms)+'</td></tr>');
+ pagedTable($('research-starts'),['Upgrade','Started'],analysis.upgrades,o=>'<tr><td><span class="building-identity">'+orderIcon({...o,kind:'upgrades'})+'<span class="building-name" title="'+esc(replayBuildOrder.orderName(o,entry.data.names))+'">'+esc(replayBuildOrder.orderName(o,entry.data.names))+'</span></span></td><td class="time">'+time(o.ms)+'</td></tr>');
 }
 function items(p,root){
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
@@ -850,7 +855,7 @@ window.replays.initial().then(data=>{$('app-version').textContent=data.appVersio
 function buildOrderOptions(){return {hideSuspectedDuplicates:localStorage.getItem('hide-build-duplicates')!=='false'};}
 function buildOrder(player,root){
  const orders=replayBuildOrder.orders(player,buildOrderOptions());
- root.innerHTML='<div class="build-order-toolbar"><button class="action-icon-button" data-build-export="text">'+actionButtonMarkup('text','Save to text')+'</button><button class="action-icon-button" data-build-export="image">'+actionButtonMarkup('image','Export to image')+'</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+objectIcon(o.id,o.kind)+'<span class="build-order-name" title="'+esc(name(o.id))+'">'+esc(name(o.id))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
+ root.innerHTML='<div class="build-order-toolbar"><button class="action-icon-button" data-build-export="text">'+actionButtonMarkup('text','Save to text')+'</button><button class="action-icon-button" data-build-export="image">'+actionButtonMarkup('image','Export to image')+'</button></div><div class="build-order-list">'+(orders.map(o=>'<div class="build-order-row"><span class="time">'+replayBuildOrder.timestamp(o.ms)+'</span>'+orderIcon(o)+'<span class="build-order-name" title="'+esc(replayBuildOrder.orderName(o,entry.data.names))+'">'+esc(replayBuildOrder.orderName(o,entry.data.names))+'</span>'+(o.tag?'<span class="building-tier '+(o.tag==='FE'?'building-fast-expand':'')+'" title="'+(o.tag==='FE'?'Fast expand':'Tier '+o.tag.slice(1))+'">'+o.tag+'</span>':'')+'</div>').join('')||'<p class="empty-note">No recorded orders in the first five minutes.</p>')+'</div>';
  bindBuildOrderExports(root,player);
  root.querySelectorAll('.build-order-name').forEach((label,index)=>{const order=orders[index];if(order.suspectedDuplicates){label.title+=' — Suspected repeated clicks; may include valid queued units. Turn off the filter to see each command.';}});
 }
@@ -879,12 +884,12 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='600 24px '+headingFont;ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px '+uiFont;ctx.fillText(map,margin,66);
  ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders',margin,86);
- const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+o.id,o]))).values()].map(async o=>{const src=iconSource(o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+o.id,img);}catch{}}));
+ const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+(o.iconId||o.id),o]))).values()].map(async o=>{const src=iconSource(o.iconId||o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+(o.iconId||o.id),img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
   ctx.fillStyle='#e3bc70';ctx.font='bold 17px '+uiFont;ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px '+uiFont;
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
-  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+o.id);if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit((data.names[o.id]||o.id),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px '+uiFont;ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px '+uiFont;}});
+  b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+(o.iconId||o.id));if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit(replayBuildOrder.orderName(o,data.names),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px '+uiFont;ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px '+uiFont;}});
  }
  return canvas.toDataURL('image/png');
 }

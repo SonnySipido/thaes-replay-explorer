@@ -15,6 +15,19 @@ async function launch(appData){
  async function settled(){for(let i=0;i<300;i++){const state=invoke('initial');if(!state.progress.busy)return state;await new Promise(r=>setTimeout(r,10));}throw Error('Indexer did not settle');}
  return {invoke,picks,settled,messages,invokeFrom:(event,name,...args)=>handlers.get(name)(event,...args),close:()=>{window.emit('close');app.emit('window-all-closed');}};
 }
+
+test('startup shows the saved library before background reconciliation and reuses unchanged rows without summaries',async t=>{
+ const {saveLibrarySnapshot,summary}=realRequire('./library.cjs'),{SCHEMA}=realRequire('./parser.cjs'),crypto=require('node:crypto');
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'startup-ipc-'));let run;
+ t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});
+ const folder=path.join(temp,'replays'),user=path.join(temp,'Warcraft Replay Explorer'),cache=path.join(user,'cache-v1');await fs.mkdir(folder);await fs.mkdir(cache,{recursive:true});
+ const file=path.join(folder,'saved.w3g');await fs.writeFile(file,'saved replay fixture');const stat=await fs.stat(file),key=crypto.createHash('sha256').update(file.toLowerCase()).digest('hex');
+ const folders=[{path:folder,enabled:true,includeSubfolders:true}],row=summary({key,file,fingerprint:stat.size+':'+stat.mtimeMs+':'+SCHEMA,contentHash:'a'.repeat(64),data:{players:[],chat:[]}});
+ await fs.writeFile(path.join(user,'settings.json'),JSON.stringify({replayFolders:folders}));await saveLibrarySnapshot(cache,folders,[row],[folder]);
+ run=await launch(temp);assert.equal(run.invoke('initial').rows[0].key,key,'available immediately, before waiting for the worker');
+ const state=await run.settled();assert.equal(state.progress.parsed,0);assert.equal(state.progress.cached,1);assert.equal(state.rows[0].key,key);assert(!run.messages.some(m=>m.channel==='library-reset'),'no empty reset while checking unchanged files');
+ run.close();run=null;await fs.unlink(file);run=await launch(temp);assert.equal(run.invoke('initial').rows.length,1);assert.equal((await run.settled()).rows.length,0,'deleted files reconciled in background');
+});
 test('native drag IPC uses the indexed replay and rejects unknown or removed files',async t=>{
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'replay-drag-ipc-'));let run;
  t.after(async()=>{run?.close();await new Promise(r=>setTimeout(r,100));await fs.rm(temp,{recursive:true,force:true});});

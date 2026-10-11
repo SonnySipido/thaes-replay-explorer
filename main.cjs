@@ -2,7 +2,8 @@
 const {app,BrowserWindow,ipcMain,dialog,shell,screen,clipboard}=require('electron');
 const fs=require('node:fs/promises'),path=require('node:path');
 const {Worker}=require('node:worker_threads');
-const {summary}=require('./library.cjs');
+const {summary,entitySearch,loadLibrarySnapshot,saveLibrarySnapshot}=require('./library.cjs');
+let librarySnapshotDirty=false;
 const {ReplayAnnotations,hashReplay}=require('./annotations.cjs');
 let annotations;
 const annotatedSummary=entry=>{const row=summary(entry);return {...row,annotation:annotations?.get(row.contentHash)||{favorite:false,notes:''}};};
@@ -71,12 +72,12 @@ async function index(reset=false,background=false) {
   const generation=++indexGeneration;busy=true;
   if(worker){const previous=worker;worker=null;await previous.terminate();}
   if(generation!==indexGeneration)return;
-  if(reset){replayDirectories=[];entries.clear();details?.clear();}
+  if(reset){replayDirectories=[];entries.clear();details?.clear();librarySnapshotDirty=false;}
   busy=true;
   if(reset)send('library-reset',{folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[]});
   let found=false;
-  const known=Object.fromEntries([...entries].filter(([,e])=>!e.error).map(([k,e])=>[k,e.fingerprint]));
-  const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{replayFolders,cache,known}});
+  const known=Object.fromEntries([...entries].filter(([,e])=>e.fingerprint).map(([k,e])=>[k,e.fingerprint]));
+  const active=new Worker(path.join(__dirname,'worker.cjs'),{workerData:{replayFolders,cache,known,rows:[...entries.values()]}});
   worker=active;
   active.on('message',msg=>{
     if(worker!==active)return;
@@ -147,6 +148,11 @@ function registerIPC(){
   ipcMain.handle('replay',async(_,key)=>{
     const e=entries.get(key);if(!e)throw new Error('Replay is no longer in the library.');
     const entry=await details.get(e);
+    const updatedSearch=entitySearch(entry.data);
+    if(updatedSearch!==e.entitySearch){
+      const row={...e,entitySearch:updatedSearch};entries.set(key,row);librarySnapshotDirty=true;send('library-entry',annotatedSummary(row));
+      const file=path.join(cache,'summaries',key+'.json'),temp=file+'.'+process.pid+'.detail.tmp';await fs.writeFile(temp,JSON.stringify(row));await fs.rename(temp,file);
+    }
     // replays analysed before MMR and the game's source were read: fill them in now (a few milliseconds)
     if(entry.data&&entry.data.source===undefined)entry.data.source=gameSource(entry.data.creator);
     if(entry.data?.players?.some(p=>p.mmr===undefined)){
@@ -325,6 +331,8 @@ app.whenReady().then(async()=>{
   annotations=await new ReplayAnnotations(path.join(user,'annotations.json')).load();
   configFile=path.join(user,'settings.json');cache=path.join(user,'cache-v1');details=new ReplayDetails(cache);
   try{const saved=JSON.parse(await fs.readFile(configFile,'utf8'));replayFolders=normalizeReplayFolders(saved);syncPrimaryFolder();windowState=saved.window;}catch{}
+  const restoredLibrary=await loadLibrarySnapshot(cache,replayFolders);
+  if(restoredLibrary){entries=new Map(restoredLibrary.rows.map(row=>[row.key,row]));replayDirectories=restoredLibrary.directories;progress={done:entries.size,total:entries.size,cached:entries.size,parsed:0,failed:0};}
   const folderDiscovery=require('./replay-folders.cjs');
   suggestedFolder=await folderDiscovery.suggestedReplayFolder(app.getPath('documents'));
   if(!replayFolders.length)welcomeFolder=await folderDiscovery.welcomeReplayFolder(app.getPath('documents'));
@@ -342,7 +350,7 @@ app.whenReady().then(async()=>{
     clearTimeout(windowSaveTimer);rememberWindow();try{saveSettings();}catch(error){console.error('Could not save window settings:',error.message);}
     if(closeReady||!event)return;
     event.preventDefault();
-    win.webContents.executeJavaScript('window.flushReplayNotes ? window.flushReplayNotes() : Promise.resolve()').then(()=>annotations.flush()).then(()=>{closeReady=true;win.close();}).catch(error=>{send('annotation-error',{message:'Notes could not be saved: '+error.message});});
+    win.webContents.executeJavaScript('window.flushReplayNotes ? window.flushReplayNotes() : Promise.resolve()').then(()=>annotations.flush()).then(async()=>{if(librarySnapshotDirty&&!busy)await saveLibrarySnapshot(cache,replayFolders,[...entries.values()],replayDirectories);closeReady=true;win.close();}).catch(error=>{send('annotation-error',{message:'Could not finish saving: '+error.message});});
   });
   await win.loadFile(path.join(__dirname,'ui','index.html'));
   if(windowState?.maximized)win.maximize();
@@ -352,7 +360,7 @@ app.whenReady().then(async()=>{
   for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);
   rememberWindow();
   // without a folder the page asks for one (the welcome question) before the update question
-  if(folder){watchFolder();await index(true);}
+  if(folder){watchFolder();await index(!restoredLibrary,!!restoredLibrary);}
   setInterval(()=>{if(!busy)index(false,true);},300000).unref();
 });
 app.on('window-all-closed',()=>{clearTimeout(watchTimer);for(const watcher of watchers)watcher.close();worker?.terminate();app.quit();});
