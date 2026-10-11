@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Enlarge the website homepage logo to 280px with responsive wrapping on smaller screens.
 - Use the supplied Warcraft Replay Explorer logo on the website homepage.
 - Replace the banner Warcraft III logo with the supplied Warcraft Replay Explorer logo.
 - Remove the suspected-duplicates disclaimer from text and image build-order exports.
