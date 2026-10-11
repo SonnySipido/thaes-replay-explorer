@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Remove the suspected-duplicates disclaimer from text and image build-order exports.
 - Add a Show unlearned hero abilities setting, enabled by default, to include greyed-out unlearned abilities on hero cards or show only learned abilities.
 - Show all four standard hero abilities, with unlearned abilities greyed out and empty rank bars. Alternate versions of the same ability share one slot.
 - Show each attack/armor research level and Adept/Master training once per player, retaining the first uncancelled start and removing cancelled attempts and repeated clicks, including when the suspected-duplicate filter is off.

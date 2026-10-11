@@ -43,7 +43,7 @@
  const timestamp=ms=>String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');
  function playersByTeam(players){return [...players].sort((a,b)=>(a.teamid??a.team??0)-(b.teamid??b.team??0));}
  function text(data,mapName,options={}){
-  return ['Build order',mapName,options.hideSuspectedDuplicates===false?'Raw recorded orders; repeated research levels omitted.':'Suspected duplicates grouped; commands do not confirm completed units.','',...playersByTeam(data.players).flatMap(p=>{
+  return ['Build order',mapName,...(options.hideSuspectedDuplicates===false?['Raw recorded orders; repeated research levels omitted.']:[]),'',...playersByTeam(data.players).flatMap(p=>{
    const list=orders(p,options);
    return [p.name+' — Team '+((p.teamid??p.team??0)+1),...list.map(o=>timestamp(o.ms)+'  '+orderName(o,data.names)+(o.tag?' ['+o.tag+']':'')),...(list.length?[]:['No recorded orders in the first five minutes.']),''];
   })].join('\r\n');

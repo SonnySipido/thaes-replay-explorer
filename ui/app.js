@@ -893,7 +893,7 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  await document.fonts.ready;
  const uiFont=getComputedStyle(document.body).fontFamily,headingFont=getComputedStyle(document.documentElement).getPropertyValue('--font-heading').trim();
  const teams=new Map();for(const p of replayBuildOrder.playersByTeam(data.players)){const id=p.teamid??p.team??0;if(!teams.has(id))teams.set(id,[]);teams.get(id).push(p);}
- const groups=[...teams.values()],columns=Math.min(2,Math.max(1,groups.length)),columnWidth=570,margin=26,rowHeight=26,blocks=[];let y=100;
+ const groups=[...teams.values()],columns=Math.min(2,Math.max(1,groups.length)),columnWidth=570,margin=26,rowHeight=26,blocks=[];let y=options.hideSuspectedDuplicates===false?100:80;
  for(let pair=0;pair<groups.length;pair+=2){
   const left=groups[pair],right=groups[pair+1]||[];
   for(let i=0;i<Math.max(left.length,right.length);i++){
@@ -905,7 +905,7 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='600 24px '+headingFont;ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px '+uiFont;ctx.fillText(map,margin,66);
- ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders; repeated research levels omitted.',margin,86);
+ if(options.hideSuspectedDuplicates===false){ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText('Raw recorded orders; repeated research levels omitted.',margin,86);}
  const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+(o.iconId||o.id),o]))).values()].map(async o=>{const src=iconSource(o.iconId||o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+(o.iconId||o.id),img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
