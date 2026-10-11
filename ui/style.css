@@ -286,8 +286,8 @@
 
 .banner-brand{flex-shrink:0}.banner-title{display:flex;align-items:center;gap:12px;margin:0}.banner-title h1{margin:0;white-space:nowrap}
 .banner-rexxar{width:32px;height:32px;flex-shrink:0;object-fit:contain;border-radius:3px}
-/* The visible lettering starts 4.45% below the cropped image's top; align it with the 32px Rexxar icon. */
-#app-website-title{display:block;position:relative;width:340px;aspect-ratio:2172/312;overflow:hidden;transform:translateY(calc(45.55% - 16px));color:inherit;text-decoration:none;border-radius:3px}
+/* Align the visible lettering with Rexxar, then lift it 2px for the preferred visual alignment. */
+#app-website-title{display:block;position:relative;width:340px;aspect-ratio:2172/312;overflow:hidden;transform:translateY(calc(45.55% - 18px));color:inherit;text-decoration:none;border-radius:3px}
 #app-website-title .banner-wordmark{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 51%}
 #app-website-title:hover{filter:brightness(1.12)}
 #app-website-title:focus-visible,.app-website-icon:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
