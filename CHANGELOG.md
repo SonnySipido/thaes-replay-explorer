@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Replace the banner Warcraft III logo with the supplied Warcraft Replay Explorer logo.
 - Remove the suspected-duplicates disclaimer from text and image build-order exports.
 - Add a Show unlearned hero abilities setting, enabled by default, to include greyed-out unlearned abilities on hero cards or show only learned abilities.
 - Show all four standard hero abilities, with unlearned abilities greyed out and empty rank bars. Alternate versions of the same ability share one slot.

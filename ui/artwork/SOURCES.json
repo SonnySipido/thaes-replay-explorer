@@ -2,6 +2,10 @@
   "copyright": "Warcraft artwork belongs to Blizzard Entertainment",
   "files": [
     {
+      "file": "replay-explorer-logo.png",
+      "source": "User-provided Warcraft_III_Reforged_Forsaken_Kingdom_Replay_Explorer_Small.png; original transparent PNG preserved"
+    },
+    {
       "file": "any-race.png",
       "source": "ImageGen edit of ../icons/races/R.png; resized to 128x128 with transparency preserved",
       "prompt": "Remove only the central question mark and diamond dot, filling the area with the matching dark metal surface. Preserve the circular badge, beveled rings, palette, lighting and transparent background. No replacement symbol.",

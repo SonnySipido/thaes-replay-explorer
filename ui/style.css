@@ -231,7 +231,7 @@
 
 .row-player.race-color-H{color:#527cff!important}.row-player.race-color-O{color:#ff4545!important}.row-player.race-color-N{color:#36d9bd!important}.row-player.race-color-U{color:#bb75e4!important}.row-player.race-color-R{color:var(--muted)!important}
 .topbar{background-position:center 18%}
-.brandmark{background:transparent;border:0;object-fit:contain}
+.brandmark{width:auto;height:64px;background:transparent;border:0;object-fit:contain}
 .row-map{width:48px;height:48px}
 #map-preview .map-preview{width:64px;height:64px}
 .duration-controls{display:flex;align-items:center;gap:14px}
