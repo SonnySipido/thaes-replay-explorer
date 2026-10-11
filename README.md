@@ -38,7 +38,7 @@ On first launch, the app suggests the replay folder it found (Documents/Warcraft
   
   -You can filter replays to only include matches above 2 minutes so that instant leaves are not shown.
   
-  -In the search bar typing a map name, player name, file name, replay notes or game chat and immediately filter the replay list - Makes finding matches containing certain players really easy!
+  -In the search bar type a map, player, filename, replay notes, game chat, hero, learned hero ability, unit, building or upgrade name to filter the replay list. Partial names and case-insensitive searches work in both list views. Game-object searches use the names recorded in each replay; existing cached analyses gain this search data during indexing.
   
   -You can select match ups, for team games this means that the team has at least that race included in it's team.
   

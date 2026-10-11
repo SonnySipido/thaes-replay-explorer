@@ -198,7 +198,7 @@ function matchupIcons(players,fallback='',analysis=false){
 const replayMetadata=new WeakMap();
 function metadata(row){let value=replayMetadata.get(row);if(!value){value={date:replayFilters.timestamp(row),map:mapDisplayName(row.map)};replayMetadata.set(row,value);}return value;}
 function replayDate(row){return metadata(row).date;}
-function replaySearchText(row){const value=metadata(row);return value.search??(value.search=[row.name,row.map,value.map,row.matchup,row.chatSearch,...row.players.map(p=>p.name)].join(' ').toLowerCase());}
+function replaySearchText(row){const value=metadata(row);return value.search??(value.search=[row.name,row.map,value.map,row.matchup,row.chatSearch,row.entitySearch,...row.players.map(p=>p.name)].join(' ').toLowerCase());}
 // where a game was played: the W3Champions or Battle.net icon, named on hover
 function sourceIcon(source,className){
  if(source==='w3c')return '<img class="'+className+'" src="artwork/w3champions.png" alt="W3Champions" title="Played on W3Champions">';

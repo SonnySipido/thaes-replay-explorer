@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Search the replay library by recorded heroes, learned hero abilities, units, buildings and upgrades, in both list views. Existing cached analyses gain searchable names during indexing without a full reparse.
+
 ## 0.8.0
 
 - Refreshed the app and website with bundled Inter and Cinzel fonts. Chat keeps its adjustable font size and spacing.
