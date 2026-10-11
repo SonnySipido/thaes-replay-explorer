@@ -1,5 +1,5 @@
-/* The original theme is unchanged. Battle.net follows the desktop client's
-   charcoal surfaces, flat controls, white typography and cyan navigation. */
+/* Default retains the original design. Simple (Dark) and Light share the
+   same flat controls and modern typography, with separate color palettes. */
 #app-theme{width:174px;max-width:60%;padding:7px 10px;font-size:13px;flex-shrink:0}
 .settings-row label[for="app-theme"]{font-weight:600}
 
@@ -9,7 +9,7 @@
  --chart-first:#79cfc0;
  --chart-second:#e3bc70;
 }
-:root[data-theme="battlenet"]{
+:root[data-theme="simple-dark"]{
  --bg:#1b1d25;
  --panel:#252731;
  --line:#373944;
@@ -19,105 +19,244 @@
  --gold:#00aeff;
  --cyan:#00aeff;
  --font-heading:var(--font-ui);
- --bnet-hover:#31343f;
- --bnet-selected:#263a4d;
- --bnet-favorite:#ffcc54;
+ --theme-hover:#31343f;
+ --theme-selected:#263a4d;
+ --theme-favorite:#ffcc54;
  --chart-grid:#3a3d48;
  --chart-label:#b8bcc8;
  --chart-first:#00aeff;
  --chart-second:#c394ff;
+ --theme-header:#181a22;
+ --theme-library:#1e2029;
+ --theme-count:#333640;
+ --theme-button:#343640;
+ --theme-button-hover:#444751;
+ --theme-button-active:#2c2f39;
+ --theme-input:#292c36;
+ --theme-input-border:#424550;
+ --theme-input-hover:#686c7a;
+ --theme-placeholder:#9ba0ae;
+ --theme-replay-line:#32353f;
+ --theme-icon-border:#535763;
+ --theme-icon-bg:#171a21;
+ --theme-hover-tint:#ffffff0c;
+ --theme-filter-border:#33658b;
+ --theme-empty-folder:#828795;
+ --theme-winner-bg:#293323;
+ --theme-winner-border:#6b8b40;
+ --theme-winner-badge-bg:#324522;
+ --theme-winner-badge-border:#719747;
+ --theme-winner-text:#c0e786;
+ --theme-tab-text:#b8bcc8;
+ --theme-tab-hover-bg:#ffffff05;
+ --theme-table-heading:#c2c6d0;
+ --theme-table-line:#4b4f5c;
+ --theme-stripe:#ffffff03;
+ --theme-key-border:#626776;
+ --theme-rank-border:#4fc6ff;
+ --theme-rank-fill:#009fe6;
+ --theme-tier-bg:#293d50;
+ --theme-tier-border:#457393;
+ --theme-tier-text:#a3dfff;
+ --theme-expansion-bg:#273d2b;
+ --theme-expansion-border:#4d8255;
+ --theme-expansion-text:#ade2b7;
+ --theme-chip-bg:#303440;
+ --theme-chip-border:#484c5b;
+ --theme-notes-bg:#22252e;
+ --theme-link:#8ed9ff;
+ --theme-settings-bg:#21232d;
+ --theme-settings-heading:#d0d3dd;
+ --theme-backdrop:#090b1180;
+ --theme-switch-bg:#3a3e4b;
+ --theme-switch-border:#6b7280;
+ --theme-menu-hover:#3a4657;
+ --theme-empty-symbol:#52687d;
+ --theme-warning-bg:#3b3023;
+ --theme-warning-border:#80633d;
+ --theme-warning-text:#f1d59f;
+ --theme-drop-bg:#1b1d25ed;
+ --theme-scrollbar:#555a68;
+ --theme-scrollbar-hover:#717786;
 }
-html[data-theme="battlenet"] body{background:var(--bg)}
-html[data-theme="battlenet"] :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
-html[data-theme="battlenet"] .topbar{background:#181a22;border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
-html[data-theme="battlenet"] :is(.topbar h1,.topbar p){text-shadow:none}
-html[data-theme="battlenet"] :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
-html[data-theme="battlenet"] :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
-html[data-theme="battlenet"] .library{background:#1e2029;border-color:var(--line)}
-html[data-theme="battlenet"] .library-heading h2{font-size:18px;letter-spacing:0}
-html[data-theme="battlenet"] .library-heading h2 span{background:#333640;color:var(--secondary-text);border-radius:3px}
-html[data-theme="battlenet"] .library-footer{border-color:var(--line);color:var(--muted)}
-html[data-theme="battlenet"] :is(button,input,select,textarea){border-radius:4px}
-html[data-theme="battlenet"] button{background:#343640;border-color:transparent;color:var(--text)}
-html[data-theme="battlenet"] button:hover{background:#444751;border-color:transparent}
-html[data-theme="battlenet"] button:active{background:#2c2f39}
-html[data-theme="battlenet"] button:disabled{opacity:.45;cursor:not-allowed}
-html[data-theme="battlenet"] :is(input,select,textarea,#patch-button,#replay-notes-text){background:#292c36;border-color:#424550;color:var(--text)}
-html[data-theme="battlenet"] input::placeholder,html[data-theme="battlenet"] textarea::placeholder{color:#9ba0ae}
-html[data-theme="battlenet"] :is(input,select,textarea,#patch-button):hover{border-color:#686c7a}
-html[data-theme="battlenet"] :is(button,input,textarea):focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-html[data-theme="battlenet"] select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-color:var(--cyan)}
-html[data-theme="battlenet"] :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready){background:#0074b5;border-color:#008dcc;color:#fff}
-html[data-theme="battlenet"] :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready):hover{background:#008dcc;border-color:#00aeff}
-html[data-theme="battlenet"] :is(.replay-row,.replay-row.compact-replay-row){background:transparent;border-color:transparent;border-bottom-color:#32353f;border-radius:3px;color:var(--text)}
-html[data-theme="battlenet"] .replay-row:hover{background:var(--bnet-hover);border-color:transparent;border-bottom-color:#32353f}
-html[data-theme="battlenet"] :is(.replay-row.active,.replay-row.active:hover){background:var(--bnet-selected);border-color:transparent;border-bottom-color:#32353f;border-left-color:var(--cyan)}
-html[data-theme="battlenet"] .replay-row:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
-html[data-theme="battlenet"] .replay-row.active:focus-visible{outline:none}
-html[data-theme="battlenet"] :is(.replay-row .length,.replay-card-actions .length,.unit-count,.member-count,.data-table td.number,.skill-step .rank,.level){color:var(--text)}
-html[data-theme="battlenet"] :is(.map-preview,.game-icon){border-color:#535763;border-radius:3px;background:#171a21}
-html[data-theme="battlenet"] .game-icon{box-shadow:0 1px 2px #0005}
-html[data-theme="battlenet"] :is(.favorite-toggle,.library-filter-icon){background:transparent;border-color:transparent;color:var(--muted)}
-html[data-theme="battlenet"] :is(.favorite-toggle,.library-filter-icon):hover{background:#ffffff0c;color:var(--text)}
-html[data-theme="battlenet"] :is(.favorite-toggle.is-favorite,#only-favorites[aria-pressed="true"]){color:var(--bnet-favorite)}
-html[data-theme="battlenet"] .library-filter-icon[aria-pressed="true"]{background:#263a4d;border-color:#33658b;color:var(--cyan)}
-html[data-theme="battlenet"] #only-favorites[aria-pressed="true"]{color:var(--bnet-favorite)}
-html[data-theme="battlenet"] .classic-folder-heading{color:var(--text);border-radius:3px}
-html[data-theme="battlenet"] .classic-folder-heading:hover{background:var(--bnet-hover)}
-html[data-theme="battlenet"] .classic-folder-heading:focus-visible{outline-color:var(--cyan)}
-html[data-theme="battlenet"] .classic-folder-heading[aria-disabled="true"]{color:#828795}
-html[data-theme="battlenet"] .classic-folder-heading[aria-disabled="true"]:hover{background:transparent}
-html[data-theme="battlenet"] .classic-folder-contents{border-color:var(--line)}
-html[data-theme="battlenet"] .match-head .eyebrow{color:var(--secondary-text);font-weight:600;letter-spacing:.04em}
-html[data-theme="battlenet"] .match-head h2{font-weight:700;letter-spacing:-.025em}
-html[data-theme="battlenet"] #duration{color:var(--text);font-weight:500}
-html[data-theme="battlenet"] #filename{background:none;border:0;color:var(--muted)}
-html[data-theme="battlenet"] #filename:hover{color:var(--text)}
-html[data-theme="battlenet"] .players .player{background:#252731;border-radius:4px}
-html[data-theme="battlenet"] .players .player-profile{background:none;border:0;color:inherit}
-html[data-theme="battlenet"] .players .player-profile:hover{background:none;color:inherit;text-decoration:underline}
-html[data-theme="battlenet"] .players .match-winner{background:#293323;box-shadow:inset 0 0 0 1px #6b8b40}
-html[data-theme="battlenet"] .winner-badge{background:#324522;border-color:#719747;color:#c0e786}
-html[data-theme="battlenet"] .tabs{background:#252731;border-color:var(--line)}
-html[data-theme="battlenet"] .tabs button{background:transparent;border-radius:0;border-color:transparent;color:#b8bcc8}
-html[data-theme="battlenet"] .tabs button:hover{background:#ffffff05;color:#fff}
-html[data-theme="battlenet"] .tabs button.active{color:#fff;border-bottom-color:var(--cyan)}
-html[data-theme="battlenet"] :is(.hero-card,.box,.metric,.unit-tile,.replay-folder-card){background:var(--panel);border-color:var(--line);border-radius:4px;box-shadow:none}
-html[data-theme="battlenet"] :is(.mini-heading,.section-title){color:var(--secondary-text);font-weight:600;letter-spacing:.035em}
-html[data-theme="battlenet"] :is(.ability-icons,.data-table td,.chat-row){border-color:var(--line)}
-html[data-theme="battlenet"] #panel.chat-panel>.toolbar{flex-wrap:wrap}
-html[data-theme="battlenet"] #chat-search{min-width:160px}
-html[data-theme="battlenet"] #chat-player{flex:0 1 auto;max-width:100%}
-html[data-theme="battlenet"] .data-table th{border-color:#4b4f5c;letter-spacing:.02em;color:#c2c6d0}
-html[data-theme="battlenet"] :is(.build-order-row:nth-child(even),.data-table tbody tr:hover){background:#ffffff03}
-html[data-theme="battlenet"] .keycap{background:#1b1d25;border-color:#626776;border-bottom-color:#626776;border-radius:3px;color:var(--text)}
-html[data-theme="battlenet"] .ability-rank-bar{border-color:#535763;background:#1b1d25}
-html[data-theme="battlenet"] .ability-rank-bar.filled{border-color:#4fc6ff;background:#009fe6;box-shadow:none}
-html[data-theme="battlenet"] .hero-experience-bar{border-color:#626776}
-html[data-theme="battlenet"] :is(.building-tier,.research-rank){background:#293d50;border-color:#457393;color:#a3dfff}
-html[data-theme="battlenet"] .building-fast-expand{background:#273d2b;border-color:#4d8255;color:#ade2b7}
-html[data-theme="battlenet"] .chip{background:#303440;border-color:#484c5b;color:var(--text)}
-html[data-theme="battlenet"] :is(.player-comparison,#players)::after{background:var(--line)}
-html[data-theme="battlenet"] .replay-notes{background:#22252e;border-color:var(--line);border-radius:4px}
-html[data-theme="battlenet"] .replay-notes.has-notes>summary{color:#8ed9ff}
-html[data-theme="battlenet"] .settings{background:#21232d;border-color:var(--line);box-shadow:-8px 0 30px #0006}
-html[data-theme="battlenet"] .settings-head h2{font-size:22px;font-weight:700}
-html[data-theme="battlenet"] .settings-section h3{color:#d0d3dd;letter-spacing:.035em}
-html[data-theme="battlenet"] :is(.settings-backdrop,#ask-backdrop){background:#090b1180}
-html[data-theme="battlenet"] .switch-track{background:#3a3e4b;border-color:#6b7280}
-html[data-theme="battlenet"] .switch-toggle input:checked+.switch-track{background:#0074b5;border-color:#00aeff}
-html[data-theme="battlenet"] .switch-toggle input:checked+.switch-track::after{background:#fff}
-html[data-theme="battlenet"] :is(.folder-path,.link-button){background:none;border:0;color:var(--secondary-text)}
-html[data-theme="battlenet"] :is(.folder-path,.link-button):hover{background:none;color:#8ed9ff}
-html[data-theme="battlenet"] :is(.patch-menu,.ask,#rename-dialog){background:#252731;border-color:#4b4f5c;border-radius:4px}
-html[data-theme="battlenet"] .patch-all{background:none;color:#8ed9ff}
-html[data-theme="battlenet"] :is(.patch-option,.patch-all):hover{background:var(--bnet-hover)}
-html[data-theme="battlenet"] :is(.matchup-filter select,#source)::picker(select){background:#292c36;border-color:#4b4f5c;border-radius:4px}
-html[data-theme="battlenet"] :is(.matchup-filter option,#source option):checked{background:var(--bnet-selected);color:#fff}
-html[data-theme="battlenet"] :is(.matchup-filter option,#source option):hover{background:#3a4657;color:#fff}
-html[data-theme="battlenet"] .empty-symbol{color:#52687d}
-html[data-theme="battlenet"] .warning{background:#3b3023;border-color:#80633d;color:#f1d59f}
-html[data-theme="battlenet"] .detail-footer{color:var(--muted);border-color:var(--line)}
-html[data-theme="battlenet"] body.replay-drop-active::after{background:#1b1d25ed;color:#8ed9ff;border-color:var(--cyan)}
-html[data-theme="battlenet"] ::-webkit-scrollbar-thumb{background:#555a68;border-radius:3px}
-html[data-theme="battlenet"] ::-webkit-scrollbar-thumb:hover{background:#717786}
+:root[data-theme="light"]{
+ color-scheme:light;
+ --bg:#f4f6f9;
+ --panel:#ffffff;
+ --line:#d4dce7;
+ --muted:#526174;
+ --secondary-text:#485b72;
+ --text:#202c3d;
+ --gold:#006fae;
+ --cyan:#006fae;
+ --font-heading:var(--font-ui);
+ --theme-hover:#e3eaf3;
+ --theme-selected:#dcecf9;
+ --theme-favorite:#956000;
+ --chart-grid:#d4dce7;
+ --chart-label:#526174;
+ --chart-first:#0079b9;
+ --chart-second:#8540b0;
+ --theme-header:#e9edf3;
+ --theme-library:#eef1f6;
+ --theme-count:#dce3eb;
+ --theme-button:#e3e9f1;
+ --theme-button-hover:#d3dde9;
+ --theme-button-active:#c7d4e3;
+ --theme-input:#ffffff;
+ --theme-input-border:#b9c5d4;
+ --theme-input-hover:#788ca4;
+ --theme-placeholder:#586b80;
+ --theme-replay-line:#d4dce7;
+ --theme-icon-border:#97a7ba;
+ --theme-icon-bg:#171a21;
+ --theme-hover-tint:#152d4b0a;
+ --theme-filter-border:#8bb8d9;
+ --theme-empty-folder:#77869a;
+ --theme-winner-bg:#eef6e8;
+ --theme-winner-border:#7c9c59;
+ --theme-winner-badge-bg:#e2efd6;
+ --theme-winner-badge-border:#799c4f;
+ --theme-winner-text:#36591c;
+ --theme-tab-text:#526174;
+ --theme-tab-hover-bg:#193d6b08;
+ --theme-table-heading:#42546a;
+ --theme-table-line:#c2ccda;
+ --theme-stripe:#1b355708;
+ --theme-key-border:#8da0b6;
+ --theme-rank-border:#006da6;
+ --theme-rank-fill:#007db8;
+ --theme-tier-bg:#e3f1fb;
+ --theme-tier-border:#82b4d8;
+ --theme-tier-text:#145984;
+ --theme-expansion-bg:#e8f3e9;
+ --theme-expansion-border:#81ac88;
+ --theme-expansion-text:#2b6535;
+ --theme-chip-bg:#edf1f7;
+ --theme-chip-border:#bfcbd9;
+ --theme-notes-bg:#edf2f8;
+ --theme-link:#006aa8;
+ --theme-settings-bg:#f8fafc;
+ --theme-settings-heading:#3b4e66;
+ --theme-backdrop:#23364b55;
+ --theme-switch-bg:#d4dde8;
+ --theme-switch-border:#8b9bb0;
+ --theme-menu-hover:#d9e9f7;
+ --theme-empty-symbol:#95a7bc;
+ --theme-warning-bg:#fff3db;
+ --theme-warning-border:#c39a4e;
+ --theme-warning-text:#68490f;
+ --theme-drop-bg:#f4f6f9ed;
+ --theme-scrollbar:#a7b4c4;
+ --theme-scrollbar-hover:#7d8fa5;
+}
+html:is([data-theme="simple-dark"],[data-theme="light"]) body{background:var(--bg)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{background:var(--theme-header);border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar p){text-shadow:none}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .library{background:var(--theme-library);border-color:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .library-heading h2{font-size:18px;letter-spacing:0}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .library-heading h2 span{background:var(--theme-count);color:var(--secondary-text);border-radius:3px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .library-footer{border-color:var(--line);color:var(--muted)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button,input,select,textarea){border-radius:4px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) button{background:var(--theme-button);border-color:transparent;color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) button:hover{background:var(--theme-button-hover);border-color:transparent}
+html:is([data-theme="simple-dark"],[data-theme="light"]) button:active{background:var(--theme-button-active)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) button:disabled{opacity:.45;cursor:not-allowed}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(input,select,textarea,#patch-button,#replay-notes-text){background:var(--theme-input);border-color:var(--theme-input-border);color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) input::placeholder,html:is([data-theme="simple-dark"],[data-theme="light"]) textarea::placeholder{color:var(--theme-placeholder)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(input,select,textarea,#patch-button):hover{border-color:var(--theme-input-hover)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button,input,textarea):focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready){background:#0074b5;border-color:#008dcc;color:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready):hover{background:#008dcc;border-color:#00aeff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.replay-row,.replay-row.compact-replay-row){background:transparent;border-color:transparent;border-bottom-color:var(--theme-replay-line);border-radius:3px;color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-row:hover{background:var(--theme-hover);border-color:transparent;border-bottom-color:var(--theme-replay-line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.replay-row.active,.replay-row.active:hover){background:var(--theme-selected);border-color:transparent;border-bottom-color:var(--theme-replay-line);border-left-color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-row:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-row.active:focus-visible{outline:none}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.replay-row .length,.replay-card-actions .length,.unit-count,.member-count,.data-table td.number,.skill-step .rank,.level){color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.map-preview,.game-icon){border-color:var(--theme-icon-border);border-radius:3px;background:var(--theme-icon-bg)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .game-icon{box-shadow:0 1px 2px #0005}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.favorite-toggle,.library-filter-icon){background:transparent;border-color:transparent;color:var(--muted)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.favorite-toggle,.library-filter-icon):hover{background:var(--theme-hover-tint);color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.favorite-toggle.is-favorite,#only-favorites[aria-pressed="true"]){color:var(--theme-favorite)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .library-filter-icon[aria-pressed="true"]{background:var(--theme-selected);border-color:var(--theme-filter-border);color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #only-favorites[aria-pressed="true"]{color:var(--theme-favorite)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading{color:var(--text);border-radius:3px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading:hover{background:var(--theme-hover)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading:focus-visible{outline-color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading[aria-disabled="true"]{color:var(--theme-empty-folder)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading[aria-disabled="true"]:hover{background:transparent}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-contents{border-color:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .match-head .eyebrow{color:var(--secondary-text);font-weight:600;letter-spacing:.04em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .match-head h2{font-weight:700;letter-spacing:-.025em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #duration{color:var(--text);font-weight:500}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #filename{background:none;border:0;color:var(--muted)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #filename:hover{color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .players .player{background:var(--panel);border-radius:4px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .players .player-profile{background:none;border:0;color:inherit}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .players .player-profile:hover{background:none;color:inherit;text-decoration:underline}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .players .match-winner{background:var(--theme-winner-bg);box-shadow:inset 0 0 0 1px var(--theme-winner-border)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .winner-badge{background:var(--theme-winner-badge-bg);border-color:var(--theme-winner-badge-border);color:var(--theme-winner-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs{background:var(--panel);border-color:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button{background:transparent;border-radius:0;border-color:transparent;color:var(--theme-tab-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button:hover{background:var(--theme-tab-hover-bg);color:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button.active{color:#fff;border-bottom-color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.hero-card,.box,.metric,.unit-tile,.replay-folder-card){background:var(--panel);border-color:var(--line);border-radius:4px;box-shadow:none}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.mini-heading,.section-title){color:var(--secondary-text);font-weight:600;letter-spacing:.035em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.ability-icons,.data-table td,.chat-row){border-color:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #panel.chat-panel>.toolbar{flex-wrap:wrap}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #chat-search{min-width:160px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #chat-player{flex:0 1 auto;max-width:100%}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .data-table th{border-color:var(--theme-table-line);letter-spacing:.02em;color:var(--theme-table-heading)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.build-order-row:nth-child(even),.data-table tbody tr:hover){background:var(--theme-stripe)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .keycap{background:var(--bg);border-color:var(--theme-key-border);border-bottom-color:var(--theme-key-border);border-radius:3px;color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .ability-rank-bar{border-color:var(--theme-icon-border);background:var(--bg)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .ability-rank-bar.filled{border-color:var(--theme-rank-border);background:var(--theme-rank-fill);box-shadow:none}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .hero-experience-bar{border-color:var(--theme-key-border)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.building-tier,.research-rank){background:var(--theme-tier-bg);border-color:var(--theme-tier-border);color:var(--theme-tier-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .building-fast-expand{background:var(--theme-expansion-bg);border-color:var(--theme-expansion-border);color:var(--theme-expansion-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .chip{background:var(--theme-chip-bg);border-color:var(--theme-chip-border);color:var(--text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.player-comparison,#players)::after{background:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes{background:var(--theme-notes-bg);border-color:var(--line);border-radius:4px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes.has-notes>summary{color:var(--theme-link)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .settings{background:var(--theme-settings-bg);border-color:var(--line);box-shadow:-8px 0 30px #0006}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-head h2{font-size:22px;font-weight:700}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-section h3{color:var(--theme-settings-heading);letter-spacing:.035em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.settings-backdrop,#ask-backdrop){background:var(--theme-backdrop)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-track{background:var(--theme-switch-bg);border-color:var(--theme-switch-border)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track{background:#0074b5;border-color:#00aeff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track::after{background:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.folder-path,.link-button){background:none;border:0;color:var(--secondary-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.folder-path,.link-button):hover{background:none;color:var(--theme-link)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.patch-menu,.ask,#rename-dialog){background:var(--panel);border-color:var(--theme-table-line);border-radius:4px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .patch-all{background:none;color:var(--theme-link)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.patch-option,.patch-all):hover{background:var(--theme-hover)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.matchup-filter select,#source)::picker(select){background:var(--theme-input);border-color:var(--theme-table-line);border-radius:4px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.matchup-filter option,#source option):checked{background:var(--theme-selected);color:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.matchup-filter option,#source option):hover{background:var(--theme-menu-hover);color:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .empty-symbol{color:var(--theme-empty-symbol)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .warning{background:var(--theme-warning-bg);border-color:var(--theme-warning-border);color:var(--theme-warning-text)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .detail-footer{color:var(--muted);border-color:var(--line)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) body.replay-drop-active::after{background:var(--theme-drop-bg);color:var(--theme-link);border-color:var(--cyan)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) ::-webkit-scrollbar-thumb{background:var(--theme-scrollbar);border-radius:3px}
+html:is([data-theme="simple-dark"],[data-theme="light"]) ::-webkit-scrollbar-thumb:hover{background:var(--theme-scrollbar-hover)}
+
+/* Keep race and player colors readable on pale surfaces; game artwork and
+   purple experience bars retain their in-game colors in every theme. */
+html[data-theme="light"] [class*="player-color-"]{color:color-mix(in srgb,var(--player-color) 40%,#132236 60%)!important}
+html[data-theme="light"] .row-player.race-color-H{color:#2355b2!important}
+html[data-theme="light"] .row-player.race-color-O{color:#be2935!important}
+html[data-theme="light"] .row-player.race-color-N{color:#08796a!important}
+html[data-theme="light"] .row-player.race-color-U{color:#7e3ca9!important}
+html[data-theme="light"] .row-player.race-color-R{color:#846700!important}
+html[data-theme="light"] :is(.tabs button.active,.tabs button:hover){color:var(--text)}
+html[data-theme="light"] :is(.matchup-filter option,#source option):is(:checked,:hover){color:var(--text)}
+html[data-theme="light"] .missing-icon{color:#d5dfeb}
+html[data-theme="light"] .hero-experience-bar{border-color:#74618d}
+html[data-theme="light"] .player-comparison:has(>.team-column:nth-child(2))::after,
+html[data-theme="light"] #players:has(>.team-column:nth-child(2))::after{background:var(--line)}
+html[data-theme="light"] img[src$="w3champions.png"]{filter:brightness(.5)}

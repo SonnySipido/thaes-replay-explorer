@@ -1,8 +1,8 @@
 (function(root){
  'use strict';
  const key='app-theme';
- const normalize=value=>value==='battlenet'?'battlenet':'default';
- let saved='default';try{saved=normalize(localStorage.getItem(key));}catch{}
+ const normalize=value=>value==='battlenet'||value==='grey'?'simple-dark':['simple-dark','light'].includes(value)?value:'default';
+ let saved='default';try{const value=localStorage.getItem(key);saved=normalize(value);if(value==='battlenet'||value==='grey')localStorage.setItem(key,saved);}catch{}
  document.documentElement.dataset.theme=saved;
  root.replayThemes={
   get:()=>document.documentElement.dataset.theme,
