@@ -2,6 +2,10 @@
   "copyright": "Warcraft artwork belongs to Blizzard Entertainment",
   "files": [
     {
+      "file": "thaes-replay-explorer-wordmark.png",
+      "source": "User-provided ThaesReplayExplorer_logo.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
+    },
+    {
       "file": "replay-explorer-logo.png",
       "source": "User-provided Warcraft_III_Reforged_Forsaken_Kingdom_Replay_Explorer_Small.png; original transparent PNG preserved"
     },
