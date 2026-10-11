@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0
+
+- Add optional advanced filters beside Search while keeping the existing library filters visible. Combine selected players, their played races and a map, including Random and each Random race outcome.
+- Show race icons in advanced filters, require three characters before suggesting players, and enable Add player only after the previous player is selected. Keep the filter controls compact and remove empty-result text.
+- Use the Default theme's fonts in the Light theme.
+- Enlarge heroes, units, buildings and upgrades, items and control groups by 20%, including their contents. Align two unit rows with one hero card and keep multi-digit unit counts inside their cards.
+- Align Assigned and Selected control-group counts, and increase filename, player-name, map-name and notes text sizes in Match Analysis.
+- Open website screenshots in an in-page zoom viewer with previous and next arrows, keyboard navigation and a screenshot counter.
+
 ## 0.8.1
 
 - Add instant theme switching in Settings with saved Default, Simple (Dark) and warm Light themes. Keep the Arthas banner in every theme.

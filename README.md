@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.8.1/Thae-Replay-Explorer-0.8.1-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.0/Thae-Replay-Explorer-0.9.0-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -18,7 +18,7 @@ No GitHub account, source-code download, or development tools are needed. The in
 - **Control groups:** every identified unit, hero and building type assigned to each group throughout the match.
 - **Build orders:** each player's first five minutes of units, heroes, buildings and research, with separate text and image exports named after the map and player.
 - **Favorites and notes:** favorite matches, add autosaved notes, filter with clickable icons, and export or import annotation backups. Identical replay files share their annotations.
-- **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version.
+- **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version. The Advanced filters icon beside Search adds player/race pairs and a map filter; it starts off to keep the library compact.
 - **Multiple folders:** enable or disable each location and its subfolders in Advanced settings. New replays are indexed automatically.
 - **Duplicate management:** optionally hide identical replay files across folders without deleting them.
 - **Flexible browsing:** resize the replay list or use Classic explorer view with expandable folders, replay filenames, favorites and notes indicators. Empty folders are greyed out and can optionally be hidden in Classic view. Drag replay files into the app to import and select them.
@@ -44,6 +44,7 @@ On first launch, the app suggests the replay folder it found (Documents/Warcraft
   
   -You can select team sizes such as 1v1, 2v2, 3v3, 4v4 or any size.
   
+  -The Advanced filters icon beside Search starts collapsed and off; hover over it for its label. Type at least three characters for player dropdown suggestions, then choose the race each player played, including Random (Human), Random (Night Elf), Random (Orc) and Random (Undead). Race options show their game icons; Random outcomes use the race icon with a question mark, as in match analysis. Add player filters and choose a map to combine conditions: every player/race pair and the map must match the same replay. Ordinary race choices include players who rolled that race from Random. Selecting a dropdown entry matches its full name; typing without selecting searches partial names. Clear filters resets the Advanced section; collapsing it disables its player and map filters while keeping your choices for the next time you open it. The original matchup, team size, platform and patch filters stay visible and active.
   -You can filter by patch: the Patch menu lists every patch in your library (with its builds) and any number can be ticked.
   
   -The replay explorer is capable of showing information Heroes, abilities & units used, Buildings & upgrades, Items, APM, Control groups and ingame chat.

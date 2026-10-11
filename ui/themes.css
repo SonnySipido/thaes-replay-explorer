@@ -1,5 +1,5 @@
-/* Default retains the original design. Simple (Dark) and Light share the
-   same flat controls and modern typography, with separate color palettes. */
+/* Default and Light share typography. Simple (Dark) uses modern headings;
+   Simple (Dark) and Light share flat controls with separate color palettes. */
 #app-theme{width:174px;max-width:60%;padding:7px 10px;font-size:13px;flex-shrink:0}
 .settings-row label[for="app-theme"]{font-weight:600}
 
@@ -94,7 +94,6 @@
  --text:#332a22;
  --gold:#5c2604;
  --cyan:#5c2604;
- --font-heading:var(--font-ui);
  --theme-hover:#cec0a7;
  --theme-selected:#cbb594;
  --theme-favorite:#805400;
@@ -160,7 +159,7 @@
  --theme-scrollbar-hover:#887151;
 }
 html:is([data-theme="simple-dark"],[data-theme="light"]) body{background:var(--bg)}
-html:is([data-theme="simple-dark"],[data-theme="light"]) :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
+html[data-theme="simple-dark"] :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{background-color:var(--theme-header);border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
 /* Preserve the original Arthas artwork and logo placement across themes.
    Banner controls stay dark so they remain readable over the image. */
@@ -177,7 +176,7 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar 
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library{background:var(--theme-library);border-color:var(--line)}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .library-heading h2{font-size:18px;letter-spacing:0}
+html[data-theme="simple-dark"] .library-heading h2{font-size:18px;letter-spacing:0}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library-heading h2 span{background:var(--theme-count);color:var(--secondary-text);border-radius:3px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library-footer{border-color:var(--line);color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button,input,select,textarea){border-radius:4px}
@@ -211,9 +210,11 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading
 html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading[aria-disabled="true"]{color:var(--theme-empty-folder)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-heading[aria-disabled="true"]:hover{background:transparent}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .classic-folder-contents{border-color:var(--line)}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .match-head .eyebrow{color:var(--secondary-text);font-weight:600;letter-spacing:.04em}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .match-head h2{font-weight:700;letter-spacing:-.025em}
-html:is([data-theme="simple-dark"],[data-theme="light"]) #duration{color:var(--text);font-weight:500}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .match-head .eyebrow{color:var(--secondary-text)}
+html[data-theme="simple-dark"] .match-head .eyebrow{font-weight:600;letter-spacing:.04em}
+html[data-theme="simple-dark"] .match-head h2{font-weight:700;letter-spacing:-.025em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) #duration{color:var(--text)}
+html[data-theme="simple-dark"] #duration{font-weight:500}
 html:is([data-theme="simple-dark"],[data-theme="light"]) #filename{background:none;border:0;color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) #filename:hover{color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .players .player{background:var(--panel);border-radius:4px}
@@ -226,12 +227,14 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button{background
 html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button:hover{background:var(--theme-tab-hover-bg);color:#fff}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .tabs button.active{color:#fff;border-bottom-color:var(--cyan)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.hero-card,.box,.metric,.unit-tile,.replay-folder-card){background:var(--panel);border-color:var(--line);border-radius:4px;box-shadow:none}
-html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.mini-heading,.section-title){color:var(--secondary-text);font-weight:600;letter-spacing:.035em}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.mini-heading,.section-title){color:var(--secondary-text)}
+html[data-theme="simple-dark"] :is(.mini-heading,.section-title){font-weight:600;letter-spacing:.035em}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.ability-icons,.data-table td,.chat-row){border-color:var(--line)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) #panel.chat-panel>.toolbar{flex-wrap:wrap}
 html:is([data-theme="simple-dark"],[data-theme="light"]) #chat-search{min-width:160px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) #chat-player{flex:0 1 auto;max-width:100%}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .data-table th{border-color:var(--theme-table-line);letter-spacing:.02em;color:var(--theme-table-heading)}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .data-table th{border-color:var(--theme-table-line);color:var(--theme-table-heading)}
+html[data-theme="simple-dark"] .data-table th{letter-spacing:.02em}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.build-order-row:nth-child(even),.data-table tbody tr:hover){background:var(--theme-stripe)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .keycap{background:var(--bg);border-color:var(--theme-key-border);border-bottom-color:var(--theme-key-border);border-radius:3px;color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .ability-rank-bar{border-color:var(--theme-icon-border);background:var(--bg)}
@@ -244,8 +247,9 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.player-comparison,
 html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes{background:var(--theme-notes-bg);border-color:var(--line);border-radius:4px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes.has-notes>summary{color:var(--theme-link)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .settings{background:var(--theme-settings-bg);border-color:var(--line);box-shadow:-8px 0 30px #0006}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-head h2{font-size:22px;font-weight:700}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-section h3{color:var(--theme-settings-heading);letter-spacing:.035em}
+html[data-theme="simple-dark"] .settings-head h2{font-size:22px;font-weight:700}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-section h3{color:var(--theme-settings-heading)}
+html[data-theme="simple-dark"] .settings-section h3{letter-spacing:.035em}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.settings-backdrop,#ask-backdrop){background:var(--theme-backdrop)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-track{background:var(--theme-switch-bg);border-color:var(--theme-switch-border)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track{background:var(--theme-primary);border-color:var(--theme-primary-hover-border)}

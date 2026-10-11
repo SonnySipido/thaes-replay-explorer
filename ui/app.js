@@ -128,11 +128,11 @@ $('hide-build-duplicates').onchange=event=>{localStorage.setItem('hide-build-dup
 $('show-unlearned-abilities').checked=localStorage.getItem('show-unlearned-abilities')!=='false';
 $('show-unlearned-abilities').onchange=event=>{localStorage.setItem('show-unlearned-abilities',String(event.target.checked));if(entry?.data&&tab==='Heroes')renderPanel();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
-let chartObservers=[];
+let analysisObservers=[];
 function deselectReplay(){
  ++request;selected=null;entry=null;playerId=null;pendingReplayRestore=null;restoredReplayReveal=null;
  localStorage.removeItem('selected-replay');
- chartObservers.forEach(observer=>observer.disconnect());chartObservers=[];
+ analysisObservers.forEach(observer=>observer.disconnect());analysisObservers=[];
  $('detail').innerHTML=emptyAnalysisMarkup;
  document.querySelectorAll('.replay-row.active').forEach(button=>{button.classList.remove('active');button.setAttribute('aria-pressed','false');});
 }
@@ -203,6 +203,15 @@ const replayMetadata=new WeakMap();
 function metadata(row){let value=replayMetadata.get(row);if(!value){value={date:replayFilters.timestamp(row),map:mapDisplayName(row.map)};replayMetadata.set(row,value);}return value;}
 function replayDate(row){return metadata(row).date;}
 function replaySearchText(row){const value=metadata(row);return value.search??(value.search=[row.name,row.map,value.map,row.matchup,row.chatSearch,row.entitySearch,...row.players.map(p=>p.name)].join(' ').toLowerCase());}
+const advancedFilters=replayAdvancedFilters.create({
+ button:$('advanced-filters-toggle'),panel:$('advanced-filters'),playerList:$('advanced-player-filters'),mapField:$('advanced-map-filter'),
+ addButton:$('advanced-player-add'),clearButton:$('advanced-filters-clear'),getRows:()=>rows.values(),mapName:row=>metadata(row).map,
+ raceIcon:value=>value==='any'?'<img class="race-icon" src="artwork/any-race.png" alt="" width="24" height="24">':playerRaceIcon(value.length===2?{race:'R',raceDetected:value.slice(1)}:{race:value},true),
+ onChange:typing=>typing?scheduleList(150):renderList()
+});
+$('advanced-filters').addEventListener('advanced-filters-toggle',()=>closePatchMenu());
+$('advanced-filters').addEventListener('scroll',()=>closePatchMenu());
+window.addEventListener('resize',()=>closePatchMenu());
 // where a game was played: the W3Champions or Battle.net icon, named on hover
 function sourceIcon(source,className){
  if(source==='w3c')return '<img class="'+className+'" src="artwork/w3champions.png" alt="W3Champions" title="Played on W3Champions">';
@@ -255,11 +264,12 @@ function renderList(){
  if(listPointerHeld){scheduleList(150);return;}
  clearTimeout(renderTimer);renderTimer=null;
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
- const source=$('source').value;
- const query=JSON.stringify([term,filter,annotationFilterEnabled('only-notes'),annotationFilterEnabled('only-favorites'),$('hide-duplicates').checked,$('sort').value,$('team-size').value,$('matchup-left').value,$('matchup-right').value,source,[...patchFilter].sort()]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
+ const advanced=advancedFilters.get(),source=$('source').value,teamSize=$('team-size').value;
+ const leftRace=$('matchup-left').value,rightRace=$('matchup-right').value;
+ const query=JSON.stringify([term,filter,annotationFilterEnabled('only-notes'),annotationFilterEnabled('only-favorites'),$('hide-duplicates').checked,$('sort').value,teamSize,leftRace,rightRace,source,[...patchFilter].sort(),advanced]);if(query!==listQuery){listQuery=query;listPage=0;restoredReplayReveal=null;droppedReplayKey=null;}
  const favorites=annotationFilterEnabled('only-favorites'),notes=annotationFilterEnabled('only-notes');
  let list=[...rows.values()].filter(r=>r.key===droppedReplayKey||(!favorites&&!notes||favorites&&annotationFor(r).favorite||notes&&annotationFor(r).notes.trim().length>0)&&(filter==='all'||filter==='errors'&&r.error||filter==='matches'&&!r.error&&r.duration>=120000)&&
- ($('team-size').value==='any'||replayFilters.teamSize(r.players)===$('team-size').value)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,$('matchup-left').value,$('matchup-right').value)&&
+ (teamSize==='any'||replayFilters.teamSize(r.players)===teamSize)&&(source==='any'||(r.source||'other')===source)&&(!patchFilter.size||patchFilter.has(r.version))&&replayFilters.matchup(r.players,leftRace,rightRace)&&replayFilters.advanced(r,advanced,metadata(r).map)&&
  (!term||replaySearchText(r).includes(term)||annotationFor(r).notes.toLowerCase().includes(term)));
  const sort=$('sort').value,newestFirst=(a,b)=>replayDate(b)-replayDate(a)||b.name.localeCompare(a.name);
  list.sort(sort==='oldest'?(a,b)=>replayDate(a)-replayDate(b)||a.name.localeCompare(b.name):
@@ -305,7 +315,6 @@ function renderList(){
  }
  const classic=$('compact-replays').checked,pageRows=list.slice(listPage*listPageSize,(listPage+1)*listPageSize);
  if(classic)renderClassicTree(fragment,list,replayCard);
- if(!list.length&&!$('compact-replays').checked){const p=document.createElement('p');p.className='empty-note';p.textContent='No replays match this view.';fragment.append(p);}
  if(!classic&&list.length)reconcileReplayCards($('replay-list'),pageRows.map(replayCard));else $('replay-list').replaceChildren(fragment);
  const visibleKeys=new Set(classic?[]:pageRows.map(r=>r.key));for(const key of detailedReplayCards.keys())if(!visibleKeys.has(key))detailedReplayCards.delete(key);
  refreshFavoriteButtons();
@@ -332,7 +341,7 @@ function renderClassicTree(container,list,makeCard){
   }
   summary.oncontextmenu=event=>{event.preventDefault();event.stopPropagation();window.replays.openReplayFolder(node.path).catch(showError);};
   const label=document.createElement('span');label.textContent=isRoot?node.path.replace(/\//g,'\\'):node.name;summary.append(label);details.append(summary);parent.append(details);
-  if(revealPath.startsWith(id+'/')||($('search').value.trim()||annotationFilterEnabled('only-favorites')||annotationFilterEnabled('only-notes'))&&node.count)expandedReplayFolders.add(id);
+  if(revealPath.startsWith(id+'/')||($('search').value.trim()||advancedFilters.get().enabled||annotationFilterEnabled('only-favorites')||annotationFilterEnabled('only-notes'))&&node.count)expandedReplayFolders.add(id);
   let loaded=false;
   function load(){
    if(empty||loaded)return;loaded=true;if(!node.children.size&&!node.replays.length)return;
@@ -447,7 +456,7 @@ function pagedTable(target,headers,items,render,pageSize=100){
  draw();
 }
 function renderPanel(){
- chartObservers.forEach(observer=>observer.disconnect());chartObservers=[];
+ analysisObservers.forEach(observer=>observer.disconnect());analysisObservers=[];
  const panel=$('panel');
  panel.classList.toggle('chat-panel',tab==='Chat');
  if(tab==='Chat'){chat();return;}
@@ -537,6 +546,18 @@ function heroExperienceMarkup(hero){
  const label='At least level '+level+', inferred from learned abilities. Unspent skill points can mean a higher level. Exact experience progress is unavailable.';
  return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
 }
+function alignArmyRows(root){
+ const army=root.querySelector('.army-overview'),hero=army.querySelector('.hero-card');
+ if(!hero)return;
+ const sync=()=>{
+  // Both grids share the same zoom and gap: two unit rows fill one hero card.
+  const height=parseFloat(getComputedStyle(hero).height),gap=parseFloat(getComputedStyle(army.querySelector('.hero-grid')).rowGap);
+  const rowHeight=(height-gap)/2;
+  if(rowHeight>0)army.style.setProperty('--army-unit-row-height',rowHeight+'px');
+ };
+ sync();
+ const observer=new ResizeObserver(sync);observer.observe(hero);analysisObservers.push(observer);
+}
 function heroes(p,root){
  root.classList.add('army-panel');
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
@@ -555,6 +576,8 @@ function heroes(p,root){
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+
  units.map(([id,count])=>'<div class="unit-tile" aria-label="'+esc(name(id))+' '+count+(id==='ubsp'?' recorded Destroyers':' training orders')+'">'+objectIcon(id,'units')+'<span class="unit-count">'+count+'</span></div>').join('')+
  '</div></div></div>';
+ root.querySelector('.unit-roster').style.setProperty('--unit-count-digits',Math.max(2,...units.map(([,count])=>String(count).length)));
+ alignArmyRows(root);
 }
 function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};
@@ -597,8 +620,8 @@ function apm(p,root){
  ctx.fillStyle=ctx.strokeStyle;p.apmBuckets.forEach((v,i)=>{ctx.beginPath();ctx.arc(pad+i*step,h-25-v/max*(h-50),3,0,Math.PI*2);ctx.fill();});
  canvas.onmousemove=e=>{const index=Math.round((e.offsetX/canvas.clientWidth*w-pad)/step);canvas.title=index>=0&&index<p.apmBuckets.length?'Minute '+(index+1)+': '+p.apmBuckets[index]+' actions':'';};
  }
- drawChart();document.fonts.ready.then(()=>{if(canvas.isConnected)drawChart();});const observer=new ResizeObserver(drawChart);observer.observe(canvas);chartObservers.push(observer);
- document.addEventListener('replay-theme-changed',drawChart);chartObservers.push({disconnect(){document.removeEventListener('replay-theme-changed',drawChart);}});
+ drawChart();document.fonts.ready.then(()=>{if(canvas.isConnected)drawChart();});const observer=new ResizeObserver(drawChart);observer.observe(canvas);analysisObservers.push(observer);
+ document.addEventListener('replay-theme-changed',drawChart);analysisObservers.push({disconnect(){document.removeEventListener('replay-theme-changed',drawChart);}});
  const labels={assigngroup:'Assign control group',rightclick:'Right click',basic:'Basic orders',buildtrain:'Build / train / learn',ability:'Abilities and other orders',item:'Item transfer',select:'Selection',removeunit:'Remove from queue',subgroup:'Subgroup',selecthotkey:'Select control group',esc:'Escape'};
  $('action-breakdown').innerHTML='<h3 class="mini-heading">PARSER ACTION CATEGORIES</h3>'+table(['Category','Count'],Object.entries(p.actions).filter(([k,v])=>typeof v==='number').map(([k,v])=>'<tr><td>'+esc(labels[k]||k)+'</td><td class="number">'+v.toLocaleString()+'</td></tr>').join(''));
 }
@@ -747,7 +770,11 @@ function savePatches(){try{localStorage.setItem('library-patches',JSON.stringify
 $('patch-button').onclick=event=>{
  event.stopPropagation();
  if(!$('patch-menu').hidden){closePatchMenu();return;}
- renderPatchMenu();$('patch-menu').hidden=false;$('patch-button').setAttribute('aria-expanded','true');
+ renderPatchMenu();
+ const rect=$('patch-button').getBoundingClientRect(),menu=$('patch-menu'),below=window.innerHeight-rect.bottom-12;
+ menu.style.left=Math.max(8,rect.right-230)+'px';menu.style.top=below<160?'auto':rect.bottom+3+'px';menu.style.bottom=below<160?window.innerHeight-rect.top+3+'px':'auto';
+ menu.style.maxHeight=Math.max(80,Math.min(300,below<160?rect.top-12:below))+'px';
+ menu.hidden=false;$('patch-button').setAttribute('aria-expanded','true');
 };
 $('patch-menu').onclick=event=>{
  event.stopPropagation();
@@ -785,15 +812,15 @@ $('search').oninput=()=>{
  scheduleList();
 };
 window.replays.on('replay-renamed',({oldKey,row})=>{
- rows.delete(oldKey);rows.set(row.key,row);detailedReplayCards.delete(oldKey);
+ rows.delete(oldKey);rows.set(row.key,row);advancedFilters.invalidateChoices();detailedReplayCards.delete(oldKey);
  if(droppedReplayKey===oldKey)droppedReplayKey=row.key;
  if(pendingReplayRestore===oldKey)pendingReplayRestore=row.key;
  if(selected===oldKey){++request;selected=row.key;localStorage.setItem('selected-replay',row.key);if(entry){entry={...entry,key:row.key,file:row.file};if(entry.data)showMatch(0);}}
  restoredReplayReveal=selected;renderList();restoredReplayReveal=null;
 });
-window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));applyFolderSettings(data);renderList();restoreSelectedReplay();});
-window.replays.on('library-entry',row=>{rows.set(row.key,row);scheduleList();restoreSelectedReplay();});
-window.replays.on('library-entries',batch=>{for(const row of batch)rows.set(row.key,row);scheduleList(750);restoreSelectedReplay();});
+window.replays.on('library-reset',data=>{rows=new Map(data.rows.map(r=>[r.key,r]));advancedFilters.invalidateChoices();applyFolderSettings(data);renderList();restoreSelectedReplay();});
+window.replays.on('library-entry',row=>{rows.set(row.key,row);advancedFilters.invalidateChoices();scheduleList();restoreSelectedReplay();});
+window.replays.on('library-entries',batch=>{for(const row of batch)rows.set(row.key,row);advancedFilters.invalidateChoices();scheduleList(750);restoreSelectedReplay();});
 window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredReplayReveal){renderList();restoredReplayReveal=null;}});
 window.replays.on('select-replay',openRequestedReplay);
 // Check for updates: asks GitHub when pressed (and at startup when that is switched on); a newer version
@@ -873,7 +900,7 @@ async function startupQuestions(data){
 }
 window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
-window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));applyFolderSettings(data);if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
+window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));advancedFilters.invalidateChoices();applyFolderSettings(data);if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
 
 
 
