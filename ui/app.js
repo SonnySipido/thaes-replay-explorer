@@ -123,6 +123,8 @@ $('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
 $('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
 $('hide-build-duplicates').checked=buildOrderOptions().hideSuspectedDuplicates;
 $('hide-build-duplicates').onchange=event=>{localStorage.setItem('hide-build-duplicates',String(event.target.checked));if(entry?.data&&['Build Order','Heroes','Buildings'].includes(tab))renderPanel();};
+$('show-unlearned-abilities').checked=localStorage.getItem('show-unlearned-abilities')!=='false';
+$('show-unlearned-abilities').onchange=event=>{localStorage.setItem('show-unlearned-abilities',String(event.target.checked));if(entry?.data&&tab==='Heroes')renderPanel();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let chartObservers=[];
 function deselectReplay(){
@@ -536,6 +538,7 @@ function heroExperienceMarkup(hero){
 function heroes(p,root){
  root.classList.add('army-panel');
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
+ const showUnlearned=localStorage.getItem('show-unlearned-abilities')!=='false';
  const knownHeroes=p.heroes.filter(h=>iconSource(h.id,'heroes'));
  const firstUnitTimes=new Map();
  for(const {id,ms} of [...(p.units?.order||[]),...(p.morphOrders||[])]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
@@ -544,7 +547,7 @@ function heroes(p,root){
  '<div class="army-overview"><div class="army-heroes"><h3 class="mini-heading">HEROES</h3><div class="hero-grid">'+
  knownHeroes.map(h=>'<article class="hero-card" aria-label="'+esc(name(h.id))+'"><div class="hero-head">'+gameIcon(h.id,'heroes','hero-portrait')+
  '<span class="hero-identity"><span class="hero-name" title="'+esc(name(h.id))+'">'+esc(name(h.id))+'</span>'+heroExperienceMarkup(h)+'</span></div><div class="ability-icons">'+
- (orderedHeroAbilities(h).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
+ (orderedHeroAbilities(h).filter(([,level])=>showUnlearned||level>0).map(([id,level])=>heroAbilityMarkup(id,level)).join('')||
  '')+
  '</div></article>').join('')+'</div>'+(!p.heroes.length?'<p class="empty-note">No heroes identified.</p>':'')+
  '</div><div class="army-units"><h3 class="mini-heading">UNITS PRODUCED</h3><div class="unit-roster">'+

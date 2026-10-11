@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a Show unlearned hero abilities setting, enabled by default, to include greyed-out unlearned abilities on hero cards or show only learned abilities.
 - Show all four standard hero abilities, with unlearned abilities greyed out and empty rank bars. Alternate versions of the same ability share one slot.
 - Show each attack/armor research level and Adept/Master training once per player, retaining the first uncancelled start and removing cancelled attempts and repeated clicks, including when the suspected-duplicate filter is off.
 - Restore the replay library from one saved catalogue at startup, then check for new, changed and removed files in the background instead of loading thousands of summaries before showing the list.
