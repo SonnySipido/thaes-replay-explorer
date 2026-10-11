@@ -42,8 +42,8 @@ header .author{color:#d5e3ef}
 
 /* Keep the supplied wordmark legible by clipping only its transparent padding. */
 .brand{min-width:0}
-/* Align the visible lettering (4.45% down the crop) with the 44px Rexxar icon at every width. */
-.brand-name{display:block;position:relative;width:400px;min-width:0;aspect-ratio:2172/312;overflow:hidden;transform:translateY(calc(45.55% - 22px))}
+/* Align the visible lettering with Rexxar, then lift it 2px for the preferred visual alignment. */
+.brand-name{display:block;position:relative;width:400px;min-width:0;aspect-ratio:2172/312;overflow:hidden;transform:translateY(calc(45.55% - 24px))}
 .brand .brand-wordmark{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 51%;border:0;border-radius:0}
 .brand>img{flex:none}
 header .author{flex:none}
