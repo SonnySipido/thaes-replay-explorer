@@ -1,7 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.8.1
 
+- Add instant theme switching in Settings with saved Default, Simple (Dark) and warm Light themes. Keep the Arthas banner in every theme.
+- Group appearance settings together and improve secondary-text readability.
+- Align Control Groups counts with their group numbers and enlarge hero experience bars and level labels.
+- Use each player's race instead of team labels in build-order exports, with race icons in exported images.
 - Use the supplied Thae's Replay Explorer text logo in the app and website banners; remove the Overview's extra Rexxar/title row and align its main logo left.
 - Enlarge the website homepage logo to 280px with responsive wrapping on smaller screens.
 - Use the supplied Warcraft Replay Explorer logo on the website homepage.
