@@ -612,7 +612,7 @@ function groups(p,root){
  }
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
  $('panel').innerHTML=
- '<div class="box">'+table(['Group','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number">'+g.assigned+'</td><td class="number">'+g.used+'</td><td>'+members([...(history.get(g.key)||[]),...(g.members||[])])+'</td></tr>').join(''))+'</div>';
+ '<div class="box control-group-table">'+table(['Group','Assigned','Selected',''],p.groups.filter(g=>g.assigned||g.used).sort((a,b)=>(a.key||10)-(b.key||10)).map(g=>'<tr><td><span class="keycap">'+g.key+'</span></td><td class="number"><span class="control-group-count">'+g.assigned+'</span></td><td class="number"><span class="control-group-count">'+g.used+'</span></td><td>'+members([...(history.get(g.key)||[]),...(g.members||[])])+'</td></tr>').join(''))+'</div>';
 }
 // Battle.net replays since Reforged record the saving player's own messages twice, a few ms apart:
 // the same text from the same player in the same channel within a second is one of those copies

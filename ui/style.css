@@ -38,6 +38,9 @@
 
 .object-portrait{width:40px;height:40px}
 .data-table td:has(>.object-portrait){vertical-align:middle}
+.control-group-table .data-table td{vertical-align:middle}
+.control-group-table .keycap{vertical-align:middle}
+.control-group-count{position:relative;top:-1px}
 .member-icons{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
 .member-icon{display:inline-flex;align-items:center;gap:4px}
 .member-icon .object-portrait{width:32px;height:32px}
