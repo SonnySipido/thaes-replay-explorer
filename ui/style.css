@@ -553,6 +553,14 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .build-order-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 
 .match-date{font-size:calc(10px + 2pt)}
+
+/* Brighter secondary text for library metadata, analysis and settings. */
+:root{--secondary-text:#b3c0d1}
+.replay-row .row-meta,.match-head #version,.match-head .match-date,
+.comparison-content .data-table th,.comparison-content .mini-heading,.comparison-content .chart-caption,
+.settings-section h3,.settings .settings-note,.settings-row p,.settings .folder-path{color:var(--secondary-text)}
+.match-head #version{font-size:12px;line-height:1.5}
+.comparison-content .data-table th,.settings-section h3{font-size:12px}
 .build-order-row .building-tier{flex-shrink:0}
 
 .replay-row.compact-replay-row{display:block;min-height:30px;padding:4px 10px;margin-bottom:1px;font-size:13px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
