@@ -57,6 +57,8 @@
 .ability-rank-bars{display:flex;flex-direction:column-reverse;gap:2px;width:7px;height:28px;flex:0 0 7px}
 .ability-rank-bar{display:block;flex:1;min-height:0;border:1px solid #435064;border-radius:2px;background:#1b2635}
 .ability-rank-bar.filled{border-color:#e9c67c;background:linear-gradient(90deg,#c19a4e,#f5d58d);box-shadow:0 0 3px #e3bc7026}
+.ability.unlearned .ability-portrait{filter:grayscale(1);opacity:.35}
+.ability.unlearned .ability-rank-bars{opacity:.5}
 .unit-roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:10px}
 .unit-tile{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:8px 6px}
 .unit-tile .object-portrait{width:36px;height:36px}

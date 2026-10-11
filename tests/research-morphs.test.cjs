@@ -27,17 +27,33 @@ test('Destroyers identified later or through a hotkey remain separate from other
 test('armor and attack levels survive repeat clicks, full-match cutoffs and raw-mode toggles',()=>{
  const p={upgrades:{order:[{id:'Rhar',ms:100000},{id:'Rhar',ms:100100},{id:'Rhar',ms:140000},{id:'Rhar',ms:170000},{id:'Rhar',ms:260000},{id:'Rhar',ms:370000},{id:'Rhme',ms:0},{id:'Rhme',ms:65000}]}};
  assert.deepEqual(build.analysis(p).upgrades.filter(o=>o.id==='Rhar').map(o=>o.label),['Iron Plating','Steel Plating','Mithril Plating']);
- assert.deepEqual(build.analysis(p,{hideSuspectedDuplicates:false}).upgrades.filter(o=>o.id==='Rhar').map(o=>o.level),[1,1,1,2,3,3]);
+ assert.deepEqual(build.analysis(p,{hideSuspectedDuplicates:false}).upgrades.filter(o=>o.id==='Rhar').map(o=>o.level),[1,2,3]);
  assert.deepEqual(build.orders(p).filter(o=>o.id==='Rhme').map(o=>o.level),[1,2]);assert.equal(build.orders(p).filter(o=>o.id==='Rhar').length,3);
  const text=build.text({names:{Rhar:'Plating'},players:[{...p,name:'Player'}]},'Map');assert.match(text,/Steel Plating/);assert.match(text,/Mithril Plating/);
 });
 test('all caster families distinguish Adept and Master; cancelled research restarts at the same rank',()=>{
  for(const id of ['Rhpt','Rhst','Rowd','Rost','Rowt','Rune','Ruba','Redt','Redc']){
   const p={upgrades:{order:[{id,ms:0},{id,ms:100},{id,ms:20000},{id,ms:100000},{id,ms:250000}]},cancellations:[{id,ms:10000}]};
-  const rows=build.analysis(p).upgrades;assert.deepEqual(rows.map(o=>o.level),[1,1,2],id);assert.match(rows[0].label,/Adept Training$/);assert.match(rows[2].label,/Master Training$/);assert.equal(rows[0].cancelled,true);
-  assert(entitySearch({players:[p]}).includes(rows[2].label.toLowerCase()));
+  const rows=build.analysis(p).upgrades;assert.deepEqual(rows.map(o=>o.level),[1,2],id);assert.deepEqual(rows.map(o=>o.ms),[20000,100000]);assert.match(rows[0].label,/Adept Training$/);assert.match(rows[1].label,/Master Training$/);assert(!rows.some(o=>o.cancelled));
+  assert(entitySearch({players:[p]}).includes(rows[1].label.toLowerCase()));
  }
  assert.equal(research.orders({upgrades:{order:[{id:'custom',ms:0}]}})[0].level,undefined);
+});
+
+test('research keeps the first uncancelled start across restarts, players and time cutoffs',()=>{
+ const p={upgrades:{order:[{id:'Rhme',ms:0},{id:'Rhme',ms:100},{id:'Rhme',ms:20000},{id:'Rhme',ms:21000},{id:'Rhme',ms:310000},{id:'Rhme',ms:310100},{id:'Rhme',ms:390000}]},cancellations:[{id:'Rhme',ms:10000},{id:'Rhme',ms:30000}]};
+ const before=JSON.stringify(p);
+ for(const hideSuspectedDuplicates of [true,false]){
+  assert.deepEqual(build.analysis(p,{hideSuspectedDuplicates}).upgrades.map(o=>[o.level,o.ms]),[[1,310000],[2,390000]]);
+  assert.equal(build.orders(p,{hideSuspectedDuplicates}).length,0);
+ }
+ assert.equal(JSON.stringify(p),before);
+ assert.deepEqual(build.analysis({upgrades:{order:[{id:'Rhme',ms:5000}]}}).upgrades.map(o=>[o.level,o.ms]),[[1,5000]]);
+ assert.equal(build.analysis({upgrades:{order:[{id:'Rhme',ms:0},{id:'Rhme',ms:100}]},cancellations:[{id:'Rhme',ms:1000}]}).upgrades.length,0);
+ const custom={upgrades:{order:[{id:'custom',ms:0},{id:'custom',ms:100}]},cancellations:[{id:'custom',ms:200}]};
+ assert.equal(build.analysis(custom,{hideSuspectedDuplicates:false}).upgrades.length,2);
+ const text=build.text({players:[{...p,name:'Player'}]},'Map',{maxTime:Infinity,hideSuspectedDuplicates:false});
+ assert.equal((text.match(/Iron Forged Swords/g)||[]).length,1);assert.match(text,/05:10  Iron Forged Swords/);
 });
 test('skill requirements give a minimum level, without adding retrained or unspent skill points',()=>{
  assert.equal(minimumLevel({AHhb:3}),5);assert.equal(minimumLevel({AHhb:1,AHre:1}),6);assert.equal(minimumLevel({AHhb:3,AHds:3,AHad:3,AHre:1}),10);

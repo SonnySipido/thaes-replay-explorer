@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Show all four standard hero abilities, with unlearned abilities greyed out and empty rank bars. Alternate versions of the same ability share one slot.
+- Show each attack/armor research level and Adept/Master training once per player, retaining the first uncancelled start and removing cancelled attempts and repeated clicks, including when the suspected-duplicate filter is off.
 - Restore the replay library from one saved catalogue at startup, then check for new, changed and removed files in the background instead of loading thousands of summaries before showing the list.
 - Include Statue transformations and observed Destroyers in Units Produced. Existing analyses are upgraded when opened without rebuilding the entire cache.
 - Distinguish attack/armor research levels and Adept/Master caster training in match analysis, build orders, exports and search; repeated clicks and recorded research cancellations do not advance a level.

@@ -39,5 +39,17 @@
   }
   return result;
  }
- const api={definitions,orders};if(typeof module!=='undefined')module.exports=api;else root.replayResearch=api;
+ function uniqueOrders(player){
+  const retained=new Map(),result=[];
+  for(const order of orders(player)){
+   if(!definitions[order.id]){result.push(order);continue;}
+   // Keep the first uncancelled start, not a spam click or an abandoned attempt.
+   // Resolve across the whole match before applying a build-order time cutoff.
+   if(order.cancelled||order.researchRepeated)continue;
+   const key=order.id+':'+order.level;
+   if(!retained.has(key)){retained.set(key,order);result.push(order);}
+  }
+  return result;
+ }
+ const api={definitions,orders,uniqueOrders};if(typeof module!=='undefined')module.exports=api;else root.replayResearch=api;
 })(typeof window!=='undefined'?window:globalThis);

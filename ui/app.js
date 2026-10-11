@@ -495,19 +495,38 @@ const ultimateAbilities=new Set('AEtq AEme AEsf AEsv AOww AOeq AOre AOvd AUan AU
 // Verified against extracted default Buttonpos/Researchbuttonpos data:
 // https://github.com/clemenscodes/warcraft-hotkey-editor/blob/main/crates/warcraft-keybinds/fixtures/resolved_default_customkeys.txt
 const heroAbilitySlots=new Map([
- 'AHbz AHtb AHhb AHfs AEmb AEer AEst AEfk AOwk AOcl AOsh AOhw AUdc AUcs AUfn AUim ANbf ANsi ANfl ANrf ANsg ANsy ANs1 ANs2 ANs3 ANso ANhs',
- 'AHwe AHtc AHds AHbn AEim AEfn AHfa AEbl AOmi AOfs AOws AOhx AUdp AUsl AUfa AUfu AUts ANdh ANba ANfa ANht ANsq ANcs ANc1 ANc2 ANc3 ANlm ANcr',
- 'AHab AHbh AHad AHdr AEev AEah AEar AEsh AOcr AOsf AOae AOsw AUau AUav AUdr AUcb ANdb ANdr ANms ANca ANsw ANeg ANic ANia ANab'
+ 'AHbz AHtb AHhb AHfs AEmb AEer AEst AEfk AOwk AOcl AOsh AOhw AUdc AUcs AUfn AUim ANbf ANsi ANfl ANrf ANsg ANsy ANs1 ANs2 ANs3 ANso ANhs ANcp',
+ 'AHwe AHtc AHds AHbn AEim AEfn AHfa AEbl AOmi AOfs AOws AOhx AUdp AUsl AUfa AUfu AUts ANdh ANba ANfa ANht ANsq ANcs ANc1 ANc2 ANc3 ANlm ANcr AHcr',
+ 'AHab AHbh AHad AHdr AEev AEah AEar AEsh AOcr AOsf AOae AOsw AUau AUav AUdr AUcb ANdb ANdr ANms ANca ANsw ANeg ANic ANia ANab AHpa'
 ].flatMap((ids,slot)=>ids.split(' ').map(id=>[id,slot])));
+const heroAbilityDefaults=new Map(Object.entries({
+ Hamg:'AHbz AHwe AHab AHmt',Hmkg:'AHtb AHtc AHbh AHav',Hpal:'AHhb AHds AHad AHre',Hblm:'AHfs AHbn AHdr AHpx',
+ Edem:'AEmb AEim AEev AEme',Ekee:'AEer AEfn AEah AEtq',Emoo:'AEst AHfa AEar AEsf',Ewar:'AEfk AEbl AEsh AEsv',
+ Obla:'AOwk AOmi AOcr AOww',Ofar:'AOcl AOfs AOsf AOeq',Otch:'AOsh AOws AOae AOre',Oshd:'AOhw AOhx AOsw AOvd',
+ Udea:'AUdc AUdp AUau AUan',Udre:'AUcs AUsl AUav AUin',Ulic:'AUfn AUfa AUdr AUdd',Ucrl:'AUim AUts AUcb AUls',
+ Npbm:'ANbf ANdh ANdb ANef',Nbrn:'ANsi ANba ANdr ANch',Nngs:'ANfl ANfa ANms ANto',Nplh:'ANrf ANht ANca ANdo',
+ Nbst:'ANsg ANsq ANsw ANst',Ntin:'ANsy ANcs ANeg ANrg',Nfir:'ANso ANlm ANic ANvc',Nalc:'ANhs ANcr ANab ANtm',
+ Npal:'ANcp AHcr AHpa AHcl'
+}).map(([hero,ids])=>[hero,ids.split(' ')]));
+const heroAbilityVariants={AUfa:['AUfu'],ANsy:['ANs1','ANs2','ANs3'],ANcs:['ANc1','ANc2','ANc3'],ANrg:['ANg1','ANg2','ANg3'],ANic:['ANia']};
 function orderedHeroAbilities(hero){
  const slot=id=>ultimateAbilities.has(id)?3:heroAbilitySlots.get(id)??2.5;
- return Object.entries(hero.abilities||{}).sort(([a],[b])=>slot(a)-slot(b));
+ const learned=hero.abilities||{},defaults=heroAbilityDefaults.get(hero.id);
+ if(!defaults)return Object.entries(learned).sort(([a],[b])=>slot(a)-slot(b));
+ const included=new Set(),result=defaults.map(base=>{
+  const variants=[base,...(heroAbilityVariants[base]||[])];variants.forEach(id=>included.add(id));
+  const picked=variants.filter(id=>Number(learned[id])>0),id=picked.at(-1)||base;
+  const rank=Math.min(ultimateAbilities.has(base)?1:3,picked.reduce((sum,id)=>sum+Number(learned[id]),0));
+  return [id,rank];
+ });
+ for(const [id,rank] of Object.entries(learned))if(!included.has(id)&&Number(rank)>0)result.push([id,rank]);
+ return result.sort(([a],[b])=>slot(a)-slot(b));
 }
 function heroAbilityMarkup(id,level){
  const maximum=ultimateAbilities.has(id)?1:3,rank=Math.max(0,Math.min(maximum,Math.trunc(Number(level)||0)));
- const label=name(id)+', level '+rank+' of '+maximum+(maximum===1?' (ultimate)':'');
+ const label=name(id)+(rank?', level '+rank+' of '+maximum:', not learned')+(maximum===1?' (ultimate)':'');
  const bars=Array.from({length:maximum},(_,i)=>'<span class="ability-rank-bar'+(i<rank?' filled':'')+'"></span>').join('');
- return '<div class="ability" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars" aria-hidden="true">'+bars+'</span></div>';
+ return '<div class="ability'+(rank?'':' unlearned')+'" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars" aria-hidden="true">'+bars+'</span></div>';
 }
 function heroExperienceMarkup(hero){
  const level=Math.max(1,Math.min(10,Math.trunc(Number(hero.minimumLevel??hero.level)||1)));
@@ -883,7 +902,7 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  const canvas=document.createElement('canvas');canvas.width=margin*2+columnWidth*columns;canvas.height=Math.max(180,y+20);
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='600 24px '+headingFont;ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px '+uiFont;ctx.fillText(map,margin,66);
- ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders',margin,86);
+ ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText(options.hideSuspectedDuplicates?'Suspected duplicates grouped; commands do not confirm completed units.':'Raw recorded orders; repeated research levels omitted.',margin,86);
  const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+(o.iconId||o.id),o]))).values()].map(async o=>{const src=iconSource(o.iconId||o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+(o.iconId||o.id),img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){

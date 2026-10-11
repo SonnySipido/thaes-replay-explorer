@@ -28,7 +28,7 @@ test('match analysis shares the filter for full-match units, buildings and upgra
  const p={units:{summary:{opeo:4},order:[{id:'opeo',ms:1000},{id:'opeo',ms:1100},{id:'opeo',ms:600000},{id:'opeo',ms:600100}]},buildings:{order:[{id:'oalt',ms:620000},{id:'oalt',ms:620500}]},upgrades:{order:[{id:'Rost',ms:650000},{id:'Rost',ms:650100}]}};
  const before=JSON.stringify(p),clean=build.analysis(p),raw=build.analysis(p,{hideSuspectedDuplicates:false});
  assert.equal(clean.units.opeo,2);assert.equal(clean.buildings.length,1);assert.equal(clean.upgrades.length,1);
- assert.equal(raw.units.opeo,4);assert.equal(raw.buildings.length,2);assert.equal(raw.upgrades.length,2);
+ assert.equal(raw.units.opeo,4);assert.equal(raw.buildings.length,2);assert.equal(raw.upgrades.length,1);
  assert.equal(build.orders(p).length,1);assert.equal(JSON.stringify(p),before);
 });
 test('exports contain every player in team order, padded timestamps, and readable object names',()=>{

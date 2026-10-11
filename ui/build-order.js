@@ -10,7 +10,7 @@
   for(const o of player.morphOrders||[])if(!trainedDestroyers.has(o.source))events.push({...o,kind:'units'});
   const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'},expansions=new Set(['htow','ogre','etol','unpl','ugol']);
   const firstTier2=Math.min(Infinity,...(player.buildings?.order||[]).filter(o=>tiers[o.id]==='T2').map(o=>o.ms));
-  for(const o of research.orders(player))events.push({...o,kind:'upgrades'});
+  for(const o of research.uniqueOrders(player))events.push({...o,kind:'upgrades'});
   for(const o of [...(player.buildings?.order||[])].sort((a,b)=>a.ms-b.ms)){
    events.push({...o,kind:'buildings',tag:tiers[o.id]||(expansions.has(o.id)&&o.ms>=0&&o.ms<360000&&o.ms<firstTier2?'FE':'')});
   }
@@ -18,7 +18,6 @@
   if(!hideSuspectedDuplicates)return raw;
   const result=[],singletons=new Map();
   for(const order of raw){
-   if(order.researchRepeated)continue;
    const singleton=order.kind==='heroes'||order.kind==='buildings'&&repeatBuildings.has(order.id);
    const id=order.kind+':'+order.id+':'+(order.source||'');
    const previous=singleton?singletons.get(id):result.at(-1);
@@ -44,7 +43,7 @@
  const timestamp=ms=>String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');
  function playersByTeam(players){return [...players].sort((a,b)=>(a.teamid??a.team??0)-(b.teamid??b.team??0));}
  function text(data,mapName,options={}){
-  return ['Build order',mapName,options.hideSuspectedDuplicates===false?'Raw recorded orders':'Suspected duplicates grouped; commands do not confirm completed units.','',...playersByTeam(data.players).flatMap(p=>{
+  return ['Build order',mapName,options.hideSuspectedDuplicates===false?'Raw recorded orders; repeated research levels omitted.':'Suspected duplicates grouped; commands do not confirm completed units.','',...playersByTeam(data.players).flatMap(p=>{
    const list=orders(p,options);
    return [p.name+' — Team '+((p.teamid??p.team??0)+1),...list.map(o=>timestamp(o.ms)+'  '+orderName(o,data.names)+(o.tag?' ['+o.tag+']':'')),...(list.length?[]:['No recorded orders in the first five minutes.']),''];
   })].join('\r\n');
