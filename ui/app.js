@@ -906,10 +906,13 @@ async function buildOrderImage(data,map,options=buildOrderOptions()){
  if(canvas.height>30000)throw Error('This build order is too long for one image. Use Save to text.');
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b111a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#e3bc70';ctx.font='600 24px '+headingFont;ctx.fillText('Build order',margin,36);ctx.fillStyle='#e6edf5';ctx.font='16px '+uiFont;ctx.fillText(map,margin,66);
  if(options.hideSuspectedDuplicates===false){ctx.fillStyle='#95a5b9';ctx.font='12px '+uiFont;ctx.fillText('Raw recorded orders; repeated research levels omitted.',margin,86);}
- const images=new Map();await Promise.all([...new Map(blocks.flatMap(b=>b.orders.map(o=>[o.kind+':'+(o.iconId||o.id),o]))).values()].map(async o=>{const src=iconSource(o.iconId||o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units');if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(o.kind+':'+(o.iconId||o.id),img);}catch{}}));
+ const sources=new Map();
+ for(const b of blocks){const race=replayBuildOrder.raceCode(b.p);sources.set('race:'+race,iconSource(race,'races'));for(const o of b.orders)sources.set(o.kind+':'+(o.iconId||o.id),iconSource(o.iconId||o.id,o.kind)||iconSource(o.id,'heroes')||iconSource(o.id,'units'));}
+ const images=new Map();await Promise.all([...sources].map(async([key,src])=>{if(!src)return;const img=new Image();img.src=src;try{await img.decode();images.set(key,img);}catch{}}));
  const fit=(text,width)=>{let value=String(text);if(ctx.measureText(value).width<=width)return value;while(value.length&&ctx.measureText(value+'…').width>width)value=value.slice(0,-1);return value+'…';};
  for(const b of blocks){
-  ctx.fillStyle='#e3bc70';ctx.font='bold 17px '+uiFont;ctx.fillText(fit(b.p.name+' · Team '+((b.p.teamid??b.p.team??0)+1),columnWidth-28),b.x,b.y+20);ctx.font='14px '+uiFont;
+  const raceImage=images.get('race:'+replayBuildOrder.raceCode(b.p));if(raceImage)ctx.drawImage(raceImage,b.x,b.y+1,24,24);
+  ctx.fillStyle='#e3bc70';ctx.font='bold 17px '+uiFont;ctx.fillText(fit(b.p.name,columnWidth-60),b.x+32,b.y+20);ctx.font='14px '+uiFont;
   if(!b.orders.length){ctx.fillStyle='#95a5b9';ctx.fillText('No recorded orders in the first five minutes.',b.x,b.y+49);}
   b.orders.forEach((o,i)=>{const top=b.y+34+i*rowHeight;ctx.fillStyle=i%2?'#121c29':'#0f1823';ctx.fillRect(b.x,top,columnWidth-22,rowHeight);ctx.fillStyle='#95a5b9';ctx.fillText(replayBuildOrder.timestamp(o.ms),b.x+7,top+18);const img=images.get(o.kind+':'+(o.iconId||o.id));if(img)ctx.drawImage(img,b.x+59,top+2,22,22);const textX=b.x+91,label=fit(replayBuildOrder.orderName(o,data.names),columnWidth-(textX-b.x)-29-(o.tag?37:0));ctx.fillStyle='#e6edf5';ctx.fillText(label,textX,top+18);if(o.tag){const tagX=textX+ctx.measureText(label).width+8;ctx.fillStyle=o.tag==='FE'?'#173d2a':'#3e3420';ctx.fillRect(tagX,top+4,29,18);ctx.fillStyle=o.tag==='FE'?'#90d7a6':'#e3bc70';ctx.font='bold 11px '+uiFont;ctx.fillText(o.tag,tagX+7,top+17);ctx.font='14px '+uiFont;}});
  }

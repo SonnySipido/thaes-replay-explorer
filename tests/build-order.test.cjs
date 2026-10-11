@@ -32,7 +32,7 @@ test('match analysis shares the filter for full-match units, buildings and upgra
  assert.equal(build.orders(p).length,1);assert.equal(JSON.stringify(p),before);
 });
 test('exports contain every player in team order, padded timestamps, and readable object names',()=>{
- const data={names:{opeo:'Peon'},players:[{name:'Right',teamid:1,units:{order:[{id:'opeo',ms:65000}]}},{name:'Left',teamid:0,units:{order:[{id:'opeo',ms:42000}]}}]};const text=build.text(data,'Echo Isles');assert.ok(text.includes('00:42  Peon'));assert.ok(text.includes('01:05  Peon'));assert.ok(text.indexOf('Left')<text.indexOf('Right'));assert.ok(text.includes('Echo Isles'));assert.equal(build.orders({}).length,0);
+ const data={names:{opeo:'Peon'},players:[{name:'Right',teamid:1,race:'O',units:{order:[{id:'opeo',ms:65000}]}},{name:'Left',teamid:0,race:'R',raceDetected:'H',units:{order:[{id:'opeo',ms:42000}]}}]};const text=build.text(data,'Echo Isles');assert.ok(text.includes('00:42  Peon'));assert.ok(text.includes('01:05  Peon'));assert.ok(text.indexOf('Left')<text.indexOf('Right'));assert.ok(text.includes('Left — Human'));assert.ok(text.includes('Right — Orc'));assert.ok(!text.includes('Team '));assert.ok(text.includes('Echo Isles'));assert.equal(build.orders({}).length,0);
 });
 
 test('rapid repeated hero clicks collapse while later hero orders remain',()=>{

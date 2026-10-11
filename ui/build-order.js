@@ -42,11 +42,13 @@
  }
  const timestamp=ms=>String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');
  function playersByTeam(players){return [...players].sort((a,b)=>(a.teamid??a.team??0)-(b.teamid??b.team??0));}
+ const raceNames={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
+ function raceCode(player){const code=player.race==='R'?player.raceDetected||'R':player.race||player.raceDetected||'R';return raceNames[code]?code:'R';}
  function text(data,mapName,options={}){
   return ['Build order',mapName,...(options.hideSuspectedDuplicates===false?['Raw recorded orders; repeated research levels omitted.']:[]),'',...playersByTeam(data.players).flatMap(p=>{
    const list=orders(p,options);
-   return [p.name+' — Team '+((p.teamid??p.team??0)+1),...list.map(o=>timestamp(o.ms)+'  '+orderName(o,data.names)+(o.tag?' ['+o.tag+']':'')),...(list.length?[]:['No recorded orders in the first five minutes.']),''];
+   return [p.name+' — '+raceNames[raceCode(p)],...list.map(o=>timestamp(o.ms)+'  '+orderName(o,data.names)+(o.tag?' ['+o.tag+']':'')),...(list.length?[]:['No recorded orders in the first five minutes.']),''];
   })].join('\r\n');
  }
- const api={orders,analysis,timestamp,playersByTeam,text,orderName};if(typeof module!=='undefined')module.exports=api;else root.replayBuildOrder=api;
+ const api={orders,analysis,timestamp,playersByTeam,raceCode,text,orderName};if(typeof module!=='undefined')module.exports=api;else root.replayBuildOrder=api;
 })(typeof window!=='undefined'?window:globalThis);
