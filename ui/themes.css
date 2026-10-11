@@ -27,6 +27,10 @@
  --chart-first:#00aeff;
  --chart-second:#c394ff;
  --theme-header:#181a22;
+ --theme-primary:#0074b5;
+ --theme-primary-border:#008dcc;
+ --theme-primary-hover:#008dcc;
+ --theme-primary-hover-border:#00aeff;
  --theme-library:#1e2029;
  --theme-count:#333640;
  --theme-button:#343640;
@@ -81,79 +85,95 @@
 }
 :root[data-theme="light"]{
  color-scheme:light;
- --bg:#f4f6f9;
- --panel:#ffffff;
- --line:#d4dce7;
- --muted:#526174;
- --secondary-text:#485b72;
- --text:#202c3d;
- --gold:#006fae;
- --cyan:#006fae;
+ /* Warm sand and brown accents inspired by W3Champions' Orc palette. */
+ --bg:#ded3bf;
+ --panel:#e8decb;
+ --line:#bbac92;
+ --muted:#645544;
+ --secondary-text:#574737;
+ --text:#332a22;
+ --gold:#5c2604;
+ --cyan:#5c2604;
  --font-heading:var(--font-ui);
- --theme-hover:#e3eaf3;
- --theme-selected:#dcecf9;
- --theme-favorite:#956000;
- --chart-grid:#d4dce7;
- --chart-label:#526174;
- --chart-first:#0079b9;
+ --theme-hover:#cec0a7;
+ --theme-selected:#cbb594;
+ --theme-favorite:#805400;
+ --chart-grid:#bbac92;
+ --chart-label:#645544;
+ --chart-first:#8a4b20;
  --chart-second:#8540b0;
- --theme-header:#e9edf3;
- --theme-library:#eef1f6;
- --theme-count:#dce3eb;
- --theme-button:#e3e9f1;
- --theme-button-hover:#d3dde9;
- --theme-button-active:#c7d4e3;
- --theme-input:#ffffff;
- --theme-input-border:#b9c5d4;
- --theme-input-hover:#788ca4;
- --theme-placeholder:#586b80;
- --theme-replay-line:#d4dce7;
- --theme-icon-border:#97a7ba;
+ --theme-header:#181a22;
+ --theme-primary:#6c3512;
+ --theme-primary-border:#5c2604;
+ --theme-primary-hover:#84451b;
+ --theme-primary-hover-border:#6c3512;
+ --theme-library:#cfc2a9;
+ --theme-count:#bdae93;
+ --theme-button:#c7baa1;
+ --theme-button-hover:#bca98b;
+ --theme-button-active:#ad9775;
+ --theme-input:#f3ecdf;
+ --theme-input-border:#ae9a7d;
+ --theme-input-hover:#826c50;
+ --theme-placeholder:#6a5946;
+ --theme-replay-line:#b6a587;
+ --theme-icon-border:#9f8b6d;
  --theme-icon-bg:#171a21;
- --theme-hover-tint:#152d4b0a;
- --theme-filter-border:#8bb8d9;
- --theme-empty-folder:#77869a;
- --theme-winner-bg:#eef6e8;
- --theme-winner-border:#7c9c59;
- --theme-winner-badge-bg:#e2efd6;
- --theme-winner-badge-border:#799c4f;
- --theme-winner-text:#36591c;
- --theme-tab-text:#526174;
- --theme-tab-hover-bg:#193d6b08;
- --theme-table-heading:#42546a;
- --theme-table-line:#c2ccda;
- --theme-stripe:#1b355708;
- --theme-key-border:#8da0b6;
- --theme-rank-border:#006da6;
- --theme-rank-fill:#007db8;
- --theme-tier-bg:#e3f1fb;
- --theme-tier-border:#82b4d8;
- --theme-tier-text:#145984;
- --theme-expansion-bg:#e8f3e9;
- --theme-expansion-border:#81ac88;
- --theme-expansion-text:#2b6535;
- --theme-chip-bg:#edf1f7;
- --theme-chip-border:#bfcbd9;
- --theme-notes-bg:#edf2f8;
- --theme-link:#006aa8;
- --theme-settings-bg:#f8fafc;
- --theme-settings-heading:#3b4e66;
- --theme-backdrop:#23364b55;
- --theme-switch-bg:#d4dde8;
- --theme-switch-border:#8b9bb0;
- --theme-menu-hover:#d9e9f7;
- --theme-empty-symbol:#95a7bc;
- --theme-warning-bg:#fff3db;
- --theme-warning-border:#c39a4e;
- --theme-warning-text:#68490f;
- --theme-drop-bg:#f4f6f9ed;
- --theme-scrollbar:#a7b4c4;
- --theme-scrollbar-hover:#7d8fa5;
+ --theme-hover-tint:#5c26040a;
+ --theme-filter-border:#9c784e;
+ --theme-empty-folder:#796b58;
+ --theme-winner-bg:#dbe0bc;
+ --theme-winner-border:#7c8c52;
+ --theme-winner-badge-bg:#d2ddad;
+ --theme-winner-badge-border:#79904c;
+ --theme-winner-text:#354d1c;
+ --theme-tab-text:#645544;
+ --theme-tab-hover-bg:#5c260408;
+ --theme-table-heading:#574737;
+ --theme-table-line:#ac997a;
+ --theme-stripe:#5c260408;
+ --theme-key-border:#978366;
+ --theme-rank-border:#6c3512;
+ --theme-rank-fill:#8a4b20;
+ --theme-tier-bg:#dfcba9;
+ --theme-tier-border:#a07c4c;
+ --theme-tier-text:#5c360e;
+ --theme-expansion-bg:#dce2bf;
+ --theme-expansion-border:#899956;
+ --theme-expansion-text:#3d5b29;
+ --theme-chip-bg:#ddd0b8;
+ --theme-chip-border:#b39f7f;
+ --theme-notes-bg:#e0d4bd;
+ --theme-link:#5c2604;
+ --theme-settings-bg:#e8decb;
+ --theme-settings-heading:#5c2604;
+ --theme-backdrop:#332a2255;
+ --theme-switch-bg:#c7baa1;
+ --theme-switch-border:#978366;
+ --theme-menu-hover:#d4bf9f;
+ --theme-empty-symbol:#a08b6e;
+ --theme-warning-bg:#f2dfb7;
+ --theme-warning-border:#b48d45;
+ --theme-warning-text:#62430d;
+ --theme-drop-bg:#ded3bfed;
+ --theme-scrollbar:#ac997a;
+ --theme-scrollbar-hover:#887151;
 }
 html:is([data-theme="simple-dark"],[data-theme="light"]) body{background:var(--bg)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{background:var(--theme-header);border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
-html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar p){text-shadow:none}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{background-color:var(--theme-header);border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
+/* Preserve the original Arthas artwork and logo placement across themes.
+   Banner controls stay dark so they remain readable over the image. */
+html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{
+ --muted:#c4cbd7;
+ --text:#f1f2f4;
+ --gold:#86d6ff;
+ --cyan:#86d6ff;
+ --theme-button:#292c36e6;
+ --theme-button-hover:#414552f2;
+ --theme-button-active:#242733;
+}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar p){text-shadow:0 1px 3px #000}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library{background:var(--theme-library);border-color:var(--line)}
@@ -170,8 +190,8 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) input::placeholder,html
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(input,select,textarea,#patch-button):hover{border-color:var(--theme-input-hover)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button,input,textarea):focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-color:var(--cyan)}
-html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready){background:#0074b5;border-color:#008dcc;color:#fff}
-html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready):hover{background:#008dcc;border-color:#00aeff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready){background:var(--theme-primary);border-color:var(--theme-primary-border);color:#fff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready):hover{background:var(--theme-primary-hover);border-color:var(--theme-primary-hover-border)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.replay-row,.replay-row.compact-replay-row){background:transparent;border-color:transparent;border-bottom-color:var(--theme-replay-line);border-radius:3px;color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-row:hover{background:var(--theme-hover);border-color:transparent;border-bottom-color:var(--theme-replay-line)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.replay-row.active,.replay-row.active:hover){background:var(--theme-selected);border-color:transparent;border-bottom-color:var(--theme-replay-line);border-left-color:var(--cyan)}
@@ -228,7 +248,7 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-head h2{font-
 html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-section h3{color:var(--theme-settings-heading);letter-spacing:.035em}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.settings-backdrop,#ask-backdrop){background:var(--theme-backdrop)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-track{background:var(--theme-switch-bg);border-color:var(--theme-switch-border)}
-html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track{background:#0074b5;border-color:#00aeff}
+html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track{background:var(--theme-primary);border-color:var(--theme-primary-hover-border)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .switch-toggle input:checked+.switch-track::after{background:#fff}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.folder-path,.link-button){background:none;border:0;color:var(--secondary-text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.folder-path,.link-button):hover{background:none;color:var(--theme-link)}
@@ -247,7 +267,7 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) ::-webkit-scrollbar-thu
 
 /* Keep race and player colors readable on pale surfaces; game artwork and
    purple experience bars retain their in-game colors in every theme. */
-html[data-theme="light"] [class*="player-color-"]{color:color-mix(in srgb,var(--player-color) 40%,#132236 60%)!important}
+html[data-theme="light"] [class*="player-color-"]{color:color-mix(in srgb,var(--player-color) 40%,#332a22 60%)!important}
 html[data-theme="light"] .row-player.race-color-H{color:#2355b2!important}
 html[data-theme="light"] .row-player.race-color-O{color:#be2935!important}
 html[data-theme="light"] .row-player.race-color-N{color:#08796a!important}
@@ -255,8 +275,10 @@ html[data-theme="light"] .row-player.race-color-U{color:#7e3ca9!important}
 html[data-theme="light"] .row-player.race-color-R{color:#846700!important}
 html[data-theme="light"] :is(.tabs button.active,.tabs button:hover){color:var(--text)}
 html[data-theme="light"] :is(.matchup-filter option,#source option):is(:checked,:hover){color:var(--text)}
-html[data-theme="light"] .missing-icon{color:#d5dfeb}
+html[data-theme="light"] .missing-icon{color:#e8decb}
 html[data-theme="light"] .hero-experience-bar{border-color:#74618d}
 html[data-theme="light"] .player-comparison:has(>.team-column:nth-child(2))::after,
 html[data-theme="light"] #players:has(>.team-column:nth-child(2))::after{background:var(--line)}
 html[data-theme="light"] img[src$="w3champions.png"]{filter:brightness(.5)}
+
+html[data-theme="light"] .topbar img[src$="w3champions.png"]{filter:none}
