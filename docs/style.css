@@ -25,9 +25,8 @@ header .author{color:#d5e3ef}
 .feature-groups li:before{content:"✓";position:absolute;left:0;color:#7fc4b6}
 @media(max-width:760px){.feature-list{padding:26px 0}.feature-groups>div{margin-bottom:20px}}
 
-.hero-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:24px}
-.hero-heading h1{margin:0;flex-shrink:0}
-.hero-logo{display:block;width:min(280px,100%);height:auto;min-width:0;flex:none;margin-inline:auto;object-fit:contain}
+.hero-heading{display:flex;align-items:center;justify-content:flex-start;margin-bottom:24px}
+.hero-logo{display:block;width:min(280px,100%);height:auto;min-width:0;flex:none;object-fit:contain}
 
 /* Tighter vertical spacing: less empty space around the intro, the install steps and each section. */
 .hero{padding:34px 0 26px}
@@ -41,11 +40,12 @@ header .author{color:#d5e3ef}
 .feature-groups>div{margin-bottom:18px}
 @media(max-width:760px){.hero{padding:26px 0 20px}.install,.features,.feature-list{padding:20px 0}}
 
-/* The app's name beside the Replay Explorer logo: Rexxar icon and title at section-heading size */
-.hero-heading{justify-content:space-between;flex-wrap:wrap;gap:18px 22px}
-.hero-heading .hero-title{display:flex;align-items:center;gap:13px;font-size:24px;line-height:1.3;letter-spacing:1px;font-weight:750;margin:0;flex:1 1 240px;min-width:0}
-.hero-title img{border-radius:10px;border:1px solid #bca57470;flex:none}
-@media(max-width:760px){.hero-heading{flex-wrap:wrap;gap:12px 18px}.hero-heading .hero-title{font-size:20px;gap:10px}.hero-title img{width:36px;height:36px}}
+/* Keep the supplied wordmark legible by clipping only its transparent padding. */
+.brand{min-width:0}
+.brand-name{display:block;position:relative;width:400px;min-width:0;aspect-ratio:2172/312;overflow:hidden}
+.brand .brand-wordmark{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 51%;border:0;border-radius:0}
+.brand>img{flex:none}
+header .author{flex:none}
 /* Shared page navigation and illustrated replay guides. */
 .skip-link{position:absolute;left:16px;top:-100px;background:#e7c17c;color:#101822;padding:10px;z-index:10}.skip-link:focus{top:12px}
 .site-tabs{display:flex;gap:28px;border-bottom:1px solid #ffffff20;padding-top:12px}.site-tabs a{padding:12px 2px;color:#9dadc0;text-decoration:none;font-weight:650;border-bottom:3px solid transparent}.site-tabs a[aria-current=page]{color:#e7c17c;border-color:#e7c17c}.site-tabs a:hover{color:#ffe2ac}
