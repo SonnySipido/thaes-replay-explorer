@@ -99,6 +99,8 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
  try{await window.flushReplayNotes();const result=await window.replays[action==='export'?'exportAnnotations':'importAnnotations']();if(result!==null&&result!==false){$('annotation-backup-status').textContent=action==='export'?'Annotations exported.':result+' annotations imported.';if(action==='import'&&$('replay-notes-text')&&selected)$('replay-notes-text').value=annotationFor(rows.get(selected)).notes;refreshFavoriteButtons();}}
  catch(error){$('annotation-backup-status').textContent=error.message;}finally{button.disabled=false;}
 };
+$('app-theme').value=replayThemes.get();
+$('app-theme').onchange=event=>replayThemes.set(event.target.value);
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
 $('hide-empty-folders').checked=localStorage.getItem('hide-empty-folders')==='true';
 function updateClassicViewOptions(){
@@ -583,18 +585,20 @@ function apm(p,root){
  const canvas=$('apm-chart');canvas.style.width='100%';canvas.style.height='235px';
  function drawChart(){
  const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=235,dpr=window.devicePixelRatio||1;
+ const colors=getComputedStyle(document.documentElement),color=key=>colors.getPropertyValue(key).trim();
  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
  const max=Math.max(1,...entry.data.players.flatMap(player=>player.apmBuckets));
  ctx.font=(12+2*96/72)+'px '+getComputedStyle(canvas).fontFamily;const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
- for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle='#2b3b4e';ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle='#93a5b9';ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
+ for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle=color('--chart-grid');ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle=color('--chart-label');ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
  const count=Math.max(1,...entry.data.players.map(player=>player.apmBuckets.length));
  const plotWidth=w-pad-12,step=plotWidth/Math.max(1,count-1);
- ctx.strokeStyle=entry.data.players.indexOf(p)%2?'#e3bc70':'#79cfc0';ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
+ ctx.strokeStyle=color(entry.data.players.indexOf(p)%2?'--chart-second':'--chart-first');ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
  p.apmBuckets.forEach((v,i)=>{const x=pad+i*step,y=h-25-v/max*(h-50);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);});ctx.stroke();
  ctx.fillStyle=ctx.strokeStyle;p.apmBuckets.forEach((v,i)=>{ctx.beginPath();ctx.arc(pad+i*step,h-25-v/max*(h-50),3,0,Math.PI*2);ctx.fill();});
  canvas.onmousemove=e=>{const index=Math.round((e.offsetX/canvas.clientWidth*w-pad)/step);canvas.title=index>=0&&index<p.apmBuckets.length?'Minute '+(index+1)+': '+p.apmBuckets[index]+' actions':'';};
  }
  drawChart();document.fonts.ready.then(()=>{if(canvas.isConnected)drawChart();});const observer=new ResizeObserver(drawChart);observer.observe(canvas);chartObservers.push(observer);
+ document.addEventListener('replay-theme-changed',drawChart);chartObservers.push({disconnect(){document.removeEventListener('replay-theme-changed',drawChart);}});
  const labels={assigngroup:'Assign control group',rightclick:'Right click',basic:'Basic orders',buildtrain:'Build / train / learn',ability:'Abilities and other orders',item:'Item transfer',select:'Selection',removeunit:'Remove from queue',subgroup:'Subgroup',selecthotkey:'Select control group',esc:'Escape'};
  $('action-breakdown').innerHTML='<h3 class="mini-heading">PARSER ACTION CATEGORIES</h3>'+table(['Category','Count'],Object.entries(p.actions).filter(([k,v])=>typeof v==='number').map(([k,v])=>'<tr><td>'+esc(labels[k]||k)+'</td><td class="number">'+v.toLocaleString()+'</td></tr>').join(''));
 }

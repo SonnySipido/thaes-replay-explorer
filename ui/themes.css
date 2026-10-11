@@ -1,0 +1,123 @@
+/* The original theme is unchanged. Battle.net follows the desktop client's
+   charcoal surfaces, flat controls, white typography and cyan navigation. */
+#app-theme{width:174px;max-width:60%;padding:7px 10px;font-size:13px;flex-shrink:0}
+.settings-row label[for="app-theme"]{font-weight:600}
+
+:root{
+ --chart-grid:#2b3b4e;
+ --chart-label:#93a5b9;
+ --chart-first:#79cfc0;
+ --chart-second:#e3bc70;
+}
+:root[data-theme="battlenet"]{
+ --bg:#1b1d25;
+ --panel:#252731;
+ --line:#373944;
+ --muted:#a9adb9;
+ --secondary-text:#b8bcc8;
+ --text:#f1f2f4;
+ --gold:#00aeff;
+ --cyan:#00aeff;
+ --font-heading:var(--font-ui);
+ --bnet-hover:#31343f;
+ --bnet-selected:#263a4d;
+ --bnet-favorite:#ffcc54;
+ --chart-grid:#3a3d48;
+ --chart-label:#b8bcc8;
+ --chart-first:#00aeff;
+ --chart-second:#c394ff;
+}
+html[data-theme="battlenet"] body{background:var(--bg)}
+html[data-theme="battlenet"] :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
+html[data-theme="battlenet"] .topbar{background:#181a22;border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
+html[data-theme="battlenet"] :is(.topbar h1,.topbar p){text-shadow:none}
+html[data-theme="battlenet"] :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
+html[data-theme="battlenet"] :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
+html[data-theme="battlenet"] .library{background:#1e2029;border-color:var(--line)}
+html[data-theme="battlenet"] .library-heading h2{font-size:18px;letter-spacing:0}
+html[data-theme="battlenet"] .library-heading h2 span{background:#333640;color:var(--secondary-text);border-radius:3px}
+html[data-theme="battlenet"] .library-footer{border-color:var(--line);color:var(--muted)}
+html[data-theme="battlenet"] :is(button,input,select,textarea){border-radius:4px}
+html[data-theme="battlenet"] button{background:#343640;border-color:transparent;color:var(--text)}
+html[data-theme="battlenet"] button:hover{background:#444751;border-color:transparent}
+html[data-theme="battlenet"] button:active{background:#2c2f39}
+html[data-theme="battlenet"] button:disabled{opacity:.45;cursor:not-allowed}
+html[data-theme="battlenet"] :is(input,select,textarea,#patch-button,#replay-notes-text){background:#292c36;border-color:#424550;color:var(--text)}
+html[data-theme="battlenet"] input::placeholder,html[data-theme="battlenet"] textarea::placeholder{color:#9ba0ae}
+html[data-theme="battlenet"] :is(input,select,textarea,#patch-button):hover{border-color:#686c7a}
+html[data-theme="battlenet"] :is(button,input,textarea):focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+html[data-theme="battlenet"] select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-color:var(--cyan)}
+html[data-theme="battlenet"] :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready){background:#0074b5;border-color:#008dcc;color:#fff}
+html[data-theme="battlenet"] :is(button.primary,#watch-replay,.ask-buttons #ask-yes,#rename-save,#update-check.update-ready):hover{background:#008dcc;border-color:#00aeff}
+html[data-theme="battlenet"] :is(.replay-row,.replay-row.compact-replay-row){background:transparent;border-color:transparent;border-bottom-color:#32353f;border-radius:3px;color:var(--text)}
+html[data-theme="battlenet"] .replay-row:hover{background:var(--bnet-hover);border-color:transparent;border-bottom-color:#32353f}
+html[data-theme="battlenet"] :is(.replay-row.active,.replay-row.active:hover){background:var(--bnet-selected);border-color:transparent;border-bottom-color:#32353f;border-left-color:var(--cyan)}
+html[data-theme="battlenet"] .replay-row:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+html[data-theme="battlenet"] .replay-row.active:focus-visible{outline:none}
+html[data-theme="battlenet"] :is(.replay-row .length,.replay-card-actions .length,.unit-count,.member-count,.data-table td.number,.skill-step .rank,.level){color:var(--text)}
+html[data-theme="battlenet"] :is(.map-preview,.game-icon){border-color:#535763;border-radius:3px;background:#171a21}
+html[data-theme="battlenet"] .game-icon{box-shadow:0 1px 2px #0005}
+html[data-theme="battlenet"] :is(.favorite-toggle,.library-filter-icon){background:transparent;border-color:transparent;color:var(--muted)}
+html[data-theme="battlenet"] :is(.favorite-toggle,.library-filter-icon):hover{background:#ffffff0c;color:var(--text)}
+html[data-theme="battlenet"] :is(.favorite-toggle.is-favorite,#only-favorites[aria-pressed="true"]){color:var(--bnet-favorite)}
+html[data-theme="battlenet"] .library-filter-icon[aria-pressed="true"]{background:#263a4d;border-color:#33658b;color:var(--cyan)}
+html[data-theme="battlenet"] #only-favorites[aria-pressed="true"]{color:var(--bnet-favorite)}
+html[data-theme="battlenet"] .classic-folder-heading{color:var(--text);border-radius:3px}
+html[data-theme="battlenet"] .classic-folder-heading:hover{background:var(--bnet-hover)}
+html[data-theme="battlenet"] .classic-folder-heading:focus-visible{outline-color:var(--cyan)}
+html[data-theme="battlenet"] .classic-folder-heading[aria-disabled="true"]{color:#828795}
+html[data-theme="battlenet"] .classic-folder-heading[aria-disabled="true"]:hover{background:transparent}
+html[data-theme="battlenet"] .classic-folder-contents{border-color:var(--line)}
+html[data-theme="battlenet"] .match-head .eyebrow{color:var(--secondary-text);font-weight:600;letter-spacing:.04em}
+html[data-theme="battlenet"] .match-head h2{font-weight:700;letter-spacing:-.025em}
+html[data-theme="battlenet"] #duration{color:var(--text);font-weight:500}
+html[data-theme="battlenet"] #filename{background:none;border:0;color:var(--muted)}
+html[data-theme="battlenet"] #filename:hover{color:var(--text)}
+html[data-theme="battlenet"] .players .player{background:#252731;border-radius:4px}
+html[data-theme="battlenet"] .players .player-profile{background:none;border:0;color:inherit}
+html[data-theme="battlenet"] .players .player-profile:hover{background:none;color:inherit;text-decoration:underline}
+html[data-theme="battlenet"] .players .match-winner{background:#293323;box-shadow:inset 0 0 0 1px #6b8b40}
+html[data-theme="battlenet"] .winner-badge{background:#324522;border-color:#719747;color:#c0e786}
+html[data-theme="battlenet"] .tabs{background:#252731;border-color:var(--line)}
+html[data-theme="battlenet"] .tabs button{background:transparent;border-radius:0;border-color:transparent;color:#b8bcc8}
+html[data-theme="battlenet"] .tabs button:hover{background:#ffffff05;color:#fff}
+html[data-theme="battlenet"] .tabs button.active{color:#fff;border-bottom-color:var(--cyan)}
+html[data-theme="battlenet"] :is(.hero-card,.box,.metric,.unit-tile,.replay-folder-card){background:var(--panel);border-color:var(--line);border-radius:4px;box-shadow:none}
+html[data-theme="battlenet"] :is(.mini-heading,.section-title){color:var(--secondary-text);font-weight:600;letter-spacing:.035em}
+html[data-theme="battlenet"] :is(.ability-icons,.data-table td,.chat-row){border-color:var(--line)}
+html[data-theme="battlenet"] #panel.chat-panel>.toolbar{flex-wrap:wrap}
+html[data-theme="battlenet"] #chat-search{min-width:160px}
+html[data-theme="battlenet"] #chat-player{flex:0 1 auto;max-width:100%}
+html[data-theme="battlenet"] .data-table th{border-color:#4b4f5c;letter-spacing:.02em;color:#c2c6d0}
+html[data-theme="battlenet"] :is(.build-order-row:nth-child(even),.data-table tbody tr:hover){background:#ffffff03}
+html[data-theme="battlenet"] .keycap{background:#1b1d25;border-color:#626776;border-bottom-color:#626776;border-radius:3px;color:var(--text)}
+html[data-theme="battlenet"] .ability-rank-bar{border-color:#535763;background:#1b1d25}
+html[data-theme="battlenet"] .ability-rank-bar.filled{border-color:#4fc6ff;background:#009fe6;box-shadow:none}
+html[data-theme="battlenet"] .hero-experience-bar{border-color:#626776}
+html[data-theme="battlenet"] :is(.building-tier,.research-rank){background:#293d50;border-color:#457393;color:#a3dfff}
+html[data-theme="battlenet"] .building-fast-expand{background:#273d2b;border-color:#4d8255;color:#ade2b7}
+html[data-theme="battlenet"] .chip{background:#303440;border-color:#484c5b;color:var(--text)}
+html[data-theme="battlenet"] :is(.player-comparison,#players)::after{background:var(--line)}
+html[data-theme="battlenet"] .replay-notes{background:#22252e;border-color:var(--line);border-radius:4px}
+html[data-theme="battlenet"] .replay-notes.has-notes>summary{color:#8ed9ff}
+html[data-theme="battlenet"] .settings{background:#21232d;border-color:var(--line);box-shadow:-8px 0 30px #0006}
+html[data-theme="battlenet"] .settings-head h2{font-size:22px;font-weight:700}
+html[data-theme="battlenet"] .settings-section h3{color:#d0d3dd;letter-spacing:.035em}
+html[data-theme="battlenet"] :is(.settings-backdrop,#ask-backdrop){background:#090b1180}
+html[data-theme="battlenet"] .switch-track{background:#3a3e4b;border-color:#6b7280}
+html[data-theme="battlenet"] .switch-toggle input:checked+.switch-track{background:#0074b5;border-color:#00aeff}
+html[data-theme="battlenet"] .switch-toggle input:checked+.switch-track::after{background:#fff}
+html[data-theme="battlenet"] :is(.folder-path,.link-button){background:none;border:0;color:var(--secondary-text)}
+html[data-theme="battlenet"] :is(.folder-path,.link-button):hover{background:none;color:#8ed9ff}
+html[data-theme="battlenet"] :is(.patch-menu,.ask,#rename-dialog){background:#252731;border-color:#4b4f5c;border-radius:4px}
+html[data-theme="battlenet"] .patch-all{background:none;color:#8ed9ff}
+html[data-theme="battlenet"] :is(.patch-option,.patch-all):hover{background:var(--bnet-hover)}
+html[data-theme="battlenet"] :is(.matchup-filter select,#source)::picker(select){background:#292c36;border-color:#4b4f5c;border-radius:4px}
+html[data-theme="battlenet"] :is(.matchup-filter option,#source option):checked{background:var(--bnet-selected);color:#fff}
+html[data-theme="battlenet"] :is(.matchup-filter option,#source option):hover{background:#3a4657;color:#fff}
+html[data-theme="battlenet"] .empty-symbol{color:#52687d}
+html[data-theme="battlenet"] .warning{background:#3b3023;border-color:#80633d;color:#f1d59f}
+html[data-theme="battlenet"] .detail-footer{color:var(--muted);border-color:var(--line)}
+html[data-theme="battlenet"] body.replay-drop-active::after{background:#1b1d25ed;color:#8ed9ff;border-color:var(--cyan)}
+html[data-theme="battlenet"] ::-webkit-scrollbar-thumb{background:#555a68;border-radius:3px}
+html[data-theme="battlenet"] ::-webkit-scrollbar-thumb:hover{background:#717786}
