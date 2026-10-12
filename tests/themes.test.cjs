@@ -7,10 +7,10 @@ function load(saved,{blocked=false}={}){
  vm.runInNewContext(source,context);return {themes:context.window.replayThemes,document,values,events};
 }
 test('theme is restored before UI initialization; missing or invalid preferences use the original design',()=>{
- for(const saved of [undefined,'unknown','default','simple-dark','light']){const state=load(saved);assert.equal(state.document.documentElement.dataset.theme,['simple-dark','light'].includes(saved)?saved:'default');assert.equal(state.values.get('app-theme'),saved);assert.deepEqual(state.events,[]);}
+ for(const saved of [undefined,'unknown','default','simple-dark','light','warcraft']){const state=load(saved);assert.equal(state.document.documentElement.dataset.theme,['simple-dark','light','warcraft'].includes(saved)?saved:'default');assert.equal(state.values.get('app-theme'),saved);assert.deepEqual(state.events,[]);}
 });
 test('switching saves the choice and notifies canvas views only when the theme changes',()=>{
- const state=load();for(const theme of ['simple-dark','light','default']){state.themes.set(theme);assert.equal(state.themes.get(),theme);assert.equal(load(state.values.get('app-theme')).themes.get(),theme);state.themes.set(theme);}assert.deepEqual(state.events,['replay-theme-changed','replay-theme-changed','replay-theme-changed']);
+ const state=load();for(const theme of ['simple-dark','light','warcraft','default']){state.themes.set(theme);assert.equal(state.themes.get(),theme);assert.equal(load(state.values.get('app-theme')).themes.get(),theme);state.themes.set(theme);}assert.deepEqual(state.events,['replay-theme-changed','replay-theme-changed','replay-theme-changed','replay-theme-changed']);
 });
 test('unavailable browser storage does not stop startup or live theme switching',()=>{
  const state=load('simple-dark',{blocked:true});assert.equal(state.themes.get(),'default');assert.doesNotThrow(()=>state.themes.set('light'));assert.equal(state.document.documentElement.dataset.theme,'light');assert.deepEqual(state.events,['replay-theme-changed']);

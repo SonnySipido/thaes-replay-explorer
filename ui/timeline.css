@@ -1,0 +1,47 @@
+.match-timeline{min-width:0}
+.timeline-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:10px}
+.timeline-player-choices{display:flex;flex:1 1 260px;flex-wrap:wrap;gap:10px 18px;min-width:0;padding:0;margin:0;border:0}
+.timeline-player-choice{display:flex;align-items:center;gap:7px;cursor:pointer;min-width:0;max-width:100%;font-size:13px}
+.timeline-player-choice input{margin:0;flex-shrink:0;accent-color:var(--gold)}
+.timeline-player-identity{display:flex;align-items:center;gap:6px;min-width:0;overflow-wrap:anywhere}
+.timeline-player-identity .race-icon,.timeline-track-label .race-icon{width:22px;height:22px;flex-shrink:0}
+.timeline-player-identity .random-race-icon,.timeline-track-label .random-race-icon{width:22px;height:22px;flex-shrink:0}
+.timeline-options{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;margin-bottom:10px}
+.timeline-type-choices{display:flex;flex:1 1 340px;flex-wrap:wrap;gap:10px 16px;min-width:0;padding:0;margin:0;border:0}
+.timeline-type-choice{display:flex;align-items:center;gap:6px;white-space:nowrap;font-size:12px;cursor:pointer}
+.timeline-type-choice input{margin:0;accent-color:var(--gold)}
+.timeline-merge{font-size:12px;white-space:nowrap}
+.timeline-zoom{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.timeline-zoom select{font-size:12px;padding:6px 8px}
+.timeline-viewport{max-width:100%;overflow:auto;border:1px solid var(--line);border-radius:7px;isolation:isolate}
+.timeline-viewport:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.timeline-chart{min-width:100%;background:var(--bg)}
+.timeline-axis-row,.timeline-track{display:grid;grid-template-columns:var(--timeline-label-width) minmax(0,1fr)}
+.timeline-axis-row{position:sticky;top:0;z-index:3;background:var(--panel);border-bottom:1px solid var(--line)}
+.timeline-track{border-bottom:3px solid var(--line)}
+.timeline-track:last-child{border-bottom:0}
+.timeline-track-label{position:sticky;left:0;z-index:2;display:flex;flex-wrap:wrap;align-content:center;align-items:center;gap:6px;min-width:0;padding:12px;background:var(--panel);border-right:1px solid var(--line);font-size:13px;overflow-wrap:anywhere}
+.timeline-track-label .timeline-name{display:block;max-width:100%;font-weight:600}
+.timeline-track>.timeline-track-label{display:block;padding:0}
+.timeline-track-label .timeline-player-identity{flex-wrap:nowrap;width:100%}
+.timeline-track-label .timeline-player-identity .timeline-name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timeline-lane-label{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:6px 10px}
+.timeline-lane-label+.timeline-lane-label{border-top:1px solid var(--line)}
+.timeline-lane-title{color:var(--muted);font-size:11px;line-height:1.4}
+.timeline-player-lanes{min-width:0}
+.timeline-player-lanes>.timeline-lane+.timeline-lane{border-top:1px solid var(--line)}
+.timeline-axis{position:relative;height:36px;min-width:0}
+.timeline-tick{position:absolute;top:11px;transform:translateX(-50%);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted)}
+.timeline-lane{position:relative;min-width:0;isolation:isolate}
+.timeline-gridline{position:absolute;top:0;bottom:0;width:1px;background:var(--line);pointer-events:none}
+.timeline-event{position:absolute;z-index:1;width:var(--timeline-icon-size);height:var(--timeline-icon-size);padding:0;border:0;border-radius:4px;background:var(--panel);line-height:1}
+.timeline-event.timeline-production{z-index:3}
+.timeline-event.timeline-important{z-index:5}
+.timeline-event.timeline-worker{z-index:0}
+.timeline-event:focus-visible{z-index:10;outline:2px solid var(--gold);outline-offset:2px}
+.timeline-event:hover{z-index:20;outline:2px solid var(--gold);outline-offset:2px}
+.timeline-event :is(.object-portrait,.game-icon){width:var(--timeline-icon-size);height:var(--timeline-icon-size);border-radius:4px;max-width:100%;max-height:100%}
+.timeline-event .research-icon{display:block;width:var(--timeline-icon-size);height:var(--timeline-icon-size)}
+.timeline-event .research-rank{font-size:11.7px;min-width:15.6px;padding:1.3px 2.6px;right:0;bottom:0}
+.timeline-export{flex-shrink:0}
+.tabs{flex-wrap:wrap}

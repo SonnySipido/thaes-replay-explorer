@@ -10,6 +10,7 @@ const annotatedSummary=entry=>{const row=summary(entry);return {...row,annotatio
 const {importReplay}=require('./replay-import.cjs');
 const {replayFile,copyReplayFile}=require('./replay-share.cjs');
 const {renameReplay}=require('./replay-rename.cjs');
+const {saveReplayExport}=require('./replay-export.cjs');
 let importQueue=Promise.resolve();
 const {normalizeReplayFolders,folderKey}=require('./replay-folders.cjs');
 const {ReplayDetails}=require('./replay-details.cjs');
@@ -318,19 +319,9 @@ function registerIPC(){
   });
   ipcMain.handle('copy-text',(_,text)=>{clipboard.writeText(String(text));});
   // the chat as shown in the Chat tab, saved as a text file named after the replay
-  ipcMain.handle('export-build-order',async(_,key,format,contents,filename)=>{
-    const row=entries.get(key);if(!row)throw Error('Replay is no longer in the library.');
-    if(!['txt','png'].includes(format)||typeof contents!=='string'||contents.length>48*1024*1024)throw Error('Invalid build order export.');
-    let output=contents;
-    if(format==='png'){
-      if(!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(contents))throw Error('Invalid image export.');
-      output=Buffer.from(contents.split(',')[1],'base64');
-      if(output.subarray(0,8).toString('hex')!=='89504e470d0a1a0a')throw Error('Invalid PNG image.');
-    }
-    const basename=(typeof filename==='string'?filename:'Build order').replace(/[<>:"/\\|?*\x00-\x1f]/g,' ').replace(/\s+/g,' ').trim().slice(0,180).replace(/[. ]+$/,'')||'Build order';
-    const pick=await dialog.showSaveDialog(win,{title:format==='png'?'Export build order image':'Save build order',defaultPath:path.join(app.getPath('documents'),basename+'.'+format),filters:[{name:format==='png'?'PNG image':'Text',extensions:[format]}]});
-    if(pick.canceled)return false;await fs.writeFile(pick.filePath,output);return true;
-  });
+  const exportReplay=(key,format,contents,filename,label)=>saveReplayExport({entries,key,format,contents,filename,label,dialog,window:win,documents:app.getPath('documents')});
+  ipcMain.handle('export-build-order',(_,key,format,contents,filename)=>exportReplay(key,format,contents,filename,'Build order'));
+  ipcMain.handle('export-timeline',(_,key,contents,filename)=>exportReplay(key,'png',contents,filename,'Timeline'));
   ipcMain.handle('export-chat',async(_,key,text)=>{
     const row=entries.get(key);if(!row)throw new Error('Replay is no longer in the library.');
     const pick=await dialog.showSaveDialog(win,{title:'Export chat',defaultPath:path.join(app.getPath('documents'),path.basename(row.file,path.extname(row.file))+' chat.txt'),filters:[{name:'Text',extensions:['txt']}]});

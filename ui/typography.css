@@ -30,8 +30,8 @@ h1,h2,h3{font-family:var(--font-heading);font-weight:600}
 .empty h2{font-weight:600}
 .match-head h2{font-weight:600;letter-spacing:-.015em}
 .replay-row strong,.classic-folder-heading,.players .player-name{font-weight:600}
-.tabs button{font-weight:500}
-.tabs button.active{font-weight:600}
+.tabs button{font-size:calc(13px + 1pt);font-weight:700}
+.tabs button.active{font-weight:700}
 .comparison-heading h2{font-family:var(--font-ui);font-weight:600}
 .section-title{letter-spacing:.015em}
 .mini-heading,.data-table th{font-family:var(--font-ui);font-weight:600;letter-spacing:.075em}

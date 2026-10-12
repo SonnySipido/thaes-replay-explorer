@@ -7,15 +7,18 @@
   const playerFilters=[],combos=[];
   const namesCache=new Map(),compareNames=new Intl.Collator(undefined,{sensitivity:'base',numeric:true}).compare;
   const map={name:'',exact:false};
-  const mapTypes={melee:true,w3c:true,custom:false};
+  const defaultMapTypes={melee:true,w3c:false,custom:false},mapTypes={...defaultMapTypes};
   const typeFields=[...mapTypeFields.querySelectorAll('input[data-map-type]')];
-  function resetMapTypes(){for(const field of typeFields)field.checked=mapTypes[field.dataset.mapType]=field.dataset.mapType!=='custom';}
-  resetMapTypes();
-  function hasChanges(){return Boolean(map.name||playerFilters.some(({filter})=>filter.name||filter.race!=='any')||!mapTypes.melee||!mapTypes.w3c||mapTypes.custom);}
+  try{const saved=JSON.parse(localStorage.getItem('advanced-map-types'));for(const key of Object.keys(mapTypes))if(typeof saved?.[key]==='boolean')mapTypes[key]=saved[key];}catch{}
+  function syncMapTypes(){for(const field of typeFields)field.checked=mapTypes[field.dataset.mapType];}
+  function saveMapTypes(){try{localStorage.setItem('advanced-map-types',JSON.stringify(mapTypes));}catch{}}
+  function resetMapTypes(){Object.assign(mapTypes,defaultMapTypes);syncMapTypes();saveMapTypes();}
+  syncMapTypes();
+  function hasChanges(){return Boolean(map.name||playerFilters.some(({filter})=>filter.name||filter.race!=='any')||Object.keys(mapTypes).some(key=>mapTypes[key]!==defaultMapTypes[key]));}
   function canAddPlayer(){const filter=playerFilters.at(-1)?.filter;return Boolean(filter?.exact&&filter.name.trim());}
   function updateAddButton(){addButton.disabled=!canAddPlayer();addButton.title=addButton.disabled?'Select a player in the last row first':'Add another player';}
   function changed(typing=false,filtersChanged=true){updateAddButton();for(const item of playerFilters)item.combo.updateClearSelection();clearButton.disabled=!hasChanges();if(filtersChanged)onChange(typing);}
-  for(const field of typeFields)field.onchange=()=>{mapTypes[field.dataset.mapType]=field.checked;mapCombo.refresh();changed(false,false);};
+  for(const field of typeFields)field.onchange=()=>{mapTypes[field.dataset.mapType]=field.checked;saveMapTypes();mapCombo.refresh();changed(false,false);};
   function choices(kind){
    if(namesCache.has(kind))return namesCache.get(kind);
    const names=new Map(),mapKinds=new Map(),mapRows=new Map();
@@ -73,7 +76,7 @@
     render();
     if(kind==='map')loadSlotLabels();
     const rect=input.getBoundingClientRect(),below=window.innerHeight-rect.bottom-12;
-    menu.style.left=rect.left+'px';menu.style.width=rect.width+'px';menu.style.maxHeight=Math.max(80,Math.min(200,below<100?rect.top-12:below))+'px';
+    menu.style.left=rect.left+'px';menu.style.width=rect.width+'px';menu.style.maxHeight=Math.max(80,below<100?rect.top-15:below-3)+'px';
     menu.style.top=below<100?'auto':rect.bottom+3+'px';menu.style.bottom=below<100?window.innerHeight-rect.top+3+'px':'auto';
     menu.hidden=false;input.setAttribute('aria-expanded','true');toggle.setAttribute('aria-expanded','true');
    }
@@ -110,7 +113,9 @@
    select.onchange=()=>{filter.race=select.value;changed();};
    const item={filter,row,combo:playerCombo};playerFilters.push(item);
    remove.onclick=()=>{row.remove();playerFilters.splice(playerFilters.indexOf(item),1);combos.splice(combos.indexOf(playerCombo),1);if(!playerFilters.length)addPlayer();changed();if(addButton.disabled)playerFilters.at(-1).row.querySelector('input').focus();else addButton.focus();};
-   row.append(select);playerList.append(row);updateAddButton();for(const item of playerFilters)item.combo.updateClearSelection();if(focus)player.querySelector('input').focus();
+   const raceField=document.createElement('div');raceField.className='advanced-player-as-race';
+   const as=document.createElement('span');as.className='advanced-player-as';as.textContent='as';raceField.append(as,select);
+   row.append(raceField);playerList.append(row);updateAddButton();for(const item of playerFilters)item.combo.updateClearSelection();if(focus)player.querySelector('input').focus();
   }
   addPlayer();
   addButton.onclick=()=>{if(!canAddPlayer())return;addPlayer(true);changed();};
@@ -126,7 +131,7 @@
   document.addEventListener('click',event=>{for(const controller of combos)if(!controller.wrapper.contains(event.target))controller.close();});
   panel.addEventListener('scroll',()=>{for(const controller of combos)controller.close();});
   window.addEventListener('resize',()=>{for(const controller of combos)controller.close();});
-  clearButton.disabled=true;
+  clearButton.disabled=!hasChanges();
   return {get:()=>({enabled,map:{...map},players:playerFilters.map(item=>({...item.filter}))}),invalidateChoices:()=>namesCache.clear()};
  }
  root.replayAdvancedFilters={create};

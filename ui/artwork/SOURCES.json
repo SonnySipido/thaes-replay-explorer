@@ -1,76 +1,91 @@
 {
-  "copyright": "Warcraft artwork belongs to Blizzard Entertainment",
-  "files": [
-    {
-      "file": "thaes-app-icon.png",
-      "source": "User-provided T-logo3.png; original PNG preserved"
-    },
-    {
-      "file": "thaes-app-icon.ico",
-      "source": "Windows icon generated from thaes-app-icon.png at 16, 20, 24, 32, 40, 48, 64, 96, 128 and 256 pixels with transparency preserved",
-      "generator": "scripts/prepare-app-icon.ps1"
-    },
-    {
-      "file": "thaes-replay-explorer-full.png",
-      "source": "User-provided ThaesReplayExplorerFull.png; original transparent PNG preserved and scaled to fit the application banner"
-    },
-    {
-      "file": "thaes-replay-explorer-wordmark.png",
-      "source": "User-provided ThaesReplayExplorer_logo.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
-    },
-    {
-      "file": "replay-explorer-logo.png",
-      "source": "User-provided Warcraft_III_Reforged_Forsaken_Kingdom_Replay_Explorer_Small.png; original transparent PNG preserved"
-    },
-    {
-      "file": "any-race.png",
-      "source": "ImageGen edit of ../icons/races/R.png; resized to 128x128 with transparency preserved",
-      "prompt": "Remove only the central question mark and diamond dot, filling the area with the matching dark metal surface. Preserve the circular badge, beveled rings, palette, lighting and transparent background. No replacement symbol.",
-      "original_sha256": "d87679088992b49be99b5c4b5c010f32818473ac394d7e6f6bb7872a360a2e3d"
-    },
-    {
-      "file": "frozen-throne.jpg",
-      "url": "https://img.goodfon.com/original/1920x1200/9/a0/badfon-warcraft-3-the-frozen-throne-6292.jpg"
-    },
-    {
-      "file": "reign-of-chaos.jpg",
-      "source": "Warcraft III: Reign of Chaos cover artwork; Light theme banner",
-      "url": "https://images3.alphacoders.com/592/592651.jpg",
-      "page": "https://wall.alphacoders.com/big.php?i=592651"
-    },
-    {
-      "file": "frozen-throne-icon.png",
-      "url": "https://images.launchbox-app.com/91be4605-9669-4d64-8bb4-db91004c9309.png"
-    },
-    {
-      "file": "w3champions.png",
-      "url": "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/logos/small-logo.png"
-    },
-    {
-      "file": "discord.png",
-      "url": "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/discord-small.png"
-    },
-    {
-      "file": "rexxar.png",
-      "url": "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/raceAvatars/classic/RANDOM_12.jpg"
-    },
-    {
-      "file": "reveal.png",
-      "source": "Installed Warcraft III game data",
-      "texture": "ReplaceableTextures/CommandButtons/BTNReveal.blp",
-      "sha256": "2479e5211be741d9dd8be0d17b5e87dc100d966131c86fb73d3ee99bcefb3ce7"
-    },
-    {
-      "file": "battlenet.png",
-      "source": "Installed Battle.net desktop app icon",
-      "texture": "Battle.net Launcher.exe icon, 64x64",
-      "sha256": "d4eced03a6129ec60c762d7b9461a2f8709f271d72a8572a7aa4fffb6893caee"
-    },
-    {
-      "file": "replay.png",
-      "source": "Installed Warcraft III game data",
-      "texture": "ReplaceableTextures/CommandButtons/BTNScroll.dds",
-      "sha256": "cdda2188c4ecceaa2108f52879725581dd48b28ff2ec7083d2cd3762c65e999f"
-    }
-  ]
+    "copyright":  "Warcraft game artwork belongs to Blizzard Entertainment. The generated Warcraft theme materials are original artwork created for this project.",
+    "files":  [
+                  {
+                      "file":  "thaes-app-icon.png",
+                      "source":  "User-provided T-logo3.png; original PNG preserved"
+                  },
+                  {
+                      "file":  "thaes-app-icon.ico",
+                      "source":  "Windows icon generated from thaes-app-icon.png at 16, 20, 24, 32, 40, 48, 64, 96, 128 and 256 pixels with transparency preserved",
+                      "generator":  "scripts/prepare-app-icon.ps1"
+                  },
+                  {
+                      "file":  "thaes-replay-explorer-full.png",
+                      "source":  "User-provided ThaesReplayExplorerFull.png; original transparent PNG preserved and scaled to fit the application banner"
+                  },
+                  {
+                      "file":  "thaes-replay-explorer-wordmark.png",
+                      "source":  "User-provided ThaesReplayExplorer_logo.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
+                  },
+                  {
+                      "file":  "replay-explorer-logo.png",
+                      "source":  "User-provided Warcraft_III_Reforged_Forsaken_Kingdom_Replay_Explorer_Small.png; original transparent PNG preserved"
+                  },
+                  {
+                      "file":  "any-race.png",
+                      "source":  "ImageGen edit of ../icons/races/R.png; resized to 128x128 with transparency preserved",
+                      "prompt":  "Remove only the central question mark and diamond dot, filling the area with the matching dark metal surface. Preserve the circular badge, beveled rings, palette, lighting and transparent background. No replacement symbol.",
+                      "original_sha256":  "d87679088992b49be99b5c4b5c010f32818473ac394d7e6f6bb7872a360a2e3d"
+                  },
+                  {
+                      "file":  "frozen-throne.jpg",
+                      "url":  "https://img.goodfon.com/original/1920x1200/9/a0/badfon-warcraft-3-the-frozen-throne-6292.jpg"
+                  },
+                  {
+                      "file":  "reign-of-chaos.jpg",
+                      "source":  "Warcraft III: Reign of Chaos cover artwork; Light theme banner",
+                      "url":  "https://images3.alphacoders.com/592/592651.jpg",
+                      "page":  "https://wall.alphacoders.com/big.php?i=592651"
+                  },
+                  {
+                      "file":  "frozen-throne-icon.png",
+                      "url":  "https://images.launchbox-app.com/91be4605-9669-4d64-8bb4-db91004c9309.png"
+                  },
+                  {
+                      "file":  "w3champions.png",
+                      "url":  "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/logos/small-logo.png"
+                  },
+                  {
+                      "file":  "discord.png",
+                      "url":  "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/discord-small.png"
+                  },
+                  {
+                      "file":  "rexxar.png",
+                      "url":  "https://raw.githubusercontent.com/w3champions/website/ec1cd8d1330ca2a17061f0a9836c135cb8834198/public/assets/raceAvatars/classic/RANDOM_12.jpg"
+                  },
+                  {
+                      "file":  "reveal.png",
+                      "source":  "Installed Warcraft III game data",
+                      "texture":  "ReplaceableTextures/CommandButtons/BTNReveal.blp",
+                      "sha256":  "2479e5211be741d9dd8be0d17b5e87dc100d966131c86fb73d3ee99bcefb3ce7"
+                  },
+                  {
+                      "file":  "battlenet.png",
+                      "source":  "Installed Battle.net desktop app icon",
+                      "texture":  "Battle.net Launcher.exe icon, 64x64",
+                      "sha256":  "d4eced03a6129ec60c762d7b9461a2f8709f271d72a8572a7aa4fffb6893caee"
+                  },
+                  {
+                      "file":  "replay.png",
+                      "source":  "Installed Warcraft III game data",
+                      "texture":  "ReplaceableTextures/CommandButtons/BTNScroll.dds",
+                      "sha256":  "cdda2188c4ecceaa2108f52879725581dd48b28ff2ec7083d2cd3762c65e999f"
+                  },
+                  {
+                      "file":  "warcraft/metal-frame.png",
+                      "source":  "Generated with the built-in image_gen tool for the user-requested Warcraft theme; transparent nine-slice frame",
+                      "prompts":  "warcraft/README.md"
+                  },
+                  {
+                      "file":  "warcraft/dark-wood.png",
+                      "source":  "Generated with the built-in image_gen tool for the user-requested Warcraft theme; repeating wood material",
+                      "prompts":  "warcraft/README.md"
+                  },
+                  {
+                      "file":  "warcraft/forest-backdrop.png",
+                      "source":  "Generated with the built-in image_gen tool for the user-requested Warcraft theme; forest backdrop",
+                      "prompts":  "warcraft/README.md"
+                  }
+              ]
 }

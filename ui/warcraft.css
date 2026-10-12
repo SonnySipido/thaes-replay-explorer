@@ -1,0 +1,128 @@
+/* Artwork is sliced around live controls; all visual changes belong to this theme. */
+html[data-theme="warcraft"]{
+ color-scheme:dark;--bg:#080e13;--panel:#111b22;--line:#46535a;--muted:#a5b3bc;
+ --secondary-text:#c0cbd0;--text:#eef1ef;--gold:#ffda65;--cyan:#5ec5c0;
+ --chart-grid:#33434b;--chart-label:#b4c2c8;--chart-first:#70d3c4;--chart-second:#f0c764;
+ --wc-frame:url('artwork/warcraft/metal-frame.png');--wc-wood:url('artwork/warcraft/dark-wood.png');
+ --wc-forest:url('artwork/warcraft/forest-backdrop.png');
+}
+html[data-theme="warcraft"] body{background:linear-gradient(#07101966,#02070bcc),var(--wc-forest) center bottom/cover fixed}
+html[data-theme="warcraft"] .topbar{
+ display:flex;gap:16px;height:120px;padding:0 14px;border:14px solid transparent;border-image:var(--wc-frame) 16% / 40px / 0 stretch;
+ background:linear-gradient(#080b0e44,#090b0ee0),var(--wc-wood) center/640px;position:relative;
+}
+html[data-theme="warcraft"] #w3c-profile{color:var(--text)}
+/* The source has transparent space below the frame: 330px keeps its visible
+   bottom at the banner's lower rail while its chains start at the window edge. */
+html[data-theme="warcraft"] #app-website-title{width:330px;height:120px}
+html[data-theme="warcraft"] .discord-identity{color:var(--text)}
+html[data-theme="warcraft"] .workspace{height:calc(100vh - 120px);gap:6px;padding:8px 10px 10px;background:transparent}
+html[data-theme="warcraft"] .library{
+ padding:10px 8px 0;border:14px solid transparent;border-image:var(--wc-frame) 16% / 40px / 0 stretch;
+ background:linear-gradient(#080d12e8,#080d12e0),var(--wc-forest) center bottom/cover;min-width:0;
+}
+html[data-theme="warcraft"] main{
+ padding:12px;border:14px solid transparent;border-image:var(--wc-frame) 16% / 40px / 0 stretch;
+ background:linear-gradient(#080d14e3,#080d14c4),var(--wc-forest) center bottom/cover;
+}
+html[data-theme="warcraft"] #library-resizer{left:calc(var(--library-width) + 13px);top:8px;bottom:10px;width:4px;min-width:4px;background:linear-gradient(90deg,#151e25,#738188,#131c22)}
+html[data-theme="warcraft"] .library-heading{padding:8px 5px;margin-bottom:8px;border-bottom:1px solid #6c5c3c;background:linear-gradient(#080a0b66,#080a0baa),var(--wc-wood) center/540px}
+html[data-theme="warcraft"] .library-heading h2{font-family:var(--font-heading);font-size:22px;font-weight:750;color:var(--gold);text-shadow:0 2px #050302;letter-spacing:.02em}
+html[data-theme="warcraft"] .library-heading h2 span{font-size:11px;color:#d7dede;background:#111d22;border:1px solid #56625f}
+html[data-theme="warcraft"] .library-filters{gap:6px;margin:8px 0 10px}
+html[data-theme="warcraft"] .matchup-team-filters,html[data-theme="warcraft"] .platform-patch-filters{gap:6px}
+html[data-theme="warcraft"] :is(button,input:not([type="checkbox"]),select,textarea){border-radius:3px;color:var(--text)}
+html[data-theme="warcraft"] button{border:1px solid #576469;border-image:none;background:linear-gradient(#202b30,#0a1116);box-shadow:inset 0 1px #91a0a21a,0 1px 2px #0009}
+html[data-theme="warcraft"] button:hover{background:linear-gradient(#30413f,#0c2020);color:#fff2c1}
+html[data-theme="warcraft"] button:disabled{opacity:.45;cursor:not-allowed}
+html[data-theme="warcraft"] :is(button,input,select,textarea):focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+html[data-theme="warcraft"] :is(input:not([type="checkbox"]),select,textarea){border:1px solid #57646a;border-image:none;background:linear-gradient(#050b0f,#10191d);box-shadow:inset 0 1px 4px #0008}
+/* Native select popups need an opaque background as well as the gradient. */
+html[data-theme="warcraft"] select{background-color:#10191d}
+html[data-theme="warcraft"] select option{background-color:#10191d;color:#eef1ef}
+html[data-theme="warcraft"] select::picker(select){background:#10191d;color:#eef1ef}
+html[data-theme="warcraft"] :is(input,textarea)::placeholder{color:#a6b3bc}
+html[data-theme="warcraft"] select::picker-icon{color:var(--gold)}
+html[data-theme="warcraft"] input[type="checkbox"]{accent-color:var(--gold)}
+html[data-theme="warcraft"] :is(.favorite-toggle,.library-filter-icon,.players .player-profile,.folder-path,.link-button){border:0;border-image:none;background:transparent;box-shadow:none}
+html[data-theme="warcraft"] .library-filter-icon[aria-pressed="true"]{color:var(--gold);border:0;background:transparent;box-shadow:none}
+html[data-theme="warcraft"] .replay-list{padding-right:3px}
+html[data-theme="warcraft"] .replay-row{border-radius:2px;border-image:none;background:linear-gradient(#111c22b3,#080f14d9);border-color:transparent;border-bottom-color:#56625d66;box-shadow:none}
+html[data-theme="warcraft"] .replay-row:hover{background:linear-gradient(#22322dcc,#12201ccc);border-color:#697565}
+html[data-theme="warcraft"] .replay-row.active{border-color:#e3bb56;box-shadow:inset 0 0 0 1px #fbdf8226,0 0 6px #dcaa4425;background:linear-gradient(#2a3520eb,#151f19eb)}
+html[data-theme="warcraft"] .replay-row.compact-replay-row{background:none;box-shadow:none}
+html[data-theme="warcraft"] .replay-row.compact-replay-row.active{background:#263123}
+html[data-theme="warcraft"] .replay-row strong{color:#f1f3ec;font-size:15px}
+html[data-theme="warcraft"] .replay-row .length{color:var(--gold)}
+html[data-theme="warcraft"] .library-footer{border-color:#56635b;padding:10px 6px 26px;font-size:12px;line-height:1.4;font-weight:500;color:#e0eaee;background:linear-gradient(#08111800,#081118dd);text-shadow:0 1px 1px #000}
+html[data-theme="warcraft"] .match-head{border:9px solid transparent;border-image:var(--wc-frame) 16% / 28px / 0 stretch;padding:16px 12px;margin-bottom:10px;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px}
+html[data-theme="warcraft"] .match-head .eyebrow{font-family:var(--font-heading);font-size:21px;font-weight:750;color:var(--gold);letter-spacing:.02em;text-shadow:0 2px #070400}
+html[data-theme="warcraft"] .match-head :is(#version,.match-date){font-family:var(--font-ui);font-size:12px;letter-spacing:0;text-shadow:none;color:#d1dbde}
+html[data-theme="warcraft"] .match-head .map-heading{font-size:30px;color:var(--gold);text-shadow:0 2px 2px #000}
+html[data-theme="warcraft"] #map{color:var(--gold)}
+html[data-theme="warcraft"] #filename{padding:3px 5px;background:#081016b8;border:1px solid #556269;box-shadow:none}
+html[data-theme="warcraft"] #watch-replay{padding:3px 8px;border:5px solid transparent;border-image:var(--wc-frame) 16% / 5px / 0 stretch;border-radius:0;background:linear-gradient(#123c37,#06211f);background-clip:padding-box;color:#e6fff8;box-shadow:inset 0 0 0 1px #77c0b040}
+html[data-theme="warcraft"] #watch-replay:hover{background:linear-gradient(#1b5048,#092c28);background-clip:padding-box}
+html[data-theme="warcraft"] #duration{color:#eee8ce}
+html[data-theme="warcraft"] :is(.map-preview,.game-icon){border-color:#839396;border-radius:3px;background:#050a0d;box-shadow:0 0 0 1px #020506,inset 0 1px 2px #d2e0db22}
+html[data-theme="warcraft"] .replay-notes{border:5px solid transparent;border-image:var(--wc-frame) 16% / 11px / 0 stretch;padding:4px 8px;background:linear-gradient(#151e24,#080e14);border-radius:0}
+html[data-theme="warcraft"] .players{gap:10px;margin:10px 0 12px}
+html[data-theme="warcraft"] .players .player{border:7px solid transparent;border-image:var(--wc-frame) 16% / 13px / 0 stretch;padding:7px 8px;border-radius:0;background:linear-gradient(#233038,#0b151c);box-shadow:inset 0 1px #7a8e8c33}
+html[data-theme="warcraft"] .players .player-profile{border:0;border-image:none;padding:0;background:none;box-shadow:none;color:inherit}
+html[data-theme="warcraft"] .folder-path{border:0;padding:0;color:var(--secondary-text)}
+html[data-theme="warcraft"] .players .match-winner{box-shadow:inset 0 0 0 1px #e6bf66;background:linear-gradient(#35351e,#151d14)}
+html[data-theme="warcraft"] .winner-badge{background:#111604;border-color:#bea450;color:#ffe782}
+html[data-theme="warcraft"] .tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;padding:6px;margin-bottom:14px;border:7px solid transparent;border-image:var(--wc-frame) 16% / 15px / 0 stretch;background:linear-gradient(#192328,#090f14);overflow:visible}
+html[data-theme="warcraft"] .tabs button{min-width:0;min-height:40px;padding:7px 4px;font-family:var(--font-ui);font-size:calc(12px + 1pt);font-weight:700;text-transform:uppercase;white-space:normal;line-height:1.35;border:1px solid #5c6768;border-image:var(--wc-frame) 16% / 5px / 0 stretch;border-radius:0;background:linear-gradient(#1b2328,#080e12);color:#c8d0ce;box-shadow:none}
+html[data-theme="warcraft"] .tabs button:is(:hover,.active){background:linear-gradient(#173e39,#06201d);color:var(--gold);border-color:#d8b767;box-shadow:inset 0 0 0 1px #498d80}
+html[data-theme="warcraft"] .player-comparison{gap:14px}
+html[data-theme="warcraft"] .comparison-content{padding:18px 12px;border:9px solid transparent;border-image:var(--wc-frame) 16% / 28px / 0 stretch;background:linear-gradient(#0b151ce8,#0b151cc9),var(--wc-forest) center bottom/cover;min-width:0}
+html[data-theme="warcraft"] .comparison-heading{color:var(--gold);border-color:#66705c}
+html[data-theme="warcraft"] :is(.mini-heading,.section-title){font-family:var(--font-heading);font-weight:750;letter-spacing:.035em;color:var(--gold)}
+html[data-theme="warcraft"] .hero-card{padding:10px;border:4px solid transparent;border-image:var(--wc-frame) 16% / 9px / 0 stretch;background:linear-gradient(#202b32,#101a21);border-radius:0;box-shadow:inset 0 1px #aec7ca12}
+html[data-theme="warcraft"] .hero-portrait{width:60px;height:60px}
+html[data-theme="warcraft"] .ability-icons{border-color:#50615c}
+html[data-theme="warcraft"] .unit-tile{border:1px solid #505e60;border-image:var(--wc-frame) 16% / 6px / 0 stretch;background:linear-gradient(#1e2a31,#0e1820);border-radius:2px}
+html[data-theme="warcraft"] .unit-roster{--unit-tile-padding:12px}
+html[data-theme="warcraft"] :is(.box,.metric,.replay-folder-card){border:1px solid #5a6b6f;border-image:var(--wc-frame) 16% / 7px / 0 stretch;background:linear-gradient(#18272edb,#0b161deb);border-radius:2px}
+html[data-theme="warcraft"] :is(.data-table td,.chat-row){border-color:#47565080}
+html[data-theme="warcraft"] #panel.chat-panel>.toolbar{flex-wrap:wrap}
+html[data-theme="warcraft"] .data-table th{color:#dbc989;border-color:#78826c}
+html[data-theme="warcraft"] :is(.data-table tbody tr:hover,.build-order-row:nth-child(even)){background:#88baa00c}
+html[data-theme="warcraft"] .settings{width:min(440px,100vw);padding:27px 5px 16px 14px;scrollbar-gutter:stable;border:14px solid transparent;border-image:var(--wc-frame) 16% / 40px / 0 stretch;background:linear-gradient(#10191ef2,#081016ee),var(--wc-forest) center bottom/cover;box-shadow:-12px 0 38px #000c}
+/* The 9px scrollbar gutter plus 5px padding matches the banner's 14px padding. */
+html[data-theme="warcraft"] .settings-head{align-items:center;min-height:51px;padding:0 0 12px;border-bottom:1px solid #7d7355}
+html[data-theme="warcraft"] .settings-head h2{color:var(--gold);font-weight:750}
+html[data-theme="warcraft"] .settings-section h3{font-family:var(--font-heading);font-size:14px;font-weight:700;color:var(--gold)}
+html[data-theme="warcraft"] :is(.ask,#rename-dialog,.patch-menu,.filter-combobox-options){border:6px solid transparent;border-image:var(--wc-frame) 16% / 14px / 0 stretch;background:linear-gradient(#15252a,#090f16);border-radius:0;box-shadow:0 8px 24px #000b}
+html[data-theme="warcraft"] .filter-combobox input{border-color:transparent;border-image:none;box-shadow:none}
+html[data-theme="warcraft"] .filter-combobox :is(.filter-combobox-toggle,.filter-combobox-clear){border-image:none;box-shadow:none;background:transparent}
+html[data-theme="warcraft"] .filter-combobox-options [role="option"]:hover{background:#284039}
+html[data-theme="warcraft"] .switch-track{background:linear-gradient(#172329,#060d12);border-color:#84918b;box-shadow:inset 0 1px 3px #0009}
+html[data-theme="warcraft"] .switch-toggle input:checked+.switch-track{background:linear-gradient(#e5bd49,#8e6818);border-color:#e5cf7a}
+html[data-theme="warcraft"] .switch-toggle input:checked+.switch-track::after{background:#142019;box-shadow:0 1px 3px #000a}
+html[data-theme="warcraft"] .timeline-viewport{border:7px solid transparent;border-image:var(--wc-frame) 16% / 15px / 0 stretch;border-radius:0}
+html[data-theme="warcraft"] .timeline-chart{background:#091218ee}
+html[data-theme="warcraft"] :is(.timeline-axis-row,.timeline-track-label){background:linear-gradient(#1a282e,#101b22)}
+html[data-theme="warcraft"] .timeline-lane-title{color:#ceb878}
+html[data-theme="warcraft"] .timeline-event{border:0;border-image:none;background:transparent;box-shadow:none;padding:0}
+html[data-theme="warcraft"] .timeline-event:hover{background:transparent}
+html[data-theme="warcraft"] .timeline-options button{border-image:none}
+html[data-theme="warcraft"] #replay-notes-text{color:var(--text);background:#091219;border-color:#536466}
+html[data-theme="warcraft"] ::-webkit-scrollbar{width:9px;height:9px}
+html[data-theme="warcraft"] ::-webkit-scrollbar-track{background:#060c10;border:1px solid #354147}
+html[data-theme="warcraft"] ::-webkit-scrollbar-thumb{border:1px solid #829485;border-radius:3px;background:linear-gradient(90deg,#19332f,#39746a,#112923)}
+html[data-theme="warcraft"] ::-webkit-scrollbar-thumb:hover{background:#559b88}
+@container hero-army (min-width:440px){html[data-theme="warcraft"] .army-overview{grid-template-columns:minmax(0,var(--hero-card-width)) minmax(0,1fr)}}
+@media(max-width:1250px){
+ html[data-theme="warcraft"] .topbar{gap:12px;padding:0 14px}
+ html[data-theme="warcraft"] .tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+ html[data-theme="warcraft"] .workspace{padding:6px;gap:3px}
+ html[data-theme="warcraft"] #library-resizer{left:calc(var(--library-width) + 7.5px);top:6px;bottom:6px}
+ html[data-theme="warcraft"] .unit-roster{--unit-tile-padding:10px}
+ html[data-theme="warcraft"] main{padding:8px}
+ html[data-theme="warcraft"] .comparison-content{padding:12px 10px;border-width:6px;border-image-width:20px}
+ html[data-theme="warcraft"] .match-head{padding:16px 10px;border-width:6px;border-image-width:22px}
+ html[data-theme="warcraft"] .match-head .eyebrow{font-size:18px}
+ html[data-theme="warcraft"] .match-head .map-heading{font-size:25px}
+}

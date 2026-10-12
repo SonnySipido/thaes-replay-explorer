@@ -6,6 +6,8 @@ const clean=value=>String(value||'').replace(/\|c[0-9a-f]{8}|\|r/gi,'').replace(
 const races={H:'Human',O:'Orc',N:'Night Elf',U:'Undead',R:'Random'};
 let droppedReplayKey=null;
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
+let timelineState={key:null};
+let apmState={key:null};
 let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
 let requestedReplay=null;
 // Patch filter: the patches ticked in its menu (none = every patch), remembered between launches
@@ -19,7 +21,7 @@ function restoreSelectedReplay(){
  if(requestedReplay===key&&droppedReplayKey!==key){
   requestedReplay=null;
   if($('search').value&&!$('replay-list').querySelector('.replay-row.active')){
-   $('search').value='';localStorage.setItem('library-search','');
+   $('search').value='';localStorage.setItem('library-search','');updateSearchClear();
    renderList();restoredReplayReveal=key;renderList();  // (a new search starts at page 1: then jump to the replay's page)
   }
  }
@@ -107,7 +109,7 @@ function updateClassicViewOptions(){
  const enabled=$('compact-replays').checked;
  $('hide-empty-folders').disabled=!enabled;
  $('hide-empty-folders-row').classList.toggle('is-disabled',!enabled);
- $('hide-empty-folders-row').title=enabled?'Hide folders with no replay results in this view.':'Enable Classic explorer view to use this option.';
+ $('hide-empty-folders-row').title=enabled?'Hide folders without replay files, including subfolders.':'Enable Classic explorer view to use this option.';
  const raceNames=$('race-colored-names'),raceNamesRow=raceNames.closest('.settings-row');
  raceNames.disabled=enabled;
  raceNamesRow.classList.toggle('is-disabled',enabled);
@@ -124,8 +126,8 @@ $('race-colored-names').onchange=()=>{localStorage.setItem('race-colored-names',
 $('hide-duplicates').checked=localStorage.getItem('hide-duplicates')!=='false';
 $('hide-duplicates').onchange=()=>{localStorage.setItem('hide-duplicates',String($('hide-duplicates').checked));renderList();};
 $('hide-build-duplicates').checked=buildOrderOptions().hideSuspectedDuplicates;
-$('hide-build-duplicates').onchange=event=>{localStorage.setItem('hide-build-duplicates',String(event.target.checked));if(entry?.data&&['Build Order','Heroes','Buildings'].includes(tab))renderPanel();};
-$('show-unlearned-abilities').checked=localStorage.getItem('show-unlearned-abilities')!=='false';
+$('hide-build-duplicates').onchange=event=>{localStorage.setItem('hide-build-duplicates',String(event.target.checked));if(entry?.data&&['Build Order','Heroes','Buildings','Timeline'].includes(tab))renderPanel();};
+$('show-unlearned-abilities').checked=localStorage.getItem('show-unlearned-abilities')==='true';
 $('show-unlearned-abilities').onchange=event=>{localStorage.setItem('show-unlearned-abilities',String(event.target.checked));if(entry?.data&&tab==='Heroes')renderPanel();};
 const emptyAnalysisMarkup=$('detail').innerHTML;
 let analysisObservers=[];
@@ -138,8 +140,8 @@ function deselectReplay(){
 }
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!$('patch-menu').hidden)closePatchMenu();else if(!$('settings').hidden)closeSettings();else deselectReplay();}});
 // Settings panel (gear in the header): icon style and updates
-function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings-close').focus();}
-function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').focus();}
+function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings').scrollTop=0;$('settings-open').setAttribute('aria-expanded','true');$('settings-close').focus();}
+function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').setAttribute('aria-expanded','false');$('settings-open').focus();}
 $('settings-open').onclick=openSettings;$('settings-close').onclick=closeSettings;$('settings-backdrop').onclick=closeSettings;
 let listPage=0,listQuery='',filteredReplayList=[];const listPageSize=100;
 document.addEventListener('keydown',async event=>{
@@ -153,7 +155,7 @@ document.addEventListener('keydown',async event=>{
  const index=current<0?(classic?(direction>0?0:list.length-1):Math.min(listPage*listPageSize+(direction>0?0:listPageSize-1),list.length-1)):Math.max(0,Math.min(list.length-1,current+direction));
  await selectReplay(list[index].key,false,true);
 });
-const tabs=['Heroes','Buildings','Items','APM','Control groups','Chat','Build Order'];
+const tabs=['Heroes','Buildings','Items','Build Order','Timeline','APM','Control groups','Chat'];
 const savedAnalysisTab=localStorage.getItem('analysis-tab')||localStorage.getItem('replay-tab:'+pendingReplayRestore);
 if(tabs.includes(savedAnalysisTab))tab=savedAnalysisTab;
 const name=id=>entry?.data?.names[id] || id || 'Unknown';
@@ -288,8 +290,6 @@ function renderList(){
   sort==='longest'?(a,b)=>(b.duration||0)-(a.duration||0)||newestFirst(a,b):
   sort==='shortest'?(a,b)=>(a.duration||0)-(b.duration||0)||newestFirst(a,b):newestFirst);
  const copies=replayFilters.duplicateGroups(rows.values());
- const duplicateCount=[...copies.values()].reduce((total,group)=>total+group.length-1,0);
- $('duplicate-summary').textContent=duplicateCount+' duplicate '+(duplicateCount===1?'file':'files')+' across '+copies.size+' '+(copies.size===1?'replay':'replays')+'. Identical files appear once when hidden. No files are deleted.';
  if($('hide-duplicates').checked)list=replayFilters.uniqueReplays(list,[droppedReplayKey,selected,pendingReplayRestore]);
  filteredReplayList=list;
  if(restoredReplayReveal===selected){const index=list.findIndex(r=>r.key===selected);if(index>=0)listPage=Math.floor(index/listPageSize);}
@@ -472,15 +472,32 @@ function renderPanel(){
  panel.classList.toggle('chat-panel',tab==='Chat');
  if(tab==='Chat'){chat();return;}
  if(!entry.data.players.length){panel.innerHTML='<p class="empty-note">No active players recorded.</p>';return;}
+ if(tab==='Timeline'){
+  if(timelineState.key!==selected)timelineState={key:selected};
+  const replayKey=selected,map=mapDisplayName(entry.data.map.file),replayFilename=entry.file.split(/[\\/]/).pop();
+  const teams=new Map();for(const player of replayBuildOrder.playersByTeam(entry.data.players)){const team=teamNumber(player);if(!teams.has(team))teams.set(team,[]);teams.get(team).push(player.name);}
+  const exportFilename=map+' - '+[...teams.values()].map(names=>names.join(' & ')).join(' vs ')+' - Timeline';
+  analysisObservers.push(replayTimeline.mount(panel,entry.data,{...buildOrderOptions(),state:timelineState,icon:orderIcon,
+   exportImage:contents=>window.replays.exportTimeline(replayKey,contents,exportFilename),exportMarkup:actionButtonMarkup('image','Export to image'),imageTitle:map+' — Timeline',imageSubtitle:replayFilename,onError:showError,
+   playerLabel:(p,index)=>playerRaceIcon(p,true)+'<span class="timeline-name '+playerColorClass(index)+'">'+esc(p.name)+'</span>'}));
+  return;
+ }
+ if(tab==='APM'){
+  if(apmState.key!==selected)apmState={key:selected};
+  analysisObservers.push(replayAPM.mount(panel,entry.data,{state:apmState,timestamp:replayBuildOrder.timestamp,
+   playerLabel:(p,index)=>playerRaceIcon(p,true)+'<span class="apm-player-name '+playerColorClass(index)+'">'+esc(p.name)+'</span>'}));
+  return;
+ }
  panel.replaceChildren();
  const comparison=document.createElement('div');comparison.className='player-comparison';
  panel.append(comparison);
  const teams=teamColumns(comparison,entry.data.players);
+ const rowSpan=entry.data.players.length>2?2:1;
  const maxTeamSize=Math.max(...[...teams.keys()].map(id=>entry.data.players.filter(p=>teamNumber(p)===id).length));
- const slots=new Map([...teams.keys()].map((id,index)=>[id,{column:index%2+1,row:Math.floor(index/2)*maxTeamSize+1}]));
+ const slots=new Map([...teams.keys()].map((id,index)=>[id,{column:index%2+1,row:Math.floor(index/2)*maxTeamSize*rowSpan+1}]));
  for(const p of entry.data.players){
   const column=document.createElement('section');column.className='comparison-player';column.dataset.playerId=p.id;
-  const slot=slots.get(teamNumber(p));column.style.gridColumn=slot.column;column.style.gridRow=slot.row++;
+  const slot=slots.get(teamNumber(p));column.style.gridColumn=slot.column;column.style.gridRow=slot.row+' / span '+rowSpan;slot.row+=rowSpan;
   if(entry.data.players.length>2){
    const heading=document.createElement('header');heading.className='comparison-heading';
    heading.innerHTML='<span class="player-race-team">'+playerRaceIcon(p,true)+'</span><h2 class="'+playerColorClass(entry.data.players.indexOf(p))+'">'+esc(p.name)+'</h2>'+teamLabel(p);
@@ -490,7 +507,6 @@ function renderPanel(){
   if(tab==='Heroes')heroes(p,content);
   else if(tab==='Buildings')buildingsAndUpgrades(p,content);
   else if(tab==='Items')items(p,content);
-  else if(tab==='APM')apm(p,content);
   else if(tab==='Control groups')groups(p,content);
   else if(tab==='Build Order')buildOrder(p,content);
 
@@ -570,10 +586,28 @@ function alignArmyRows(root){
  sync();
  const observer=new ResizeObserver(sync);observer.observe(hero);analysisObservers.push(observer);
 }
+function fitHeroNames(root){
+ const labels=[...root.querySelectorAll('.hero-name')],measure=document.createElement('canvas').getContext('2d');
+ const sizes=new Map(labels.map(label=>[label,parseFloat(getComputedStyle(label).fontSize)]));
+ let frame=null,disconnected=false;
+ const fit=()=>{
+  if(disconnected)return;
+  for(const label of labels){
+   if(!label.isConnected||!label.clientWidth)continue;
+   const style=getComputedStyle(label),normal=sizes.get(label);
+   measure.font=style.fontStyle+' '+style.fontWeight+' '+normal+'px '+style.fontFamily;measure.letterSpacing=style.letterSpacing==='normal'?'0px':style.letterSpacing;
+   const width=measure.measureText(label.textContent).width,size=Math.max(1,Math.min(normal,normal*(label.clientWidth-1)/Math.max(1,width)));
+   if(Math.abs(parseFloat(style.fontSize)-size)>.05)label.style.fontSize=size.toFixed(2)+'px';
+  }
+ };
+ const schedule=()=>{if(disconnected||frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;fit();});};
+ const observer=new ResizeObserver(schedule);labels.forEach(label=>observer.observe(label));fit();document.fonts.ready.then(schedule);
+ document.addEventListener('replay-theme-changed',schedule);analysisObservers.push({disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);document.removeEventListener('replay-theme-changed',schedule);}});
+}
 function heroes(p,root){
  root.classList.add('army-panel');
  const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const showUnlearned=localStorage.getItem('show-unlearned-abilities')!=='false';
+ const showUnlearned=localStorage.getItem('show-unlearned-abilities')==='true';
  const knownHeroes=p.heroes.filter(h=>iconSource(h.id,'heroes'));
  const firstUnitTimes=new Map();
  for(const {id,ms} of [...(p.units?.order||[]),...(p.morphOrders||[])]){if(Number.isFinite(ms)&&ms>=0&&ms<(firstUnitTimes.get(id)??Infinity))firstUnitTimes.set(id,ms);}
@@ -590,6 +624,7 @@ function heroes(p,root){
  '</div></div></div>';
  root.querySelector('.unit-roster').style.setProperty('--unit-count-digits',Math.max(2,...units.map(([,count])=>String(count).length)));
  alignArmyRows(root);
+ fitHeroNames(root);
 }
 function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};
@@ -610,32 +645,6 @@ function items(p,root){
  const times=new Map();for(const order of p.items.order){if(!times.has(order.id))times.set(order.id,[]);times.get(order.id).push(order.ms);}
  $('panel').innerHTML=
  '<div class="box purchased-items"><h3 class="mini-heading">Purchased</h3>'+table(['Item','Orders','Purchased at'],Object.entries(p.items.summary).map(([id,count])=>'<tr><td>'+objectIcon(id)+'</td><td class="number">'+count+'</td><td><div class="purchase-times">'+(times.get(id)||[]).map(ms=>'<span class="time">'+time(ms)+'</span>').join('')+'</div></td></tr>').join(''))+'</div>';
-}
-function apm(p,root){
- const $=id=>id==='panel'?root:root.querySelector('[data-view="'+id+'"]');
- const duration=entry.data.duration,peak=Math.max(0,...p.apmBuckets);
- $('panel').innerHTML=
- '<div class="box"><h3 class="mini-heading">APM</h3><canvas data-view="apm-chart" width="1100" height="235" aria-label="Actions per minute chart"></canvas><div class="chart-caption"><span>0:00</span><span>'+time(duration)+'</span></div></div>'+
- '<div class="box" data-view="action-breakdown"></div>';
- const canvas=$('apm-chart');canvas.style.width='100%';canvas.style.height='235px';
- function drawChart(){
- const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=235,dpr=window.devicePixelRatio||1;
- const colors=getComputedStyle(document.documentElement),color=key=>colors.getPropertyValue(key).trim();
- canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
- const max=Math.max(1,...entry.data.players.flatMap(player=>player.apmBuckets));
- ctx.font=(12+2*96/72)+'px '+getComputedStyle(canvas).fontFamily;const pad=Math.max(35,Math.ceil(ctx.measureText(String(max)).width)+10);
- for(let i=0;i<=4;i++){const y=h-25-i*(h-50)/4;ctx.strokeStyle=color('--chart-grid');ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w,y);ctx.stroke();ctx.fillStyle=color('--chart-label');ctx.fillText(String(Math.round(max*i/4)),0,y+4);}
- const count=Math.max(1,...entry.data.players.map(player=>player.apmBuckets.length));
- const plotWidth=w-pad-12,step=plotWidth/Math.max(1,count-1);
- ctx.strokeStyle=color(entry.data.players.indexOf(p)%2?'--chart-second':'--chart-first');ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();
- p.apmBuckets.forEach((v,i)=>{const x=pad+i*step,y=h-25-v/max*(h-50);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);});ctx.stroke();
- ctx.fillStyle=ctx.strokeStyle;p.apmBuckets.forEach((v,i)=>{ctx.beginPath();ctx.arc(pad+i*step,h-25-v/max*(h-50),3,0,Math.PI*2);ctx.fill();});
- canvas.onmousemove=e=>{const index=Math.round((e.offsetX/canvas.clientWidth*w-pad)/step);canvas.title=index>=0&&index<p.apmBuckets.length?'Minute '+(index+1)+': '+p.apmBuckets[index]+' actions':'';};
- }
- drawChart();document.fonts.ready.then(()=>{if(canvas.isConnected)drawChart();});const observer=new ResizeObserver(drawChart);observer.observe(canvas);analysisObservers.push(observer);
- document.addEventListener('replay-theme-changed',drawChart);analysisObservers.push({disconnect(){document.removeEventListener('replay-theme-changed',drawChart);}});
- const labels={assigngroup:'Assign control group',rightclick:'Right click',basic:'Basic orders',buildtrain:'Build / train / learn',ability:'Abilities and other orders',item:'Item transfer',select:'Selection',removeunit:'Remove from queue',subgroup:'Subgroup',selecthotkey:'Select control group',esc:'Escape'};
- $('action-breakdown').innerHTML='<h3 class="mini-heading">PARSER ACTION CATEGORIES</h3>'+table(['Category','Count'],Object.entries(p.actions).filter(([k,v])=>typeof v==='number').map(([k,v])=>'<tr><td>'+esc(labels[k]||k)+'</td><td class="number">'+v.toLocaleString()+'</td></tr>').join(''));
 }
 function members(list){
  const ids=[...new Set(list.filter(m=>m.id&&['units','heroes','buildings'].some(kind=>window.warcraftIcons[kind]?.[m.id])).map(m=>m.id))];
@@ -819,10 +828,15 @@ for(const id of ['filter','sort','team-size','matchup-left','matchup-right','sou
 }
 const savedSearch=localStorage.getItem('library-search');
 if(savedSearch!==null)$('search').value=savedSearch;
+function updateSearchClear(){const filled=Boolean($('search').value);$('search-clear').hidden=!filled;$('search').classList.toggle('has-clear',filled);}
+updateSearchClear();
 $('search').oninput=()=>{
+ updateSearchClear();
  localStorage.setItem('library-search',$('search').value);
  scheduleList();
 };
+$('search-clear').onmousedown=event=>event.preventDefault();
+$('search-clear').onclick=()=>{$('search').value='';$('search').oninput();$('search').focus();};
 window.replays.on('replay-renamed',({oldKey,row})=>{
  rows.delete(oldKey);rows.set(row.key,row);advancedFilters.invalidateChoices();detailedReplayCards.delete(oldKey);
  if(droppedReplayKey===oldKey)droppedReplayKey=row.key;

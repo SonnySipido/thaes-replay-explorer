@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.0/Thae-Replay-Explorer-0.9.0-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.2/Thae-Replay-Explorer-0.9.2-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -14,12 +14,15 @@ No GitHub account, source-code download, or development tools are needed. The in
 
 ## Features
 
-- **Match analysis:** hero levels and ability rank bars in game order, grouped units ordered by their first training event, individual building and research start times, FE/T2/T3 tags, items, APM graphs and optional winner display.
+- **Match analysis:** hero levels and ability rank bars in game order, grouped units ordered by their first training event, individual building and research start times, FE/T2/T3 tags, items, a shared APM chart and optional winner display.
+- **Appearance:** the Forsaken Kingdom theme adds metal frames, wooden banners, gold headings, teal buttons and a misty forest backdrop. Simple, Light (Simple) and Dark (Simple) remain available in Settings, and the theme choice is remembered.
+- **APM:** compare player-colored lines on one chart, toggle each player, and hover over a line to see its time and APM.
 - **Control groups:** every identified unit, hero and building type assigned to each group throughout the match.
 - **Build orders:** each player's first five minutes of units, heroes, buildings and research, with separate text and image exports named after the map and player.
+- **Timeline:** compare each player's full-match orders on four tracks: heroes and units, buildings, upgrades, and purchases. Toggle players or event types, merge tracks into one, and hover over overlapping icons for names and timestamps. Heroes, expansions, and T2/T3 tech have priority until an icon is hovered. In separate tracks, production buildings have priority over ordinary buildings, workers have the lowest priority, and crowded purchases spread apart to overlap by at most half their width. Tracks start separate on a fresh installation. The selected zoom mode, merge setting and event-type checkboxes are remembered across replays and launches. Export the visible players and event types as a full-track PNG named after the map and players.
 - **Favorites and notes:** favorite matches, add autosaved notes, filter with clickable icons, and export or import annotation backups. Identical replay files share their annotations.
 - **Library search:** find players, maps, filenames, note contents and in-game chat. Filter by matchup, team size, platform and version. The Advanced filters icon beside Search adds player/race pairs and a map filter; it starts off to keep the library compact.
-- **Advanced map choices:** Melee and W3C ladder maps start selected; Custom includes all other maps. These checkboxes control the map dropdown's suggestions; leaving all three unchecked shows every known map. Scroll through all matching maps, with playable slot counts shown when the replay records them. Choosing a map filters replays together with player and race searches. Clear filters is available after a selection changes and restores the default categories.
+- **Advanced map choices:** Only Melee starts selected; W3C covers ladder maps and Custom includes all other maps. Category choices are remembered across replays and launches. These checkboxes control the map dropdown's suggestions; leaving all three unchecked shows every known map. Scroll through all matching maps, with maximum player counts shown when the replay records them. Choosing a map filters replays together with player and race searches. Clear filters is available after a selection changes and restores the default categories.
 - **Multiple folders:** enable or disable each location and its subfolders in Advanced settings. New replays are indexed automatically.
 - **Duplicate management:** optionally hide identical replay files across folders without deleting them.
 - **Flexible browsing:** resize the replay list or use Classic explorer view with expandable folders, replay filenames, favorites and notes indicators. Empty folders are greyed out and can optionally be hidden in Classic view. Drag replay files into the app to import and select them.

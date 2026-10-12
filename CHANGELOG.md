@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.2
+
+- Add a Timeline tab with four tracks per player for heroes and units, buildings, upgrades and purchases. Toggle players and event types, merge tracks, zoom, scroll horizontally with the mouse wheel, and export the full timeline to PNG. Zoom, merged tracks and event-type choices persist across replays and restarts.
+- Keep overlapping timeline icons readable with hover priority, hero/expansion/tech priority, lower worker priority, production-building priority and spaced purchases on separate tracks.
+- Compare all players on one APM chart with player-colored lines, individual visibility controls and a hover readout for time and APM.
+- Add the Forsaken Kingdom theme with metal frames, wood panels and a forest backdrop. Keep Simple, Light (Simple) and Dark (Simple) available.
+- Improve player-panel and control-group alignment, hero-name fitting, tab labels, dropdown readability, filter dropdown sizing, banner controls and replay-count readability.
+- Add quick clearing to the main search and remember map search categories, with only Melee enabled by default. Show unlearned hero abilities is off on fresh installations.
+- Use the supplied Windows app icon for shortcuts and add special thanks to the development testers in Settings.
+- Update the website gallery for the new Timeline, shared APM chart, themes and filtering controls.
+
 ## 0.9.1
 
 - Add Melee, W3C ladder and Custom categories for map dropdown suggestions without restricting replay results. Leaving all categories unchecked shows every known map.

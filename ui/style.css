@@ -5,8 +5,8 @@
 .players{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
 .players .player{max-width:none;min-width:0;border-top:3px solid var(--cyan)}
 .players .player:nth-child(even){border-top-color:var(--gold)}
-.player-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
-.comparison-player{min-width:0}
+.player-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
+.comparison-player{min-width:0;display:grid;grid-template-rows:subgrid;row-gap:0}
 .comparison-heading{border-top:1px solid #393939;border-bottom:0;padding:15px 0;margin-bottom:20px}
 
 .comparison-heading h2{margin:0 0 6px;font-size:18px;overflow-wrap:anywhere}
@@ -39,6 +39,8 @@
 .object-portrait{width:40px;height:40px}
 .data-table td:has(>.object-portrait){vertical-align:middle}
 .control-group-table .data-table td{vertical-align:middle}
+/* Stretch the inner table frame along with its shared player panel. */
+.comparison-content:has(>.control-group-table){display:grid;grid-template-rows:1fr}
 .control-group-table .data-table{table-layout:fixed}
 .control-group-table .data-table th:first-child{width:3.5em}
 .control-group-table .data-table th:nth-child(2),.control-group-table .data-table th:nth-child(3){width:7em}
@@ -176,6 +178,9 @@
 .folder-path{display:block;margin:3px 0 0;padding:0;border:0;background:none;text-align:left;font-size:12px;color:var(--muted);overflow-wrap:break-word}
 .folder-path:hover{background:none;color:var(--gold);text-decoration:underline;text-underline-offset:3px}
 .settings-note{margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--muted)}
+.settings-thanks{margin-top:10px;padding:12px 0 8px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
+.settings-thanks p{margin:0}
+.settings-thanks span{white-space:nowrap}
 #update-notes:not([hidden]){display:block;margin-top:10px}
 #update-check{white-space:nowrap;flex:none}
 #update-check.update-ready{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
