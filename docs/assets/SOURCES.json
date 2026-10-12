@@ -1,6 +1,14 @@
 {
   "files": [
     {
+      "file": "thaes-site-icon.png",
+      "source": "96px favicon generated from user-provided T-logo3.png, matching the Windows app icon"
+    },
+    {
+      "file": "../favicon.ico",
+      "source": "Windows icon generated from user-provided T-logo3.png; copied from ui/artwork/thaes-app-icon.ico"
+    },
+    {
       "file": "thaes-replay-explorer-banner.png",
       "source": "User-provided Logo_NoChains.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
     }
