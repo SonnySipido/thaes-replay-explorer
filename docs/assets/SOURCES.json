@@ -13,126 +13,6 @@
       "source": "User-provided Logo_NoChains.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
     },
     {
-      "file": "buildings-upgrades.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "items.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "chat.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "hd-icons.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "classic-explorer.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "rename-replay.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "replay-notes.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "favorites.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "filter-matchup.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "filter-duration.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "filter-versions.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "search-map.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "search-notes.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "drag-drop-sharing.jpg",
-      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "heroes-units.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "apm.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "control-groups.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "build-order.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "timeline.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
-      "file": "settings.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
-    },
-    {
       "file": "theme-default.jpg",
       "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
       "width": 1440,
@@ -151,22 +31,142 @@
       "height": 920
     },
     {
+      "file": "heroes-units.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "buildings-upgrades.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "items.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "apm.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "control-groups.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "chat.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "build-order.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "hd-icons.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "classic-explorer.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "rename-replay.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "replay-notes.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "favorites.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "filter-matchup.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "filter-duration.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "filter-versions.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "search-map.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "search-notes.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "drag-drop-sharing.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes; the receiving app is an illustration",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "settings.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
       "file": "theme-forsaken-kingdom.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "timeline.jpg",
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
     },
     {
       "file": "timeline-forsaken-kingdom.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
     },
     {
       "file": "advanced-filters.jpg",
-      "source": "Captured from version 0.9.2 with anonymized example player names and chat, and example replay notes",
-      "width": 1440,
-      "height": 920
+      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
     }
   ]
 }
