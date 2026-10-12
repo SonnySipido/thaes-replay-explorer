@@ -40,3 +40,27 @@ test('custom and older games have no source; damaged data gives nothing instead 
  assert.equal(gameSource(parseStart(replayStart('my game','Host#1')).creator),null);
  const broken=parseStart(Buffer.from([1,2,3]));assert.equal(broken.creator,null);assert.equal(broken.mmr.size,0);
 });
+
+function withSlots(capacity,records=3,recordSize=9){
+ const start=replayStart('Slot test','FLO').subarray(0,-1),length=7+records*recordSize,slots=Buffer.alloc(3+length);
+ slots[0]=0x19;slots.writeUInt16LE(length,1);slots[3]=records;slots[slots.length-1]=capacity;
+ return Buffer.concat([start,slots]);
+}
+
+test('map capacity comes from starting positions, not occupied players or observer records',()=>{
+ for(const capacity of [1,2,4,8,12,24]){
+  const start=parseStart(withSlots(capacity));
+  assert.equal(start.mapSlots,capacity);assert.equal(start.creator,'FLO');assert.equal(start.gameName,'Slot test');
+ }
+ // Older formats use shorter slot records.
+ for(const size of [7,8])assert.equal(parseStart(withSlots(4,3,size)).mapSlots,4);
+});
+
+test('unavailable, signed and damaged map capacities are left unknown',()=>{
+ for(const capacity of [0,25,0xCC])assert.equal(parseStart(withSlots(capacity)).mapSlots,null);
+ const valid=withSlots(4);
+ for(const removed of [1,5,25])assert.equal(parseStart(valid.subarray(0,-removed)).mapSlots,null);
+ assert.equal(parseStart(replayStart('Missing slots','FLO')).mapSlots,null);
+ const wrongLength=Buffer.from(valid);wrongLength.writeUInt16LE(1,wrongLength.length-36);
+ assert.equal(parseStart(wrongLength).mapSlots,null);
+});

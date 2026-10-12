@@ -1,6 +1,14 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
 const {loadLibrarySnapshot,saveLibrarySnapshot,SUMMARY_VERSION}=require('../library.cjs');
+
+test('map capacity is optional and does not come from the number of participants',()=>{
+ const {summary}=require('../library.cjs');
+ const entry={key:'example',file:'match.w3g',data:{map:{file:'Example.w3x'},players:[{id:1},{id:2}]}};
+ assert(!Object.hasOwn(summary(entry),'mapSlots'));
+ assert.equal(summary({...entry,data:{...entry.data,startSpots:8}}).mapSlots,8);
+ for(const startSpots of [0,25,0xCC])assert(!Object.hasOwn(summary({...entry,data:{...entry.data,startSpots}}),'mapSlots'));
+});
 test('unchanged parse failures are reused from the catalogue and retried when their file changes',async t=>{
  const {indexFolder}=require('../library.cjs');const dir=await fs.mkdtemp(path.join(os.tmpdir(),'library-failure-'));t.after(()=>fs.rm(dir,{recursive:true,force:true}));const file=path.join(dir,'damaged.w3g');await fs.writeFile(file,'bad replay');
  const cache=path.join(dir,'cache'),rows=[];await indexFolder(dir,cache,row=>rows.push(row));assert(rows[0].error);assert(rows[0].fingerprint);

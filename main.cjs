@@ -23,6 +23,7 @@ const {readReplayStartFromFile,gameSource,readLeaves}=require('./replay-start.cj
 const {winningTeam,WINNER_VERSION}=require('./winner.cjs');
 const updater=require('./updater.cjs');
 let availableUpdate=null;  // the last "Check for updates" answer
+const mapSlotsCache=new Map();
 const fsSync=require('node:fs');
 const crypto=require('node:crypto');
 let windowState,windowSaveTimer;
@@ -127,6 +128,20 @@ async function chooseReplayFolder(){
  foldersChanged();
 }
 function registerIPC(){
+  ipcMain.handle('map-slots',async(_,keys)=>{
+    if(!Array.isArray(keys)||keys.length>2000||keys.some(key=>typeof key!=='string'||!/^[a-f0-9]{64}$/.test(key)))throw Error('Invalid map metadata request.');
+    const results={},unique=[...new Set(keys)];
+    for(let offset=0;offset<unique.length;offset+=8)await Promise.all(unique.slice(offset,offset+8).map(async key=>{
+      const row=entries.get(key);if(!row||row.error)return;
+      const saved=mapSlotsCache.get(key);
+      if(saved&&saved.fingerprint===row.fingerprint){results[key]=saved.slots;return;}
+      let slots=row.mapSlots??row.data?.startSpots;
+      if(!Number.isInteger(slots)||slots<1||slots>24)try{slots=(await readReplayStartFromFile(row.file)).mapSlots;}catch{slots=null;}
+      results[key]=Number.isInteger(slots)&&slots>=1&&slots<=24?slots:null;
+      if(results[key]!==null){mapSlotsCache.set(key,{fingerprint:row.fingerprint,slots:results[key]});if(mapSlotsCache.size>2000)mapSlotsCache.delete(mapSlotsCache.keys().next().value);}
+    }));
+    return results;
+  });
   ipcMain.handle('open-player-profile',async(_,key,playerId)=>{
     const row=entries.get(key);if(!row)throw new Error('Replay is no longer in the library.');
     const replay=await details.get(row);
@@ -339,9 +354,9 @@ app.whenReady().then(async()=>{
   registerIPC();
   const area=screen.getDisplayNearestPoint(screen.getCursorScreenPoint()).workArea;
   const restored=restoreWindowBounds(windowState,screen.getAllDisplays(),area);
-  win=new BrowserWindow({...restored,show:false,backgroundColor:'#0b111a',title:"Thae's Replay Explorer",icon:path.join(__dirname,'ui','artwork','rexxar.png'),
+  win=new BrowserWindow({...restored,show:false,backgroundColor:'#0b111a',title:"Thae's Replay Explorer",icon:path.join(__dirname,'ui','artwork','thaes-app-icon.ico'),
     webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
-  if(process.platform==='win32')win.setAppDetails({appId:'Thae.ReplayExplorer',appIconPath:path.join(__dirname,'ui','artwork','rexxar.ico'),appIconIndex:0,relaunchCommand:'"'+process.execPath+'"',relaunchDisplayName:"Thae's Replay Explorer"});
+  if(process.platform==='win32')win.setAppDetails({appId:'Thae.ReplayExplorer',appIconPath:path.join(__dirname,'ui','artwork','thaes-app-icon.ico'),appIconIndex:0,relaunchCommand:'"'+process.execPath+'"',relaunchDisplayName:"Thae's Replay Explorer"});
   win.removeMenu();
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   win.webContents.on('will-navigate',event=>event.preventDefault());

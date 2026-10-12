@@ -19,6 +19,7 @@ contextBridge.exposeInMainWorld('replays',{
  openFolder:()=>ipcRenderer.invoke('open-folder'),
  openReplayFolder:folder=>ipcRenderer.invoke('open-replay-folder',folder),
  mapAvailable:key=>ipcRenderer.invoke('map-available',key),
+ mapSlots:keys=>ipcRenderer.invoke('map-slots',keys),
  play:(key,requireMap=false)=>ipcRenderer.invoke('play-replay',key,requireMap),
  revealMap:key=>ipcRenderer.invoke('reveal-map',key),
  reveal:key=>ipcRenderer.invoke('reveal-replay',key),

@@ -31,7 +31,7 @@ async function readReplayStartFromFile(file,length=131072){
  finally{await handle.close();}
 }
 function parseStart(data){
- const out={mmr:new Map(),creator:null,gameName:null};
+ const out={mmr:new Map(),creator:null,gameName:null,mapSlots:null};
  let o=0;
  const zstring=()=>{const begin=o,end=data.indexOf(0,o);if(end<0)throw Error('truncated');o=end+1;return data.subarray(begin,end);};
  const record=()=>{o++;zstring();o+=1+data[o];};  // player id, name, extra data (length-prefixed)
@@ -46,6 +46,14 @@ function parseStart(data){
    const subtype=data[o+1],length=data.readUInt32LE(o+2),blob=data.subarray(o+6,o+6+length);
    if(subtype===3)for(const p of decodePlayers(blob))if(p.id!==undefined&&p.mmr>0)out.mmr.set(p.id,Math.round(p.mmr));
    o+=6+length;
+  }
+  // Starting positions are map capacity, independent of occupied player and
+  // observer slots. Signed ladder replays can use 0xCC instead of a count.
+  if(data[o]===0x19&&o+4<=data.length){
+   const length=data.readUInt16LE(o+1),records=data[o+3],end=o+3+length;
+   if(end<=data.length&&[7,8,9].some(size=>length===7+records*size)){
+    const count=data[end-1];if(count>=1&&count<=24)out.mapSlots=count;
+   }
   }
  }catch{}
  return out;

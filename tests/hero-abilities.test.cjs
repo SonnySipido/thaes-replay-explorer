@@ -5,18 +5,20 @@ const source=fs.readFileSync(require.resolve('../ui/app.js'),'utf8'),context={na
 vm.createContext(context);vm.runInContext(source.slice(source.indexOf('// Keep ultimate IDs'),source.indexOf('function heroExperienceMarkup(')),context);
 const abilities=hero=>JSON.parse(JSON.stringify(context.orderedHeroAbilities(hero)));
 
-test('hero cards include unlearned abilities in game order without changing parsed data or search',()=>{
+test('hero ability ranks show only learned levels without changing parsed data or search',()=>{
  const hero={id:'Hamg',abilities:{AHab:2,AHwe:2}},before=JSON.stringify(hero);
  assert.deepEqual(abilities(hero),[['AHbz',0],['AHwe',2],['AHab',2],['AHmt',0]]);
  assert.equal(JSON.stringify(hero),before);
  const search=entitySearch({players:[{heroes:[hero]}]});assert(search.includes('water elemental'));assert(!search.includes('blizzard'));assert(!search.includes('mass teleport'));
  const empty=context.heroAbilityMarkup('AHbz',0),ultimate=context.heroAbilityMarkup('AHmt',0),learned=context.heroAbilityMarkup('AHwe',2);
- assert.match(empty,/class="ability unlearned"/);assert.match(empty,/not learned/);assert.equal((empty.match(/class="ability-rank-bar"/g)||[]).length,3);assert(!empty.includes(' filled'));
- assert.equal((ultimate.match(/class="ability-rank-bar"/g)||[]).length,1);assert(!ultimate.includes(' filled'));
- assert(!learned.includes('unlearned'));assert.equal((learned.match(/ability-rank-bar filled/g)||[]).length,2);
+ for(const markup of [empty,ultimate]){assert.match(markup,/class="ability unlearned"/);assert.match(markup,/not learned/);assert(!markup.includes('ability-rank-bar'));}
+ assert(!learned.includes('unlearned'));assert.equal((learned.match(/ability-rank-bar filled/g)||[]).length,2);assert(!learned.includes('class="ability-rank-bar"'));
+ const levelOne=context.heroAbilityMarkup('AHwe',1),levelThree=context.heroAbilityMarkup('AHwe',3),learnedUltimate=context.heroAbilityMarkup('AHmt',1);
+ assert.equal((levelOne.match(/ability-rank-bar filled/g)||[]).length,1);assert.equal((levelThree.match(/ability-rank-bar filled/g)||[]).length,3);assert.equal((learnedUltimate.match(/ability-rank-bar filled/g)||[]).length,1);
+ assert.match(learnedUltimate,/ability-rank-bars ultimate/);
 });
 
-test('all supported heroes have four visible abilities with available icon art and an ultimate last',()=>{
+test('all supported hero ability catalogues retain game order, artwork and an ultimate last',()=>{
  const icons={window:{}};vm.createContext(icons);vm.runInContext(fs.readFileSync(require.resolve('../ui/icons.js'),'utf8'),icons);
  const heroes=vm.runInContext('[...heroAbilityDefaults.keys()]',context);assert.equal(heroes.length,25);
  for(const id of heroes){const rows=abilities({id});assert.equal(rows.length,4,id);assert(rows.every(([,rank])=>rank===0),id);assert(vm.runInContext('ultimateAbilities',context).has(rows[3][0]),id);for(const [ability] of rows)assert(icons.window.warcraftIcons.abilities[ability],id+' '+ability);}

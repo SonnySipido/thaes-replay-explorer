@@ -161,8 +161,7 @@
 html:is([data-theme="simple-dark"],[data-theme="light"]) body{background:var(--bg)}
 html[data-theme="simple-dark"] :is(h1,h2,h3){font-family:var(--font-ui);letter-spacing:0}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{background-color:var(--theme-header);border-bottom:1px solid var(--line);box-shadow:0 1px 0 #0003}
-/* Preserve the original Arthas artwork and logo placement across themes.
-   Banner controls stay dark so they remain readable over the image. */
+/* Banner controls stay dark so they remain readable over the artwork. */
 html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{
  --muted:#c4cbd7;
  --text:#f1f2f4;
@@ -171,6 +170,13 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) .topbar{
  --theme-button:#292c36e6;
  --theme-button-hover:#414552f2;
  --theme-button-active:#242733;
+}
+/* Match Arthas's eye position horizontally and vertically as the banner resizes. */
+html[data-theme="light"] .topbar{
+ background-color:#000;
+ background-image:linear-gradient(90deg,rgba(18,22,9,.82),rgba(18,22,9,.24) 65%,rgba(18,22,9,.70)),url('artwork/reign-of-chaos.jpg');
+ background-position:center,calc(50% + 10vw) calc(14.5% + 2.4vw + 3px);
+ background-repeat:no-repeat;
 }
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar p){text-shadow:0 1px 3px #000}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}

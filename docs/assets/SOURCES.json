@@ -11,6 +11,144 @@
     {
       "file": "thaes-replay-explorer-banner.png",
       "source": "User-provided Logo_NoChains.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
+    },
+    {
+      "file": "heroes-units.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "buildings-upgrades.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "items.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "apm.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "control-groups.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "chat.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "build-order.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "hd-icons.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "classic-explorer.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "rename-replay.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "replay-notes.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "favorites.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "filter-matchup.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "filter-duration.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "filter-versions.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "search-map.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "search-notes.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "drag-drop-sharing.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "settings.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "theme-default.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "theme-light.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "theme-dark.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
+    },
+    {
+      "file": "advanced-filters.jpg",
+      "source": "Captured from version 0.9.1 with anonymized example player names and chat, and example replay notes",
+      "width": 1440,
+      "height": 920
     }
   ]
 }

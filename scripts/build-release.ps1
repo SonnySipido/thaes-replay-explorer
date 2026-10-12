@@ -16,7 +16,7 @@ try {
  }
  if ((Get-FileHash -LiteralPath $rcedit -Algorithm SHA256).Hash -ne '3e7801db1a5edbec91b49a24a094aad776cb4515488ea5a4ca2289c400eade2a') { throw 'rcedit checksum mismatch.' }
  $exe = Join-Path $appDir "Thae's Replay Explorer.exe"
- & $rcedit $exe --set-icon (Join-Path $project 'ui/artwork/rexxar.ico') --set-version-string ProductName "Thae's Replay Explorer" --set-version-string FileDescription "Thae's Replay Explorer" --set-version-string CompanyName 'Thaedalius' --set-version-string LegalCopyright 'Copyright (c) 2026 Thaedalius' --set-file-version $version --set-product-version $version
+ & $rcedit $exe --set-icon (Join-Path $project 'ui/artwork/thaes-app-icon.ico') --set-version-string ProductName "Thae's Replay Explorer" --set-version-string FileDescription "Thae's Replay Explorer" --set-version-string CompanyName 'Thaedalius' --set-version-string LegalCopyright 'Copyright (c) 2026 Thaedalius' --set-file-version $version --set-product-version $version
  if ($LASTEXITCODE -ne 0) { throw 'Executable branding failed.' }
  $compiler = $env:INNO_ISCC
  if (!$compiler) {

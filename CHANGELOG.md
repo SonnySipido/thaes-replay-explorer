@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.1
+
+- Add Melee, W3C ladder and Custom categories for map dropdown suggestions without restricting replay results. Leaving all categories unchecked shows every known map.
+- Make map suggestions fully scrollable and show their maximum known player capacity as a number. Add map clearing and move the player filter's cross inside its search box.
+- Fix oversized replay-list map previews with bounded square thumbnails for every map. Enlarge the Match Analysis map preview, align the matchup below Show winner, and improve replay-list player-name readability.
+- Keep unit cards from stretching excessively at wider app sizes while preserving their minimum width and alignment with hero cards.
+- Show only learned ability rank bars while preserving the option to show unlearned hero abilities greyed out. Refine Random race question marks and the hero experience explanation.
+- Use Thrall's Reign of Chaos artwork in the Light banner, aligned with Arthas's eyes in the other themes. Name the options Default (Simple), Light (Simple) and Dark (Simple).
+- Refresh the application and website logos, use the supplied T icon for Windows and website favicons, and improve banner text readability. Remove redundant banner icons and open the website's author link in a new tab.
+- Refresh the website screenshots and add examples of all three themes and advanced filters.
+
 ## 0.9.0
 
 - Add optional advanced filters beside Search while keeping the existing library filters visible. Combine selected players, their played races and a map, including Random and each Random race outcome.

@@ -36,3 +36,12 @@ test('player and map filters intersect and selected names use exact matching',()
  assert(advanced({...row,map:'Maps/Download/Echo_Isles.w3x'},options,'Echo Isles'));
  assert(!advanced({players:[]},filters([{name:'Alice',race:'H'}])));
 });
+
+test('map-choice categories do not restrict replay results or change player/race/map matching',()=>{
+ const options={...filters([{name:'Alice',race:'RH'}],{name:'Echo Isles',exact:true}),mapTypes:{melee:true,w3c:true,custom:false}};
+ assert(advanced(row,options));
+ options.mapTypes={melee:false,w3c:false,custom:true};assert(advanced(row,options));
+ assert(!advanced({...row,map:'Turtle Rock'},options,'Turtle Rock'));
+ options.mapTypes={melee:false,w3c:false,custom:false};assert(advanced(row,options));
+ assert(advanced(row,{...options,enabled:false}));
+});

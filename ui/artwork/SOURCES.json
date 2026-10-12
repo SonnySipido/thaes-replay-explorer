@@ -2,6 +2,19 @@
   "copyright": "Warcraft artwork belongs to Blizzard Entertainment",
   "files": [
     {
+      "file": "thaes-app-icon.png",
+      "source": "User-provided T-logo3.png; original PNG preserved"
+    },
+    {
+      "file": "thaes-app-icon.ico",
+      "source": "Windows icon generated from thaes-app-icon.png at 16, 20, 24, 32, 40, 48, 64, 96, 128 and 256 pixels with transparency preserved",
+      "generator": "scripts/prepare-app-icon.ps1"
+    },
+    {
+      "file": "thaes-replay-explorer-full.png",
+      "source": "User-provided ThaesReplayExplorerFull.png; original transparent PNG preserved and scaled to fit the application banner"
+    },
+    {
       "file": "thaes-replay-explorer-wordmark.png",
       "source": "User-provided ThaesReplayExplorer_logo.png; original transparent PNG preserved; transparent vertical padding clipped by CSS"
     },
@@ -18,6 +31,12 @@
     {
       "file": "frozen-throne.jpg",
       "url": "https://img.goodfon.com/original/1920x1200/9/a0/badfon-warcraft-3-the-frozen-throne-6292.jpg"
+    },
+    {
+      "file": "reign-of-chaos.jpg",
+      "source": "Warcraft III: Reign of Chaos cover artwork; Light theme banner",
+      "url": "https://images3.alphacoders.com/592/592651.jpg",
+      "page": "https://wall.alphacoders.com/big.php?i=592651"
     },
     {
       "file": "frozen-throne-icon.png",

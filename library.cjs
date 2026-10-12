@@ -71,7 +71,7 @@ function summary(entry) {
   if(entry.summaryVersion)return entry;
   const r=entry.data;
   return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
-    map:r?.map?.file || '',version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
+    map:r?.map?.file || '',...(Number.isInteger(r?.startSpots)&&r.startSpots>=1&&r.startSpots<=24?{mapSlots:r.startSpots}:{}),version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
     players:r?.players?.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat?.length || 0,chatSearch:chatSearch(r?.chat),entitySearch:entitySearch(r)};
 }
 async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},known={},includeSubfolders=true,lightweight=false) {

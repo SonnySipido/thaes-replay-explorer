@@ -200,11 +200,22 @@ function matchupIcons(players,fallback='',analysis=false){
  return '<span class="matchup-icons">'+groups.map(group=>'<span class="race-team">'+group.map(p=>playerRaceIcon(p,analysis)).join('')+'</span>').join('<span class="versus">VS</span>')+'</span>';
 }
 const replayMetadata=new WeakMap();
+const classifyReplayMap=replayMapTypes.create(window.warcraftMapCatalogue);
 function metadata(row){let value=replayMetadata.get(row);if(!value){value={date:replayFilters.timestamp(row),map:mapDisplayName(row.map)};replayMetadata.set(row,value);}return value;}
 function replayDate(row){return metadata(row).date;}
 function replaySearchText(row){const value=metadata(row);return value.search??(value.search=[row.name,row.map,value.map,row.matchup,row.chatSearch,row.entitySearch,...row.players.map(p=>p.name)].join(' ').toLowerCase());}
 const advancedFilters=replayAdvancedFilters.create({
  button:$('advanced-filters-toggle'),panel:$('advanced-filters'),playerList:$('advanced-player-filters'),mapField:$('advanced-map-filter'),
+ mapTypeFields:$('advanced-map-types'),
+ mapType:row=>{const value=metadata(row);return value.mapType??(value.mapType=classifyReplayMap(row));},
+ mapSlots:row=>row.mapSlots??metadata(row).mapSlots,
+ loadMapSlots:async mapRows=>{
+  const pending=mapRows.filter(row=>!(Number.isInteger(row.mapSlots)&&row.mapSlots>=1&&row.mapSlots<=24)&&!metadata(row).mapSlotsLoaded);
+  for(let offset=0;offset<pending.length;offset+=2000){
+   const batch=pending.slice(offset,offset+2000),counts=await window.replays.mapSlots(batch.map(row=>row.key));
+   for(const row of batch){const value=metadata(row);value.mapSlots=counts[row.key];value.mapSlotsLoaded=true;}
+  }
+ },
  addButton:$('advanced-player-add'),clearButton:$('advanced-filters-clear'),getRows:()=>rows.values(),mapName:row=>metadata(row).map,
  raceIcon:value=>value==='any'?'<img class="race-icon" src="artwork/any-race.png" alt="" width="24" height="24">':playerRaceIcon(value.length===2?{race:'R',raceDetected:value.slice(1)}:{race:value},true),
  onChange:typing=>typing?scheduleList(150):renderList()
@@ -301,7 +312,7 @@ function renderList(){
     window.replays.dragReplayFile(r.key).catch(showError);
    };
    const stamp=replayFilters.dateLabel(r);
-   button.innerHTML=mapPreview(r.map,'row-map')+'<span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
+   button.innerHTML='<span class="row-map-frame">'+mapPreview(r.map,'row-map')+'</span><span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Drag to share replay · Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
@@ -537,13 +548,14 @@ function orderedHeroAbilities(hero){
 }
 function heroAbilityMarkup(id,level){
  const maximum=ultimateAbilities.has(id)?1:3,rank=Math.max(0,Math.min(maximum,Math.trunc(Number(level)||0)));
- const label=name(id)+(rank?', level '+rank+' of '+maximum:', not learned')+(maximum===1?' (ultimate)':'');
- const bars=Array.from({length:maximum},(_,i)=>'<span class="ability-rank-bar'+(i<rank?' filled':'')+'"></span>').join('');
- return '<div class="ability'+(rank?'':' unlearned')+'" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars" aria-hidden="true">'+bars+'</span></div>';
+ if(!rank){const label=name(id)+', not learned'+(maximum===1?' (ultimate)':'');return '<div class="ability unlearned" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'</div>';}
+ const label=name(id)+', level '+rank+(maximum===1?' (ultimate)':'');
+ const bars=Array.from({length:rank},()=>'<span class="ability-rank-bar filled"></span>').join('');
+ return '<div class="ability" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'">'+gameIcon(id,'abilities','ability-portrait')+'<span class="ability-rank-bars'+(maximum===1?' ultimate':'')+'" aria-hidden="true">'+bars+'</span></div>';
 }
 function heroExperienceMarkup(hero){
  const level=Math.max(1,Math.min(10,Math.trunc(Number(hero.minimumLevel??hero.level)||1)));
- const label='At least level '+level+', inferred from learned abilities. Unspent skill points can mean a higher level. Exact experience progress is unavailable.';
+ const label='At least level '+level+', inferred from learned abilities. Unspent skill points can mean a higher level. Exact experience progress is unavailable data in wc3 replay files.';
  return '<span class="hero-experience-bar" role="img" aria-label="'+esc(label)+'" title="'+esc(label)+'"><span class="hero-experience-fill" aria-hidden="true"></span><span class="hero-experience-label" aria-hidden="true">Level '+level+'</span></span>';
 }
 function alignArmyRows(root){
@@ -696,7 +708,7 @@ function chat(){
 }
 function showError(e){$('status').textContent=e.message||String(e);}
 $('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
-for(const id of ['app-website-title','app-website-icon'])$(id).onclick=e=>{e.preventDefault();window.replays.openWebsite().catch(showError);};
+$('app-website-title').onclick=e=>{e.preventDefault();window.replays.openWebsite().catch(showError);};
 $('folder-setting').onclick=()=>window.replays.openFolder().catch(showError);  // opens it in File Explorer (or asks for one)
 $('reforged-icons').checked=reforgedIcons;
 $('reforged-icons').onchange=()=>{
