@@ -40,12 +40,11 @@ header .author{color:#d5e3ef}
 .feature-groups>div{margin-bottom:18px}
 @media(max-width:760px){.hero{padding:26px 0 20px}.install,.features,.feature-list{padding:20px 0}}
 
-/* Keep the supplied wordmark legible by clipping only its transparent padding. */
+/* Show the complete supplied frame while clipping only transparent padding. */
+header{padding-top:10px;padding-bottom:10px}
 .brand{min-width:0}
-/* Align the visible lettering with Rexxar, then lift it 2px for the preferred visual alignment. */
-.brand-name{display:block;position:relative;width:400px;min-width:0;aspect-ratio:2172/312;overflow:hidden;transform:translateY(calc(45.55% - 24px))}
-.brand .brand-wordmark{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center 51%;border:0;border-radius:0}
-.brand>img{flex:none}
+.brand-name{display:block;position:relative;width:400px;min-width:0;aspect-ratio:2172/503;overflow:hidden}
+.brand .brand-wordmark{position:absolute;top:-25.24851%;left:0;display:block;width:100%;height:auto;object-fit:contain;border:0;border-radius:0}
 header .author{flex:none}
 /* Shared page navigation and illustrated replay guides. */
 .skip-link{position:absolute;left:16px;top:-100px;background:#e7c17c;color:#101822;padding:10px;z-index:10}.skip-link:focus{top:12px}
