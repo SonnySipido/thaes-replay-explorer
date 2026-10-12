@@ -32,8 +32,8 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
  color:var(--wc-gold);text-shadow:0 1px 2px #000;box-shadow:inset 0 0 14px #0009,0 2px 5px #0008;
 }
 .site-tabs a{font-family:var(--font-heading);font-weight:700;padding:9px 25px;line-height:1.4;color:#c7d2d5}
-.site-tabs a[aria-current=page]{color:#fff0a2;background:linear-gradient(#245b56,#0c292c);border-color:transparent}
-.site-tabs a:hover,.button:hover{background:linear-gradient(#2b625a,#0d3033);color:#fff2c1;border-color:transparent}
+.site-tabs a[aria-current=page]{color:#fff0a2;background:linear-gradient(#245b56,#0c292c) padding-box;border-color:transparent}
+.site-tabs a:hover,.button:hover{background:linear-gradient(#2b625a,#0d3033) padding-box;color:#fff2c1;border-color:transparent}
 .hero{gap:24px;align-items:stretch;padding:22px 0 0}
 .hero>div,.download,.install,.features,.feature-list,.gallery,.guide-teaser,.help,
 .guides-intro,.guide-toc,.guide-article,footer{
