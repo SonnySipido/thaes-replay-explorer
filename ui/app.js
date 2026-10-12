@@ -8,6 +8,7 @@ let droppedReplayKey=null;
 let rows=new Map(),selected=null,entry=null,playerId=null,tab='Heroes',renderTimer,request=0;
 let timelineState={key:null};
 let apmState={key:null};
+let replayMapNameObserver=null;
 let pendingReplayRestore=localStorage.getItem('selected-replay'),restoredReplayReveal=null;
 let requestedReplay=null;
 // Patch filter: the patches ticked in its menu (none = every patch), remembered between launches
@@ -311,8 +312,8 @@ function renderList(){
     event.preventDefault();clearReplayDrop();listPointerHeld=false;
     window.replays.dragReplayFile(r.key).catch(showError);
    };
-   const stamp=replayFilters.dateLabel(r);
-   button.innerHTML='<span class="row-map-frame">'+mapPreview(r.map,'row-map')+'</span><span class="row-copy"><span class="row-top"><span class="row-title"><strong>'+esc(r.error?'Unable to parse':mapDisplayName(r.map)||'Untitled match')+'</strong>'+sourceIcon(r.source,'row-source')+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
+   const stamp=replayFilters.dateLabel(r),mapTitle=r.error?'Unable to parse':metadata(r).map||'Untitled match';
+   button.innerHTML='<span class="row-map-frame">'+mapPreview(r.map,'row-map')+'</span><span class="row-copy"><span class="row-top"><span class="row-title"><strong title="'+esc(mapTitle)+'">'+esc(mapTitle)+'</strong>'+sourceIcon(r.source,'row-source')+(annotationFor(r).notes?'<span class="replay-note-indicator" title="'+esc(annotationFor(r).notes.slice(0,500))+'" aria-label="Has notes">▤</span>':'')+'</span><span class="length">'+(r.error?'!':CLOCK_ICON+time(r.duration))+'</span></span>'+
    '<span class="row-players">'+(r.players.length?replayPlayerNames(r.players):esc(r.name))+'</span>'+
    '<span class="row-meta"><span>'+esc(stamp)+'</span>'+matchupIcons(r.players,r.matchup)+'</span></span>';
    button.onclick=()=>selectReplay(r.key);button.ondblclick=()=>window.replays.play(r.key).catch(showError);button.title='Drag to share replay · Double-click to watch in Warcraft III';const group=copies.get(r.contentHash);if(group)button.title+='\n'+group.length+' identical copies:\n'+group.slice(0,10).map(copy=>copy.file).join('\n')+(group.length>10?'\n…':'');
@@ -328,6 +329,7 @@ function renderList(){
  if(classic)renderClassicTree(fragment,list,replayCard);
  if(!classic&&list.length)reconcileReplayCards($('replay-list'),pageRows.map(replayCard));else $('replay-list').replaceChildren(fragment);
  const visibleKeys=new Set(classic?[]:pageRows.map(r=>r.key));for(const key of detailedReplayCards.keys())if(!visibleKeys.has(key))detailedReplayCards.delete(key);
+ replayMapNameObserver?.disconnect();replayMapNameObserver=classic?null:fitTextNames($('replay-list'),'.row-title strong');
  refreshFavoriteButtons();
  if(restoredReplayReveal===selected)$('replay-list').querySelector('.replay-row.active')?.scrollIntoView({block:'nearest'});
 }
@@ -586,9 +588,13 @@ function alignArmyRows(root){
  sync();
  const observer=new ResizeObserver(sync);observer.observe(hero);analysisObservers.push(observer);
 }
-function fitHeroNames(root){
- const labels=[...root.querySelectorAll('.hero-name')],measure=document.createElement('canvas').getContext('2d');
- const sizes=new Map(labels.map(label=>[label,parseFloat(getComputedStyle(label).fontSize)]));
+function fitTextNames(root,selector){
+ const labels=[...root.querySelectorAll(selector)],measure=document.createElement('canvas').getContext('2d');
+ // Cached replay cards may already have a fitted inline size. Start from the
+ // theme's normal size so names can grow again when more room becomes available.
+ const sizes=new Map();
+ const normalSizes=()=>{labels.forEach(label=>label.style.removeProperty('font-size'));for(const label of labels)sizes.set(label,parseFloat(getComputedStyle(label).fontSize));};
+ normalSizes();
  let frame=null,disconnected=false;
  const fit=()=>{
   if(disconnected)return;
@@ -602,7 +608,8 @@ function fitHeroNames(root){
  };
  const schedule=()=>{if(disconnected||frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;fit();});};
  const observer=new ResizeObserver(schedule);labels.forEach(label=>observer.observe(label));fit();document.fonts.ready.then(schedule);
- document.addEventListener('replay-theme-changed',schedule);analysisObservers.push({disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);document.removeEventListener('replay-theme-changed',schedule);}});
+ const themeChanged=()=>{normalSizes();schedule();};
+ document.addEventListener('replay-theme-changed',themeChanged);return {disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);document.removeEventListener('replay-theme-changed',themeChanged);}};
 }
 function heroes(p,root){
  root.classList.add('army-panel');
@@ -624,7 +631,7 @@ function heroes(p,root){
  '</div></div></div>';
  root.querySelector('.unit-roster').style.setProperty('--unit-count-digits',Math.max(2,...units.map(([,count])=>String(count).length)));
  alignArmyRows(root);
- fitHeroNames(root);
+ analysisObservers.push(fitTextNames(root,'.hero-name'));
 }
 function buildingsAndUpgrades(p,root){
  const tiers={hkee:'T2',hcas:'T3',ostr:'T2',ofrt:'T3',etoa:'T2',etoe:'T3',unp1:'T2',unp2:'T3'};

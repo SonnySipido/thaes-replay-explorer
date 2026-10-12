@@ -31,12 +31,6 @@
       "height": 920
     },
     {
-      "file": "heroes-units.jpg",
-      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
-      "width": 1760,
-      "height": 1124
-    },
-    {
       "file": "buildings-upgrades.jpg",
       "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
       "width": 1760,
@@ -139,12 +133,6 @@
       "height": 1124
     },
     {
-      "file": "settings.jpg",
-      "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
-      "width": 1760,
-      "height": 1124
-    },
-    {
       "file": "theme-forsaken-kingdom.jpg",
       "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
       "width": 1760,
@@ -165,6 +153,30 @@
     {
       "file": "advanced-filters.jpg",
       "source": "Captured from version 0.9.2 in the Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "warcraft/metal-frame.webp",
+      "source": "WebP encoding of ui/artwork/warcraft/metal-frame.png, reusing the desktop Forsaken Kingdom theme artwork without changing its composition. Original generation prompts and provenance are recorded in ui/artwork/warcraft/README.md."
+    },
+    {
+      "file": "warcraft/dark-wood.webp",
+      "source": "WebP encoding of ui/artwork/warcraft/dark-wood.png, reusing the desktop Forsaken Kingdom theme artwork without changing its composition. Original generation prompts and provenance are recorded in ui/artwork/warcraft/README.md."
+    },
+    {
+      "file": "warcraft/forest-backdrop.webp",
+      "source": "WebP encoding of ui/artwork/warcraft/forest-backdrop.png, reusing the desktop Forsaken Kingdom theme artwork without changing its composition. Original generation prompts and provenance are recorded in ui/artwork/warcraft/README.md."
+    },
+    {
+      "file": "heroes-units.jpg",
+      "source": "Captured from version 0.9.3 in the default Forsaken Kingdom theme with anonymized example player names, chat and notes",
+      "width": 1760,
+      "height": 1124
+    },
+    {
+      "file": "settings.jpg",
+      "source": "Captured from version 0.9.3 in the default Forsaken Kingdom theme with anonymized example player names, chat and notes",
       "width": 1760,
       "height": 1124
     }

@@ -1,0 +1,125 @@
+/* Forsaken Kingdom: the same artwork and colors as the desktop app. */
+:root{
+ --wc-frame:url("assets/warcraft/metal-frame.webp");
+ --wc-wood:url("assets/warcraft/dark-wood.webp");
+ --wc-forest:url("assets/warcraft/forest-backdrop.webp");
+ --wc-gold:#ffda65;--wc-text:#eef1ef;--wc-muted:#b6c2c9;
+}
+html{background:#080e13;color-scheme:dark}
+body{color:var(--wc-text);background:linear-gradient(#07101980,#02070ca6),var(--wc-forest) center top/cover fixed}
+.wrap{max-width:1272px;padding-inline:28px}
+p,.author,.version,.small,.slide-status,.guide-figure figcaption{color:var(--wc-muted)}
+a{color:var(--wc-gold)}a:hover{color:#fff2c1}
+strong,.hero strong,.guide-article strong{color:var(--wc-text)}
+h1,h2,h3{color:var(--wc-gold);font-weight:700;text-shadow:0 2px 2px #000;letter-spacing:.01em}
+header{
+ gap:24px;min-height:120px;padding:10px max(28px,calc((100% - 1216px)/2));
+ border:12px solid transparent;border-image:var(--wc-frame) 16% / 32px / 0 stretch;
+ background:linear-gradient(#080b0e44,#090b0ec4),var(--wc-wood) center/640px;
+}
+.brand-name{width:min(400px,55vw)}
+header .author{font-size:13px;color:var(--wc-text);text-decoration:none}
+header .author:hover{color:var(--wc-gold);text-decoration:underline}
+.site-tabs{
+ gap:10px;margin-top:18px;padding:12px;border:8px solid transparent;
+ border-image:var(--wc-frame) 16% / 22px / 0 stretch;
+ background:linear-gradient(#080b0e88,#090b0ec4),var(--wc-wood) center/640px;
+}
+.site-tabs a,.button{
+ border:5px solid transparent;border-image:var(--wc-frame) 16% / 14px / 0 stretch;
+ border-radius:0;background:linear-gradient(#123b3d,#061b21);background-clip:padding-box;
+ color:var(--wc-gold);text-shadow:0 1px 2px #000;box-shadow:inset 0 0 14px #0009,0 2px 5px #0008;
+}
+.site-tabs a{font-family:var(--font-heading);font-weight:700;padding:9px 25px;line-height:1.4;color:#c7d2d5}
+.site-tabs a[aria-current=page]{color:#fff0a2;background:linear-gradient(#245b56,#0c292c);border-color:transparent}
+.site-tabs a:hover,.button:hover{background:linear-gradient(#2b625a,#0d3033);color:#fff2c1;border-color:transparent}
+.hero{gap:24px;align-items:stretch;padding:22px 0 0}
+.hero>div,.download,.install,.features,.feature-list,.gallery,.guide-teaser,.help,
+.guides-intro,.guide-toc,.guide-article,footer{
+ border:10px solid transparent;border-image:var(--wc-frame) 16% / 26px / 0 stretch;
+ background:linear-gradient(#0b151ce8,#080f16ec),var(--wc-forest) center bottom/cover;
+ border-radius:0;box-shadow:0 4px 14px #0005;
+}
+.hero>div,.download{padding:25px}
+.hero>div{background:linear-gradient(#0b151ce8,#080f16e8),var(--wc-wood) center/640px}
+.hero .search-heading{font-family:var(--font-heading);font-size:clamp(26px,2.8vw,34px);line-height:1.25;white-space:normal;letter-spacing:0}
+.lead{color:#d9e2e4}
+.eyebrow,.feature-groups h3{color:var(--wc-gold)}
+.button{padding:15px 12px;margin-top:22px}
+.download h2{font-size:27px}
+.install,.features,.feature-list,.gallery,.guide-teaser,.help{margin-top:22px;padding:25px}
+.steps,.columns{gap:28px}
+.feature-groups{column-gap:30px}
+.feature-groups h3{font-size:13px;letter-spacing:.055em}
+.feature-groups li,.guide-article p,.guide-article li{color:#c9d3d8}
+.feature-groups li:before,.facts span:before{color:var(--wc-gold)}
+.gallery-heading{gap:5px 18px;margin-bottom:10px}
+.gallery-heading h2{font-size:23px}
+.gallery-heading p{font-size:13px;max-width:550px}
+.screenshots a,.guide-figure img{
+ border:6px solid transparent;border-image:var(--wc-frame) 16% / 17px / 0 stretch;border-radius:0;
+ background:#080f16;
+}
+.screenshots a:hover{filter:brightness(1.06)}
+.screenshots figcaption{padding-top:16px}
+.slider-controls{margin-top:14px}
+.slider-controls button,.screenshot-choice select,.screenshot-viewer button,.copy-icon-example{
+ border:1px solid #71807c;border-radius:3px;color:var(--wc-text);
+ background:linear-gradient(#233238,#0b151b);box-shadow:inset 0 1px #b5c8ca24,0 1px 3px #0008;
+}
+.slider-controls button:hover,.screenshot-viewer button:hover{background:linear-gradient(#304740,#102523);color:#fff2c1}
+.screenshot-choice{color:var(--wc-muted)}select option{background:#111b22;color:var(--wc-text)}
+a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible,.screenshots:focus-visible{outline:2px solid var(--wc-gold);outline-offset:4px}
+.skip-link{background:var(--wc-gold);color:#101822}
+.guide-teaser{gap:24px}
+.guide-link{white-space:normal}
+.help details{border-color:#64736966}
+.help summary{color:var(--wc-text)}
+.guides-intro{margin-top:22px;padding:30px;max-width:none}
+.guides-intro h1{font-size:clamp(33px,4.5vw,53px);line-height:1.15}
+.guide-layout{gap:24px;margin-top:22px;align-items:start}
+.guide-toc{padding:18px;top:20px}
+.guide-toc a{font-size:13px;overflow-wrap:anywhere}
+.guide-toc .toc-download{border-color:#64736988}
+.guide-article{padding:25px;margin-bottom:22px}
+.guide-example,.guide-note{
+ border:5px solid transparent;border-image:var(--wc-frame) 16% / 13px / 0 stretch;border-radius:0;
+ background:linear-gradient(#15252a,#0a141c);padding:22px;
+}
+th{color:var(--wc-gold)}th,td{border-color:#64736966}code{color:#a4ded0}
+blockquote{border-color:var(--wc-gold)}
+footer{margin-block:22px;padding:20px;background:linear-gradient(#080b0ec4,#090b0edd),var(--wc-wood) center/640px}
+footer p{color:#aab9c0}
+.screenshot-viewer{
+ border:10px solid transparent;border-image:var(--wc-frame) 16% / 28px / 0 stretch;border-radius:0;
+ background:#0b151c;color:var(--wc-text);box-shadow:0 15px 80px #000d;
+}
+.screenshot-viewer-toolbar{background:linear-gradient(#080b0e88,#090b0ec4),var(--wc-wood) center/640px;border-color:#647369}
+.screenshot-viewer-toolbar h2{color:var(--wc-gold)}
+.screenshot-viewer::backdrop{background:#02070de8}
+@media(max-width:900px){
+ .guide-toc{position:static;gap:4px 18px;padding:16px}
+}
+@media(max-width:760px){
+ body{background-attachment:scroll}
+ .wrap{padding-inline:12px}
+ header{padding:12px 16px;gap:10px;min-height:0;flex-wrap:wrap}
+ .brand{flex:1 1 100%}.brand-name{width:min(330px,100%)}
+ header .author{max-width:none;margin-left:auto;font-size:12px}
+ .site-tabs{gap:8px;padding:8px;margin-top:12px}
+ .site-tabs a{flex:1;text-align:center;padding:10px 12px;font-size:14px}
+ .hero{gap:16px;padding-top:16px}
+ .hero>div,.download{padding:20px}
+ .hero .search-heading{font-size:26px}
+ .lead{font-size:18px}
+ .install,.features,.feature-list,.gallery,.guide-teaser,.help{margin-top:16px;padding:19px}
+ .steps,.columns{gap:20px}
+ .gallery-heading p{font-size:12px}
+ .screenshots figcaption{padding-inline:4px}
+ .guides-intro{margin-top:16px;padding:22px}
+ .guide-layout{margin-top:16px;gap:16px}
+ .guide-article{padding:18px}.guide-example,.guide-note{padding:16px}
+ footer{padding:18px}
+ .screenshot-viewer{border-width:6px;border-image-width:18px}
+}
+@media(prefers-reduced-motion:reduce){body{background-attachment:scroll}}

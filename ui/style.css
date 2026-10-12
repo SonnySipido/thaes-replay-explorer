@@ -221,6 +221,7 @@
 .row-map{width:48px;height:48px}
 .row-copy{display:block;min-width:0;flex:1}
 .row-top strong{min-width:0}
+.row-top .row-title,.row-title strong{flex:1}
 .row-top .length{flex-shrink:0}
 .row-copy .row-meta{flex-wrap:wrap;gap:4px}
 

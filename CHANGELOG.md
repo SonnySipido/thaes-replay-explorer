@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.3
+
+- Make Forsaken Kingdom the default theme for new installations. Move users updating from older versions to it once, then continue remembering their chosen theme. Simple, Light (Simple) and Dark (Simple) remain available.
+- Fit long map names inside replay cards, restoring their normal text size when more room is available. Keep full map names available on hover.
+- Use the Windows app’s T logo in the update dialog and other app prompts.
+- Apply the desktop theme’s metal frames, wood textures, gold headings, teal buttons and forest background to the website’s Overview and Guides pages, with optimized artwork and responsive layouts.
+
 ## 0.9.2
 
 - Add a Timeline tab with four tracks per player for heroes and units, buildings, upgrades and purchases. Toggle players and event types, merge tracks, zoom, scroll horizontally with the mouse wheel, and export the full timeline to PNG. Zoom, merged tracks and event-type choices persist across replays and restarts.

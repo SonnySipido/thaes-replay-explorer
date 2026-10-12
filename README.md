@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.2/Thae-Replay-Explorer-0.9.2-Setup-x64.exe)
+## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.3/Thae-Replay-Explorer-0.9.3-Setup-x64.exe)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
@@ -15,7 +15,7 @@ No GitHub account, source-code download, or development tools are needed. The in
 ## Features
 
 - **Match analysis:** hero levels and ability rank bars in game order, grouped units ordered by their first training event, individual building and research start times, FE/T2/T3 tags, items, a shared APM chart and optional winner display.
-- **Appearance:** the Forsaken Kingdom theme adds metal frames, wooden banners, gold headings, teal buttons and a misty forest backdrop. Simple, Light (Simple) and Dark (Simple) remain available in Settings, and the theme choice is remembered.
+- **Appearance:** Forsaken Kingdom is the default theme, with metal frames, wooden banners, gold headings, teal buttons and a misty forest backdrop. Updating to 0.9.3 selects this theme once; later theme choices stay saved. Simple, Light (Simple) and Dark (Simple) remain available in Settings, and the theme choice is remembered.
 - **APM:** compare player-colored lines on one chart, toggle each player, and hover over a line to see its time and APM.
 - **Control groups:** every identified unit, hero and building type assigned to each group throughout the match.
 - **Build orders:** each player's first five minutes of units, heroes, buildings and research, with separate text and image exports named after the map and player.
