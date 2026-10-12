@@ -4,13 +4,15 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.exe)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.3/Thae-Replay-Explorer-0.9.3-Setup-x64.exe)
+## [Download for Windows — Installer (.msi)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.3/Thae-Replay-Explorer-0.9.3-Setup-x64.msi)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
 3. Open **Thae's Replay Explorer** from the Windows Start menu (search for **Replay**).
 
-No GitHub account, source-code download, or development tools are needed. The installer includes everything needed to run the app and offers a desktop shortcut. For Windows 10/11, 64-bit.
+No GitHub account, source-code download, or development tools are needed. The installer includes everything needed to run the app and adds a Start menu shortcut. For Windows 10/11, 64-bit. It installs for the current Windows user without administrator rights.
+
+If you previously used the EXE installer, uninstall the app in Windows Settings before installing MSI. Your settings, notes, cache and replay files are kept. After switching, the app uses MSI for subsequent updates. Existing EXE installations continue receiving EXE updates.
 
 ## Features
 
@@ -92,7 +94,7 @@ Replays stay on your computer. The app has no telemetry or replay upload feature
 
 ## Other download options
 
-Download the Windows x64 Setup executable from this repository's Releases page and run it. The installer adds **Thae's Replay Explorer** to the Windows Start menu (search for **Replay**) and offers a desktop shortcut. No administrator rights are required. A portable ZIP is also available: extract the entire folder and run **Thae's Replay Explorer.exe**. Keep the accompanying files with the executable.
+The MSI is the main installer. The Windows x64 Setup EXE remains on the Releases page for users who keep their EXE installation; it adds a Start menu shortcut and offers an optional desktop shortcut. Updates use the same installer format as the installed app. A portable ZIP is also available: extract the entire folder and run **Thae's Replay Explorer.exe**. Keep the accompanying files with the executable. Portable versions retain the EXE update path.
 
 Windows 10 or 11, 64-bit, is required. Electron, Node.js and the replay parser are included; users do not need to install development tools, Java, Python or Node.js. Warcraft III and the matching local map are needed to watch a replay in the game, but not to browse replay analysis. Replay launching uses Windows' .w3g file association.
 
@@ -100,7 +102,16 @@ The initial release is unsigned; Windows may display an unknown-publisher or rep
 
 ## Build from source
 
-Use Windows x64 with Node.js 22.12 or newer, npm, and Inno Setup 7. Install dependencies with npm ci, run npm test, then npm run build:release. The build script finds ISCC.exe in the standard Inno Setup location; alternatively set INNO_ISCC to its full path. It downloads a pinned, checksum-verified Electron rcedit tool to set the executable icon. Output is written to release/. Each build uses a new staging directory. Run npm start for development.
+Use Windows x64 with Node.js 22.12 or newer, npm, Inno Setup 7, the .NET SDK and .NET 6 runtime for the pinned WiX 4.0.6 build tool. Install the build tool and its extensions locally once, from the project root:
+
+```powershell
+dotnet tool install wix --version 4.0.6 --tool-path tools/wix4/bin
+Push-Location tools/wix4
+./bin/wix.exe extension add WixToolset.UI.wixext/4.0.6 WixToolset.Util.wixext/4.0.6
+Pop-Location
+```
+
+Install dependencies with npm ci, run npm test, then npm run build:release. Each release builds a native per-user MSI, the existing Inno EXE, a portable ZIP, and SHA256SUMS.txt covering all three. The build script finds ISCC.exe in the standard Inno Setup location; alternatively set INNO_ISCC to its full path. It downloads a pinned, checksum-verified Electron rcedit tool to set the executable icon. Output is written to release/. Each build uses a new staging directory. Run npm start for development.
 
 ## Author and license
 

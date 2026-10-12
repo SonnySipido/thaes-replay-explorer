@@ -2,6 +2,7 @@
 
 ## 0.9.3
 
+- Add a native MSI as the main website download. Keep EXE installers for existing EXE installations and route updates through the installed format. Switching from EXE to MSI requires uninstalling the EXE installation once; settings, notes and replay files remain.
 - Make Forsaken Kingdom the default theme for new installations. Move users updating from older versions to it once, then continue remembering their chosen theme. Simple, Light (Simple) and Dark (Simple) remain available.
 - Fit long map names inside replay cards, restoring their normal text size when more room is available. Keep full map names available on hover.
 - Use the Windows app’s T logo in the update dialog and other app prompts.

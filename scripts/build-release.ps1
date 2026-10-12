@@ -18,6 +18,8 @@ try {
  $exe = Join-Path $appDir "Thae's Replay Explorer.exe"
  & $rcedit $exe --set-icon (Join-Path $project 'ui/artwork/thaes-app-icon.ico') --set-version-string ProductName "Thae's Replay Explorer" --set-version-string FileDescription "Thae's Replay Explorer" --set-version-string CompanyName 'Thaedalius' --set-version-string LegalCopyright 'Copyright (c) 2026 Thaedalius' --set-file-version $version --set-product-version $version
  if ($LASTEXITCODE -ne 0) { throw 'Executable branding failed.' }
+ & (Join-Path $PSScriptRoot 'build-msi.ps1') -SourceDir $appDir -OutputDir $out -AppVersion $version
+ if (!$?) { throw 'MSI installer build failed.' }
  $compiler = $env:INNO_ISCC
  if (!$compiler) {
   foreach ($candidate in @((Join-Path $project 'tools/inno/ISCC.exe'), (Join-Path ([Environment]::GetFolderPath('ProgramFilesX86')) 'Inno Setup 7/ISCC.exe'), "$env:ProgramFiles\Inno Setup 7\ISCC.exe")) { if (Test-Path -LiteralPath $candidate) { $compiler = $candidate; break } }
@@ -30,7 +32,8 @@ try {
  if (Test-Path -LiteralPath $zip) { Remove-Item -LiteralPath $zip -Force }
  [IO.Compression.ZipFile]::CreateFromDirectory($stage,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
  $setup = Join-Path $out ("Thae-Replay-Explorer-$version-Setup-x64.exe")
- $checksums = foreach ($file in @($setup,$zip)) { $hash=(Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLower(); "$hash  $([IO.Path]::GetFileName($file))" }
+ $msi = Join-Path $out ("Thae-Replay-Explorer-$version-Setup-x64.msi")
+ $checksums = foreach ($file in @($msi,$setup,$zip)) { $hash=(Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLower(); "$hash  $([IO.Path]::GetFileName($file))" }
  $checksums | Set-Content -LiteralPath (Join-Path $out 'SHA256SUMS.txt') -Encoding ASCII
  Write-Output "Installer: $setup"
  Write-Output "Portable: $zip"

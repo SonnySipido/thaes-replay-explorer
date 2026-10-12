@@ -26,6 +26,7 @@ CloseApplications=yes
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Shortcuts:"; Flags: unchecked
 [Files]
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "install-format-exe.json"; DestDir: "{app}\resources\app"; DestName: "install-format.json"; Flags: ignoreversion
 [Icons]
 Name: "{autoprograms}\Thae's Replay Explorer"; Filename: "{app}\Thae's Replay Explorer.exe"; WorkingDir: "{app}"; IconFilename: "{app}\resources\app\ui\artwork\thaes-app-icon.ico"; AppUserModelID: "Thae.ReplayExplorer"
 Name: "{autodesktop}\Thae's Replay Explorer"; Filename: "{app}\Thae's Replay Explorer.exe"; WorkingDir: "{app}"; IconFilename: "{app}\resources\app\ui\artwork\thaes-app-icon.ico"; AppUserModelID: "Thae.ReplayExplorer"; Tasks: desktopicon
@@ -34,6 +35,18 @@ Filename: "{app}\Thae's Replay Explorer.exe"; Description: "Launch Thae's Replay
 ; an update started from the app's "Check for updates" (silent, /RELAUNCH=1) opens the app again
 Filename: "{app}\Thae's Replay Explorer.exe"; Flags: nowait; Check: RelaunchAfterUpdate
 [Code]
+function InitializeSetup: Boolean;
+var
+  InstallFormat: String;
+begin
+  Result := True;
+  if RegQueryStringValue(HKCU, 'Software\Thaedalius\ThaeReplayExplorer', 'InstallFormat', InstallFormat) and (InstallFormat = 'msi') then
+  begin
+    MsgBox('This app was installed using MSI. Use the MSI installer to update it. Your settings and replays will be kept.', mbError, MB_OK);
+    Result := False;
+  end;
+end;
+
 function RelaunchAfterUpdate: Boolean;
 begin
   Result := ExpandConstant('{param:RELAUNCH|0}') = '1';

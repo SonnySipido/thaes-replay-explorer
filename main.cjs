@@ -246,7 +246,7 @@ function registerIPC(){
       const percent=total?Math.floor(100*received/total):-1;
       if(percent!==shown){shown=percent;send('update-progress',{percent});}
     });
-    updater.runInstaller(file);
+    await updater.runInstaller(file);
     setTimeout(()=>app.quit(),300);  // the installer replaces the files once the app has closed
   });
   ipcMain.handle('update-notes',()=>shell.openExternal(availableUpdate?.notes||updater.RELEASES));

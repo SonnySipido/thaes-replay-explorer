@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+  <Package Name="Thae's Replay Explorer" Manufacturer="Thaedalius" Version="$(var.AppVersion)" UpgradeCode="{A8E7901F-424E-4F54-9BCE-59703C4D6145}" Language="1033" Scope="perUser" InstallerVersion="500">
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Thae's Replay Explorer is already installed." Schedule="afterInstallInitialize" />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+    <Property Id="WINDOWSBUILD">
+      <RegistrySearch Id="FindWindowsBuild" Root="HKLM" Key="SOFTWARE\Microsoft\Windows NT\CurrentVersion" Name="CurrentBuildNumber" Type="raw" Bitness="always64" />
+    </Property>
+    <Launch Condition="Installed OR (VersionNT64 AND WINDOWSBUILD &gt;= 10240)" Message="Thae's Replay Explorer requires 64-bit Windows 10 or newer." />
+    <Property Id="EXEINSTALL" Secure="yes">
+      <RegistrySearch Id="FindExeInstall" Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\{CA09A9EA-19B1-4A66-95E3-752F328667B1}_is1" Name="UninstallString" Type="raw" Bitness="always64" />
+    </Property>
+    <Launch Condition="Installed OR NOT EXEINSTALL" Message="An EXE installation of Thae's Replay Explorer is already present. Uninstall it in Windows Settings, then run this MSI installer. Your settings, notes and replay files are kept." />
+    <Property Id="ARPURLINFOABOUT" Value="https://thaesreplayexplorer.com/" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="RELAUNCH" Value="0" Secure="yes" />
+    <Property Id="MSIRESTARTMANAGERCONTROL" Value="Disable" />
+    <Icon Id="AppIcon" SourceFile="$(var.SourceDir)\resources\app\ui\artwork\thaes-app-icon.ico" />
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="ProgramsFolder" Name="Programs">
+        <Directory Id="INSTALLFOLDER" Name="ThaesReplayExplorer" />
+      </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder" />
+    <Property Id="INSTALLFOLDER" Secure="yes">
+      <RegistrySearch Id="RememberInstallFolder" Root="HKCU" Key="Software\Thaedalius\ThaeReplayExplorer" Name="InstallLocation" Type="raw" Bitness="always64" />
+    </Property>
+    <Component Id="InstallFormat" Directory="$(var.AppDirectoryId)" Guid="{A120A623-BDBB-43F2-870D-4D5D3AE197D9}">
+      <File Id="FormatFile" Source="$(var.ProjectDir)\packaging\install-format-msi.json" Name="install-format.json" />
+      <RegistryValue Root="HKCU" Key="Software\Thaedalius\ThaeReplayExplorer" Name="InstallFormat" Type="string" Value="msi" KeyPath="yes" />
+      <RegistryValue Root="HKCU" Key="Software\Thaedalius\ThaeReplayExplorer" Name="InstallLocation" Type="string" Value="[INSTALLFOLDER]" />
+    </Component>
+    <Component Id="StartMenuShortcut" Directory="ProgramMenuFolder" Guid="{C72AC0F7-48EF-4552-BE1F-FF20D225748B}">
+      <Shortcut Id="AppStartMenu" Name="Thae's Replay Explorer" Target="[#AppExecutable]" WorkingDirectory="INSTALLFOLDER" Icon="AppIcon">
+        <ShortcutProperty Key="System.AppUserModel.ID" Value="Thae.ReplayExplorer" />
+      </Shortcut>
+      <RegistryValue Root="HKCU" Key="Software\Thaedalius\ThaeReplayExplorer" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+    </Component>
+    <Feature Id="Application" Title="Thae's Replay Explorer" Level="1">
+      <ComponentGroupRef Id="AppPayload" />
+      <ComponentRef Id="InstallFormat" />
+      <ComponentRef Id="StartMenuShortcut" />
+    </Feature>
+    <util:CloseApplication Id="CloseExplorer" Target="Thae's Replay Explorer.exe" CloseMessage="yes" RebootPrompt="no" Timeout="15" />
+    <CustomAction Id="LaunchAfterUpdate" FileRef="AppExecutable" ExeCommand="" Return="asyncNoWait" Impersonate="yes" />
+    <InstallExecuteSequence>
+      <Custom Action="LaunchAfterUpdate" After="InstallFinalize" Condition="NOT (REMOVE~=&quot;ALL&quot;) AND RELAUNCH=&quot;1&quot;" />
+    </InstallExecuteSequence>
+    <ui:WixUI Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.LicenseRtf)" />
+  </Package>
+</Wix>
