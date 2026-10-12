@@ -25,8 +25,6 @@ header .author{color:#d5e3ef}
 .feature-groups li:before{content:"✓";position:absolute;left:0;color:#7fc4b6}
 @media(max-width:760px){.feature-list{padding:26px 0}.feature-groups>div{margin-bottom:20px}}
 
-.hero-heading{display:flex;align-items:center;justify-content:flex-start;margin-bottom:24px}
-.hero-logo{display:block;width:min(280px,100%);height:auto;min-width:0;flex:none;object-fit:contain}
 
 /* Tighter vertical spacing: less empty space around the intro, the install steps and each section. */
 .hero{padding:34px 0 26px}
