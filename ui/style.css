@@ -19,6 +19,10 @@
 .comparison-content .metric-grid{gap:7px}.comparison-content .metric{padding:12px 9px}
 .comparison-content .metric strong{font-size:1.4375rem}.comparison-content .metric span{font-size:0.625rem}
 .comparison-content .section-title{font-size:1rem}
+/* Keep column labels available to screen readers without taking up a row. */
+:is(.building-summary,.upgrade-starts) .data-table thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.building-summary .data-table tbody tr:first-child>td:last-child{width:72px}
+.upgrade-starts .data-table tbody tr:first-child>td:last-child{width:62px}
 .comparison-content .section-note{font-size:0.6875rem}
 .comparison-content .toolbar{flex-wrap:wrap}.comparison-content .toolbar select{max-width:100%}
 .comparison-content .data-table th{letter-spacing:.3px;font-size:0.5625rem}
