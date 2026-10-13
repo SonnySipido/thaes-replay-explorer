@@ -215,7 +215,7 @@
 .match-head>div:first-child{min-width:0}
 .map-title-row{display:flex;align-items:center;gap:12px;margin-top:9px;min-width:0;height:59px}
 .map-title-copy{min-width:0}
-.map-title-row h2{margin:0 0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-title-row h2{margin:0 0 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .map-title-row #filename{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .replay-row{display:flex;gap:10px;align-items:center}
 .row-map{width:48px;height:48px}
@@ -612,11 +612,17 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-header-line{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;min-width:0}
 .match-header-line .eyebrow{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 0;min-width:0}
 .match-header-line .duration-controls{margin-left:auto;flex-shrink:0}
-.match-map-line{display:grid;grid-template-columns:minmax(0,1fr) clamp(160px,32%,420px);align-items:start;gap:14px;min-width:0}
-.match-map-line .map-title-row{min-width:0;margin-top:0;align-items:flex-start;height:auto;min-height:115.2px}
+.match-map-line{display:flex;align-items:flex-start;gap:14px;min-width:0}
+.match-map-line .map-title-row{flex:0 1 auto;min-width:0;margin-top:0;align-items:flex-start;height:auto;min-height:115.2px}
 .match-map-line .map-title-copy{flex:1;min-width:0}
 .match-map-line #map-preview{flex-shrink:0}
-.match-map-line .replay-notes{min-width:0;margin:0}
+.match-map-line .replay-notes{flex:0 0 auto;min-width:0;margin:0 0 0 auto}
+.match-map-line .replay-notes[open]{flex:1 0 160px}
+.match-map-line .replay-notes>summary{display:flex;justify-content:flex-end;align-items:center;gap:5px;list-style:none;text-align:right}
+.match-map-line .replay-notes>summary::-webkit-details-marker{display:none}
+.match-map-line .replay-notes>summary::before{content:'▸'}
+.match-map-line .replay-notes[open]>summary::before{content:'▾'}
+.match-map-line .replay-notes #notes-status{order:-1;margin:0;min-width:0;overflow-wrap:anywhere}
 .match-races-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;min-width:0}
 .match-races-line #matchup{min-width:0;max-width:100%}
 .match-races-line :is(.matchup-icons,.race-team){max-width:100%;flex-wrap:wrap}
