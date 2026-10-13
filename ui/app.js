@@ -150,8 +150,9 @@ function deselectReplay(){
 }
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();if(!$('patch-menu').hidden)closePatchMenu();else if(!$('settings').hidden)closeSettings();else deselectReplay();}});
 // Settings panel (gear in the header): icon style and updates
-function openSettings(){$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings').scrollTop=0;$('settings-open').setAttribute('aria-expanded','true');$('settings-close').focus();}
-function closeSettings(){$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').setAttribute('aria-expanded','false');$('settings-open').focus();}
+$('settings').inert=true;
+function openSettings(){$('settings').inert=false;$('settings').hidden=false;$('settings-backdrop').hidden=false;$('settings').scrollTop=0;$('settings-open').setAttribute('aria-expanded','true');$('settings-close').focus({preventScroll:true});}
+function closeSettings(){$('settings').inert=true;$('settings').hidden=true;$('settings-backdrop').hidden=true;$('settings-open').setAttribute('aria-expanded','false');$('settings-open').focus({preventScroll:true});}
 $('settings-open').onclick=openSettings;$('settings-close').onclick=closeSettings;$('settings-backdrop').onclick=closeSettings;
 let listPage=0,listQuery='',filteredReplayList=[];const listPageSize=100;
 document.addEventListener('keydown',async event=>{
@@ -474,9 +475,21 @@ function renderPlayers(animate=false){
   column.append(card);
  }
 }
+let analysisTabTransition=null;
+function selectAnalysisTab(nextTab){
+ if(nextTab===tab)return;
+ tab=nextTab;localStorage.setItem('analysis-tab',tab);renderTabs();
+ const update=()=>{if(entry?.data&&$('panel'))renderPanel();};
+ if(!matchMedia('(prefers-reduced-motion:reduce)').matches&&typeof document.startViewTransition==='function'){
+  analysisTabTransition?.skipTransition();
+  const transition=document.startViewTransition({update,types:['analysis-tab']});analysisTabTransition=transition;
+  transition.ready.catch(()=>{});transition.updateCallbackDone.catch(showError);
+  transition.finished.finally(()=>{if(analysisTabTransition===transition)analysisTabTransition=null;}).catch(()=>{});
+ }else update();
+}
 function renderTabs(){
  $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');
- [...$('tabs').children].forEach((b,i)=>b.onclick=()=>{tab=tabs[i];localStorage.setItem('analysis-tab',tab);renderTabs();renderPanel();});
+ [...$('tabs').children].forEach((b,i)=>b.onclick=()=>selectAnalysisTab(tabs[i]));
 }
 function title(text,note){return '<h2 class="section-title">'+esc(text)+'</h2>'+(note?'<p class="section-note">'+esc(note)+'</p>':'');}
 function table(headers,body){return '<table class="data-table"><thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table>';}

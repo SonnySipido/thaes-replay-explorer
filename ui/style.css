@@ -169,6 +169,16 @@
 .settings{position:fixed;top:0;right:0;bottom:0;width:min(400px,100vw);z-index:41;overflow-y:auto;padding:22px 24px;
  background:var(--panel);border-left:1px solid var(--line);box-shadow:-12px 0 32px rgba(0,0,0,.45)}
 .settings[hidden],.settings-backdrop[hidden]{display:none}
+@media(prefers-reduced-motion:no-preference){
+ .settings{opacity:1;transform:translateX(0);transition:opacity 180ms ease-out,transform 180ms ease-out,display 180ms allow-discrete}
+ .settings-backdrop{opacity:1;transition:opacity 180ms ease-out,display 180ms allow-discrete}
+ .settings[hidden]{opacity:0;transform:translateX(24px);pointer-events:none}
+ .settings-backdrop[hidden]{opacity:0;pointer-events:none}
+ @starting-style{
+  .settings:not([hidden]){opacity:0;transform:translateX(24px)}
+  .settings-backdrop:not([hidden]){opacity:0}
+ }
+}
 .settings-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .settings-head h2{margin:0;font-size:1.25rem}
 #settings-close{font-size:1.375rem;line-height:1}
@@ -214,9 +224,11 @@
 .team-column{min-width:0;display:flex;flex-direction:column;gap:18px}
 .players>.team-column{gap:8px}
 #players{view-transition-name:match-players}
-html:active-view-transition-type(winner){view-transition-name:none}
-html:active-view-transition-type(winner)::view-transition{pointer-events:none}
-::view-transition-group(match-players),::view-transition-old(match-players),::view-transition-new(match-players){animation-duration:180ms;animation-timing-function:ease-out}
+html:is(:active-view-transition-type(winner),:active-view-transition-type(analysis-tab)){view-transition-name:none}
+html:is(:active-view-transition-type(winner),:active-view-transition-type(analysis-tab))::view-transition{pointer-events:none}
+html:active-view-transition-type(analysis-tab) #players{view-transition-name:none}
+html:active-view-transition-type(analysis-tab) #panel{view-transition-name:analysis-content}
+::view-transition-group(match-players),::view-transition-old(match-players),::view-transition-new(match-players),::view-transition-group(analysis-content),::view-transition-old(analysis-content),::view-transition-new(analysis-content){animation-duration:180ms;animation-timing-function:ease-out}
 .players .player.team-player-card{flex-direction:column;align-items:stretch;gap:0}
 .team-player-row{display:flex;align-items:center;gap:10px;min-width:0;min-height:42px;padding:4px 0}
 .team-player-row+.team-player-row{border-top:1px solid var(--line)}
