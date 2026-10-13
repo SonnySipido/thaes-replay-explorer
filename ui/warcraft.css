@@ -68,8 +68,13 @@ html[data-theme="warcraft"] #watch-replay:hover{background:linear-gradient(#1b50
 html[data-theme="warcraft"] #duration{color:#eee8ce}
 html[data-theme="warcraft"] :is(.map-preview,.game-icon){border-color:#839396;border-radius:3px;background:#050a0d;box-shadow:0 0 0 1px #020506,inset 0 1px 2px #d2e0db22}
 html[data-theme="warcraft"] .replay-notes{border:5px solid transparent;border-image:var(--wc-frame) 16% / 11px / 0 stretch;padding:4px 8px;background:linear-gradient(#151e24,#080e14);border-radius:0}
-html[data-theme="warcraft"] .players{gap:10px;margin:10px 0 12px}
+html[data-theme="warcraft"] .players{gap:10px;margin:10px calc(-1 * var(--wc-section-overhang)) 12px}
 html[data-theme="warcraft"] .players .player{border:7px solid transparent;border-image:var(--wc-frame) 16% / 13px / 0 stretch;padding:7px 8px;border-radius:0;background:linear-gradient(#233038,#0b151c);box-shadow:inset 0 1px #7a8e8c33}
+/* Match the sorted team columns used by the analysis panels, including FFA. */
+html[data-theme="warcraft"] .players>.team-column:nth-child(odd){grid-column:1;grid-row:auto}
+html[data-theme="warcraft"] .players>.team-column:nth-child(even){grid-column:2;grid-row:auto}
+html[data-theme="warcraft"] .players>.team-column:nth-child(odd)>.player{border-left:0;border-image:var(--wc-frame) 16% / 13px 13px 13px 0 / 0 0 0 2px stretch;padding-left:calc(15px + var(--wc-section-overhang))}
+html[data-theme="warcraft"] .players>.team-column:nth-child(even)>.player{border-right:0;border-image:var(--wc-frame) 16% / 13px 0 13px 13px / 0 2px 0 0 stretch;padding-right:calc(15px + var(--wc-section-overhang))}
 html[data-theme="warcraft"] .players .player-profile{border:0;border-image:none;padding:0;background:none;box-shadow:none;color:inherit}
 html[data-theme="warcraft"] .folder-path{border:0;padding:0;color:var(--secondary-text)}
 html[data-theme="warcraft"] .players .match-winner{box-shadow:inset 0 0 0 1px #e6bf66;background:linear-gradient(#35351e,#151d14)}
