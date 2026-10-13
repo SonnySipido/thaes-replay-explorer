@@ -74,18 +74,18 @@ html[data-theme="warcraft"] .players .player-profile{border:0;border-image:none;
 html[data-theme="warcraft"] .folder-path{border:0;padding:0;color:var(--secondary-text)}
 html[data-theme="warcraft"] .players .match-winner{box-shadow:inset 0 0 0 1px #e6bf66;background:linear-gradient(#35351e,#151d14)}
 html[data-theme="warcraft"] .winner-badge{background:#111604;border-color:#bea450;color:#ffe782}
-html[data-theme="warcraft"] .tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;padding:6px 13px;margin:0 calc(-1 * var(--wc-section-overhang)) 14px;border:0;border-block:7px solid transparent;border-image:var(--wc-frame) 16% / 15px 0 / 0 2px stretch;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px;overflow:visible}
+html[data-theme="warcraft"] .tabs{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;padding:6px 13px;margin:0 calc(-1 * var(--wc-section-overhang)) 14px;border:0;border-block:7px solid transparent;border-image:var(--wc-frame) 16% / 15px 0 / 0 2px stretch;background:linear-gradient(#192328,#090f14);overflow:visible}
 html[data-theme="warcraft"] .tabs button{min-width:0;min-height:40px;padding:7px 4px;font-family:var(--font-ui);font-size:calc(0.75rem + 0.0833333333rem);font-weight:700;text-transform:uppercase;white-space:normal;line-height:1.35;border:1px solid #5c6768;border-image:var(--wc-frame) 16% / 5px / 0 stretch;border-radius:0;background:linear-gradient(#1b2328,#080e12);color:#c8d0ce;box-shadow:none}
 html[data-theme="warcraft"] .tabs button:is(:hover,.active){background:linear-gradient(#173e39,#06201d);color:var(--gold);border-color:#d8b767;box-shadow:inset 0 0 0 1px #498d80}
 html[data-theme="warcraft"] .player-comparison{gap:14px;margin-inline:calc(-1 * var(--wc-section-overhang))}
-html[data-theme="warcraft"] .comparison-content{padding:18px 12px;border:8px solid transparent;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px;min-width:0}
+html[data-theme="warcraft"] .comparison-content{padding:18px 12px;border:8px solid transparent;background:linear-gradient(#0b151ce8,#0b151cc9),var(--wc-forest) center bottom/cover;min-width:0}
 /* Each team uses the outer rail on its own side; the remaining three rails
    enclose the panel and keep the opposing teams visually separate. */
 html[data-theme="warcraft"] .comparison-player[data-side="left"]>.comparison-content{border-left:0;border-image:var(--wc-frame) 16% / 18px 20px 18px 0 / 0 0 0 2px stretch;padding-left:var(--wc-section-padding)}
 html[data-theme="warcraft"] .comparison-player[data-side="right"]>.comparison-content{border-right:0;border-image:var(--wc-frame) 16% / 18px 0 18px 20px / 0 2px 0 0 stretch;padding-right:var(--wc-section-padding)}
 html[data-theme="warcraft"] .comparison-player[data-side="left"]>.comparison-heading{padding-left:var(--wc-section-padding)}
 html[data-theme="warcraft"] .comparison-player[data-side="right"]>.comparison-heading{padding-right:var(--wc-section-padding)}
-html[data-theme="warcraft"] #panel>:is(.apm-chart-box,#chat-log){margin-inline:calc(-1 * var(--wc-section-overhang));padding:20px var(--wc-section-padding);border:0;border-block:8px solid transparent;border-image:var(--wc-frame) 16% / 18px 0 / 0 2px stretch;border-radius:0;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px}
+html[data-theme="warcraft"] #panel>:is(.apm-chart-box,#chat-log){margin-inline:calc(-1 * var(--wc-section-overhang));padding:20px var(--wc-section-padding);border:0;border-block:8px solid transparent;border-image:var(--wc-frame) 16% / 18px 0 / 0 2px stretch;border-radius:0;background:linear-gradient(#18272edb,#0b161deb)}
 html[data-theme="warcraft"] .match-timeline{margin-inline:calc(-1 * var(--wc-section-overhang));padding-inline:var(--wc-section-padding)}
 html[data-theme="warcraft"] .comparison-heading{color:var(--gold);border-color:#66705c}
 html[data-theme="warcraft"] :is(.mini-heading,.section-title){font-family:var(--font-heading);font-weight:750;letter-spacing:.035em;color:var(--gold)}
@@ -112,7 +112,7 @@ html[data-theme="warcraft"] .switch-track{background:linear-gradient(#172329,#06
 html[data-theme="warcraft"] .switch-toggle input:checked+.switch-track{background:linear-gradient(#e5bd49,#8e6818);border-color:#e5cf7a}
 html[data-theme="warcraft"] .switch-toggle input:checked+.switch-track::after{background:#142019;box-shadow:0 1px 3px #000a}
 html[data-theme="warcraft"] .timeline-viewport{max-width:none;margin-inline:calc(-1 * var(--wc-section-padding));border:0;border-block:7px solid transparent;border-image:var(--wc-frame) 16% / 15px 0 / 0 2px stretch;border-radius:0}
-html[data-theme="warcraft"] .timeline-chart{background:linear-gradient(#090e13df,#090e13df),var(--wc-wood) center/640px}
+html[data-theme="warcraft"] .timeline-chart{background:#091218ee}
 html[data-theme="warcraft"] :is(.timeline-axis-row,.timeline-track-label){background:linear-gradient(#1a282e,#101b22)}
 html[data-theme="warcraft"] .timeline-lane-title{color:#ceb878}
 html[data-theme="warcraft"] .timeline-event{border:0;border-image:none;background:transparent;box-shadow:none;padding:0}
