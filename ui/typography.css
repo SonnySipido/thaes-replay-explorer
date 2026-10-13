@@ -20,9 +20,9 @@
 body{font-family:var(--font-ui);font-optical-sizing:auto}
 button,input,select,textarea{font-family:inherit}
 h1,h2,h3{font-family:var(--font-heading);font-weight:600}
-.topbar h1{font-size:18px;letter-spacing:.045em;font-weight:700}
+.topbar h1{font-size:1.125rem;letter-spacing:.045em;font-weight:700}
 .topbar p{letter-spacing:.16em}
-.library-heading h2{font-size:18px}
+.library-heading h2{font-size:1.125rem}
 .library-heading h2 span{font-family:var(--font-ui)}
 .settings-head h2,.ask-head h2{font-weight:600;letter-spacing:.015em}
 .settings-section h3{font-family:var(--font-ui);font-weight:650;letter-spacing:.09em}
@@ -30,7 +30,7 @@ h1,h2,h3{font-family:var(--font-heading);font-weight:600}
 .empty h2{font-weight:600}
 .match-head h2{font-weight:600;letter-spacing:-.015em}
 .replay-row strong,.classic-folder-heading,.players .player-name{font-weight:600}
-.tabs button{font-size:calc(13px + 1pt);font-weight:700}
+.tabs button{font-size:calc(0.8125rem + 0.0833333333rem);font-weight:700}
 .tabs button.active{font-weight:700}
 .comparison-heading h2{font-family:var(--font-ui);font-weight:600}
 .section-title{letter-spacing:.015em}

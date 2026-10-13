@@ -45,7 +45,7 @@
    const ctx=canvas.getContext('2d'),w=canvas.clientWidth,h=canvas.clientHeight,dpr=window.devicePixelRatio||1;
    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
    const css=getComputedStyle(document.documentElement),color=key=>css.getPropertyValue(key).trim();
-   ctx.font='13px '+getComputedStyle(canvas).fontFamily;
+   const font=getComputedStyle(canvas);ctx.font=font.fontSize+' '+font.fontFamily;
    const left=Math.max(40,Math.ceil(ctx.measureText(String(Math.ceil(scale.maximum))).width)+12),right=w-22,top=15,bottom=h-32,width=Math.max(1,right-left),height=Math.max(1,bottom-top);
    plot={left,right,top,bottom,step:width/Math.max(1,scale.count-1)};hideHover();
    ctx.lineWidth=1;ctx.strokeStyle=color('--chart-grid');ctx.fillStyle=color('--chart-label');
@@ -79,8 +79,8 @@
    tooltip.style.top=Math.max(minimum,Math.min(maximum,top))+'px';
   };
   canvas.onmouseleave=hideHover;
-  const observer=new ResizeObserver(draw);observer.observe(canvas);document.addEventListener('replay-theme-changed',draw);draw();document.fonts.ready.then(draw);
-  return {disconnect(){disconnected=true;observer.disconnect();document.removeEventListener('replay-theme-changed',draw);}};
+  const observer=new ResizeObserver(draw);observer.observe(canvas);document.addEventListener('replay-theme-changed',draw);document.addEventListener('replay-text-size-changed',draw);draw();document.fonts.ready.then(draw);
+  return {disconnect(){disconnected=true;observer.disconnect();document.removeEventListener('replay-theme-changed',draw);document.removeEventListener('replay-text-size-changed',draw);}};
  }
  const api={series,domain,valueAt,hover,mount};if(typeof module!=='undefined')module.exports=api;else root.replayAPM=api;
 })(typeof window!=='undefined'?window:globalThis);

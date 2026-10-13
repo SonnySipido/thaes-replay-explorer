@@ -62,6 +62,8 @@ By default the list of replays shown is sorted by newest first. You can also sor
 
 The Reforged HD icons switch in Settings (the gear at the top right) selects HD artwork when enabled and Classic artwork when disabled. It is off by default and remembers your choice. New Forsaken Paladin artwork without a separate Reforged texture uses the shared game icon.
 
+**Text size** under Settings → Appearance scales all app text from 80% to 130%, including chart labels and Chat text. **Default (100%)** retains the original sizes. The choice applies immediately and is remembered across replays and app restarts. Icons retain their sizes, and long map and hero names continue fitting their available space.
+
 The window remembers its size, position and maximized state. If a monitor is disconnected, it restores within a connected screen. Click a player name in the match header to open their W3Champions profile in your browser. Names without a full BattleTag (such as accounts from before Reforged) cannot identify a unique profile and are shown as plain text.
 
 Battle.net ladder replays store each player's MMR; the match header shows it with the Battle.net icon, left of the APM. W3Champions replays do not include MMR.

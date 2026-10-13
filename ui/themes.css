@@ -1,7 +1,7 @@
 /* Default and Light share typography. Simple (Dark) uses modern headings;
    Simple (Dark) and Light share flat controls with separate color palettes. */
-#app-theme{width:174px;max-width:60%;padding:7px 10px;font-size:13px;flex-shrink:0}
-.settings-row label[for="app-theme"]{font-weight:600}
+:is(#app-theme,#app-text-size){width:10.875rem;max-width:60%;padding:7px 10px;font-size:0.8125rem;flex-shrink:0}
+.settings-row :is(label[for="app-theme"],label[for="app-text-size"]){font-weight:600}
 
 :root{
  --chart-grid:#2b3b4e;
@@ -182,7 +182,7 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.topbar h1,.topbar 
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.discord-identity,#w3c-profile,.copyright,.app-website-icon){color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(#w3c-profile,.app-website-icon):hover{color:var(--text)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library{background:var(--theme-library);border-color:var(--line)}
-html[data-theme="simple-dark"] .library-heading h2{font-size:18px;letter-spacing:0}
+html[data-theme="simple-dark"] .library-heading h2{font-size:1.125rem;letter-spacing:0}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library-heading h2 span{background:var(--theme-count);color:var(--secondary-text);border-radius:3px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .library-footer{border-color:var(--line);color:var(--muted)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(button,input,select,textarea){border-radius:4px}
@@ -253,7 +253,7 @@ html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.player-comparison,
 html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes{background:var(--theme-notes-bg);border-color:var(--line);border-radius:4px}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .replay-notes.has-notes>summary{color:var(--theme-link)}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .settings{background:var(--theme-settings-bg);border-color:var(--line);box-shadow:-8px 0 30px #0006}
-html[data-theme="simple-dark"] .settings-head h2{font-size:22px;font-weight:700}
+html[data-theme="simple-dark"] .settings-head h2{font-size:1.375rem;font-weight:700}
 html:is([data-theme="simple-dark"],[data-theme="light"]) .settings-section h3{color:var(--theme-settings-heading)}
 html[data-theme="simple-dark"] .settings-section h3{letter-spacing:.035em}
 html:is([data-theme="simple-dark"],[data-theme="light"]) :is(.settings-backdrop,#ask-backdrop){background:var(--theme-backdrop)}

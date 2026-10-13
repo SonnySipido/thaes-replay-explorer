@@ -104,6 +104,8 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
 };
 $('app-theme').value=replayThemes.get();
 $('app-theme').onchange=event=>replayThemes.set(event.target.value);
+$('app-text-size').value=String(replayTextSize.get());
+$('app-text-size').onchange=event=>replayTextSize.set(event.target.value);
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
 $('hide-empty-folders').checked=localStorage.getItem('hide-empty-folders')==='true';
 function updateClassicViewOptions(){
@@ -609,7 +611,8 @@ function fitTextNames(root,selector){
  const schedule=()=>{if(disconnected||frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;fit();});};
  const observer=new ResizeObserver(schedule);labels.forEach(label=>observer.observe(label));fit();document.fonts.ready.then(schedule);
  const themeChanged=()=>{normalSizes();schedule();};
- document.addEventListener('replay-theme-changed',themeChanged);return {disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);document.removeEventListener('replay-theme-changed',themeChanged);}};
+ document.addEventListener('replay-theme-changed',themeChanged);document.addEventListener('replay-text-size-changed',themeChanged);
+ return {disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);document.removeEventListener('replay-theme-changed',themeChanged);document.removeEventListener('replay-text-size-changed',themeChanged);}};
 }
 function heroes(p,root){
  root.classList.add('army-panel');
@@ -713,7 +716,7 @@ function chat(){
   $('chat-log').innerHTML=messages.map(c=>'<div class="chat-row"><span class="time">'+time(c.timeMS).padStart(5,'0')+'</span><span class="muted">'+esc(c.mode==='Obervers'?'Observers':c.mode)+'</span><span class="speaker '+playerColorClass(entry.data.players.findIndex(p=>p.id===c.playerId||p.name===c.playerName))+'">'+esc(c.playerName)+'</span><span class="message">'+esc(c.message)+'</span></div>').join('')||(entry.data.chat.length?'<p class="empty-note">No chat messages match this view.</p>':'');
  }
  $('chat-font-size').value=String(fontSize);
- const applyFontSize=()=>{$('chat-log').style.setProperty('--chat-font-size',$('chat-font-size').value+'px');};
+ const applyFontSize=()=>{$('chat-log').style.setProperty('--chat-font-size',(Number($('chat-font-size').value)/16)+'rem');};
  $('chat-font-size').onchange=()=>{localStorage.setItem('chat-font-size',$('chat-font-size').value);applyFontSize();};
  applyFontSize();
  $('chat-spacing').value=String(spacing);
