@@ -435,7 +435,7 @@ function showMatch(elapsed){
  };
 
  $('show-winner').checked=showWinner;
- $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers();};
+ $('show-winner').onchange=()=>{showWinner=$('show-winner').checked;localStorage.setItem('show-winner',String(showWinner));renderPlayers(true);};
  bindReplayAnnotations();renderPlayers();renderTabs();renderPanel();
 }
 function teamLabel(player){return entry.data.players.length>2?'<span class="team">Team '+(teamNumber(player)+1)+'</span>':'';}
@@ -444,10 +444,18 @@ function hasProfile(name){return /^[^#\s\x00-\x1f]+#[0-9]+$/.test(String(name||'
 // Battle.net ladder MMR, stored in Battle.net ladder replays (W3Champions replays have none)
 // (number and label styled like the APM beside it)
 function mmrBadge(p){return p.mmr>0?'<span class="mmr" title="BNet MMR"><img src="artwork/battlenet.png" alt="BNet MMR" width="16" height="16"><span class="apm">'+esc(p.mmr)+'</span><span class="mmr-label">MMR</span></span>':'';}
-function renderPlayers(){
+let winnerTransition=null;
+function renderPlayers(animate=false){
  const reveal=$('show-winner')?.checked;
  const winner=entry.data.winningTeamId;
  const known=Number.isInteger(winner)&&winner>=0&&entry.data.players.some(p=>teamNumber(p)===winner);
+ if(animate&&known&&!matchMedia('(prefers-reduced-motion:reduce)').matches&&typeof document.startViewTransition==='function'){
+  winnerTransition?.skipTransition();
+  const transition=document.startViewTransition({update:()=>renderPlayers(),types:['winner']});winnerTransition=transition;
+  transition.ready.catch(()=>{});transition.updateCallbackDone.catch(showError);
+  transition.finished.finally(()=>{if(winnerTransition===transition)winnerTransition=null;}).catch(()=>{});
+  return;
+ }
  $('winner-status').textContent='';
  $('players').innerHTML=entry.data.players.map((p,i)=>{
   const badge=reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'';
