@@ -198,7 +198,7 @@
 .replay-row .length .duration-clock{width:20px;height:20px}
 .replay-row.team-match .length .duration-clock{width:14px;height:14px}
 .row-title{display:flex;align-items:center;gap:6px;min-width:0}
-.row-source{height:14px;width:auto;flex:none}
+.row-source{height:14px;width:auto;flex:none;transform:translate(-2px,-2px)}
 .row-players-line{display:flex;align-items:center;gap:6px;min-width:0}
 .row-players-line>.row-players{flex:1;min-width:0}
 .players .mmr{display:contents}
