@@ -459,6 +459,12 @@ function renderPlayers(){
  const teams=teamColumns($('players'),entry.data.players);
  const replayKey=selected;
  cards.forEach((card,i)=>{const player=entry.data.players[i],link=card.querySelector('.player-profile');if(link)link.onclick=()=>window.replays.openPlayerProfile(replayKey,player.id).catch(showError);teams.get(teamNumber(player)).append(card);});
+ for(const column of teams.values()){
+  const teammates=[...column.children];if(teammates.length<2)continue;
+  const card=document.createElement('div');card.className=teammates[0].className+' team-player-card';
+  for(const row of teammates){row.classList.remove('player','match-winner');row.classList.add('team-player-row');row.querySelector('.team')?.remove();card.append(row);}
+  column.append(card);
+ }
 }
 function renderTabs(){
  $('tabs').innerHTML=tabs.map(t=>'<button class="'+(t===tab?'active':'')+'" aria-current="'+(t===tab?'page':'false')+'">'+esc(t==='Heroes'?'Heroes & units':t==='Buildings'?'Buildings & upgrades':t)+'</button>').join('');

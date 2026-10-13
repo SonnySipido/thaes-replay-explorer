@@ -213,6 +213,9 @@
 /* Keep teammates together regardless of replay player order. */
 .team-column{min-width:0;display:flex;flex-direction:column;gap:18px}
 .players>.team-column{gap:8px}
+.players .player.team-player-card{flex-direction:column;align-items:stretch;gap:0}
+.team-player-row{display:flex;align-items:center;gap:10px;min-width:0;min-height:42px;padding:4px 0}
+.team-player-row+.team-player-row{border-top:1px solid var(--line)}
 .team-column[data-team="0"]{grid-column:1;grid-row:1}
 .team-column[data-team="1"]{grid-column:2;grid-row:1}
 
