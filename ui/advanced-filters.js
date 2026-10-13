@@ -3,7 +3,7 @@
  let nextId=0;
  const raceOptions=[['any','Any race'],['H','Human'],['N','Night Elf'],['O','Orc'],['U','Undead'],['R','Random'],['RH','Random (Human)'],['RN','Random (Night Elf)'],['RO','Random (Orc)'],['RU','Random (Undead)']];
  function create({button,panel,playerList,mapField,mapTypeFields,addButton,clearButton,getRows,mapName,mapType,mapSlots,loadMapSlots,raceIcon,onChange}){
-  let enabled=false;
+  let enabled=false;panel.inert=true;
   const playerFilters=[],combos=[];
   const namesCache=new Map(),compareNames=new Intl.Collator(undefined,{sensitivity:'base',numeric:true}).compare;
   const map={name:'',exact:false};
@@ -125,7 +125,7 @@
    resetMapTypes();panel.dispatchEvent(new Event('advanced-filters-clear'));changed();
   };
   button.onclick=()=>{
-   enabled=!enabled;panel.hidden=!enabled;button.setAttribute('aria-expanded',String(enabled));button.setAttribute('aria-pressed',String(enabled));
+   enabled=!enabled;panel.inert=!enabled;panel.hidden=!enabled;button.setAttribute('aria-expanded',String(enabled));button.setAttribute('aria-pressed',String(enabled));
    for(const controller of combos)controller.close();panel.dispatchEvent(new Event('advanced-filters-toggle'));changed();
   };
   document.addEventListener('click',event=>{for(const controller of combos)if(!controller.wrapper.contains(event.target))controller.close();});

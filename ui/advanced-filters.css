@@ -10,6 +10,14 @@
 .advanced-filters-toggle[aria-expanded="true"]{color:var(--cyan);border-color:var(--cyan)}
 .advanced-filters{display:grid;grid-template-columns:minmax(90px,1fr) max-content;column-gap:8px;align-content:start;flex:0 1 auto;min-height:0;max-height:48vh;overflow-y:auto;padding:2px 3px 4px 0;margin-bottom:10px}
 .advanced-filters[hidden]{display:none}
+@supports (interpolate-size:allow-keywords) and (transition-behavior:allow-discrete){
+ .advanced-filters{interpolate-size:allow-keywords;height:auto;opacity:1}
+ .advanced-filters[hidden]{height:0;opacity:0;padding-block:0;margin-bottom:0;pointer-events:none}
+ @media(prefers-reduced-motion:no-preference){
+  .advanced-filters{transition:height 180ms ease-out,padding-block 180ms ease-out,margin-bottom 180ms ease-out,opacity 180ms ease-out,display 180ms allow-discrete}
+  @starting-style{.advanced-filters:not([hidden]){height:0;opacity:0;padding-block:0;margin-bottom:0}}
+ }
+}
 .advanced-filters-heading{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px;font-size:0.75rem;font-weight:600}
 .advanced-filters-actions{display:flex;align-items:center;gap:5px;flex-shrink:0}
 .advanced-filters-actions button{padding:4px 7px;font-size:0.6875rem;font-weight:400;white-space:nowrap}
