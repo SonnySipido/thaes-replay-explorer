@@ -545,7 +545,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .replay-notes{margin:0 0 12px;border:1px solid var(--line);border-radius:6px;padding:8px 10px}
 .replay-notes summary{font-size:calc(0.75rem + 0.0833333333rem);color:var(--muted)}
 #notes-status{font-size:0.6875rem;margin-left:10px}
-#replay-notes-text{display:block;width:100%;resize:vertical;min-height:74px;max-height:350px;margin-top:8px;padding:9px;background:#0e1723;color:var(--text);border:1px solid var(--line);border-radius:5px;font:calc(0.8125rem + 0.0833333333rem)/1.5 'Segoe UI',sans-serif}
+#replay-notes-text{display:block;width:100%;resize:vertical;min-height:74px;max-height:350px;margin-top:3px;padding:9px;background:#0e1723;color:var(--text);border:1px solid var(--line);border-radius:5px;font:calc(0.8125rem + 0.0833333333rem)/1.5 'Segoe UI',sans-serif}
 .annotation-backup-actions{display:flex;gap:8px;flex-wrap:wrap}
 .annotation-backup-actions button{font-size:0.6875rem;padding:7px 9px}
 
