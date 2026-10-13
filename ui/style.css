@@ -651,7 +651,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
  }
 }
 .match-races-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;min-width:0}
-.match-races-line #matchup{min-width:0;max-width:100%}
+.match-races-line #matchup{min-width:0;max-width:100%;transform:translateY(2px)}
 .match-races-line :is(.matchup-icons,.race-team){max-width:100%;flex-wrap:wrap}
 
 .replay-notes.has-notes>summary,.replay-notes.has-notes>summary::marker{color:var(--gold)}
