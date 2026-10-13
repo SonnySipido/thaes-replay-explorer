@@ -223,12 +223,14 @@
 /* Keep teammates together regardless of replay player order. */
 .team-column{min-width:0;display:flex;flex-direction:column;gap:18px}
 .players>.team-column{gap:8px}
-#players{view-transition-name:match-players}
-html:is(:active-view-transition-type(winner),:active-view-transition-type(analysis-tab)){view-transition-name:none}
-html:is(:active-view-transition-type(winner),:active-view-transition-type(analysis-tab))::view-transition{pointer-events:none}
-html:active-view-transition-type(analysis-tab) #players{view-transition-name:none}
+html:active-view-transition{view-transition-name:none}
+html:active-view-transition::view-transition{pointer-events:none}
+html:active-view-transition-type(winner) #players{view-transition-name:match-players}
 html:active-view-transition-type(analysis-tab) #panel{view-transition-name:analysis-content}
-::view-transition-group(match-players),::view-transition-old(match-players),::view-transition-new(match-players),::view-transition-group(analysis-content),::view-transition-old(analysis-content),::view-transition-new(analysis-content){animation-duration:180ms;animation-timing-function:ease-out}
+html:active-view-transition-type(timeline) .timeline-viewport{view-transition-name:timeline-tracks}
+html:active-view-transition-type(replay-list) #replay-list{view-transition-name:replay-results}
+html:active-view-transition-type(replay) #detail{view-transition-name:replay-analysis}
+::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation-duration:180ms;animation-timing-function:ease-out}
 .players .player.team-player-card{flex-direction:column;align-items:stretch;gap:0}
 .team-player-row{display:flex;align-items:center;gap:10px;min-width:0;min-height:42px;padding:4px 0}
 .team-player-row+.team-player-row{border-top:1px solid var(--line)}
@@ -671,6 +673,12 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 
 /* Classic explorer view mirrors configured replay folders with nested disclosures. */
 .classic-folder{min-width:0;margin:2px 0}
+@supports (interpolate-size:allow-keywords) and selector(details::details-content){
+ .classic-folder{interpolate-size:allow-keywords}
+ .classic-folder::details-content{height:0;opacity:0;overflow:clip;pointer-events:none}
+ .classic-folder[open]::details-content{height:auto;opacity:1;pointer-events:auto}
+ @media(prefers-reduced-motion:no-preference){.classic-folder::details-content{transition:height 180ms ease-out,opacity 180ms ease-out,content-visibility 180ms allow-discrete}}
+}
 .classic-folder-heading{cursor:pointer;user-select:none;-webkit-user-select:none;padding:8px 6px;color:var(--text,#e9e5db);font-weight:600;border-radius:4px;overflow-wrap:anywhere}
 .classic-folder-heading:hover{background:rgba(255,255,255,.06)}
 .classic-folder-heading[aria-disabled="true"]{color:#718093;cursor:not-allowed}
@@ -680,7 +688,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .classic-folder-heading>span:before{content:'📁';margin-right:7px}
 .classic-folder[open]>.classic-folder-heading>span:before{content:'📂'}
 .classic-folder-contents{margin-left:14px;padding-left:6px;border-left:1px solid rgba(255,255,255,.13)}
-.classic-show-more{margin:6px;font-size:0.75rem}
+.classic-show-more{margin:6px;font-size:0.75rem;overflow-anchor:none}
 
 /* Keep selection geometry stable; keyboard outlines stay inside the scroll area. */
 .replay-row,.replay-row.compact-replay-row{border-left-width:3px;padding-left:8px}

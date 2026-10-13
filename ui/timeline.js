@@ -82,12 +82,12 @@
   const shell=element('div','match-timeline');shell.style.setProperty('--timeline-icon-size',ICON_SIZE+'px');
   const toolbar=element('div','timeline-toolbar');
   const exportButton=element('button','action-icon-button timeline-export');exportButton.type='button';exportButton.dataset.timelineExport='';exportButton.title='Save the full timeline with the selected players and event types as a PNG image';exportButton.innerHTML=exportMarkup||'<span class="button-label">Export to image</span>';
-  let exporting=false;
+  let exporting=false,timelineTransition=null;
   exportButton.onclick=async()=>{
    if(exporting||exportButton.disabled)return;
    exporting=true;exportButton.disabled=true;
    const label=exportButton.querySelector('.button-label');
-   try{const contents=await root.replayTimelineImage.render(chart,{title:imageTitle,subtitle:imageSubtitle});if(await exportImage(contents))label.textContent='Saved';}
+   try{if(timelineTransition)await timelineTransition.updateCallbackDone;if(disconnected)return;const contents=await root.replayTimelineImage.render(chart,{title:imageTitle,subtitle:imageSubtitle});if(await exportImage(contents))label.textContent='Saved';}
    catch(error){if(onError)onError(error);else throw error;}
    finally{exporting=false;draw();setTimeout(()=>{label.textContent='Export to image';},1800);}
   };
@@ -96,20 +96,20 @@
    const label=element('label','timeline-player-choice'),input=element('input');input.type='checkbox';input.checked=state.visible.has(row.index);input.dataset.timelinePlayer=String(row.index);
    const name=element('span','timeline-player-identity');name.innerHTML=playerLabel(row.player,row.index);
    label.append(input,name);choices.append(label);
-   input.onchange=()=>{if(input.checked)state.visible.add(row.index);else state.visible.delete(row.index);draw();};
+   input.onchange=()=>{if(input.checked)state.visible.add(row.index);else state.visible.delete(row.index);redraw();};
   }
   const typeChoices=element('fieldset','timeline-type-choices');typeChoices.append(element('legend','sr-only','Event types'));
   for(const type of laneTypes){
    const label=element('label','timeline-type-choice'),input=element('input');input.type='checkbox';input.checked=state.types.has(type.key);input.dataset.timelineType=type.key;
    label.append(input,element('span','',type.label));typeChoices.append(label);
-   input.onchange=()=>{if(input.checked)state.types.add(type.key);else state.types.delete(type.key);try{localStorage.setItem('timeline-event-types',JSON.stringify([...state.types]));}catch{}draw();};
+   input.onchange=()=>{if(input.checked)state.types.add(type.key);else state.types.delete(type.key);try{localStorage.setItem('timeline-event-types',JSON.stringify([...state.types]));}catch{}redraw();};
   }
   const mergeLabel=element('label','switch-toggle timeline-merge'),merge=element('input');merge.type='checkbox';merge.setAttribute('role','switch');merge.checked=state.merged;merge.dataset.timelineMerge='';
   const mergeTrack=element('span','switch-track');mergeTrack.setAttribute('aria-hidden','true');mergeLabel.append(merge,mergeTrack,element('span','','Merge tracks'));
-  merge.onchange=()=>{state.merged=merge.checked;try{localStorage.setItem('timeline-merge-tracks',String(state.merged));}catch{}draw();};
+  merge.onchange=()=>{state.merged=merge.checked;try{localStorage.setItem('timeline-merge-tracks',String(state.merged));}catch{}redraw();};
   const zoomLabel=element('label','timeline-zoom','Zoom '),zoom=element('select');zoom.setAttribute('aria-label','Timeline zoom');
   for(const [value,text] of [['fit','Fit match'],['1','1×'],['2','2×'],['4','4×']]){const option=element('option','',text);option.value=value;zoom.append(option);}zoom.value=state.zoom;
-  zoom.onchange=()=>{state.zoom=zoom.value;try{localStorage.setItem('timeline-zoom',state.zoom);}catch{}draw();viewport.scrollLeft=0;};
+  zoom.onchange=()=>{state.zoom=zoom.value;try{localStorage.setItem('timeline-zoom',state.zoom);}catch{}redraw(true);};
   zoomLabel.append(zoom);toolbar.append(choices);if(exportImage)toolbar.append(exportButton);
   const optionsBar=element('div','timeline-options');optionsBar.append(typeChoices,mergeLabel,zoomLabel);
   const viewport=element('div','timeline-viewport');viewport.tabIndex=0;viewport.setAttribute('role','region');viewport.setAttribute('aria-label','Player timelines; scroll horizontally when zoomed');
@@ -123,6 +123,10 @@
   const empty=element('p','empty-note','Select a player to show their track.');empty.hidden=true;
   shell.append(toolbar,optionsBar,viewport,empty);host.replaceChildren(shell);
   let frame=null,lastWidth=0,disconnected=false;
+  function redraw(resetScroll=false){
+   const update=()=>{if(disconnected)return;draw();if(resetScroll)viewport.scrollLeft=0;};
+   timelineTransition=root.replayTransitions.run('timeline',update,onError);
+  }
   const kinds={units:'Training order',heroes:'Hero order',buildings:'Construction order',upgrades:'Research order',items:'Purchase order'};
   function addGrid(container,marks,width){for(const ms of marks){const line=element('span','timeline-gridline');line.style.left=position(ms,end,width)+'px';line.setAttribute('aria-hidden','true');container.append(line);}}
   function draw(){
@@ -160,7 +164,7 @@
   }
   const observer=new ResizeObserver(()=>{const width=viewport.clientWidth;if(width===lastWidth)return;lastWidth=width;if(frame!==null)cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{frame=null;draw();});});
   observer.observe(viewport);draw();
-  return {disconnect(){disconnected=true;observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);}};
+  return {disconnect(){disconnected=true;timelineTransition?.skipTransition();observer.disconnect();if(frame!==null)cancelAnimationFrame(frame);}};
  }
  const api={tracks,duration,layout,ticks,position,lanes,important,savedTypes,mount};if(typeof module!=='undefined')module.exports=api;else root.replayTimeline=api;
 })(typeof window!=='undefined'?window:globalThis);
