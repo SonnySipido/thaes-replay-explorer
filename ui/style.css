@@ -621,8 +621,18 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-map-line .replay-notes>summary{display:flex;justify-content:flex-end;align-items:center;gap:5px;list-style:none;text-align:right}
 .match-map-line .replay-notes>summary::-webkit-details-marker{display:none}
 .match-map-line .replay-notes>summary::before{content:'▸'}
-.match-map-line .replay-notes[open]>summary::before{content:'▾'}
+.match-map-line .replay-notes[open]>summary::before{transform:rotate(90deg)}
 .match-map-line .replay-notes #notes-status{order:-1;margin:0;min-width:0;overflow-wrap:anywhere}
+@supports (interpolate-size:allow-keywords) and selector(details::details-content){
+ .match-map-line .replay-notes{interpolate-size:allow-keywords}
+ .match-map-line .replay-notes::details-content{height:0;contain:inline-size;overflow:clip;opacity:0}
+ .match-map-line .replay-notes[open]::details-content{height:auto;opacity:1}
+ @media(prefers-reduced-motion:no-preference){
+  .match-map-line .replay-notes{transition:flex-grow 180ms ease-out,flex-basis 180ms ease-out}
+  .match-map-line .replay-notes::details-content{transition:height 180ms ease-out,opacity 180ms ease-out,content-visibility 180ms allow-discrete}
+  .match-map-line .replay-notes>summary::before{transition:transform 180ms ease-out}
+ }
+}
 .match-races-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;min-width:0}
 .match-races-line #matchup{min-width:0;max-width:100%}
 .match-races-line :is(.matchup-icons,.race-team){max-width:100%;flex-wrap:wrap}
