@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.5
+
+- Add a remembered text-size slider in Settings, with the existing sizes at 100% and a larger default marker.
+- Rework the Match Analysis header: align match details beside the map, move race icons below the replay filename, and place collapsible Notes at the top right. Expanded Notes use the available space without stretching the header. Turning off Notes only collapses Notes and remembers that state.
+- Show teammates together in one player card per team. Refine Forsaken Kingdom borders and panel connections, including scrollbar alignment, tabs, winner highlights and dropdown focus styling.
+- Add short transitions for Notes, Settings, analysis tabs, winner reveal, advanced filters, replay selection, library filters and paging, Classic folders, and timeline track and zoom changes. Previous and Next use faster 90 ms transitions. Respect reduced-motion preferences and rapid input.
+- Place replay platform logos below the duration and above the race matchup, and simplify Buildings & Upgrades table headings.
+- Increase website text sizes, keep button backgrounds within their frames, and open the portable download and release notes in a new tab. Refresh the main and Settings screenshots for this release.
+- Add Degrand#2125 to the development testers thanked in Settings.
+
 ## 0.9.3
 
 - Add a native MSI as the main website download. Keep EXE installers for existing EXE installations and route updates through the installed format. Switching from EXE to MSI requires uninstalling the EXE installation once; settings, notes and replay files remain.
