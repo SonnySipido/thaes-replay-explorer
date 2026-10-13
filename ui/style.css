@@ -199,6 +199,8 @@
 .replay-row.team-match .length .duration-clock{width:14px;height:14px}
 .row-title{display:flex;align-items:center;gap:6px;min-width:0}
 .row-source{height:14px;width:auto;flex:none}
+.row-players-line{display:flex;align-items:center;gap:6px;min-width:0}
+.row-players-line>.row-players{flex:1;min-width:0}
 .players .mmr{display:contents}
 .players .mmr img{align-self:center;width:16px;height:16px;display:block}
 .players .mmr-label{margin-right:10px}
@@ -620,8 +622,12 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-map-line .map-title-row{flex:0 1 auto;min-width:0;margin-top:0;align-items:flex-start;height:auto;min-height:115.2px}
 .match-map-line .map-title-copy{flex:1;min-width:0}
 .match-map-line #map-preview{flex-shrink:0}
-.match-map-line .replay-notes{flex:0 0 auto;min-width:0;margin:0 0 0 auto}
-.match-map-line .replay-notes[open]{flex:1 0 160px}
+.match-map-line .replay-notes{display:flex;flex-direction:column;flex:0 0 auto;min-width:0;margin:0 0 0 auto}
+/* The map details set the header height; expanded notes fill that space. */
+.match-map-line .replay-notes[open]{flex:1 0 160px;align-self:stretch;contain:size}
+.match-map-line .replay-notes[open]::details-content{flex:1;min-height:0}
+.match-map-line .replay-notes:not([open])::details-content{max-height:0}
+.match-map-line .replay-notes[open] #replay-notes-text{height:calc(100% - 3px);min-height:0;resize:none}
 .match-map-line .replay-notes>summary{display:flex;justify-content:flex-end;align-items:center;gap:5px;list-style:none;text-align:right}
 .match-map-line .replay-notes>summary::-webkit-details-marker{display:none}
 .match-map-line .replay-notes>summary::before{content:'▸'}
