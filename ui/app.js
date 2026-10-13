@@ -96,7 +96,7 @@ for(const id of ['only-notes','only-favorites']){
  const button=$(id);
  const apply=enabled=>{button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites'&&!button.querySelector('.favorite-star'))button.innerHTML=FAVORITE_STAR_ICON;};
  apply(localStorage.getItem(id)==='true');
- button.onclick=()=>{const enabled=!annotationFilterEnabled(id);apply(enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'&&enabled){localStorage.setItem('notes-open','true');const notes=$('replay-notes');if(notes)notes.open=true;}animateReplayList();};
+ button.onclick=()=>{const enabled=!annotationFilterEnabled(id);apply(enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'){localStorage.setItem('notes-open',String(enabled));const notes=$('replay-notes');if(notes)notes.open=enabled;}animateReplayList();};
 }
 for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{
  const button=$('annotations-'+action);button.disabled=true;
