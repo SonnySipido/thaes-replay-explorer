@@ -228,9 +228,10 @@ html:active-view-transition::view-transition{pointer-events:none}
 html:active-view-transition-type(winner) #players{view-transition-name:match-players}
 html:active-view-transition-type(analysis-tab) #panel{view-transition-name:analysis-content}
 html:active-view-transition-type(timeline) .timeline-viewport{view-transition-name:timeline-tracks}
-html:active-view-transition-type(replay-list) #replay-list{view-transition-name:replay-results}
+html:is(:active-view-transition-type(replay-list),:active-view-transition-type(replay-page)) #replay-list{view-transition-name:replay-results}
 html:active-view-transition-type(replay) #detail{view-transition-name:replay-analysis}
 ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation-duration:180ms;animation-timing-function:ease-out}
+html:active-view-transition-type(replay-page)::view-transition-group(replay-results),html:active-view-transition-type(replay-page)::view-transition-old(replay-results),html:active-view-transition-type(replay-page)::view-transition-new(replay-results){animation-duration:90ms}
 .players .player.team-player-card{flex-direction:column;align-items:stretch;gap:0}
 .team-player-row{display:flex;align-items:center;gap:10px;min-width:0;min-height:42px;padding:4px 0}
 .team-player-row+.team-player-row{border-top:1px solid var(--line)}

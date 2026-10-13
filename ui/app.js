@@ -275,9 +275,9 @@ $('replay-list').addEventListener('pointerdown',()=>{listPointerHeld=true;lastLi
 window.addEventListener('pointerup',()=>{listPointerHeld=false;lastListInteraction=performance.now();});
 window.addEventListener('pointercancel',()=>{listPointerHeld=false;});window.addEventListener('blur',()=>{listPointerHeld=false;});
 function scheduleList(delay=250,animate=false){animateScheduledList||=animate;if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;if(listPointerHeld||performance.now()-lastListInteraction<150){scheduleList(150);return;}const animate=animateScheduledList;animateScheduledList=false;if(animate)animateReplayList();else renderList();},delay);}
-function animateReplayList(resetScroll=false){
+function animateReplayList(resetScroll=false,type='replay-list'){
  if(listPointerHeld){scheduleList(150,true);return null;}
- replayListTransition=replayTransitions.run('replay-list',()=>{renderList();if(resetScroll)$('replay-list').scrollTop=0;},showError);
+ replayListTransition=replayTransitions.run(type,()=>{renderList();if(resetScroll)$('replay-list').scrollTop=0;},showError);
  return replayListTransition;
 }
 const detailedReplayCards=new Map();
@@ -816,8 +816,8 @@ window.replays.on('folders-changed',applyFolderSettings);
 $('include-subfolders').onchange=async()=>{const control=$('include-subfolders'),enabled=control.checked;control.disabled=true;try{await window.replays.setSubfolders(enabled);}catch(e){control.checked=!enabled;showError(e);}finally{control.disabled=false;}};
 $('choose').onclick=()=>window.replays.chooseFolder().catch(showError);
 
-$('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);animateReplayList(true);};
-$('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;animateReplayList(true);};
+$('library-prev').onclick=()=>{restoredReplayReveal=null;listPage=Math.max(0,listPage-1);animateReplayList(true,'replay-page');};
+$('library-next').onclick=()=>{restoredReplayReveal=null;listPage++;animateReplayList(true,'replay-page');};
 // Restore controls before the first library render; save immediately on edits.
 // Patch menu: one tick box per patch found in the library (newest first, with its builds and replay count)
 function comparePatch(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
