@@ -1,7 +1,21 @@
 /* Default and Light share typography. Simple (Dark) uses modern headings;
    Simple (Dark) and Light share flat controls with separate color palettes. */
-:is(#app-theme,#app-text-size){width:10.875rem;max-width:60%;padding:7px 10px;font-size:0.8125rem;flex-shrink:0}
+#app-theme{width:10.875rem;max-width:60%;padding:7px 10px;font-size:0.8125rem;flex-shrink:0}
 .settings-row :is(label[for="app-theme"],label[for="app-text-size"]){font-weight:600}
+.text-size-row{align-items:flex-start}
+.text-size-row>label{padding-top:6px}
+.text-size-control{display:grid;grid-template-columns:minmax(0,1fr) 52px;gap:8px;width:230px;max-width:60%;min-width:0}
+.text-size-range{position:relative;height:calc(38px + 1rem);min-width:0}
+#app-text-size{display:block;appearance:none;width:100%;height:32px;margin:0;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer}
+#app-text-size::-webkit-slider-runnable-track{height:4px;background:var(--line);border-radius:2px}
+#app-text-size::-webkit-slider-thumb{appearance:none;width:16px;height:16px;margin-top:-6px;border:1px solid var(--gold);border-radius:50%;background:var(--gold);box-shadow:0 1px 3px #0006}
+#app-text-size:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:3px}
+.text-size-ticks{position:absolute;top:19px;left:8px;right:8px;display:flex;justify-content:space-between;pointer-events:none}
+.text-size-ticks>span{position:relative;width:0}
+.text-size-ticks>span::before{content:'';position:absolute;left:-1px;width:2px;height:4px;background:var(--muted);border-radius:1px}
+.text-size-ticks>.text-size-default-tick::before{left:-3px;width:6px;height:9px;background:var(--gold);border-radius:2px}
+.text-size-default-caption{position:absolute;left:0;top:18px;transform:translateX(-50%);font-size:0.6875rem;color:var(--muted);white-space:nowrap}
+#text-size-value{font-size:0.8125rem;line-height:32px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 :root{
  --chart-grid:#2b3b4e;

@@ -55,7 +55,9 @@ html[data-theme="warcraft"] .replay-row.compact-replay-row.active{background:#26
 html[data-theme="warcraft"] .replay-row strong{color:#f1f3ec;font-size:0.9375rem}
 html[data-theme="warcraft"] .replay-row .length{color:var(--gold)}
 html[data-theme="warcraft"] .library-footer{border-color:#56635b;padding:10px 6px 26px;font-size:0.75rem;line-height:1.4;font-weight:500;color:#e0eaee;background:linear-gradient(#08111800,#081118dd);text-shadow:0 1px 1px #000}
-html[data-theme="warcraft"] .match-head{border:9px solid transparent;border-image:var(--wc-frame) 16% / 28px / 0 stretch;padding:16px 12px;margin-bottom:10px;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px}
+/* The outer analysis frame supplies the header's top and sides. Only its
+   bottom rail is drawn here, extending into those sides to form one frame. */
+html[data-theme="warcraft"] .match-head{border:0;border-bottom:8px solid transparent;border-image:var(--wc-frame) 16% / 0 0 18px 0 / 0 2px 0 2px stretch;padding:24px 24px 16px;margin:0 -4px 10px;background:linear-gradient(#090a0b66,#090b0bbd),var(--wc-wood) center/640px}
 html[data-theme="warcraft"] .match-head .eyebrow{font-family:var(--font-heading);font-size:1.3125rem;font-weight:750;color:var(--gold);letter-spacing:.02em;text-shadow:0 2px #070400}
 html[data-theme="warcraft"] .match-head :is(#version,.match-date){font-family:var(--font-ui);font-size:0.75rem;letter-spacing:0;text-shadow:none;color:#d1dbde}
 html[data-theme="warcraft"] .match-head .map-heading{font-size:1.875rem;color:var(--gold);text-shadow:0 2px 2px #000}
@@ -122,7 +124,7 @@ html[data-theme="warcraft"] ::-webkit-scrollbar-thumb:hover{background:#559b88}
  html[data-theme="warcraft"] .unit-roster{--unit-tile-padding:10px}
  html[data-theme="warcraft"] main{padding:8px}
  html[data-theme="warcraft"] .comparison-content{padding:12px 10px;border-width:6px;border-image-width:20px}
- html[data-theme="warcraft"] .match-head{padding:16px 10px;border-width:6px;border-image-width:22px}
+ html[data-theme="warcraft"] .match-head{padding:22px 16px 16px;margin-inline:0}
  html[data-theme="warcraft"] .match-head .eyebrow{font-size:1.125rem}
  html[data-theme="warcraft"] .match-head .map-heading{font-size:1.5625rem}
 }

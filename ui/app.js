@@ -105,7 +105,14 @@ for(const action of ['export','import'])$('annotations-'+action).onclick=async()
 $('app-theme').value=replayThemes.get();
 $('app-theme').onchange=event=>replayThemes.set(event.target.value);
 $('app-text-size').value=String(replayTextSize.get());
-$('app-text-size').onchange=event=>replayTextSize.set(event.target.value);
+function updateTextSize(){
+ replayTextSize.set($('app-text-size').value);
+ const value=replayTextSize.get();
+ $('text-size-value').textContent=value+'%';
+ $('app-text-size').setAttribute('aria-valuetext',value+'%'+(value===100?' (default)':''));
+}
+$('app-text-size').oninput=updateTextSize;$('app-text-size').onchange=updateTextSize;
+updateTextSize();
 $('compact-replays').checked=localStorage.getItem('compact-replays')==='true';
 $('hide-empty-folders').checked=localStorage.getItem('hide-empty-folders')==='true';
 function updateClassicViewOptions(){
