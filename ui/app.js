@@ -774,6 +774,7 @@ function chat(){
 function showError(e){$('status').textContent=e.message||String(e);}
 $('w3c-profile').onclick=e=>{e.preventDefault();window.replays.openProfile().catch(showError);};
 $('app-website-title').onclick=e=>{e.preventDefault();window.replays.openWebsite().catch(showError);};
+$('warcraft-website').onclick=e=>{e.preventDefault();window.replays.openWarcraftWebsite().catch(showError);};
 $('folder-setting').onclick=()=>window.replays.openFolder().catch(showError);  // opens it in File Explorer (or asks for one)
 $('reforged-icons').checked=reforgedIcons;
 $('reforged-icons').onchange=()=>{

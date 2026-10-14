@@ -156,6 +156,7 @@ function registerIPC(){
   ipcMain.handle('map-available',async(_,key)=>{try{await localMap(entries.get(key));return true;}catch{return false;}});
   ipcMain.handle('open-w3c-profile',()=>shell.openExternal('https://w3champions.com/player/Thaedalius%231362')); 
   ipcMain.handle('open-website',()=>shell.openExternal('https://thaesreplayexplorer.com'));
+  ipcMain.handle('open-warcraft-website',()=>shell.openExternal('https://warcraft3.blizzard.com/en-us/'));
   ipcMain.handle('initial',()=>{const select=pendingSelect;pendingSelect=null;return {folder,includeSubfolders,replayFolders,directories:replayDirectories,rows:[...entries.values()].map(annotatedSummary),progress:{...progress,busy},select,appVersion:app.getVersion(),welcomeFolder:folder?null:welcomeFolder};});
   // first start: use the replay folder the welcome question offered
   ipcMain.handle('use-welcome-folder',()=>{

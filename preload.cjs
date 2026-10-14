@@ -3,6 +3,7 @@ contextBridge.exposeInMainWorld('replays',{
  openPlayerProfile:(key,playerId)=>ipcRenderer.invoke('open-player-profile',key,playerId),
  openProfile:()=>ipcRenderer.invoke('open-w3c-profile'),
  openWebsite:()=>ipcRenderer.invoke('open-website'),
+ openWarcraftWebsite:()=>ipcRenderer.invoke('open-warcraft-website'),
  setSubfolders:enabled=>ipcRenderer.invoke('set-subfolders',enabled),
  initial:()=>ipcRenderer.invoke('initial'),
  saveAnnotation:(key,patch)=>ipcRenderer.invoke('annotation-update',key,patch),
