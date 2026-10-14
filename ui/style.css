@@ -195,6 +195,9 @@
 .settings-thanks{margin-top:10px;padding:12px 0 8px;border-top:1px solid var(--line);font-size:0.6875rem;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
 .settings-thanks p{margin:0}
 .settings-thanks span{white-space:nowrap}
+.settings-credits{display:flex;align-items:center;flex-wrap:wrap;gap:10px 16px;margin-top:8px;padding:12px 0 8px;border-top:1px solid var(--line)}
+.settings-credits #w3c-profile{padding:0}
+.settings-credits .copyright{flex-basis:100%;font-size:0.75rem;color:var(--muted)}
 #update-notes:not([hidden]){display:block;margin-top:10px}
 #update-check{white-space:nowrap;flex:none}
 #update-check.update-ready{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
@@ -399,7 +402,6 @@ html:active-view-transition-type(replay-page)::view-transition-group(replay-resu
 /* Opposing player sections share grid rows, including when their contents grow. */
 .player-comparison>.team-column{display:contents}
 
-.discord-identity .copyright{margin-left:10px}
 
 .replay-row.team-match .row-meta .race-icon{width:14px;height:14px}
 .replay-row.large-match .row-meta>span:first-child{white-space:nowrap}
