@@ -391,7 +391,7 @@ html:active-view-transition-type(replay-page)::view-transition-group(replay-resu
 .row-meta .race-team{justify-content:flex-end}
 #duration{font-size:1.0625rem}
 
-.comparison-heading{display:flex;align-items:center;gap:8px;padding:8px 0;margin-bottom:12px}
+.comparison-heading{display:flex;align-items:center;gap:8px;padding:8px 0 4px;margin-bottom:4px}
 .comparison-heading h2{margin:0;flex:1;min-width:0}
 .comparison-heading .player-race-team{flex:0 0 auto}
 .comparison-heading>.team{flex:0 0 auto;white-space:nowrap}
