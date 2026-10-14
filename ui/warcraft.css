@@ -15,6 +15,7 @@ html[data-theme="warcraft"] #w3c-profile{color:var(--text)}
 /* The source has transparent space below the frame: 330px keeps its visible
    bottom at the banner's lower rail while its chains start at the window edge. */
 html[data-theme="warcraft"] #app-website-title{width:330px;height:120px}
+html[data-theme="warcraft"] .banner-game-logo{height:88px}
 html[data-theme="warcraft"] .discord-identity{color:var(--text)}
 html[data-theme="warcraft"] .workspace{height:calc(100vh - 120px);gap:6px;padding:8px 10px 10px;background:transparent}
 html[data-theme="warcraft"] .library{

@@ -86,6 +86,11 @@
                       "file":  "warcraft/forest-backdrop.png",
                       "source":  "Generated with the built-in image_gen tool for the user-requested Warcraft theme; forest backdrop",
                       "prompts":  "warcraft/README.md"
+                  },
+                  {
+                      "file": "wc3-forsaken-kingdom-logo.png",
+                      "source": "User-provided Warcraft III Reforged: Forsaken Kingdom logo",
+                      "sha256": "71d35a4491333079d9c96d288204b5153a6f73c8b3f83200fe67362e975ead66"
                   }
               ]
 }
