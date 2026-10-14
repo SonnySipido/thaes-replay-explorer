@@ -642,7 +642,7 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-header-line .duration-controls{margin-left:auto;flex-shrink:0}
 .match-map-line{display:flex;align-items:flex-start;gap:14px;min-width:0}
 .match-map-line .map-title-row{flex:0 1 auto;min-width:0;margin-top:0;align-items:flex-start;height:auto;min-height:115.2px}
-.match-map-line .map-title-copy{flex:1;min-width:0;margin-top:-4px}
+.match-map-line .map-title-copy{flex:1;min-width:0;margin-top:-3px}
 .match-map-line .map-heading{line-height:1.05;margin-bottom:3px}
 .match-map-line #map-preview{flex-shrink:0}
 .match-map-line .replay-notes{display:flex;flex-direction:column;flex:0 0 auto;min-width:0;margin:0 0 0 auto}
