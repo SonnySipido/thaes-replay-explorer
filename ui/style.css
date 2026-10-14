@@ -269,6 +269,8 @@ html:active-view-transition-type(replay-page)::view-transition-group(replay-resu
 #filename:hover{color:var(--gold);text-decoration:underline}
 .match-right{align-content:start}
 .topbar>.top-right{min-width:0;flex:1;justify-content:flex-end}
+html:not([data-theme="warcraft"]) .topbar>.top-right{display:contents}
+html:not([data-theme="warcraft"]) .top-right>#settings-open{margin-left:auto}
 .top-right button{flex-shrink:0}
 .banner-game-logo{display:block;width:auto;height:76px;object-fit:contain;flex-shrink:0}
 .banner-game-link{display:block;flex-shrink:0;border-radius:3px}
