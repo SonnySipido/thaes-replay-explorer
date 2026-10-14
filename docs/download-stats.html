@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Download statistics | Thae's Replay Explorer</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/thaes-site-icon.png">
+  <link rel="stylesheet" href="style.css?v=0.9.3-type1">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="warcraft.css?v=0.9.3-buttons1">
+  <link rel="stylesheet" href="download-stats.css">
+  <script src="download-stats-data.js" defer></script>
+  <script src="download-stats.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header>
+    <a class="brand" href="./"><span class="brand-name"><img class="brand-wordmark" src="assets/thaes-replay-explorer-banner.png" alt="Thae's Replay Explorer" width="2172" height="724"></span></a>
+    <a class="author" href="https://w3champions.com/player/Thaedalius%231362" target="_blank" rel="noopener noreferrer">Made by Thaedalius ↗</a>
+  </header>
+  <div class="wrap">
+    <nav class="site-tabs" aria-label="Main navigation"><a href="./">Overview</a><a href="guides.html">Guides</a><a href="download-stats.html" aria-current="page">Download statistics</a></nav>
+    <main id="main" class="stats-main">
+      <section class="download stats-panel" aria-labelledby="stats-title">
+        <div class="stats-heading"><div><p class="eyebrow">THAE'S REPLAY EXPLORER</p><h1 id="stats-title">Download statistics</h1><p>Installer and portable ZIP downloads across all published versions.</p></div><button class="button" id="stats-refresh" type="button" disabled>Refresh</button></div>
+        <div class="stats-metrics" aria-label="Downloads by format">
+          <div class="stats-metric"><span>Total downloads</span><strong id="stats-total">—</strong></div>
+          <div class="stats-metric"><span>MSI installers</span><strong id="stats-msi">—</strong></div>
+          <div class="stats-metric"><span>EXE installers</span><strong id="stats-exe">—</strong></div>
+          <div class="stats-metric"><span>Portable ZIPs</span><strong id="stats-zip">—</strong></div>
+        </div>
+        <p class="stats-status" id="stats-status" role="status" aria-live="polite">Loading download counts…</p>
+        <h2>Downloads by version</h2>
+        <table class="stats-table" id="stats-table" hidden><caption class="sr-only">GitHub release downloads by version and format</caption><thead><tr><th scope="col">Version</th><th scope="col">MSI</th><th scope="col">EXE</th><th scope="col">ZIP</th><th scope="col">Total</th></tr></thead><tbody id="stats-rows"></tbody></table>
+        <p id="stats-empty" hidden>No published installers or portable ZIPs found.</p>
+        <p class="stats-note">Counts include website downloads, app updates, repeat downloads and release verification. They are not unique user counts. Source ZIPs and checksum files are excluded.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
