@@ -642,7 +642,8 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-header-line .duration-controls{margin-left:auto;flex-shrink:0}
 .match-map-line{display:flex;align-items:flex-start;gap:14px;min-width:0}
 .match-map-line .map-title-row{flex:0 1 auto;min-width:0;margin-top:0;align-items:flex-start;height:auto;min-height:115.2px}
-.match-map-line .map-title-copy{flex:1;min-width:0}
+.match-map-line .map-title-copy{flex:1;min-width:0;margin-top:-4px}
+.match-map-line .map-heading{line-height:1.05;margin-bottom:1px}
 .match-map-line #map-preview{flex-shrink:0}
 .match-map-line .replay-notes{display:flex;flex-direction:column;flex:0 0 auto;min-width:0;margin:0 0 0 auto}
 /* The map details set the header height; expanded notes fill that space. */
@@ -665,10 +666,11 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
   .match-map-line .replay-notes>summary::before{transition:transform 180ms ease-out}
  }
 }
-.match-races-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:8px;min-width:0}
+.match-duration-line{display:flex;align-items:center;margin-top:2px}
+.match-duration-line .duration-wrap{flex:none;white-space:nowrap}
+.match-duration-line .duration-clock{width:24px;height:24px}
+.match-races-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:0;min-width:0}
 .match-races-line #matchup{min-width:0;max-width:100%;transform:translateY(2px)}
-.match-races-line .duration-wrap{flex:none;white-space:nowrap}
-.match-races-line .duration-clock{width:24px;height:24px}
 .match-races-line :is(.matchup-icons,.race-team){max-width:100%;flex-wrap:wrap}
 
 .replay-notes.has-notes>summary,.replay-notes.has-notes>summary::marker{color:var(--gold)}
