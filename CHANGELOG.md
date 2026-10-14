@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- Place the Forsaken Kingdom logo beside the Replay Explorer logo in Simple, Light and Dark themes. Keep it beside Settings in the Forsaken Kingdom theme, with the Warcraft III website link retained.
+- Preserve theme choices made after the one-time 1.0.0 theme migration.
+
 ## 1.0.0
 
 - Apply Forsaken Kingdom to every installation on the first launch of 1.0.0, including users who previously switched to another theme. Remember subsequent theme choices as usual.
