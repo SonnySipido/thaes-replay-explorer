@@ -96,7 +96,7 @@ html[data-theme="warcraft"] .comparison-player[data-side="left"]>.comparison-hea
 html[data-theme="warcraft"] .comparison-player[data-side="right"]>.comparison-heading{padding-right:var(--wc-section-padding)}
 html[data-theme="warcraft"] #panel>:is(.apm-chart-box,#chat-log){margin-inline:calc(-1 * var(--wc-section-overhang));padding:20px var(--wc-section-padding);border:0;border-block:8px solid transparent;border-image:var(--wc-frame) 16% / 18px 0 / 0 2px stretch;border-radius:0;background:linear-gradient(#18272edb,#0b161deb)}
 html[data-theme="warcraft"] .match-timeline{margin-inline:calc(-1 * var(--wc-section-overhang));padding-inline:var(--wc-section-padding)}
-html[data-theme="warcraft"] .comparison-heading{color:var(--gold);border-color:#66705c}
+html[data-theme="warcraft"] .comparison-heading{color:var(--gold);border:0}
 html[data-theme="warcraft"] :is(.mini-heading,.section-title){font-family:var(--font-heading);font-weight:750;letter-spacing:.035em;color:var(--gold)}
 html[data-theme="warcraft"] .hero-card{padding:10px;border:4px solid transparent;border-image:var(--wc-frame) 16% / 9px / 0 stretch;background:linear-gradient(#202b32,#101a21);border-radius:0;box-shadow:inset 0 1px #aec7ca12}
 html[data-theme="warcraft"] .hero-portrait{width:60px;height:60px}

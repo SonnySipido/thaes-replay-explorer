@@ -7,7 +7,7 @@
 .players .player:nth-child(even){border-top-color:var(--gold)}
 .player-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
 .comparison-player{min-width:0;display:grid;grid-template-rows:subgrid;row-gap:0}
-.comparison-heading{border:0;padding:15px 0;margin-bottom:20px}
+.comparison-heading{border-top:1px solid #393939;border-bottom:0;padding:15px 0;margin-bottom:20px}
 
 .comparison-heading h2{margin:0 0 6px;font-size:1.125rem;overflow-wrap:anywhere}
 .comparison-heading span{font-size:0.6875rem;color:var(--muted)}
