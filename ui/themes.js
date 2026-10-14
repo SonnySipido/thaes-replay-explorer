@@ -1,7 +1,7 @@
 (function(root){
  'use strict';
  const key='app-theme';
- const defaultTheme='warcraft',migrationKey='forsaken-theme-default-v1';
+ const defaultTheme='warcraft',migrationKey='forsaken-theme-default-1.0.0';
  const normalize=value=>value==='battlenet'||value==='grey'?'simple-dark':['default','simple-dark','light','warcraft'].includes(value)?value:defaultTheme;
  let saved=defaultTheme;
  try{

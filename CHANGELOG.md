@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.0
+
+- Apply Forsaken Kingdom to every installation on the first launch of 1.0.0, including users who previously switched to another theme. Remember subsequent theme choices as usual.
+- Refine Match Analysis: stack the map name, replay filename and buttons, duration, and race matchup; swap Watch replay and Show winner; darken Watch replay until hovered or focused.
+- Bring teammate cards closer to their player names. Hide redundant teammate divider lines in Forsaken Kingdom while retaining them in Simple, Light and Dark themes.
+- Move the W3Champions profile, Discord name and copyright to the bottom of Settings. Add the supplied Forsaken Kingdom logo beside Settings in the banner, linked to the Warcraft III website.
+- Remove the gold focus outline from the Team size dropdown in Forsaken Kingdom.
+- Refresh all website screenshots for version 1.0.0, with Forsaken Kingdom used for the feature views and current screenshots of the alternative themes.
+- Keep MSI as the main installer, with EXE updates for existing EXE installations and a portable ZIP.
+
 ## 0.9.6
 
 - Automatically refresh Replay Explorer's saved Windows Search icon on the first launch after updating, replacing stale Rexxar images with the bundled T logo. Preserve other application icons, pinned entries and replay data. Remember the completed refresh so it does not run on every launch.

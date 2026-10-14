@@ -4,7 +4,7 @@
 
 A Windows **Warcraft III replay analyzer** and .w3g replay library by **Thaedalius**, supporting **patch 3.0: The Forsaken Kingdom** and local Warcraft III replays, including custom and LAN games. Also works with W3Champions and Battle.net replays. Compare heroes and ability levels, units, buildings, upgrades, items, APM, control groups and chat. Free for non-commercial use.
 
-## [Download for Windows — Installer (.msi)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v0.9.6/Thae-Replay-Explorer-0.9.6-Setup-x64.msi)
+## [Download for Windows — Installer (.msi)](https://github.com/SonnySipido/thaes-replay-explorer/releases/download/v1.0.0/Thae-Replay-Explorer-1.0.0-Setup-x64.msi)
 
 1. Click **Download for Windows** above.
 2. Open the downloaded installer and follow the setup steps.
