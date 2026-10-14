@@ -39,7 +39,7 @@ html[data-theme="warcraft"] button{border:1px solid #576469;border-image:none;ba
 html[data-theme="warcraft"] button:hover{background:linear-gradient(#30413f,#0c2020);color:#fff2c1}
 html[data-theme="warcraft"] button:disabled{opacity:.45;cursor:not-allowed}
 html[data-theme="warcraft"] :is(button,input,select,textarea):focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-html[data-theme="warcraft"] :is(#chat-font-size,#chat-spacing,#chat-player,#search,#filter,#sort,.filter-combobox input,.filter-combobox-toggle):focus-visible{outline:none}
+html[data-theme="warcraft"] :is(#chat-font-size,#chat-spacing,#chat-player,#search,#filter,#sort,#team-size,.filter-combobox input,.filter-combobox-toggle):focus-visible{outline:none}
 html[data-theme="warcraft"] :is(input:not([type="checkbox"]),select,textarea){border:1px solid #57646a;border-image:none;background:linear-gradient(#050b0f,#10191d);box-shadow:inset 0 1px 4px #0008}
 /* Native select popups need an opaque background as well as the gradient. */
 html[data-theme="warcraft"] select{background-color:#10191d}
