@@ -23,6 +23,7 @@ const {playerProfileUrl}=require('./player-profile.cjs');
 const {readReplayStartFromFile,gameSource,readLeaves}=require('./replay-start.cjs');
 const {winningTeam,WINNER_VERSION}=require('./winner.cjs');
 const updater=require('./updater.cjs');
+const {refreshWindowsSearchIconOnStartup}=require('./windows-search-icon.cjs');
 let availableUpdate=null;  // the last "Check for updates" answer
 const mapSlotsCache=new Map();
 const fsSync=require('node:fs');
@@ -361,6 +362,7 @@ app.whenReady().then(async()=>{
   await win.loadFile(path.join(__dirname,'ui','index.html'));
   if(windowState?.maximized)win.maximize();
   win.show();
+  if(app.isPackaged&&process.platform==='win32')refreshWindowsSearchIconOnStartup({userData:user,localAppData:process.env.LOCALAPPDATA,iconPath:path.join(__dirname,'ui','artwork','thaes-app-icon.png')}).catch(error=>console.warn('Could not refresh the Windows Search icon:',error.message));
   windowReady=true;
   if(pendingSelect)requestSelect(null);  // asked for while the page was loading
   for(const event of ['resize','move','maximize','unmaximize','restore'])win.on(event,scheduleWindowSave);

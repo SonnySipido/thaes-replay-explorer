@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.6
+
+- Automatically refresh Replay Explorer's saved Windows Search icon on the first launch after updating, replacing stale Rexxar images with the bundled T logo. Preserve other application icons, pinned entries and replay data. Remember the completed refresh so it does not run on every launch.
+- Change the replay-copy confirmation to "Copied -  Ctrl+V to Discord or a folder."
+- Remove the Comparing build orders guide from the website and update the main-page caption to "WARCRAFT III FORSAKEN KINGDOM REPLAY TOOL · WINDOWS".
+
 ## 0.9.5
 
 - Add a remembered text-size slider in Settings, with the existing sizes at 100% and a larger default marker.

@@ -442,7 +442,7 @@ function showMatch(elapsed){
  };
  copyReplay.onclick=async()=>{
   copyReplay.disabled=true;shareStatus.textContent='Copying replay…';
-  try{await window.replays.copyReplayFile(shareKey);shareStatus.textContent='Replay copied — paste into Discord with Ctrl+V.';}
+  try{await window.replays.copyReplayFile(shareKey);shareStatus.textContent='Copied -  Ctrl+V to Discord or a folder.';}
   catch(error){shareStatus.textContent=error.message;showError(error);}
   finally{copyReplay.disabled=false;}
  };

@@ -1,6 +1,6 @@
 {
   "name": "thaes-replay-explorer",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "private": true,
   "main": "main.cjs",
   "scripts": {
