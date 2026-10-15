@@ -8,7 +8,6 @@
       const expanded = card.classList.contains('is-collapsed');
       card.classList.toggle('is-collapsed', !expanded);
       toggle.setAttribute('aria-expanded', String(expanded));
-      toggle.querySelector('.gallery-expand-hint, .feature-expand-hint').textContent = expanded ? 'Click to collapse' : 'Click to expand';
     });
   });
   const gallery = document.querySelector('.gallery');
