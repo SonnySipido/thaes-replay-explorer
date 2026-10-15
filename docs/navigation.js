@@ -23,18 +23,9 @@
     root.classList.remove('page-arriving');
   }
   if (arriving) {
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Let the other page scripts finish initializing and avoid a font/image pop.
-      const visibleImages = [...document.images].filter(image => {
-        const bounds = image.getBoundingClientRect();
-        return bounds.width > 0 && bounds.top < innerHeight && bounds.bottom > 0;
-      });
-      await Promise.race([
-        Promise.all([document.fonts.ready, ...visibleImages.map(image => image.decode().catch(() => {}))]),
-        new Promise(resolve => setTimeout(resolve, 300))
-      ]);
-      reveal();
-    }, {once: true});
+    // Start as soon as the page scripts have initialized. Clipped guide
+    // screenshots must not hold the entire page on its faded background.
+    document.addEventListener('DOMContentLoaded', reveal, {once: true});
   }
 
   document.addEventListener('click', event => {
