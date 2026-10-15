@@ -110,7 +110,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible,
 .help summary{color:var(--wc-text)}
 .guides-intro{margin-top:22px;padding:30px;max-width:none}
 .guides-intro h1{font-size:calc(clamp(33px,4.5vw,53px) + 1pt);line-height:1.15}
-.guide-layout{gap:24px;margin-top:22px;align-items:start}
+.guide-layout{grid-template-columns:minmax(0,1fr);gap:24px;margin-top:22px;align-items:start}
 .guide-toc{padding:18px;top:20px}
 .guide-toc a{font-size:calc(13px + 1pt);overflow-wrap:anywhere}
 .guide-toc .toc-download{border-color:#64736988}
