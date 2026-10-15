@@ -17,7 +17,7 @@
 
   function reveal() {
     if (!reducedMotion.matches) {
-      const animation = document.body.animate([{opacity: 0}, {opacity: 1}], {duration: 220, easing: 'ease-out'});
+      const animation = document.body.animate([{opacity: 0}, {opacity: 1}], {duration: 110, easing: 'ease-out'});
       animation.id = 'site-page-enter';
     }
     root.classList.remove('page-arriving');
@@ -31,7 +31,7 @@
       });
       await Promise.race([
         Promise.all([document.fonts.ready, ...visibleImages.map(image => image.decode().catch(() => {}))]),
-        new Promise(resolve => setTimeout(resolve, 600))
+        new Promise(resolve => setTimeout(resolve, 300))
       ]);
       reveal();
     }, {once: true});
@@ -49,7 +49,7 @@
     try {
       sessionStorage.setItem(storageKey, JSON.stringify({path: destination.pathname, time: Date.now()}));
     } catch {}
-    const animation = document.body.animate([{opacity: 1}, {opacity: 0}], {duration: 160, easing: 'ease-in', fill: 'forwards'});
+    const animation = document.body.animate([{opacity: 1}, {opacity: 0}], {duration: 80, easing: 'ease-in', fill: 'forwards'});
     animation.id = 'site-page-leave';
     animation.finished.then(() => location.assign(destination.href));
   });
