@@ -51,6 +51,13 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
 .install,.features,.feature-list,.gallery,.guide-teaser,.help{margin-top:22px;padding:25px}
 .steps,.columns{gap:28px}
 .feature-groups{column-gap:30px}
+.feature-disclosure{padding:0;border:0}
+.feature-disclosure>summary{display:flex;align-items:center;gap:10px;list-style:none}
+.feature-disclosure>summary::-webkit-details-marker{display:none}
+.feature-disclosure>summary::before{content:'\25B8';color:var(--wc-gold);line-height:1;font-size:22px}
+.feature-disclosure[open]>summary::before{transform:rotate(90deg)}
+.feature-disclosure>summary>h2{margin:0}
+.feature-disclosure>.feature-groups{padding-top:20px}
 .feature-groups h3{font-size:calc(13px + 1pt);letter-spacing:.055em}
 .feature-groups li,.guide-article p,.guide-article li{color:#c9d3d8}
 .feature-groups li:before,.facts span:before{color:var(--wc-gold)}
