@@ -65,7 +65,8 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
 :is(.feature-disclosure,.guide-disclosure)[open]>summary::before{transform:rotate(90deg)}
 :is(.feature-disclosure,.guide-disclosure)>summary>h2{margin:0}
 .feature-disclosure>.feature-groups{padding-top:20px}
-.guide-disclosure>.guide-body{padding-top:16px}
+.guide-body{padding-top:16px}
+.guide-heading{margin:0}
 .guide-body p{max-width:none;font-size:inherit;margin:0 0 16px}
 .feature-groups h3{font-size:calc(13px + 1pt);letter-spacing:.055em}
 .feature-groups li,.guide-article p,.guide-article li{color:#c9d3d8}
@@ -73,17 +74,18 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
 .gallery-heading{gap:5px 18px;margin-bottom:10px}
 .gallery-heading h2{font-size:calc(23px + 1pt)}
 .gallery-heading>h2{width:100%}
-.gallery-toggle,.feature-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;text-shadow:inherit}
-.gallery-toggle-arrow,.feature-toggle-arrow{font-size:22px;line-height:1}
-.gallery-toggle[aria-expanded=true] .gallery-toggle-arrow,.feature-toggle[aria-expanded=true] .feature-toggle-arrow{transform:rotate(90deg)}
-.gallery-content,.feature-content{position:relative;height:auto;overflow:clip;interpolate-size:allow-keywords}
+.gallery-toggle,.feature-toggle,.guide-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;text-shadow:inherit}
+.gallery-toggle-arrow,.feature-toggle-arrow,.guide-toggle-arrow{font-size:22px;line-height:1;flex-shrink:0}
+.gallery-toggle[aria-expanded=true] .gallery-toggle-arrow,.feature-toggle[aria-expanded=true] .feature-toggle-arrow,.guide-toggle[aria-expanded=true] .guide-toggle-arrow{transform:rotate(90deg)}
+.gallery-content,.feature-content,.guide-body{position:relative;height:auto;overflow:clip;interpolate-size:allow-keywords}
 .gallery.is-collapsed .gallery-content{height:clamp(130px,22vw,240px)}
 .feature-heading{margin:0 0 10px}
-.feature-list,.gallery{cursor:pointer}
+.feature-list,.gallery,.guide-article{cursor:pointer}
 .feature-content>.feature-groups{padding-top:10px}
 .feature-list.is-collapsed .feature-content{height:180px}
-.gallery-content::after,.feature-content::after{content:'';position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(transparent,#0b151c);opacity:0;pointer-events:none}
-.gallery.is-collapsed .gallery-content::after,.feature-list.is-collapsed .feature-content::after{opacity:1}
+.guide-article.is-collapsed .guide-body{height:160px}
+.gallery-content::after,.feature-content::after,.guide-body::after{content:'';position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(transparent,#0b151c);opacity:0;pointer-events:none}
+.gallery.is-collapsed .gallery-content::after,.feature-list.is-collapsed .feature-content::after,.guide-article.is-collapsed .guide-body::after{opacity:1}
 .gallery.is-collapsed :is(figcaption,.slider-controls){visibility:hidden}
 .gallery-heading p{font-size:calc(13px + 1pt);max-width:550px}
 .screenshots a,.guide-figure img{
@@ -128,9 +130,9 @@ footer p{color:#aab9c0}
 .screenshot-viewer-toolbar h2{color:var(--wc-gold)}
 .screenshot-viewer::backdrop{background:#02070de8}
 @media(prefers-reduced-motion:no-preference){
- .gallery-content,.feature-content{transition:height 240ms ease-out}
- .gallery-content::after,.feature-content::after{transition:opacity 240ms ease-out}
- .gallery-toggle-arrow,.feature-toggle-arrow{transition:transform 240ms ease-out}
+ .gallery-content,.feature-content,.guide-body{transition:height 240ms ease-out}
+ .gallery-content::after,.feature-content::after,.guide-body::after{transition:opacity 240ms ease-out}
+ .gallery-toggle-arrow,.feature-toggle-arrow,.guide-toggle-arrow{transition:transform 240ms ease-out}
  @supports (interpolate-size:allow-keywords) and selector(details::details-content){
   :is(.feature-disclosure,.help details){interpolate-size:allow-keywords}
   :is(.feature-disclosure,.help details)::details-content{
@@ -173,4 +175,6 @@ footer p{color:#aab9c0}
  footer{padding:18px}
  .screenshot-viewer{border-width:6px;border-image-width:18px}
 }
-@media(prefers-reduced-motion:reduce){body{background-attachment:scroll}}
+@media(prefers-reduced-motion:reduce){
+ body{background-attachment:scroll}
+}
