@@ -116,6 +116,24 @@ footer p{color:#aab9c0}
 .screenshot-viewer-toolbar{background:linear-gradient(#080b0e88,#090b0ec4),var(--wc-wood) center/640px;border-color:#647369}
 .screenshot-viewer-toolbar h2{color:var(--wc-gold)}
 .screenshot-viewer::backdrop{background:#02070de8}
+@media(prefers-reduced-motion:no-preference){
+ @supports (interpolate-size:allow-keywords) and selector(details::details-content){
+  :is(.feature-disclosure,.help details){interpolate-size:allow-keywords}
+  :is(.feature-disclosure,.help details)::details-content{
+   height:0;opacity:0;overflow:clip;
+   transition:height 240ms ease-out,opacity 200ms ease-out,content-visibility 240ms allow-discrete;
+  }
+  :is(.feature-disclosure,.help details)[open]::details-content{height:auto;opacity:1}
+  .feature-disclosure>summary::before{transition:transform 240ms ease-out}
+ }
+ .screenshot-viewer[open]{animation:screenshot-reveal 220ms ease-out}
+ .screenshot-viewer[open]::backdrop{animation:screenshot-backdrop-reveal 220ms ease-out}
+}
+@keyframes screenshot-reveal{
+ from{opacity:0;transform:translateY(8px) scale(.96)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes screenshot-backdrop-reveal{from{opacity:0}to{opacity:1}}
 @media(max-width:900px){
  .guide-toc{position:static;gap:4px 18px;padding:16px}
 }
