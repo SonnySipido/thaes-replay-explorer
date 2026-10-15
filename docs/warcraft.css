@@ -65,7 +65,7 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
 :is(.feature-disclosure,.guide-disclosure)[open]>summary::before{transform:rotate(90deg)}
 :is(.feature-disclosure,.guide-disclosure)>summary>h2{margin:0}
 .feature-disclosure>.feature-groups{padding-top:20px}
-.feature-expand-hint{font-size:calc(12px + 1pt);font-weight:400;color:var(--wc-muted);white-space:nowrap}
+.feature-expand-hint{margin-left:auto;font-size:calc(12px + 1pt);font-weight:400;color:var(--wc-muted);white-space:nowrap}
 .feature-disclosure[open] .feature-expand-hint{display:none}
 .guide-disclosure>.guide-body{padding-top:16px}
 .guide-body p{max-width:none;font-size:inherit;margin:0 0 16px}
