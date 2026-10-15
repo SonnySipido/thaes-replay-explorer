@@ -5,6 +5,13 @@
   const slides = [...gallery.querySelectorAll('figure')];
   const picker = gallery.querySelector('#screenshot-picker');
   const viewport = gallery.querySelector('.screenshots');
+  const toggle = gallery.querySelector('.gallery-toggle');
+  toggle?.addEventListener('click', () => {
+    const expanded = gallery.classList.contains('is-collapsed');
+    gallery.classList.toggle('is-collapsed', !expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.querySelector('.gallery-expand-hint').textContent = expanded ? 'Click to collapse' : 'Click to expand';
+  });
   let current = 0;
   function show(index) {
     current = (index + slides.length) % slides.length;
