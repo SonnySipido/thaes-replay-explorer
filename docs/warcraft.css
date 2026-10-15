@@ -43,7 +43,8 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
  border-radius:0;box-shadow:0 4px 14px #0005;
 }
 .hero>div,.download{padding:25px}
-.hero>div{background:linear-gradient(#0b151ce8,#080f16e8),var(--wc-wood) center/640px}
+.hero>div{display:flex;flex-direction:column;background:linear-gradient(#0b151ce8,#080f16e8),var(--wc-wood) center/640px}
+.hero>div>p:last-child{margin-top:auto;margin-bottom:0}
 .hero .search-heading{font-family:var(--font-heading);font-size:calc(clamp(26px,2.8vw,34px) + 1pt);line-height:1.25;white-space:normal;letter-spacing:0}
 .lead{color:#d9e2e4}
 .eyebrow,.feature-groups h3{color:var(--wc-gold)}
