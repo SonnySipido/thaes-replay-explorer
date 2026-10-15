@@ -1,17 +1,19 @@
 'use strict';
 (() => {
+  document.querySelectorAll('.gallery-toggle, .feature-toggle').forEach(toggle => {
+    const card = toggle.closest('.gallery, .feature-list');
+    toggle.addEventListener('click', () => {
+      const expanded = card.classList.contains('is-collapsed');
+      card.classList.toggle('is-collapsed', !expanded);
+      toggle.setAttribute('aria-expanded', String(expanded));
+      toggle.querySelector('.gallery-expand-hint, .feature-expand-hint').textContent = expanded ? 'Click to collapse' : 'Click to expand';
+    });
+  });
   const gallery = document.querySelector('.gallery');
   if (!gallery) return;
   const slides = [...gallery.querySelectorAll('figure')];
   const picker = gallery.querySelector('#screenshot-picker');
   const viewport = gallery.querySelector('.screenshots');
-  const toggle = gallery.querySelector('.gallery-toggle');
-  toggle?.addEventListener('click', () => {
-    const expanded = gallery.classList.contains('is-collapsed');
-    gallery.classList.toggle('is-collapsed', !expanded);
-    toggle.setAttribute('aria-expanded', String(expanded));
-    toggle.querySelector('.gallery-expand-hint').textContent = expanded ? 'Click to collapse' : 'Click to expand';
-  });
   let current = 0;
   function show(index) {
     current = (index + slides.length) % slides.length;
