@@ -2,7 +2,9 @@
 (() => {
   document.querySelectorAll('.gallery-toggle, .feature-toggle').forEach(toggle => {
     const card = toggle.closest('.gallery, .feature-list');
-    toggle.addEventListener('click', () => {
+    card.addEventListener('click', event => {
+      // Screenshot links and gallery controls keep their own actions.
+      if (event.target.closest('a, button, input, select, textarea, label') && !event.target.closest('.gallery-toggle, .feature-toggle')) return;
       const expanded = card.classList.contains('is-collapsed');
       card.classList.toggle('is-collapsed', !expanded);
       toggle.setAttribute('aria-expanded', String(expanded));

@@ -82,6 +82,7 @@ header .author:hover{color:var(--wc-gold);text-decoration:underline}
 .gallery-content,.feature-content{position:relative;height:auto;overflow:clip;interpolate-size:allow-keywords}
 .gallery.is-collapsed .gallery-content{height:clamp(130px,22vw,240px)}
 .feature-heading{margin:0 0 10px}
+.feature-list,.gallery{cursor:pointer}
 .feature-content>.feature-groups{padding-top:10px}
 .feature-list.is-collapsed .feature-content{height:180px}
 .gallery-content::after,.feature-content::after{content:'';position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(transparent,#0b151c);opacity:0;pointer-events:none}
