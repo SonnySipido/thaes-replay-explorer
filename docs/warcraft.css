@@ -9,6 +9,7 @@
 html{background:#080e13;color-scheme:dark}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
 body{color:var(--wc-text);background:linear-gradient(#07101980,#02070ca6),var(--wc-forest) center top/cover fixed}
+html.page-arriving body{opacity:0}
 .wrap{max-width:1272px;padding-inline:28px}
 p,.author,.version,.small,.slide-status,.guide-figure figcaption{color:var(--wc-muted)}
 a{color:var(--wc-gold)}a:hover{color:#fff2c1}
@@ -130,7 +131,7 @@ footer p{color:#aab9c0}
 .screenshot-viewer-toolbar h2{color:var(--wc-gold)}
 .screenshot-viewer::backdrop{background:#02070de8}
 @media(prefers-reduced-motion:no-preference){
- .gallery-content,.feature-content,.guide-body{transition:height 240ms ease-out}
+ .gallery-content,.feature-content{transition:height 240ms ease-out}
  .gallery-content::after,.feature-content::after,.guide-body::after{transition:opacity 240ms ease-out}
  .gallery-toggle-arrow,.feature-toggle-arrow,.guide-toggle-arrow{transition:transform 240ms ease-out}
  @supports (interpolate-size:allow-keywords) and selector(details::details-content){

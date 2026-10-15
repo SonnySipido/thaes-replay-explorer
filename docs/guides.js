@@ -1,8 +1,22 @@
 'use strict';
 (() => {
+  const animations = new WeakMap();
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   function setExpanded(article, expanded) {
+    if (article.classList.contains('is-collapsed') === !expanded) return;
+    const body = article.querySelector('.guide-body');
+    const start = body.getBoundingClientRect().height;
+    animations.get(body)?.cancel();
     article.classList.toggle('is-collapsed', !expanded);
     article.querySelector('.guide-toggle').setAttribute('aria-expanded', String(expanded));
+    if (!reducedMotion.matches) {
+      const animation = body.animate([
+        {height: start + 'px'},
+        {height: body.getBoundingClientRect().height + 'px'}
+      ], {duration: 240, easing: 'ease-out'});
+      animation.id = 'guide-expand-collapse';
+      animations.set(body, animation);
+    }
   }
   document.querySelectorAll('.guide-article').forEach(article => {
     article.addEventListener('click', event => {
