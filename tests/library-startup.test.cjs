@@ -27,3 +27,12 @@ test('missing, corrupt and outdated catalogues fall back safely to existing summ
  assert.equal(await loadLibrarySnapshot(dir,[]),null);await fs.writeFile(file,'broken');assert.equal(await loadLibrarySnapshot(dir,[]),null);
  await saveLibrarySnapshot(dir,[],[],[]);const saved=JSON.parse(await fs.readFile(file));saved.summaryVersion--;await fs.writeFile(file,JSON.stringify(saved));assert.equal(await loadLibrarySnapshot(dir,[]),null);
 });
+
+test('parser repairs retry outdated failures while preserving successful caches and current failures',async t=>{
+ const {PARSER_REVISION}=require('../parser.cjs');
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'library-parser-retry-'));t.after(()=>fs.rm(dir,{recursive:true,force:true}));
+ const base={file:path.join(dir,'match.w3g'),summaryVersion:SUMMARY_VERSION,fingerprint:'unchanged'};
+ const rows=[{...base,key:'success'},{...base,key:'old-failure',error:'unsupported action'},{...base,key:'current-failure',error:'empty file',parserRevision:PARSER_REVISION}];
+ await saveLibrarySnapshot(dir,[],rows,[]);const restored=await loadLibrarySnapshot(dir,[]);
+ assert.equal(restored.rows[0].fingerprint,'unchanged');assert.equal(restored.rows[1].fingerprint,undefined);assert.equal(restored.rows[2].fingerprint,'unchanged');
+});

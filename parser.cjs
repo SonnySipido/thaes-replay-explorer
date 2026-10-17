@@ -11,6 +11,9 @@ const mappings = require(path.join(parserRoot, 'mappings.js'));
 const {inferHeroAbilityLevelsFromAbilityOrder: infer} = require(path.join(parserRoot, 'inferHeroAbilityLevelsFromAbilityOrder.js'));
 const inflate = promisify(zlib.inflate);
 const SCHEMA = 4;
+// Retry previously failed files after a compatibility fix, without invalidating
+// the successful analyses of the rest of a large replay library.
+const PARSER_REVISION = 2;
 const names = Object.fromEntries(Object.entries({...mappings.items,...mappings.units,...mappings.buildings,...mappings.upgrades,...mappings.heroAbilities}).map(([k,v])=>[k,v.replace(/^[a-z]_/, '')]));
 for (const [ability, hero] of Object.entries(mappings.abilityToHero)) {
   const full = names[ability] || '';
@@ -30,6 +33,27 @@ function minimumLevel(abilities) {
   }
   return Math.min(10, Math.max(sum, requirement));
 }
+async function recoverMissingHeader(buffer) {
+  // A few interrupted saves contain an all-zero header followed by a complete
+  // Reforged block stream. Reconstruct framing only in memory; its lost game
+  // version/build cannot be inferred and must not be presented as real metadata.
+  if(buffer.length<80||!buffer.subarray(0,68).every(byte=>byte===0))return null;
+  let offset=68,count=0,bytes=0;
+  while(offset<buffer.length){
+    if(offset+12>buffer.length||count>=100000)throw Error('Replay header is missing and game data is incomplete.');
+    const compressed=buffer.readUInt16LE(offset),decoded=buffer.readUInt16LE(offset+4);
+    if(!compressed||decoded!==8192||offset+12+compressed>buffer.length)throw Error('Replay header is missing and game data is incomplete.');
+    const raw=await inflate(buffer.subarray(offset+12,offset+12+compressed),{finishFlush:zlib.constants.Z_SYNC_FLUSH,maxOutputLength:8192});
+    if(raw.length!==decoded)throw Error('Replay header is missing and game data is incomplete.');
+    offset+=12+compressed;bytes+=raw.length;count++;
+  }
+  const repaired=Buffer.from(buffer);repaired.write('Warcraft III recorded game\x1a');
+  repaired.writeUInt32LE(68,28);repaired.writeUInt32LE(buffer.length,32);repaired.writeUInt32LE(1,36);repaired.writeUInt32LE(bytes,40);repaired.writeUInt32LE(count,44);repaired.write('PX3W',48);
+  // These values select the 12-byte block decoder and its compatibility paths.
+  // They are internal framing placeholders, removed from the returned analysis.
+  repaired.writeUInt32LE(10100,52);repaired.writeUInt16LE(6115,56);
+  return repaired;
+}
 // Validate complete compressed blocks before invoking a parser that tolerates truncation.
 async function validateContainer(buffer) {
   const start = buffer.indexOf('Warcraft III recorded game');
@@ -40,6 +64,7 @@ async function validateContainer(buffer) {
   const expectedBytes = buffer.readUInt32LE(start + 40);
   const count = buffer.readUInt32LE(start + 44);
   const build = buffer.readUInt16LE(start + 56);
+  const version = buffer.readUInt32LE(start + 52);
   if (headerSize < 68 || declaredSize > buffer.length - start || count > 100000) throw new Error('Replay is truncated or has an invalid header.');
   let offset = start + headerSize, bytes = 0;
   for (let i=0; i<count; i++) {
@@ -54,6 +79,30 @@ async function validateContainer(buffer) {
     offset += size + compressed;
   }
   if (bytes < expectedBytes) throw new Error('Replay is missing game data.');
+  return {version,build};
+}
+function configureCompatibleActions(parser,{version,build,shiftActions=version>=10100},compatible=true) {
+  const actions=parser.gameDataParser.actionParser,original=actions.parseAction.bind(actions);
+  actions.parseAction=function(id,post){
+    let result;
+    if(!compatible){
+      result=original(id,post);
+    }else if(id===0x01){
+      // Pause records have no argument byte, including retail 3.x replays.
+      this.oldActionId=id;result=null;
+    }else if(build<7000&&id===0x06){
+      // Old save-game records contain only one null-terminated filename.
+      this.readZeroTermString('utf8');this.oldActionId=id;result=null;
+    }else{
+      // The metadata marker alone does not reliably identify this layout.
+      // Retail 2.x/3.x use 0x77 for sync data and 0x7a for the 16-byte
+      // command-card source record. Earlier Reforged uses 0x78 for sync.
+      const normalized=shiftActions&&id>=0x77&&id<=0x7b?id+1:id;
+      result=original(normalized,false);
+    }
+    if(this.getOffset()>this.buffer.length)throw new Error('Truncated replay action.');
+    return result;
+  };
 }
 function collectActions(replay) {
   let time = 0;
@@ -147,18 +196,38 @@ async function addUnitMorphs(data,file){
   }
   data.unitMorphVersion=1;return true;
 }
-async function parseReplay(fileOrBuffer) {
-  const buffer = Buffer.isBuffer(fileOrBuffer) ? fileOrBuffer : await fs.readFile(fileOrBuffer);
-  await validateContainer(buffer);
+async function parseReplayPass(buffer,header,compatible=false) {
   const replay = new Replay(), extra = collectActions(replay), diagnostics = [];
+  configureCompatibleActions(replay.parser,header,compatible);
   const oldError = console.error, oldWarn = console.warn;
-  console.error = (...args) => diagnostics.push(args.map(a=>a?.message || String(a)).join(' '));
+  console.error = (...args) => {if(diagnostics.length<3)diagnostics.push(args.map(a=>a?.message || String(a)).join(' '));};
   console.warn = console.error;
   let parsed;
   try { parsed = await replay.parse(buffer); }
   finally { console.error = oldError; console.warn = oldWarn; }
   if (diagnostics.length) throw new Error('Parser reported incomplete or unsupported data: ' + diagnostics.slice(0,3).join('; '));
+  return {parsed,replay,extra};
+}
+async function parseReplay(fileOrBuffer) {
+  const original = Buffer.isBuffer(fileOrBuffer) ? fileOrBuffer : await fs.readFile(fileOrBuffer);
+  const repaired=await recoverMissingHeader(original),buffer=repaired||original;
+  const header=await validateContainer(buffer);
+  let pass,compatible=false;
+  try{pass=await parseReplayPass(buffer,header);}
+  catch(originalError){
+    // Several 2.x patches share the same internal version. Try the two known
+    // command layouts; both must consume their complete action records cleanly.
+    for(const shiftActions of header.version>=10100?[true,false]:[false]){
+      try{pass=await parseReplayPass(buffer,{...header,shiftActions},true);compatible=true;break;}catch{}
+    }
+    if(!pass)throw originalError;
+  }
+  const {parsed,replay,extra}=pass;
   const result = JSON.parse(JSON.stringify(parsed));
+  if(repaired){
+    if(!result.players?.length||!(replay.totalTimeTracker>0))throw Error('Replay header is missing and no complete game could be recovered.');
+    result.version='';result.buildNumber=null;result.duration=replay.totalTimeTracker;result.headerRecovered=true;
+  }
   const {mmr} = await readReplayStart(buffer);
   result.source = gameSource(result.creator);  // 'w3c' / 'bnet' / null
   // the winner from the leave records (see winner.cjs); w3gjs's own answer (1v1 only) when they don't tell
@@ -194,9 +263,9 @@ async function parseReplay(fileOrBuffer) {
       });
     }
   }
-  return {...result, schema:SCHEMA,unitMorphVersion:1,parserVersion:'w3gjs 4.3.0',names};
+  return {...result, schema:SCHEMA,unitMorphVersion:1,parserVersion:'w3gjs 4.3.0',...(compatible?{parserCompatibility:PARSER_REVISION}:{}),names};
 }
-module.exports = {parseReplay, validateContainer, names, four, numeric, minimumLevel, SCHEMA, collectActions, addUnitMorphs};
+module.exports = {parseReplay, validateContainer, configureCompatibleActions, names, four, numeric, minimumLevel, SCHEMA, PARSER_REVISION, collectActions, addUnitMorphs};
 
 
 

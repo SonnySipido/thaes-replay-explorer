@@ -1,6 +1,6 @@
 ﻿'use strict';
 const fs=require('node:fs/promises'), path=require('node:path'), crypto=require('node:crypto');
-const {parseReplay,SCHEMA,names}=require('./parser.cjs');
+const {parseReplay,SCHEMA,PARSER_REVISION,names}=require('./parser.cjs');
 const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const {hashReplay}=require('./annotations.cjs');
 const research=require('./ui/research.js');
@@ -11,6 +11,9 @@ async function loadLibrarySnapshot(cacheDir,folders){
   const saved=JSON.parse(await fs.readFile(path.join(cacheDir,'library.json'),'utf8'));
   if(saved.schema!==SCHEMA||saved.summaryVersion!==SUMMARY_VERSION||saved.folders!==snapshotFolders(folders)||!Array.isArray(saved.rows)||!Array.isArray(saved.directories))return null;
   if(saved.rows.some(row=>!row.key||typeof row.file!=='string'||row.data||(!row.error&&row.summaryVersion!==SUMMARY_VERSION)))return null;
+  // Only obsolete failures need another parse after a parser repair. Keep the
+  // successful catalogue and analyses available immediately on startup.
+  for(const row of saved.rows)if(row.error&&row.parserRevision!==PARSER_REVISION)delete row.fingerprint;
   return saved;
  }catch{return null;}
 }
@@ -70,7 +73,7 @@ function entitySearch(data){
 function summary(entry) {
   if(entry.summaryVersion)return entry;
   const r=entry.data;
-  return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
+  return {contentHash:entry.contentHash,summaryVersion:SUMMARY_VERSION,source:r?gameSource(r.creator):null,fingerprint:entry.fingerprint,...(entry.error?{parserRevision:entry.parserRevision}:{}),mapInfo:r?.map,key:entry.key,file:entry.file,name:path.basename(entry.file),modified:entry.modified,size:entry.size,error:entry.error,
     map:r?.map?.file || '',...(Number.isInteger(r?.startSpots)&&r.startSpots>=1&&r.startSpots<=24?{mapSlots:r.startSpots}:{}),version:r?.version || '',build:r?.buildNumber,duration:r?.duration || 0,matchup:r?.matchup || '',
     players:r?.players?.map(p=>({id:p.id,name:p.name,race:p.race,raceDetected:p.raceDetected,apm:p.apm,team:p.teamid})) || [],chatCount:r?.chat?.length || 0,chatSearch:chatSearch(r?.chat),entitySearch:entitySearch(r)};
 }
@@ -124,7 +127,7 @@ async function indexFolder(folder,cacheDir,onEntry=()=>{},onProgress=()=>{},know
         await fs.rename(temp,cacheFile);
         parsed++;
       }
-    } catch(error) { failed++;entry={schema:SCHEMA,key,file,error:error.message};try{const stat=await fs.stat(file);entry.modified=stat.mtimeMs;entry.size=stat.size;entry.fingerprint=stat.size+':'+stat.mtimeMs+':'+SCHEMA;}catch{} }
+    } catch(error) { failed++;entry={schema:SCHEMA,parserRevision:PARSER_REVISION,key,file,error:error.message};try{const stat=await fs.stat(file);entry.modified=stat.mtimeMs;entry.size=stat.size;entry.fingerprint=stat.size+':'+stat.mtimeMs+':'+SCHEMA;}catch{} }
     if(!entry.contentHash)try{entry.contentHash=await hashReplay(file);}catch{}
     if(!entry.error){const summaryFile=path.join(summaryDir,key+'.json'),temp=summaryFile+'.'+process.pid+'.tmp';await fs.writeFile(temp,JSON.stringify(summary(entry)));await fs.rename(temp,summaryFile);}
     onEntry(lightweight?summary(entry):entry);

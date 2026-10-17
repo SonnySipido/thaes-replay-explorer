@@ -666,12 +666,15 @@ body.replay-drop-active::after{content:"Drop replay to add it to your library";p
 .match-map-line .replay-notes #notes-status{order:-1;margin:0;min-width:0;overflow-wrap:anywhere}
 @supports (interpolate-size:allow-keywords) and selector(details::details-content){
  .match-map-line .replay-notes{interpolate-size:allow-keywords}
+ .match-map-line .replay-notes #notes-status{width:0;opacity:0;overflow:hidden}
+ .match-map-line .replay-notes #notes-status.has-save-status{width:auto;opacity:1}
  .match-map-line .replay-notes::details-content{height:0;contain:inline-size;overflow:clip;opacity:0}
  .match-map-line .replay-notes[open]::details-content{height:auto;opacity:1}
  @media(prefers-reduced-motion:no-preference){
   .match-map-line .replay-notes{transition:flex-grow 180ms ease-out,flex-basis 180ms ease-out}
   .match-map-line .replay-notes::details-content{transition:height 180ms ease-out,opacity 180ms ease-out,content-visibility 180ms allow-discrete}
   .match-map-line .replay-notes>summary::before{transition:transform 180ms ease-out}
+  .match-map-line .replay-notes #notes-status{transition:width 180ms ease-out,opacity 180ms ease-out}
  }
 }
 .match-duration-line{display:flex;align-items:center;margin-top:2px}

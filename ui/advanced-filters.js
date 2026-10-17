@@ -2,7 +2,7 @@
  'use strict';
  let nextId=0;
  const raceOptions=[['any','Any race'],['H','Human'],['N','Night Elf'],['O','Orc'],['U','Undead'],['R','Random'],['RH','Random (Human)'],['RN','Random (Night Elf)'],['RO','Random (Orc)'],['RU','Random (Undead)']];
- function create({button,panel,playerList,mapField,mapTypeFields,addButton,clearButton,getRows,mapName,mapType,mapSlots,loadMapSlots,raceIcon,onChange}){
+ function create({button,panel,playerList,mapField,mapTypeFields,addButton,getRows,mapName,mapType,mapSlots,loadMapSlots,raceIcon,onChange}){
   let enabled=false;panel.inert=true;
   const playerFilters=[],combos=[];
   const namesCache=new Map(),compareNames=new Intl.Collator(undefined,{sensitivity:'base',numeric:true}).compare;
@@ -14,10 +14,10 @@
   function saveMapTypes(){try{localStorage.setItem('advanced-map-types',JSON.stringify(mapTypes));}catch{}}
   function resetMapTypes(){Object.assign(mapTypes,defaultMapTypes);syncMapTypes();saveMapTypes();}
   syncMapTypes();
-  function hasChanges(){return Boolean(map.name||playerFilters.some(({filter})=>filter.name||filter.race!=='any')||Object.keys(mapTypes).some(key=>mapTypes[key]!==defaultMapTypes[key]));}
+  function hasChanges(){return Boolean(map.name||playerFilters.length>1||playerFilters.some(({filter})=>filter.name||filter.race!=='any')||Object.keys(mapTypes).some(key=>mapTypes[key]!==defaultMapTypes[key]));}
   function canAddPlayer(){const filter=playerFilters.at(-1)?.filter;return Boolean(filter?.exact&&filter.name.trim());}
   function updateAddButton(){addButton.disabled=!canAddPlayer();addButton.title=addButton.disabled?'Select a player in the last row first':'Add another player';}
-  function changed(typing=false,filtersChanged=true){updateAddButton();for(const item of playerFilters)item.combo.updateClearSelection();clearButton.disabled=!hasChanges();if(filtersChanged)onChange(typing);}
+  function changed(typing=false,filtersChanged=true){updateAddButton();for(const item of playerFilters)item.combo.updateClearSelection();onChange(typing,filtersChanged);}
   for(const field of typeFields)field.onchange=()=>{mapTypes[field.dataset.mapType]=field.checked;saveMapTypes();mapCombo.refresh();changed(false,false);};
   function choices(kind){
    if(namesCache.has(kind))return namesCache.get(kind);
@@ -119,11 +119,10 @@
   }
   addPlayer();
   addButton.onclick=()=>{if(!canAddPlayer())return;addPlayer(true);changed();};
-  clearButton.onclick=()=>{
-   if(!hasChanges())return;
+  function reset(){
    for(const item of playerFilters){item.row.remove();combos.splice(combos.indexOf(item.combo),1);}playerFilters.length=0;addPlayer();mapCombo.reset();
-   resetMapTypes();panel.dispatchEvent(new Event('advanced-filters-clear'));changed();
-  };
+   resetMapTypes();panel.dispatchEvent(new Event('advanced-filters-clear'));changed(false,false);
+  }
   button.onclick=()=>{
    enabled=!enabled;panel.inert=!enabled;panel.hidden=!enabled;button.setAttribute('aria-expanded',String(enabled));button.setAttribute('aria-pressed',String(enabled));
    for(const controller of combos)controller.close();panel.dispatchEvent(new Event('advanced-filters-toggle'));changed();
@@ -131,8 +130,7 @@
   document.addEventListener('click',event=>{for(const controller of combos)if(!controller.wrapper.contains(event.target))controller.close();});
   panel.addEventListener('scroll',()=>{for(const controller of combos)controller.close();});
   window.addEventListener('resize',()=>{for(const controller of combos)controller.close();});
-  clearButton.disabled=!hasChanges();
-  return {get:()=>({enabled,map:{...map},players:playerFilters.map(item=>({...item.filter}))}),invalidateChoices:()=>namesCache.clear()};
+  return {get:()=>({enabled,map:{...map},players:playerFilters.map(item=>({...item.filter}))}),hasChanges,reset,invalidateChoices:()=>namesCache.clear()};
  }
  root.replayAdvancedFilters={create};
 })(window);

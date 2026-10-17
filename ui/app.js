@@ -15,6 +15,7 @@ let requestedReplay=null;
 // Patch filter: the patches ticked in its menu (none = every patch), remembered between launches
 let patchFilter=new Set();
 try{patchFilter=new Set(JSON.parse(localStorage.getItem('library-patches')||'[]'));}catch{}
+const libraryFilterDefaults={filter:'matches',sort:'newest','team-size':'any','matchup-left':'any','matchup-right':'any',source:'any'};
 function restoreSelectedReplay(){
  if(!pendingReplayRestore||selected||!rows.has(pendingReplayRestore))return;
  const key=pendingReplayRestore;pendingReplayRestore=null;restoredReplayReveal=key;
@@ -57,7 +58,25 @@ document.addEventListener('drop',async event=>{
  }catch(error){showError(error);}finally{importingReplay=false;}
 });
 const annotationPending=new Map(),annotationJobs=new Set();
+const noteSaveStates=new Map();
 const annotationFor=row=>annotationPending.get(row?.contentHash||row?.key)||row?.annotation||{favorite:false,notes:''};
+function renderNoteSaveStatus(){
+ const row=rows.get(selected),status=$('notes-status');
+ if(!status)return;
+ const text=noteSaveStates.get(row?.contentHash||row?.key)?.text||'';
+ clearTimeout(status.clearTimer);
+ if(text){status.textContent=text;status.classList.add('has-save-status');}
+ else{
+  status.classList.remove('has-save-status');
+  const clear=()=>{if(!status.classList.contains('has-save-status'))status.textContent='';};
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)clear();else status.clearTimer=setTimeout(clear,180);
+ }
+}
+function finishNoteSave(state,text,clearAfter=0){
+ if(!state||noteSaveStates.get(state.id)!==state)return;
+ clearTimeout(state.timer);state.text=text;renderNoteSaveStatus();
+ if(clearAfter)state.timer=setTimeout(()=>{if(noteSaveStates.get(state.id)===state){noteSaveStates.delete(state.id);renderNoteSaveStatus();}},clearAfter);
+}
 const FAVORITE_STAR_ICON='<svg class="favorite-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.78 5.63 6.22.91-4.5 4.38 1.06 6.2L12 17.19l-5.56 2.93 1.06-6.2L3 9.54l6.22-.91L12 3z"/></svg>';
 function updateAnnotationRows(hash,value){for(const row of rows.values())if(row.contentHash===hash)row.annotation=value;}
 function refreshFavoriteButtons(){
@@ -66,13 +85,19 @@ function refreshFavoriteButtons(){
 }
 async function saveReplayAnnotation(key,patch){
  const row=rows.get(key);if(!row)return;const id=row.contentHash||key;
+ let noteSave=null;
+ if(Object.hasOwn(patch,'notes')){
+  clearTimeout(noteSaveStates.get(id)?.timer);noteSave={id,text:'Saving…'};noteSaveStates.set(id,noteSave);renderNoteSaveStatus();
+ }
  const optimistic={...annotationFor(row),...patch};annotationPending.set(id,optimistic);refreshFavoriteButtons();scheduleList();
- if(selected===key&&$('notes-status'))$('notes-status').textContent='Saving…';
  const job=window.replays.saveAnnotation(key,patch);annotationJobs.add(job);
  try{
   const result=await job;row.contentHash=result.hash;updateAnnotationRows(result.hash,result.annotation);
-  if(annotationPending.get(id)===optimistic){annotationPending.delete(id);if(selected===key&&$('notes-status'))$('notes-status').textContent='Saved';}
- }catch(error){if(selected===key&&$('notes-status'))$('notes-status').textContent='Not saved — '+error.message;showError(error);throw error;}
+  const state=noteSaveStates.get(id);
+  if(state&&id!==result.hash){noteSaveStates.delete(id);state.id=result.hash;noteSaveStates.set(result.hash,state);}
+  if(annotationPending.get(id)===optimistic)annotationPending.delete(id);
+  finishNoteSave(noteSave,'Saved',3000);
+ }catch(error){finishNoteSave(noteSave,'Not saved — '+error.message);showError(error);throw error;}
  finally{annotationJobs.delete(job);refreshFavoriteButtons();scheduleList();}
 }
 window.flushReplayNotes=async()=>{
@@ -84,19 +109,19 @@ window.flushReplayNotes=async()=>{
 function bindReplayAnnotations(){
  const key=selected,row=rows.get(key),value=annotationFor(row);
  $('match-favorite').dataset.favoriteKey=key;$('match-favorite').onclick=()=>saveReplayAnnotation(key,{favorite:!annotationFor(rows.get(key)).favorite}).catch(()=>{});
- $('notes-status').textContent=annotationPending.has(row?.contentHash||key)?'Saving…':'';$('replay-notes-text').value=value.notes;$('replay-notes').open=localStorage.getItem('notes-open')==='true';
+ renderNoteSaveStatus();$('replay-notes-text').value=value.notes;$('replay-notes').open=localStorage.getItem('notes-open')==='true';
  $('replay-notes').ontoggle=event=>{const notes=event.currentTarget;if(!notes.isConnected)return;localStorage.setItem('notes-open',String(notes.open));};
  $('replay-notes-text').oninput=event=>saveReplayAnnotation(key,{notes:event.target.value}).catch(()=>{});
  refreshFavoriteButtons();
 }
 window.replays.on('annotation-changed',({hash,annotation})=>{updateAnnotationRows(hash,annotation);refreshFavoriteButtons();scheduleList();});
-window.replays.on('annotation-error',error=>{showError(error);if($('notes-status'))$('notes-status').textContent=error.message;});
+window.replays.on('annotation-error',error=>{showError(error);const row=rows.get(selected),state=noteSaveStates.get(row?.contentHash||row?.key);if(state?.text==='Saving…')finishNoteSave(state,error.message);});
 const annotationFilterEnabled=id=>$(id).getAttribute('aria-pressed')==='true';
+function setAnnotationFilter(id,enabled){const button=$(id);button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites'&&!button.querySelector('.favorite-star'))button.innerHTML=FAVORITE_STAR_ICON;}
 for(const id of ['only-notes','only-favorites']){
  const button=$(id);
- const apply=enabled=>{button.setAttribute('aria-pressed',String(enabled));button.title=(id==='only-notes'?'Only replays with notes':'Only favorites')+(enabled?' — on':' — off');if(id==='only-favorites'&&!button.querySelector('.favorite-star'))button.innerHTML=FAVORITE_STAR_ICON;};
- apply(localStorage.getItem(id)==='true');
- button.onclick=()=>{const enabled=!annotationFilterEnabled(id);apply(enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'){localStorage.setItem('notes-open',String(enabled));const notes=$('replay-notes');if(notes)notes.open=enabled;}animateReplayList();};
+ setAnnotationFilter(id,localStorage.getItem(id)==='true');
+ button.onclick=()=>{const enabled=!annotationFilterEnabled(id);setAnnotationFilter(id,enabled);localStorage.setItem(id,String(enabled));if(id==='only-notes'){localStorage.setItem('notes-open',String(enabled));const notes=$('replay-notes');if(notes)notes.open=enabled;}animateReplayList();};
 }
 for(const action of ['export','import'])$('annotations-'+action).onclick=async()=>{
  const button=$('annotations-'+action);button.disabled=true;
@@ -231,10 +256,21 @@ const advancedFilters=replayAdvancedFilters.create({
    for(const row of batch){const value=metadata(row);value.mapSlots=counts[row.key];value.mapSlotsLoaded=true;}
   }
  },
- addButton:$('advanced-player-add'),clearButton:$('advanced-filters-clear'),getRows:()=>rows.values(),mapName:row=>metadata(row).map,
+ addButton:$('advanced-player-add'),getRows:()=>rows.values(),mapName:row=>metadata(row).map,
  raceIcon:value=>value==='any'?'<img class="race-icon" src="artwork/any-race.png" alt="" width="24" height="24">':playerRaceIcon(value.length===2?{race:'R',raceDetected:value.slice(1)}:{race:value},true),
- onChange:typing=>typing?scheduleList(150,true):$('advanced-filters').getAnimations().length?renderList():animateReplayList()
+ onChange:(typing,filtersChanged)=>{updateClearFilters();if(filtersChanged)typing?scheduleList(150,true):$('advanced-filters').getAnimations().length?renderList():animateReplayList();}
 });
+function updateClearFilters(){
+ $('advanced-filters-clear').disabled=!(advancedFilters.hasChanges()||$('search').value||patchFilter.size||annotationFilterEnabled('only-notes')||annotationFilterEnabled('only-favorites')||Object.entries(libraryFilterDefaults).some(([id,value])=>$(id).value!==value));
+}
+$('advanced-filters-clear').onclick=()=>{
+ for(const [id,value] of Object.entries(libraryFilterDefaults)){$(id).value=value;localStorage.setItem(id==='team-size'?id:'library-'+id,value);}
+ $('search').value='';localStorage.setItem('library-search','');updateSearchClear();
+ patchFilter.clear();localStorage.setItem('library-patches','[]');patchLabel();closePatchMenu();
+ if(annotationFilterEnabled('only-notes')){localStorage.setItem('notes-open','false');if($('replay-notes'))$('replay-notes').open=false;}
+ for(const id of ['only-notes','only-favorites']){setAnnotationFilter(id,false);localStorage.setItem(id,'false');}
+ advancedFilters.reset();animateReplayList(true);
+};
 $('advanced-filters').addEventListener('advanced-filters-toggle',()=>closePatchMenu());
 $('advanced-filters').addEventListener('scroll',()=>closePatchMenu());
 window.addEventListener('resize',()=>closePatchMenu());
@@ -276,6 +312,7 @@ window.addEventListener('pointerup',()=>{listPointerHeld=false;lastListInteracti
 window.addEventListener('pointercancel',()=>{listPointerHeld=false;});window.addEventListener('blur',()=>{listPointerHeld=false;});
 function scheduleList(delay=250,animate=false){animateScheduledList||=animate;if(renderTimer)return;renderTimer=setTimeout(()=>{renderTimer=null;if(listPointerHeld||performance.now()-lastListInteraction<150){scheduleList(150);return;}const animate=animateScheduledList;animateScheduledList=false;if(animate)animateReplayList();else renderList();},delay);}
 function animateReplayList(resetScroll=false,type='replay-list'){
+ updateClearFilters();
  if(listPointerHeld){scheduleList(150,true);return null;}
  replayListTransition=replayTransitions.run(type,()=>{renderList();if(resetScroll)$('replay-list').scrollTop=0;},showError);
  return replayListTransition;
@@ -292,6 +329,7 @@ function replayPlayerNames(players){
  return [...teams.entries()].sort((a,b)=>a[0]-b[0]).map(([,team])=>'<span class="row-player-team">'+team.map(p=>'<span class="row-player '+raceColorClass(p)+'">'+esc(p.name.split('#')[0])+'</span>').join(' ')+'</span>').join('<span class="versus"> VS </span>');
 }
 function renderList(){
+ updateClearFilters();
  if(listPointerHeld){scheduleList(150);return;}
  clearTimeout(renderTimer);renderTimer=null;animateScheduledList=false;
  const term=$('search').value.toLowerCase(),filter=$('filter').value;
@@ -414,6 +452,7 @@ function showMatch(elapsed){
  $('detail').replaceChildren($('match-template').content.cloneNode(true));
  const watch=$('watch-replay'),watchKey=selected;
  async function checkMap(){
+  if(entry.data.headerRecovered){watch.disabled=true;watch.title='Game data was recovered, but Warcraft III cannot play this file with its missing header.';return;}
   let available=false;try{available=await window.replays.mapAvailable(watchKey);}catch{}
   if(!watch.isConnected||selected!==watchKey)return;
   watch.disabled=!available;watch.title=available?'Watch this replay in Warcraft III':'The map file was not found on your computer.';
@@ -424,7 +463,8 @@ function showMatch(elapsed){
  $('map').onclick=()=>window.replays.revealMap(selected).catch(showError);
  $('map').textContent=mapDisplayName(r.map.file)||r.gamename||'Untitled match';
  $('map-preview').innerHTML=mapPreview(r.map.file);
- $('version').textContent='PATCH '+r.version+' · BUILD '+r.buildNumber;
+ $('version').textContent=r.headerRecovered?'RECOVERED HEADER · PATCH UNKNOWN':'PATCH '+r.version+' · BUILD '+r.buildNumber;
+ $('version').title=r.headerRecovered?'Game data was recovered from a damaged replay. Its original patch and build are unavailable.':'';
  // where the game was played (W3Champions games are hosted by FLO, Battle.net games by Battle.net)
  const source=r.source??(r.creator==='FLO'?'w3c':r.creator==='Battle.net'?'bnet':null);
  if(source)$('version').insertAdjacentHTML('beforeend',sourceIcon(source,'source-badge'));
@@ -885,7 +925,7 @@ for(const id of ['filter','sort','team-size','matchup-left','matchup-right','sou
 }
 const savedSearch=localStorage.getItem('library-search');
 if(savedSearch!==null)$('search').value=savedSearch;
-function updateSearchClear(){const filled=Boolean($('search').value);$('search-clear').hidden=!filled;$('search').classList.toggle('has-clear',filled);}
+function updateSearchClear(){const filled=Boolean($('search').value);$('search-clear').hidden=!filled;$('search').classList.toggle('has-clear',filled);updateClearFilters();}
 updateSearchClear();
 $('search').oninput=()=>{
  updateSearchClear();

@@ -1,4 +1,10 @@
 .library-search-row{display:flex;align-items:stretch;gap:6px;flex-shrink:0}
+.library-filters{align-items:stretch;flex-shrink:0}
+.library-filters select{min-width:0}
+.library-filters #filter{flex:1.1}
+.library-filters #sort{flex:1}
+#advanced-filters-clear{display:inline-flex;align-items:center;justify-content:center;gap:4px;flex:0 0 auto;padding:6px;font-size:0.6875rem;white-space:nowrap}
+#advanced-filters-clear .clear-filters-cross{color:#e45b5b;font-size:0.9375rem;line-height:1;transform:translateY(-1px)}
 .library-search-field{display:flex;position:relative;flex:1;min-width:0}
 .library-search-row #search{flex:1;min-width:0;width:0}
 .library-search-row #search.has-clear{padding-right:32px}

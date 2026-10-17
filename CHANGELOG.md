@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2
+
+- Improve replay compatibility for older pause/save commands and Reforged action layouts, making previously unreadable replays available for analysis. Retry obsolete parse failures without rebuilding successful cached analyses.
+- Recover analysis from complete replay data with a missing header without changing the original file. Mark the patch/build as unknown and disable Warcraft III playback for these recovered files.
+- Move Reset filters beside the sorting dropdown, add a red cross, and restore both ordinary and advanced filters to their defaults.
+- Fix Notes feedback so favoriting a replay does not show Saved. Clear successful save feedback after three seconds with a smooth resizing transition.
+- Simplify the website Overview and Guides pages, add expandable previews and smooth transitions, and open project links in new tabs.
+
 ## 1.0.1
 
 - Place the Forsaken Kingdom logo beside the Replay Explorer logo in Simple, Light and Dark themes. Keep it beside Settings in the Forsaken Kingdom theme, with the Warcraft III website link retained.
