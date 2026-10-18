@@ -4,8 +4,8 @@ const path = require('node:path');
 const zlib = require('node:zlib');
 const {promisify} = require('node:util');
 const {default: Replay} = require('w3gjs');
-const {readReplayStart, gameSource} = require('./replay-start.cjs');
-const {winningTeam, WINNER_VERSION} = require('./winner.cjs');
+const {readReplayStart, gameSource,parseOutcomeEvidence} = require('./replay-start.cjs');
+const {winnerDetails, WINNER_VERSION} = require('./winner.cjs');
 const parserRoot = path.dirname(require.resolve('w3gjs'));
 const mappings = require(path.join(parserRoot, 'mappings.js'));
 const {inferHeroAbilityLevelsFromAbilityOrder: infer} = require(path.join(parserRoot, 'inferHeroAbilityLevelsFromAbilityOrder.js'));
@@ -55,7 +55,7 @@ async function recoverMissingHeader(buffer) {
   return repaired;
 }
 // Validate complete compressed blocks before invoking a parser that tolerates truncation.
-async function validateContainer(buffer) {
+async function validateContainer(buffer,{includeData=false}={}) {
   const start = buffer.indexOf('Warcraft III recorded game');
   if (start < 0 || buffer.length < start + 68) throw new Error('Not a complete Warcraft III replay header.');
   const headerSize = buffer.readUInt32LE(start + 28);
@@ -67,6 +67,7 @@ async function validateContainer(buffer) {
   const version = buffer.readUInt32LE(start + 52);
   if (headerSize < 68 || declaredSize > buffer.length - start || count > 100000) throw new Error('Replay is truncated or has an invalid header.');
   let offset = start + headerSize, bytes = 0;
+  const parts=includeData?[]:null;
   for (let i=0; i<count; i++) {
     const size = build >= 6089 ? 12 : 8;
     if (offset + size > buffer.length) throw new Error('Truncated compressed block header.');
@@ -75,11 +76,12 @@ async function validateContainer(buffer) {
     if (!compressed || offset + size + compressed > buffer.length) throw new Error('Truncated compressed replay block.');
     const raw = await inflate(buffer.subarray(offset + size, offset + size + compressed), {finishFlush:zlib.constants.Z_SYNC_FLUSH});
     if (raw.length !== decompressed) throw new Error('Compressed replay block has an invalid length.');
+    if(parts)parts.push(raw);
     bytes += raw.length;
     offset += size + compressed;
   }
   if (bytes < expectedBytes) throw new Error('Replay is missing game data.');
-  return {version,build};
+  return {version,build,...(parts?{data:Buffer.concat(parts)}:{})};
 }
 function configureCompatibleActions(parser,{version,build,shiftActions=version>=10100},compatible=true) {
   const actions=parser.gameDataParser.actionParser,original=actions.parseAction.bind(actions);
@@ -211,7 +213,7 @@ async function parseReplayPass(buffer,header,compatible=false) {
 async function parseReplay(fileOrBuffer) {
   const original = Buffer.isBuffer(fileOrBuffer) ? fileOrBuffer : await fs.readFile(fileOrBuffer);
   const repaired=await recoverMissingHeader(original),buffer=repaired||original;
-  const header=await validateContainer(buffer);
+  const {data:raw,...header}=await validateContainer(buffer,{includeData:true});
   let pass,compatible=false;
   try{pass=await parseReplayPass(buffer,header);}
   catch(originalError){
@@ -230,12 +232,11 @@ async function parseReplay(fileOrBuffer) {
   }
   const {mmr} = await readReplayStart(buffer);
   result.source = gameSource(result.creator);  // 'w3c' / 'bnet' / null
-  // the winner from the leave records (see winner.cjs); w3gjs's own answer (1v1 only) when they don't tell
+  // The raw record framing preserves commands omitted by the action/APM decoder.
+  const evidence=parseOutcomeEvidence(raw);
   const hex = value => Buffer.from(value, 'hex').readUInt32LE(0);
   const leaves = (replay.leaveEvents || []).map(e => ({playerId: e.playerId, result: hex(e.result), reason: hex(e.reason)}));
-  const winner = winningTeam(result.players, leaves);
-  if (winner >= 0) result.winningTeamId = winner;
-  result.winnerChecked = WINNER_VERSION;
+  result.winnerEvidence=evidence;
   for (const p of result.players) {
     p.mmr = mmr.get(p.id) ?? null;  // Battle.net ladder MMR, when the replay has it
     const e = extra.players.get(p.id) || {groups:{},groupHistory:[],itemUses:[],unknownOrders:[],heroOrders:[],itemTransfers:[],cancellations:[],observedHeroes:new Set(),apmBuckets:[],actionCount:0};
@@ -263,9 +264,28 @@ async function parseReplay(fileOrBuffer) {
       });
     }
   }
+  // Hero training recovered above is also the eligibility signal for outcome inference.
+  Object.assign(result,winnerDetails(result.players,leaves,result.winningTeamId,evidence,result));
+  result.winnerChecked = WINNER_VERSION;
   return {...result, schema:SCHEMA,unitMorphVersion:1,parserVersion:'w3gjs 4.3.0',...(compatible?{parserCompatibility:PARSER_REVISION}:{}),names};
 }
-module.exports = {parseReplay, validateContainer, configureCompatibleActions, names, four, numeric, minimumLevel, SCHEMA, PARSER_REVISION, collectActions, addUnitMorphs};
+// Upgrade outcome metadata on demand, preserving the rest of a cached analysis.
+async function addWinnerDetails(data,fileOrBuffer){
+  if(data.winnerChecked===WINNER_VERSION)return false;
+  let evidence=data.winnerEvidence;
+  if(evidence?.version!==1){
+    const original=Buffer.isBuffer(fileOrBuffer)?fileOrBuffer:await fs.readFile(fileOrBuffer);
+    const buffer=await recoverMissingHeader(original)||original;
+    const decoded=await validateContainer(buffer,{includeData:true});
+    evidence=parseOutcomeEvidence(decoded.data);
+  }
+  if(!evidence.complete)throw Error('Replay outcome records are incomplete or unsupported.');
+  // A previous activity guess must be recomputed, rather than serving as its own fallback.
+  const fallback=data.winnerSource==='last-command'?-1:data.winningTeamId;
+  Object.assign(data,winnerDetails(data.players,evidence.leaves,fallback,evidence,data));
+  data.winnerEvidence=evidence;data.winnerChecked=WINNER_VERSION;return true;
+}
+module.exports = {parseReplay, validateContainer, configureCompatibleActions, names, four, numeric, minimumLevel, SCHEMA, PARSER_REVISION, collectActions, addUnitMorphs,addWinnerDetails};
 
 
 

@@ -11,7 +11,9 @@
 // players' next game) and 113 W3Champions 1v1s: right in 96% / 86% / 76% of games, wrong in 3% / 13% /
 // 1% (the rest undecided, mostly replays without leave records).
 const WIN=new Set([9,11]),LOSS=new Set([7,8]);
-const WINNER_VERSION=2;  // results cached by older versions are worked out again
+const WINNER_VERSION=4;  // guarded last-command inference, shared by fresh/cached replays
+const MIN_ACTIVITY_GAP_MS=1000,MIN_ACTIVITY_DURATION_MS=60000;
+const classifyMap=require('./ui/map-types.js').create(require('./ui/map-catalogue.js'));
 function winningTeam(players,leaves){
  const team=new Map(players.map(p=>[p.id,p.teamid]));
  const teams=new Set(team.values());
@@ -30,4 +32,39 @@ function winningTeam(players,leaves){
  if(lost.size&&rest.length===1)return rest[0];
  return -1;
 }
-module.exports={winningTeam,WINNER_VERSION};
+function activityWinner(players,evidence,game){
+ if(!evidence?.complete||evidence.durationMs<MIN_ACTIVITY_DURATION_MS||!Number.isFinite(evidence.durationMs))return -1;
+ const teams=new Set(players.map(p=>p.teamid));
+ if(teams.size!==2||!players.some(p=>(p.heroes||[]).some(h=>/^[HOUEN]/.test(h.id||''))))return -1;
+ const map=game?.map;
+ if(!map||/(?:^|[\\/ _-])(?:ffa|timer)(?=[\\/ _.-]|$)/i.test(map.path||map.file||''))return -1;
+ if(classifyMap({mapInfo:map})==='custom')return -1;
+ const last=new Map();
+ for(const p of players){
+  const ms=evidence.lastCommandMs?.[p.id];
+  if(Number.isFinite(ms)&&ms>=0&&ms<=evidence.durationMs)last.set(p.teamid,Math.max(last.get(p.teamid)??-1,ms));
+ }
+ if(last.size!==2)return -1;
+ const ranked=[...last].sort((a,b)=>b[1]-a[1]);
+ return ranked[0][1]-ranked[1][1]>=MIN_ACTIVITY_GAP_MS?ranked[0][0]:-1;
+}
+function winnerDetails(players,leaves,fallbackWinner=-1,evidence=null,game=null){
+ players=players.filter(p=>!p.obs&&!p.observer&&!['Blizzard','FLO'].includes(p.name));
+ const winner=winningTeam(players,leaves);
+ if(winner>=0){
+  const result=new Map(leaves.map(l=>[l.playerId,l.result]));
+  const explicit=players.some(p=>p.teamid===winner&&WIN.has(result.get(p.id)));
+  return {winningTeamId:winner,winnerGuess:!explicit,winnerSource:explicit?'win-code':'leave-pattern'};
+ }
+ const unknown={winningTeamId:-1,winnerGuess:false,winnerSource:'unknown'};
+ const result=new Map(leaves.map(l=>[l.playerId,l.result]));
+ if(new Set(players.filter(p=>WIN.has(result.get(p.id))).map(p=>p.teamid)).size>1)return unknown;
+ const known=Number.isInteger(fallbackWinner)&&fallbackWinner>=0&&players.some(p=>p.teamid===fallbackWinner);
+ const active=activityWinner(players,evidence,game);
+ if(active>=0){
+  if(known&&active!==fallbackWinner)return unknown;
+  return {winningTeamId:active,winnerGuess:true,winnerSource:'last-command'};
+ }
+ return known?{winningTeamId:fallbackWinner,winnerGuess:true,winnerSource:'replay-fallback'}:unknown;
+}
+module.exports={winningTeam,winnerDetails,activityWinner,WINNER_VERSION};

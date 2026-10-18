@@ -94,31 +94,51 @@ async function readLeaves(buffer){
   parts.push(await inflate(buffer.subarray(offset+size,offset+size+compressed),{finishFlush:zlib.constants.Z_SYNC_FLUSH}));
   offset+=size+compressed;
  }
- const data=Buffer.concat(parts),leaves=[];
+ return {leaves:parseOutcomeEvidence(Buffer.concat(parts)).leaves};
+}
+// Walk record framing without decoding/filtering individual commands. A nonempty
+// command block counts even when none of its commands contribute to APM.
+function parseOutcomeEvidence(data){
+ const out={version:1,complete:false,durationMs:0,leaves:[],lastCommandMs:{}};
  let o=0;
  try{
-  // skip the start (as in parseStart) up to the game start record (0x19), then walk the game data
-  const zstring=()=>{const end=data.indexOf(0,o);if(end<0)throw Error('truncated');o=end+1;};
-  const record=()=>{o++;zstring();o+=1+data[o];};
+  const requireBytes=(offset,length)=>{if(offset<0||length<0||offset+length>data.length)throw Error('Truncated replay record.');};
+  const skip=length=>{requireBytes(o,length);o+=length;};
+  const zstring=()=>{requireBytes(o,1);const end=data.indexOf(0,o);if(end<0)throw Error('Truncated replay string.');o=end+1;};
+  const record=()=>{skip(1);zstring();requireBytes(o,1);skip(1+data[o]);};
   o=5;record();zstring();zstring();zstring();o+=12;
-  while(data[o]===0x16){o++;record();o+=4;}
-  while(data[o]===0x38||data[o]===0x39)o+=6+data.readUInt32LE(o+2);
-  if(data[o]!==0x19)return {leaves};
-  o+=3+data.readUInt16LE(o+1);
+  while(data[o]===0x16){skip(1);record();skip(4);}
+  while(data[o]===0x38||data[o]===0x39){requireBytes(o,6);skip(6+data.readUInt32LE(o+2));}
+  if(data[o]!==0x19)return out;
+  requireBytes(o,3);const slots=data.readUInt16LE(o+1);if(slots<7)return out;skip(3+slots);
   while(o<data.length){
    const id=data[o];
-   if(id===0x1e||id===0x1f)o+=3+data.readUInt16LE(o+1);
-   else if(id===0x17){leaves.push({reason:data.readUInt32LE(o+1),playerId:data[o+5],result:data.readUInt32LE(o+6)});o+=14;}
-   else if(id===0x1a||id===0x1b||id===0x1c)o+=5;
-   else if(id===0x20)o+=4+data.readUInt16LE(o+2);
-   else if(id===0x22)o+=2+data[o+1];
-   else if(id===0x23)o+=11;
-   else if(id===0x2f)o+=9;
-   else break;  // 0 = end of the game data (padding)
+   if(id===0){out.complete=data.subarray(o).every(byte=>byte===0);return out;}
+   if(id===0x1e||id===0x1f){
+    requireBytes(o,5);const length=data.readUInt16LE(o+1),end=o+3+length;
+    if(length<2)throw Error('Invalid time slot.');requireBytes(o,3+length);
+    const time=out.durationMs+data.readUInt16LE(o+3),active=[];let command=o+5;
+    while(command<end){
+     if(command+3>end)throw Error('Truncated command header.');
+     const playerId=data[command],bytes=data.readUInt16LE(command+1);command+=3;
+     if(command+bytes>end)throw Error('Truncated command block.');
+     if(bytes)active.push(playerId);command+=bytes;
+    }
+    for(const playerId of active)out.lastCommandMs[playerId]=time;
+    out.durationMs=time;o=end;
+   }
+   else if(id===0x17){requireBytes(o,14);out.leaves.push({reason:data.readUInt32LE(o+1),playerId:data[o+5],result:data.readUInt32LE(o+6),timeMs:out.durationMs});skip(14);}
+   else if(id===0x1a||id===0x1b||id===0x1c)skip(5);
+   else if(id===0x20){requireBytes(o,4);skip(4+data.readUInt16LE(o+2));}
+   else if(id===0x22){requireBytes(o,2);skip(2+data[o+1]);}
+   else if(id===0x23)skip(11);
+   else if(id===0x2f)skip(9);
+   else return out;
   }
+  out.complete=true;
  }catch{}
- return {leaves};
+ return out;
 }
 // where a game was played: 'w3c' (W3Champions), 'bnet' (Battle.net) or null (custom, LAN, older replays)
 function gameSource(creator){return creator==='FLO'?'w3c':creator==='Battle.net'?'bnet':null;}
-module.exports={readReplayStart,readReplayStartFromFile,parseStart,gameSource,readLeaves};
+module.exports={readReplayStart,readReplayStartFromFile,parseStart,gameSource,readLeaves,parseOutcomeEvidence};

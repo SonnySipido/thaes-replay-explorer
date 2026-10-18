@@ -509,9 +509,11 @@ function renderPlayers(animate=false){
   transition.finished.finally(()=>{if(winnerTransition===transition)winnerTransition=null;}).catch(()=>{});
   return;
  }
- $('winner-status').textContent='';
+ const guessed=entry.data.winnerGuess!==false;
+ const winnerTip=guessed?(entry.data.winnerSource==='last-command'?'Inferred because this team continued issuing commands after the other team stopped; the winner is not confirmed.':entry.data.winnerSource==='leave-pattern'?'Inferred from the players\' leave records; this team has no explicit victory marker.':'Inferred from how the game ended and the order players left; the winner is not confirmed.'):'';
+ $('winner-status').textContent=reveal&&!known?'Winner unknown':'';
  $('players').innerHTML=entry.data.players.map((p,i)=>{
-  const badge=reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge">WINNER</span>':'';
+  const badge=reveal&&known&&teamNumber(p)===winner?'<span class="winner-badge" title="'+esc(winnerTip)+'">'+(guessed?'WINNER?':'WINNER')+'</span>':'';
   // only full BattleTags (Name#1234) have a W3Champions profile; older names are plain text
   const name=hasProfile(p.name)?'<button class="player-name player-profile" title="Open '+esc(p.name)+' on W3Champions">'+esc(p.name)+badge+'</button>':'<span class="player-name">'+esc(p.name)+badge+'</span>';
   return '<div class="player '+playerColorClass(i)+(badge?' match-winner':'')+'">'+playerRaceIcon(p,true)+'<div class="player-identity">'+name+teamLabel(p)+'</div><div class="stats">'+mmrBadge(p)+'<span class="apm">'+p.apm+'</span><span>APM</span></div></div>';
@@ -948,7 +950,7 @@ window.replays.on('progress',data=>{status(data);if(data.busy===false&&restoredR
 window.replays.on('select-replay',openRequestedReplay);
 // Check for updates: asks GitHub when pressed (and at startup when that is switched on); a newer version
 // turns it into "Update to x.y.z", which downloads, checks and installs it (the app closes and starts again by itself)
-let update=null,updateReset=null;
+let update=null,updateReset=null,updateInstalling=false;
 const updateButton=$('update-check');
 function updateLabel(text,title){clearTimeout(updateReset);updateButton.textContent=text;if(title)updateButton.title=title;}
 // after "Up to date" / a failed check, back to the plain button
@@ -959,9 +961,22 @@ function showLastChecked(){
 }
 showLastChecked();
 async function installUpdate(){
- updateButton.disabled=true;updateLabel('Downloading…');
- try{await window.replays.installUpdate();updateLabel('Installing…','The app closes and starts again with version '+update.version);}
- catch(e){updateLabel('Update failed · try again',e.message);updateButton.disabled=false;}
+ if(updateInstalling)return;
+ updateInstalling=true;updateButton.disabled=true;updateLabel('Downloading…');
+ const download=$('update-download'),progress=$('update-download-progress');
+ download.hidden=false;delete download.dataset.state;progress.hidden=false;progress.removeAttribute('value');
+ $('update-status').textContent='Downloading version '+update.version+'…';
+ $('update-detail').textContent='You can keep using the app while it downloads. It will restart to finish the update.';
+ openSettings();download.scrollIntoView({block:'center',behavior:'instant'});download.focus({preventScroll:true});
+ try{
+  await window.replays.installUpdate();updateLabel('Installing…','The app closes and starts again with version '+update.version);
+  progress.value=100;$('update-status').textContent='Installing version '+update.version+'…';
+  $('update-detail').textContent='The app is closing and will restart when the update is installed.';
+ }catch(e){
+  updateInstalling=false;updateLabel('Update failed · try again',e.message);updateButton.disabled=false;
+  download.dataset.state='error';progress.hidden=true;$('update-status').textContent='Update failed';
+  $('update-detail').textContent=e.message+' Click “Update failed · try again” to retry.';
+ }
 }
 // the newest version on GitHub, or null when the check failed
 async function checkForUpdate(){
@@ -1021,7 +1036,13 @@ async function startupQuestions(data){
  if(!data.folder)await welcomeFolderQuestion(data.welcomeFolder);
  await startupUpdateCheck();
 }
-window.replays.on('update-progress',p=>updateLabel(p.percent>=0?'Downloading '+p.percent+'%':'Downloading…'));
+window.replays.on('update-progress',p=>{
+ if(!updateInstalling)return;
+ const percent=Number.isFinite(p.percent)&&p.percent>=0?Math.min(100,p.percent):null;
+ updateLabel(percent!==null?'Downloading '+percent+'%':'Downloading…');
+ const progress=$('update-download-progress');if(percent===null)progress.removeAttribute('value');else progress.value=percent;
+ $('update-status').textContent=percent===100?'Download complete. Verifying update…':'Downloading version '+update.version+(percent!==null?' · '+percent+'%':'…');
+});
 $('update-notes').onclick=()=>window.replays.openUpdateNotes().catch(showError);
 window.replays.initial().then(data=>{$('app-version').textContent=data.appVersion?'v'+data.appVersion:'';rows=new Map(data.rows.map(r=>[r.key,r]));advancedFilters.invalidateChoices();applyFolderSettings(data);if(data.select)pendingReplayRestore=requestedReplay=data.select;renderList();restoreSelectedReplay();status(data.progress);if(data.progress.busy===false)restoredReplayReveal=null;setTimeout(()=>startupQuestions(data),data.folder?1500:300);}).catch(showError);
 

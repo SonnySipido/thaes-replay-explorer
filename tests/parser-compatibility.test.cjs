@@ -1,18 +1,8 @@
 'use strict';
-const test=require('node:test'),assert=require('node:assert/strict'),zlib=require('node:zlib');
+const test=require('node:test'),assert=require('node:assert/strict');
 const {ActionParser}=require('w3gjs');
 const {parseReplay,configureCompatibleActions,PARSER_REVISION}=require('../parser.cjs');
-const train=Buffer.concat([Buffer.from([0x10,0,0]),Buffer.from('aeph'),Buffer.alloc(8,255)]);
-function encode(raw){const out=[];for(let i=0;i<raw.length;i+=7){const chunk=[...raw.subarray(i,i+7)];let mask=1;chunk.forEach((b,j)=>{if(b)mask|=1<<(j+1)});out.push(mask,...chunk.map(b=>b||1))}return Buffer.from([...out,0])}
-function fixture(actions,{version=23,build=6058}={}){
- const settings=encode(Buffer.concat([Buffer.alloc(13),Buffer.from('Maps/Echo_Isles.w3x\0FLO\0'),Buffer.alloc(21)])),counts=Buffer.alloc(12);counts.writeUInt32LE(2);
- const slots=Buffer.from([0x19,25,0,2,1,100,2,0,0,0,1,1,100,2,100,2,0,1,1,2,1,100,1,0,0,0,0,2]);
- const time=Buffer.alloc(8);time[0]=0x1f;time.writeUInt16LE(5+actions.length,1);time.writeUInt16LE(1000,3);time[5]=1;time.writeUInt16LE(actions.length,6);
- const metadata=Buffer.concat([Buffer.alloc(5),Buffer.from([1]),Buffer.from('Alice\0'),Buffer.from([0]),Buffer.from('Fixture\0\0'),settings,counts,Buffer.from([0x16,2]),Buffer.from('Bob\0'),Buffer.alloc(5),slots]);
- const raw=Buffer.alloc(8192);Buffer.concat([metadata,time,actions]).copy(raw);const compressed=zlib.deflateSync(raw),block=Buffer.alloc(build>=6089?12:8);block.writeUInt16LE(compressed.length);block.writeUInt16LE(raw.length,build>=6089?4:2);
- const header=Buffer.alloc(68);header.write('Warcraft III recorded game\x1a');header.writeUInt32LE(68,28);header.writeUInt32LE(68+block.length+compressed.length,32);header.writeUInt32LE(1,36);header.writeUInt32LE(8192,40);header.writeUInt32LE(1,44);header.write('PX3W',48);header.writeUInt32LE(version,52);header.writeUInt16LE(build,56);header.writeUInt32LE(1000,60);
- return Buffer.concat([header,block,compressed]);
-}
+const {fixture,train}=require('./helpers/replay-fixture.cjs');
 test('old pause and save commands keep following unit orders readable',async()=>{
  const data=await parseReplay(fixture(Buffer.concat([Buffer.from([1,6]),Buffer.from('saved.w3z\0'),train])));
  assert.equal(data.parserCompatibility,PARSER_REVISION);assert.equal(data.players[0].name,'Alice');assert.equal(data.duration,1000);assert.equal(data.players[0].units.summary.hpea,1);assert.equal(data.players[0].units.order[0].ms,1000);
@@ -23,6 +13,19 @@ test('Reforged command-card records do not swallow following production orders',
 });
 test('normal successful replays retain the existing parser path',async()=>{
  const data=await parseReplay(fixture(train));assert.equal(data.parserCompatibility,undefined);assert.equal(data.players[0].units.summary.hpea,1);
+});
+
+test('parsed replay results preserve the evidence needed to label explicit, inferred and unknown winners',async()=>{
+ const scenarios=[
+  {leaves:[[1,11],[2,13]],team:0,guess:false,source:'win-code'},
+  {leaves:[[1,7],[2,13]],team:0,guess:true,source:'leave-pattern'},
+  {leaves:[[1,13],[2,13]],team:1,guess:true,source:'replay-fallback'},
+  {leaves:[],team:-1,guess:false,source:'unknown'},
+ ];
+ for(const s of scenarios){
+  const data=JSON.parse(JSON.stringify(await parseReplay(fixture(train,{leaves:s.leaves}))));
+  assert.equal(data.winningTeamId,s.team);assert.equal(data.winnerGuess,s.guess);assert.equal(data.winnerSource,s.source);
+ }
 });
 test('compatibility retains sync commands and action boundaries in both Reforged layouts',()=>{
  const parser=new ActionParser();configureCompatibleActions({gameDataParser:{actionParser:parser}},{version:10100,build:6117});

@@ -202,6 +202,14 @@
 #update-check{white-space:nowrap;flex:none}
 #update-check.update-ready{background:var(--gold);border-color:var(--gold);color:#191915;font-weight:600}
 #update-check:disabled{opacity:.7;cursor:default}
+.update-download{margin-top:14px;padding:12px;border:1px solid var(--gold);border-radius:4px;background:var(--panel);outline:none}
+.update-download[hidden]{display:none}
+.update-download #update-status{margin:0;font-size:0.875rem;font-weight:700;color:var(--gold)}
+.update-download progress{display:block;width:100%;height:12px;margin:10px 0;accent-color:var(--gold)}
+.update-download progress[hidden]{display:none}
+.update-download #update-detail{margin:8px 0 0;font-size:0.75rem;line-height:1.5;color:var(--text);overflow-wrap:anywhere}
+.update-download[data-state="error"]{border-color:var(--red,#e56b6b)}
+.update-download[data-state="error"] #update-status{color:var(--red,#e56b6b)}
 .link-button{border:0;background:none;padding:0;color:var(--muted);text-decoration:underline;text-underline-offset:3px;font-size:0.6875rem}
 .link-button:hover{background:none;color:var(--text)}
 /* game length: a clock before the duration */

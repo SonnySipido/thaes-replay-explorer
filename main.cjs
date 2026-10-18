@@ -20,8 +20,7 @@ app.setAppUserModelId('Thae.ReplayExplorer');
 app.setPath('userData',path.join(app.getPath('appData'),'Warcraft Replay Explorer'));
 const {restoreWindowBounds}=require('./window-state.cjs');
 const {playerProfileUrl}=require('./player-profile.cjs');
-const {readReplayStartFromFile,gameSource,readLeaves}=require('./replay-start.cjs');
-const {winningTeam,WINNER_VERSION}=require('./winner.cjs');
+const {readReplayStartFromFile,gameSource}=require('./replay-start.cjs');
 const updater=require('./updater.cjs');
 const {refreshWindowsSearchIconOnStartup}=require('./windows-search-icon.cjs');
 let availableUpdate=null;  // the last "Check for updates" answer
@@ -176,11 +175,6 @@ function registerIPC(){
     if(entry.data?.players?.some(p=>p.mmr===undefined)){
       let mmr=new Map();try{({mmr}=await readReplayStartFromFile(entry.file));}catch{}
       for(const p of entry.data.players)p.mmr=mmr.get(p.id)??null;
-    }
-    // ...and the winner of games w3gjs could not decide (team games)
-    if(entry.data&&entry.data.winnerChecked!==WINNER_VERSION){
-      try{const {leaves}=await readLeaves(await fs.readFile(entry.file));const winner=winningTeam(entry.data.players,leaves);if(winner>=0)entry.data.winningTeamId=winner;}catch{}
-      entry.data.winnerChecked=WINNER_VERSION;
     }
     return entry;
   });

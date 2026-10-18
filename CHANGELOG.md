@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3
+
+- Infer winners from the last team commands when eligible melee replays have no decisive result records. Keep short, tied, incomplete, unsupported and conflicting cases unresolved.
+- Distinguish recorded victories from inferred winners with WINNER and WINNER? labels. Explain inferred results on hover; confirmed winners have no explanation tooltip.
+- Upgrade and save older cached winner results when replays are opened, without rebuilding the replay library.
+- Show update download progress, verification, installation and retry feedback in Settings.
+
 ## 1.0.2
 
 - Improve replay compatibility for older pause/save commands and Reforged action layouts, making previously unreadable replays available for analysis. Retry obsolete parse failures without rebuilding successful cached analyses.
